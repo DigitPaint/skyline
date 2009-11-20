@@ -1,0 +1,28 @@
+<dt id="leftPageHeaderPanel" class="<%= local_assigns[:active] ? "active" : "" %>">
+  <span class="content">
+    <% if @article.andand.kind_of?(Skyline::Page) %>
+      <% menu_button t(:add_page, :scope => [:article, :edit]), :id => "add_page_button" do %>
+        <ul>
+          <% possible_positions = @article.root? ? %w{in} : %w{in below} %>
+          <% possible_positions.each do |pos| %>
+            <li><%= link_to_remote(t("add_page_#{pos}", :scope => [@article.class, :edit]), :url => skyline_articles_path(:article_id => @article, :type => "skyline/page"), :method => :post, :data => "'position=#{pos}'") %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+    <%= Skyline::Page.human_name(:count => 2) %>
+  </span>
+</dt>
+<dd  id="leftPageContentPanel" class="scrollable">
+  <div id="pagetree" class="pages tree">
+    <% nodes = Skyline::Page.group_by_parent_id %>
+    <%= page_tree(nodes, nodes[nil], :selected => @article) %>
+    <% if @article.andand.kind_of?(Skyline::Page) %>
+      <script type="text/javascript" charset="utf-8">
+        window.addEvent("domready",function(){
+          var myFx = new Fx.Scroll("leftPageContentPanel",{duration: 0}).toElement('article_<%= @article.id %>');
+        });
+      </script>
+    <% end %>
+  </div>
+</dd>

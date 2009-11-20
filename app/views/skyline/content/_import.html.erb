@@ -1,0 +1,18 @@
+<% form_tag url, :multipart => true do %>
+  <%= hidden_field_tag "return_to", params[:return_to] %>
+  <%= hidden_field_tag "klass", params[:klass] %>
+  <div class="content">
+    <dl class="fields">
+      <dt><%= label_tag "xml_file", t(:choose_file, :scope => [:content,:import]) %></dt>
+      <dd><%= file_field_tag "xml_file" %></dd>
+    </dl>
+  </div>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.close()", :class => "cancel"  %>
+        <%= submit_button "small/import-green.gif", :value => :import %>
+      </div>
+    </div>    
+  </div>
+<% end %>

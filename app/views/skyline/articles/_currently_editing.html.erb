@@ -1,0 +1,18 @@
+<% form_remote_tag :url => force_edit_skyline_article_variant_path(@article, @variant), :method => :put do %>
+  <% if current_user.allow?(:variant_force_edit) %>
+    <span class="button">
+      <%= t(:force_editing, :scope => [@article.class, :edit]) %>
+      <%= submit_button "small/yes_force_edit.gif", :alt => :yes_force_edit, :width => 126 %>
+    </span>
+  <% end %>
+  <strong>
+    <%= t(:currently_editing_by, 
+            :user => @variant.current_editor.display_name, 
+            :scope => [@article.class, :edit]) %>
+  </strong><br/>
+  <%= t(:currently_editing_since, 
+           :user => @variant.current_editor.display_name,   
+           :since => l(@variant.current_editor_since, :format => :long),
+           :duration => distance_of_time_in_words_to_now(@variant.current_editor_since),
+           :scope => [@article.class, :edit]) %>
+<% end %>

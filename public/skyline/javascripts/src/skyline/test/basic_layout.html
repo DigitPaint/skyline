@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+  	<script src="../vendor/mootools/mootools-1.2.1-core.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../vendor/mootools/mootools-1.2-more.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../src/layout.js" type="text/javascript" charset="utf-8"></script>  	
+    <style type="text/css" media="screen">
+      .splitter div{
+        cursor: move;
+        background: #f00;
+        width: 2px;
+        height: 100%;
+        border-left: 1px solid #000;
+        border-right: 1px solid #000;      
+      }
+      
+      .splitter.vertical div{
+        border: none;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;              
+        height: 2px;
+        width: 100%;
+      }
+      
+      input,
+      textarea{
+        width: auto;
+        border: 1px solid #999;
+      }
+      .content{
+        padding: 10px
+      }
+    </style>	
+  </head>
+<body>
+  
+  <div id="windowContainer">
+    <div id="topPanel">
+      This is my header
+    </div>
+    <div id="messagePanel">
+      <div style="background:#eee">Hey guy's!</div>
+    </div>
+    <div id="bodyPanel">
+      <div id="leftPanel" style="background: #faa">
+        <div id="leftTopPanel" style="color: #fff; background: #000">
+          Top top top
+        </div>
+        <div id="leftBottomPanel">
+          Bot bot bot
+        </div>
+      </div>
+      <div id="middlePanel" style="background: #eee; overflow: auto">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <a href="#" onclick="b.replacePanel('middlePanel','otherMiddlePanel'); b.setup();">Replace this panel!</a>
+      </div>
+      <div id="otherMiddlePanel" style="background: #ddd; overflow: auto">
+        <div id="topOtherMiddlePanel">
+          The other one top
+        </div>
+        <div id="bottomOtherMiddlePanel">
+          <a href="#" onclick="b.replacePanel('otherMiddlePanel','middlePanel'); b.setup();">Replace back</a>
+        </div>
+      </div>
+      <div id="rightPanel" style="background: #ffa">
+        <div id="rightH1Panel" style="background: #000; color: #fff">
+          Head 1
+        </div>
+        <div id="rightC1Panel">
+          Content 1
+        </div>
+        
+        <div id="rightH2Panel" style="background: #000; color: #fff">
+          Head 2
+        </div>
+        <div id="rightC2Panel">
+          Content 2
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" charset="utf-8">
+  var w = new Skyline.VerticalLayout("windowContainer");
+  
+  var t = w.addPanel("topPanel",{height: "content"});
+  var m = w.addPanel("messagePanel",{layout: "horizontal", height: "content"});
+  var b = w.addPanel("bodyPanel",{layout:"horizontal"});  
+  
+  var lp = b.addPanel("leftPanel", {layout: "vertical", width: 100, minWidth: 50});
+  b.addSplitter();
+  var mp = b.addPanel("middlePanel");
+  b.addSplitter();  
+  var r = b.addPanel("rightPanel", {width: 100, layout: "vertical"});
+  
+  lp.addPanel("leftTopPanel", {height: "content"});
+  lp.addSplitter();
+  lp.addPanel("leftBottomPanel");  
+  
+  var omp = new Skyline.VerticalLayout("otherMiddlePanel");
+  omp.addPanel("topOtherMiddlePanel", {height: "content"});
+  omp.addSplitter();
+  omp.addPanel("bottomOtherMiddlePanel");
+  
+  var hp1 = r.addPanel("rightH1Panel", {height: "content"});
+  var cp1 = r.addPanel("rightC1Panel", {});
+  var hp2 = r.addPanel("rightH2Panel", {height: "content"});
+  var cp2 = r.addPanel("rightC2Panel", {hidden: true});   
+  
+  hp1.element.addEvent("click",function(){
+    cp1.show();
+    cp2.hide();
+  });
+
+  hp2.element.addEvent("click",function(){
+    cp2.show();
+    cp1.hide();
+  });
+  
+  
+  w.setup();
+  
+  function show(panelId){
+    var p = $(panelId);
+    // b.();
+  }
+  
+  </script>
+
+</body>
+</html>

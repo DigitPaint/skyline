@@ -1,0 +1,73 @@
+<div class="messageArea"></div>
+<div class="content">
+  <table class="fields">
+    <tbody>
+      
+      <% if current_user == f.object %>
+        <tr>
+          <th><%= f.label_with_text :current_password %></th>
+          <td>
+            <%= f.password_field :current_password, :class => "full" %>
+            <p class="info"><%= t(:current_password_info, :scope => [:user, :edit]) %></p>
+          </td>
+        </tr>
+      <% end %>
+      
+      <tr>
+        <th><%= f.label_with_text :email %></th>
+        <td><%= f.text_field :email, :class => "full" %></td>
+      </tr>
+      
+      <tr>
+        <th><%= f.label_with_text :name %></th>
+        <td><%= f.text_field :name, :class => "full" %></td>
+      </tr>
+      
+      <tr>
+        <th><%= f.label password_attribute, Skyline::User.human_attribute_name("password") %></th>
+        <td>
+          <%= f.password_field password_attribute, :class => "full" %>
+          <% if password_attribute == :force_password %>
+            <p class="info"><%= t(:password_info, :scope => [:user,:edit]) %></p>
+          <% end %>
+        </td>
+      </tr>
+      
+      <tr>
+        <th><%= f.label password_confirmation_attribute, f.t(:password_confirmation) %></th>
+        <td>
+          <%= f.password_field password_confirmation_attribute, :class => "full" %>
+        </td>
+      </tr>      
+      
+      <% if current_user == f.object %>
+        <tr>
+          <th><%= f.t(:role) %></th>
+          <td>
+            <%= t(@user.grants.first.andand.role.andand.name, :scope => [:user,:roles]) %>
+            <p class="info"><%= t(:cannot_change_role, :scope => [:user,:edit]) %></p>
+          </td>
+        </tr>
+      <% else %>
+        <% f.fields_for "grants_attributes", (@user.grants.first || @user.grants.build), :index => 1 do |gf| %>
+          <tr>
+            <th>
+              <%= gf.hidden_field :id unless gf.object.new_record? %>
+              <%= gf.label :role_id, Skyline::User.human_attribute_name("role") %>
+            </th>
+            <td><%= gf.select :role_id, @roles.map{|s| [t(s.name, :scope => [:user,:roles], :default => s.name), s.id] } %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="footerPanel">
+  <div class="content">
+    <div class="submit">
+      <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.close()", :class => "cancel"  %>
+      <%= submit_button "small/save.gif", :value => :save %>
+    </div>
+  </div>    
+</div>
+<%= render_messages(:area => "Skyline.Dialog.current.contentEl.getElement('.messageArea')") %>

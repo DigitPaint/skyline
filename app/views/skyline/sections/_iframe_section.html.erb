@@ -1,0 +1,12 @@
+<table class="fields">
+  <tbody>
+    <tr>
+      <th><%= section_form.label_with_text :url %></th>
+      <td><%= sectionable_form.text_field :url, :class => "full" %></td>
+    </tr>
+    <tr>
+      <th><%= section_form.label_with_text :size %></th>
+      <td><%= sectionable_form.text_field :width, :class => "number" %> x <%= sectionable_form.text_field :height, :class => "number" %></td>
+    </tr>
+  </tbody>
+</table>

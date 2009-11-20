@@ -1,0 +1,15 @@
+<div id="browserExternalLink" class="window"  style="display:none">
+  <div class="content">
+    <table class="fields">
+      <tbody>
+        <tr>
+          <th><label for="browser_external_url">URL:</label></th>
+          <td><input id="browser_external_url" name="browser[url]" class="full" value="<%= params[:url] if @active_tab == "Skyline::ReferableUri" %>" type="text"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  var etp = new Skyline.HorizontalLayout("browserExternalLink", {layout: "horizontal", height: 200, hidden: true});
+</script>

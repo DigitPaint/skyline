@@ -1,0 +1,70 @@
+<dl id="contentPanel" class="panel">    
+  <dt id="contentHeaderPanel">    
+    <span class="content">
+      <%= controller.class_from_type.human_name(:count => 2) %>
+    </span>
+  </dt>
+    
+  <dd id="contentBodyPanel">
+    <div id="contentInfoPanel">
+      <div class="innerpanel">
+        <div class="actions">
+        </div>
+      </div>
+    </div>
+    
+    <div id="contentEditPanel" class="panel scrollable">
+      <div class="content">
+
+        <% if @articles.any? %>
+          <ul id="list" class="article-list">
+            <li class="header">
+              <div class="edit">&nbsp;</div>
+              <div class="draggable">
+                <div class="content">
+                  &nbsp;
+                </div>
+              </div>
+              <div class="clear">
+                &nbsp;
+              </div>
+            </li>
+          
+            <% @articles.each do |article| %>
+              <li class="<%= cycle("odd","even") %> element">
+                <div class="edit">
+                  <%= link_to button_image("small/edit.gif", :alt => "edit"), edit_skyline_article_path(article) %>
+                </div>
+                <div class="draggable">
+                  <div class="content">
+                    <h3>
+                      <%= article.title %>
+                    </h3>
+                  </div>
+                </div>
+                <div class="clear">
+                  &nbsp;
+                </div>
+              </li>
+            <% end %>
+          </ul>
+
+        <% else %>
+          <em>Nog geen <%= controller.class_from_type.human_name(:count => 2) %> aanwezig.</em>
+        <% end %>
+
+      </div>
+    </div>
+  </dd>    
+</dl>
+
+<dl id="metaPanel" class="panel">
+  <dt id="metaHeaderPanel"><span class="content"><%= t(:actions, :scope => [:article, :headers]) %></span></dt>
+  <dd id="metaBodyPanel" class="scrollable meta">
+    <div class="content">
+      <div class="button">
+        <%= link_to button_image("medium/new.gif", :alt => :new), skyline_articles_path(:type => params[:type]), :method => :post, :class => "add" %>
+      </div>      
+    </div>
+  </dd>
+</dl>

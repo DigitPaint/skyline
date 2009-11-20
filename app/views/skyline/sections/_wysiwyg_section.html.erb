@@ -1,0 +1,21 @@
+<%= sectionable_form.text_area :body, :rows => 3, :class => "wysiwyg", :style => "width: 100%; height: 5px", :value => sectionable_form.object.body(true) %>
+
+<script type="text/javascript" charset="utf-8">
+  var o = function(){
+    var e = new Skyline.Editor('<%= sectionable_form.dom_id :body %>',{
+      contentCss : "/skyline/stylesheets/wysiwyg.css",
+      <%= "enableEditHtml : true," if current_user.allow?("tinymce_edit_html") %>
+      language : Application.locale
+    });
+    
+    var li = e.element.getParent("li");    
+    if(li){
+      li.store("skyline.editor",e);
+    }
+    
+    <% if controller.controller_name == "sections" && controller.action_name == "new" %>
+      e.focus();
+    <% end %>
+  };
+  o();
+</script>

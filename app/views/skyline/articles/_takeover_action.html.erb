@@ -1,0 +1,36 @@
+<% form_tag "#", :onsubmit => "Application.Poller.current.handleTakeOverAction(); return false", :id => "takeoverActionDialog" do %>
+  <div class="topPanel">
+    <div class="messages">
+      <p class="message error"><%= t(:message, :user => current_editor.display_name, :scope => [:variant_current_editor, :takeover]) %></p>
+    </div>
+    
+    <div class="content">
+      <p><%= t(:action_to_take, :scope => [:variant_current_editor, :takeover]) %></p>
+      
+      <ul class="checkboxes">
+        <li>
+          <label for="takeoverAction_ignore"class="checkbox">
+            <%= radio_button_tag "takeoverAction","ignore", true, :class => "checkbox" %>
+            <%= t(:ignore_changes, :scope => [:variant_current_editor, :takeover]) %>
+          </label>
+        </li>
+        <li>
+          <label for="takeoverAction_new" class="checkbox">
+            <%= radio_button_tag "takeoverAction","new", false, :class => "checkbox" %>
+            <%= t(:save_as_new_variant, :scope => [:variant_current_editor, :takeover]) %>
+          </label>
+          <label for="takeoverActionNewVariantName"><%= t(:variant_name, :scope => [:variant_current_editor, :takeover]) %></label>
+          <%= text_field_tag "takeoverActionNewVariantName" %>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <%= submit_button "small/ok.gif", :alt => :ok %>
+      </div>
+    </div>    
+  </div>
+<% end %>

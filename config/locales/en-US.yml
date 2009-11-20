@@ -1,0 +1,922 @@
+"en-US":
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      long: "%e %B %Y"
+      short: "%e %B"
+      short_with_day_of_week: "%a %e %b"
+  
+    day_names: [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
+    abbr_day_names: [su, mo, tu, we, th, fr, sa]
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+    order: [:day, :month, :year]
+    days: 
+      sunday: sunday
+      monday: monday
+      tuesday: tuesday
+      wednesday: wednesday
+      thursday: thursday
+      friday: friday
+      saturday: satrday
+  
+  time:
+    formats:
+      default: "%a %b %d %H:%M:%S %Z %Y"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y %H:%M"
+      time: "%H:%M"
+  
+    am: "am"
+    pm: "pm"
+  
+  # Used in array.to_sentence.
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " and "
+      last_word_connector: " and "
+      or:
+        two_words_connector: " or "
+        last_word_connector: " or "
+  
+  number:
+    format:
+      precision: 2
+      separator: "."
+      delimiter: ","
+    currency:
+      format:
+        unit: 
+        precision: 2
+        format: '%u %n'
+  
+    # Used in number_to_percentage()
+    percentage:
+      format:
+        # These three are to override number.format and are optional
+        # separator: 
+        delimiter: ""
+        # precision: 
+        
+    # Used in number_to_precision()
+    precision:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+        
+    # Used in number_to_human_size()
+    human:
+      format:
+        # These three are to override number.format and are optional
+        # separator: 
+        delimiter: ""
+        precision: 1
+      storage_units:
+        # Storage units output formatting.
+        # %u is the storage unit, %n is the number (default: 2 MB)
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+  
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than one second"
+        other: "less than {{count}} seconds"
+      x_seconds:
+        one:   "one second"
+        other: "{{count}} seconds"
+      less_than_x_minutes:
+        one:   "less than one minute"
+        other: "less than {{count}} minutes"
+      x_minutes:
+        one:   "one minute"
+        other: "{{count}} minutes"
+      about_x_hours:
+        one:   "about one hour"
+        other: "about {{count}} hours"
+      x_days:
+        one:   "one day"
+        other: "{{count}} days"
+      about_x_months:
+        one:   "about one month"
+        other: "about {{count}} months"
+      x_months:
+        one:   "one month"
+        other: "{{count}} months"
+      about_x_years:
+        one:   "about one year"
+        other: "about {{count}} years"
+      over_x_years:
+        one:   "more than one year"
+        other: "more than {{count}} years"
+    prompts:
+      year:   "Year"
+      month:  "Month"
+      day:    "Day"
+      hour:   "Hour"
+      minute: "Minute"
+      second: "Second"
+  
+  
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "{{model}} could not be saved because of an error in the form."
+          other:  "{{count}} errors in the form prevented {{model}} to be saved."
+        # The variable :count is also available
+        body: "The following problems have occured:"
+        
+      # The values :model, :attribute and :value are always available for interpolation
+      # The value :count is available when applicable. Can be used for pluralization.
+      messages:
+        inclusion: "is not present in the list"
+        exclusion: "is reserved"
+        invalid: "is invalid"
+        confirmation: "was not confirmed"
+        mismatch: "is not identical"
+        accepted: "has to be accepted"
+        empty: "may not be empty"
+        blank: "may not be left blank"
+        too_long: "is too long (maximal {{count}} characters)"
+        too_short: "is too short (minimal {{count}} characters)"
+        wrong_length: "has the wrong length (has to be {{count}} characters)"
+        taken: "is already taken"
+        not_a_number: "is not a number"
+        greater_than: "has to be bigger than {{count}}"
+        greater_than_or_equal_to: "has to be bigger than or equal to {{count}}"
+        equal_to: "has to be equal to {{count}}"
+        less_than: "has to be less than {{count}}"
+        less_than_or_equal_to: "has to be less than or equal to {{count}}"
+        odd: "has to be odd"
+        even: "has to be even"
+        duplicate: "is already been taken"
+        changed: "may not be changed"
+
+        # Append your own errors here or at the model/attributes scope.
+
+      models:
+        skyline/variant:
+          attributes:
+            version:
+              outdated: "Antoher user has saved this page while you were editing it. You can't save this page anymore."
+  
+      # You can define own errors for models or model attributes.
+      # The values :model, :attribute and :value are always available for interpolation.
+      #
+      # For example,
+      #   models:
+      #     user:
+      #       blank: "This is a custom blank message for {{model}}: {{attribute}}"
+      #       attributes:
+      #         login:
+      #           blank: "This is a custom blank message for User login"
+      # Will define custom blank validation message for User model and 
+      # custom blank validation message for login attribute of User model.
+      #models:
+        
+      # Translate model names. Used in Model.human_name().
+      #models:
+        # For example,
+        #   user: "Dude"
+        # will translate User model name to "Dude"
+      
+      # Translate model attribute names. Used in Model.human_attribute_name(attribute).
+      #attributes:
+        # For example,
+        #   user:
+        #     login: "Handle"
+        # will translate User attribute "login" as "Handle"
+    models:
+      skyline/article: 
+        one: "Article"
+        other: "Articles"
+      skyline/page: 
+        one: "Page"
+        other: "Pages"
+      skyline/page_fragment:
+        one: "Fragment"
+        other: "Fragments"
+      skyline/media_dir: "Folder"
+      skyline/media_file: "File"
+      skyline/section: "Section"
+      skyline/sections/rss_section: "RSS section"
+      skyline/sections/wysiwyg_section: "Paragraph"
+      skyline/sections/heading_section: "Heading"
+      skyline/sections/iframe_section: "Iframe"
+      skyline/sections/content_collection_section: "Content collection"
+      skyline/sections/content_item_section: "Content item"
+      skyline/sections/splitter_section: "Splitter"
+      skyline/sections/link_section: "Link list"
+      skyline/sections/raw_section: "HTML section"      
+      skyline/sections/media_section: "Media section"
+      skyline/sections/form_section: "Form"
+      skyline/sections/redirect_section: "Redirect"
+      skyline/sections/page_fragment_section: "Fragment"
+      skyline/form/form:
+        one: "Form"
+        other: "Forms"
+      skyline/form/page:
+        one: "Page"
+        other: "Pages"
+      skyline/form/handler:
+        one: "Handler"
+        other: "Handlers"      
+      skyline/form/fields/text_field: "Open question"
+      skyline/form/fields/select_field: "Choise question"
+      skyline/form/fields/date_field: "Date question"
+      skyline/form/fields/info_field: "Text"
+      skyline/form/fields/check_box_field: "Check box"
+      skyline/form/fields/submit_field: "Send button"
+      skyline/form/handlers/email_handler: "Email handler"
+      skyline/form/handlers/redirect_handler: "Redirect handler"
+      skyline/form/handlers/storage_handler: "Storage handler"   
+      
+    attributes:
+      skyline/page:
+        title: "Title"
+        variant: "Variant"
+      skyline/article_version:
+        name: "Variant name"
+        template: "Template"
+      skyline/page/data:
+        title: "Title"
+        url_part: "URL"
+        in_navigation: "Show in menu"
+        navigation_title: "Title in navigation"
+        custom_title_tag: "Title tag"
+        meta_description_tag: "Meta description tag"
+      skyline/page_fragment/data:
+        title: "Title"
+      skyline/section:
+        template: "Template"
+      skyline/sections/rss_section:        
+        url: "RSS feed"
+        show_count: "Show"
+      skyline/sections/heading_section:        
+        heading: "Heading"
+      skyline/sections/iframe_section:
+        url: "URL"
+        size: "Size"    
+      skyline/sections/content_collection_section:
+        content_type: "Type"
+        number: "Number"
+      skyline/sections/content_item_section:
+        content_item_type: "Type"
+        content_item_id: "Item"
+      skyline/sections/link_section:
+        title: "Title"
+        links: "Links"        
+      skyline/sections/media_section:
+        linked: "Image"
+        alignment: "Alignment"
+        caption: "Caption"
+        alignments:
+          left: "Left"
+          right: "Right"
+          block_left: "Left (full width)"
+          block_right: "Right (full width)"
+          block_center: "Centered"
+      skyline/sections/redirect_section:
+        linked: "Redirect to"
+        delay: "Delay"
+      skyline/sections/form_section:
+        form_id: "Form"        
+      skyline/sections/page_fragment_section:
+        page_fragment_id: "Fragment"
+      skyline/media_dir:
+        name: "Foldername"        
+      skyline/media_file:
+        name: "Filename"
+        title: "Title (used in links)"
+        description: "Description"
+        file_tags: "Tags"
+      skyline/user:
+        email: "E-mail address"        
+        name: "Name"
+        current_password: "Current password"        
+        password: "Password"        
+        password_confirmation: "Confirm password"
+        role: "Role"
+        created_at: "Created on"
+      skyline/form/page:
+        title: "Title"
+        template: "Template"
+      skyline/form/field:
+        title: "Title"
+        identifier: "Identifier"
+        prefix: "Text in front of input field"
+        suffix: "Text after of input field"
+        body: "Text"
+        selected: "Selected by default"
+        default_value: "Default value"
+        multiple_select: "Multiple answers may be selected"
+        required: "Required question"
+      skyline/form/fields/select_field:
+        value_fields: "Possible answers"
+      skyline/form/fields/check_box_field:
+        title: "Title (after check box)"
+        prefix: "Text before check box"
+        selected: "Selected by default"
+      skyline/form/fields/submit_field:
+        title: "Caption"        
+      skyline/form/handlers/redirect_handler:
+        linked: "Redirect to"              
+
+  buttons:
+    plus: "+"
+    add: "Add"
+    cancel: "Cancel"
+    save: "Save"
+    publish: "Publish"
+    depublish: "Depublish"
+    delete_variant: "Delete variant"
+    new_variant: "New variant"
+    copy_variant: "Copy variant"
+    lock: "lock"
+    unlock: "Unlock"
+    rollback: "Rollback"
+    login: "Log in"
+    edit: "Edit"
+    delete: "Delete"
+    new: "New"
+    export: "Export"
+    import: "Import"
+    undo: "Undo"
+    add_link: "Add link"
+    browse: "Browse"
+    upload: "Upload"
+    ok: "Ok"
+    delete_media_dir: "Delete folder"
+    yes_force_edit: "Yes, enforce editing"
+    delete_form: "Delete form"
+    
+  icons:
+    "true" : "true"
+    "false" : "false"
+    
+  templates:
+    page:
+      default: "Default"
+      without_sidebar: "Without sidebar"
+      landing: "Landing page (without beadcrumb)"
+      home: "Homepage"
+    sections:
+      content_collection_section:
+        default: "Default"
+        sidebar: "Sidebar"
+        home: "Home"
+      content_item_section:
+        default: "Default"
+      heading_section:
+        default: "Heading"
+        subkop: "Subheading"
+        subsubkop: "Sub subheading"
+      link_section:
+        default: "Default"
+        files: "Files"
+        related_pages: "Related pages"
+      rss_section:
+        default: "Default"
+      wysiwyg_section:
+        default: "Default"
+
+  loading: "Loading..."
+  navigation:
+    mainnavigation:
+      pages: "Pages"
+      content_library: "Content library"
+      media_library: "Media library"
+      admin: "Admin"
+      settings: "Settings"
+      users: "Usermanagement"
+      forms: "Forms"
+  authentication:
+    logout: "Log out"
+    logged_in_as: "Logged in as <strong>{{user}}</strong>"
+    new:
+      log_in: "Log in"
+      email: "E-mailadres"
+      password: "Wachtwoord"
+    create: 
+      flashes: 
+        error: "Could not login, please check your e-mail address and password and try again."
+  user:
+    roles:
+      super: "Super admin"      
+    index:
+      left_header: "Users"
+      header: "There are {{count}} users"
+      confirm_destroy: "Are you sure you want to delete the user {{display_name}}?"
+    edit:
+      dialog_title: "Editing user {{display_name}}"
+      current_password_info: "Your password should be supplied when editing your own user."
+      password_info: "Leave blank to keep current password."
+      cannot_change_role: "It isn't possible to change your own role."
+    new:
+      dialog_title: "Create new user"
+    destroy:
+      flashes:
+        success: "User successfully deleted."
+        error: "User counldn't be deleted."
+        cant_delete_myself: "You can't delete your own user."
+    create:
+      flashes:
+        success: "User successfully created."
+        error: "The user details could not be saved, please check your input and try again."
+    update:
+      flashes:
+        success: "User details where changed successfully."
+        error: "The user details could not be saved, please check your input and try again."
+  media_dir:
+    directories: "Folders"
+    new: "New"
+    destroy:
+      message: "Are you sure you want to delete this folder?"
+  media_file:
+    update:
+      flashes: 
+        success: "File succesfully saved."
+        failed: "File could not be saved, please check your input and try again."
+    index:
+      files_in: "Files in {{directory}}"
+    new:
+      header: "Upload files in"
+      no_files: "No files selected"
+      cancel: "cancel"
+      upload: "upload"
+      files: "files"
+      add_files: "add file(s)"
+      file_progress:  "Uploading file <span class=\"current-file\">1</span> of <span class=\"total-files\">2</span>"
+      percentage_progress: "<span class=\"current-percentage\">20%</span> done (<span class=\"current-size\">20 kB</span> of <span class=\"total-size\">100 kB</span>)"      
+      all_uploaded_message: "The following files where uploaded:"   
+      some_uploaded_message: "Not all files could be uploaded:"  
+    edit:
+      preview: "Preview"
+      download: "Download"
+      size: "Size (wxh)"
+      type: "Type"
+      filesize: "Filesize"
+      available_tags: "Available tags:"
+      meta_data: "Details"
+  variant_current_editor:
+    takeover:
+      dialog_title: "Editing has been taken over"
+      message: "{{user}} has forcefully taken over editing of this page."
+      action_to_take: "What do you want to do with your changes?"
+      ignore_changes: "Discard my changed."
+      save_as_new_variant: "Save my changes to a new variant."
+      variant_name: "Name of new variant:"
+      
+  article:
+    headers:
+      options: "Options"
+      advanced: "Advanced"
+      actions: "Actions"
+      general: "General"
+      publication: "Publication"
+      variants: "Variants"
+      security: "Security"
+      page_fragments: "Fragments"
+    tabs:
+      editor: "editor"
+      preview: "preview"
+    buttons:
+      delete_image: "delete_page"
+      delete_alt: "Delete article" 
+    new:
+      new_page: "New"
+      below: "Below"
+      above: "Above"
+      in: "In"
+    edit:
+      add_page: "+"
+      add_page_below: "On the same level"
+      add_page_in: "Below page"
+      add_section: "Add section"
+      published: "(published)"
+      locked_state: "Status:"
+      publication_status: "Publication status:"
+      current_variant: "This variant:"
+      published: "published"
+      created_at: "Created on:"
+      updated_at: "Changed on:"
+      identical_published_variant: "Identical to publication:"
+      last_published: "Last publication:"
+      published_variant: "Gepublished variant:"
+      number_of_publications: "This page has been published <strong>{{count}} times</strong>."
+      publication_history: "Publication history:"
+      publication_history_link: "View previous publications"
+      confirm_delete_variant: "Are you sure you want to remove this variant?"
+      confirm_delete: "Are you sure you want do remove the whole article with it's publication history?"
+      currently_editing_since: "{{user}} has started editing {{duration}} ago ({{since}})."
+      currently_editing_by: "This article is currently being modified by {{user}}."
+      force_editing: "Would you like to edit this article regardless?"
+    update:
+      flashes:
+        success: "Article has been saved succesfully"
+        error: "Article could not be saved because of an error, please check your input and try again."
+        locked: "Article is locked"
+        unlocked: "Article has been unlocked"
+        lock_failed: "Could not lock the article"
+        unlock_failed: "Could not lock the article"
+    destroy:
+      flashes:
+        success: "Article has been removed succesfully."
+        error: "Error"
+        error_page_published: "Article could not be deleted because it's still published."
+        error_page_persistent: "Article could not be deleted because it's marked as special."
+        error_page_has_children: "Article could not be deleted because it still contains articles."
+    create:
+      flashes:
+        error: "Error while creating a new article {{errors}}"
+  page:
+    buttons:
+      delete_image: "delete_page"
+      delete_alt: "Delete page"    
+    edit:
+      add_page_in: "In page"
+      number_of_publications: "This page has been published <strong>{{count}} times</strong>."
+      confirm_delete: "Are you sure you would like to remove the whole page including its publication history?"
+      currently_editing_by: "This article is currently being modified by {{user}}"
+      force_editing: "Do you still want to edit this page?"
+    update:
+      flashes:
+        success: "Page successfully saved"
+        error: "The page could not be saved because an error occured, please check your input and try again."
+        locked: "The page is blocked"
+        unlocked: "Page is unblocked"
+        lock_failed: "Blocking the page was unsuccessful"
+        unlock_failed: "Unblocking the page was unsuccessful"
+    destroy:
+      flashes:
+        success: "Page deleted successfully."
+        error: "Error"
+        error_page_published: "The page could not be deleted because it's still published."
+        error_page_persistent: "The page could not be deleted because the page has been made persistent."
+        error_page_has_children: "The page could not be deleted because the page includes other pages."
+    create:
+      flashes:
+        error: "Error while creating page {{errors}}"  
+  section:
+    form:
+      will_be_destroyed: "{{section}} will be deleted when saving."
+      delete: "X"
+      no_sectionable: "Help, I don't have a Sectionable"
+      messages: "messages"
+  link_section:
+    form:
+      will_be_destroyed: "Link {{link}} will be deleted when saving"
+      delete: "X"
+      links_to: "Links to: {{referable_title}}"
+  redirect_section:
+    form:
+      seconds: "seconds"
+  publication:
+    index:
+      dialog_title: "Previous publications"
+      publications: "Publications"
+      preview: "Preview"
+      
+    rollback:
+      flashes:
+        success: "Publication succesfully rolled back!"
+        error: "Publication could not be rolled back"
+  published_publication:
+    article:
+      create:
+        flashes:
+          success: "Article succesfully published!"
+          error: "Article not ready for publication!"
+      destroy:
+        flashes:
+          success: "Article unpublished successfully"
+          error: "Article cannot be unpublished"
+          error_persistent: "The article could not be unpublished because it has been made persistant."
+    page:
+      create:
+        flashes:
+          success: "Page published successfully!"
+          error: "Page not ready for publication!"
+      destroy:
+        flashes:
+          success: "Page unpublished successfully"
+          error: "Page cannot be unpublished"
+          error_persistent: "The page could not be unpublished because it has been made persistant."
+  page_version:
+    default_name: "main"
+    default_title: "New page"
+  page_fragment:
+    default_title: "New fragment"
+  variant:
+    create:
+      flashes:
+        success: "New variant successfully created."
+    destroy:
+      flashes:
+        article:
+          success_variant_and_page: "The variant and the article where succesfully deleted."
+        page:
+          success_variant_and_page: "The variant and the page where succesfully deleted."
+        success_variant: "The variant was successfully deleted."
+        error: "The variant could not be deleted."
+        error_variant_published: "The variant could not be deleted because it is still published."
+  settings:
+    title: "{{class}} settings"
+    group_title: Settings 
+    update:      
+      flashes:
+        success: Settings where successfully saved.
+        error: Settings could not be saved.
+  browser:
+    tabs:
+      "Skyline::Page" : "Pages"
+      "Skyline::MediaFile" : "Media library"
+      "Skyline::ReferableUri" : "External"
+    external_link:
+      url: "URL"
+    external_image:
+      url: "URL"
+    file:
+      dialog_title: "Choose file"
+    page:
+      dialog_title: "Choose page"
+    link:
+      dialog_title: "Choose link"
+      title: "Tooltip"
+      target: "Open in"
+      targets:
+        "_blank" : "New window"
+        "-" : "Same window"
+    image:
+      dialog_title: "Choose image"
+      alt: "Alt"
+      dimensions: "Size (WxH)"
+      align: "Align"
+      alignments:
+        "-" : ""
+        "left" : "Left"
+        "right" : "Right"
+        "block" : "Block"
+    
+  content:
+    headers:
+      actions: "Actions"
+    head: Content elements
+    menu: Content elements
+    default_group: Content elements
+    breadcrumb_prefix: "Breadcrumb:"
+    add_a_new: Add {{class}}
+    add_more: Add more {{class}}
+    pagination:
+      number_of: "Nubmer of {{class}}:"
+      pages: "Pages:"
+      next: "Next &raquo;"
+      previous: "Previous &raquo;"
+    editors:
+      checkable_list:
+        blank: "There are no {{class}}."
+      file:
+        no_file_selected: No file selected
+        cancel_selection: Cancel file selection
+      display:
+        empty: Empty
+      joinable_list:
+        adding: "{{class}} beeing added..."
+        add_to: "add to {{class}}"
+      file_browser:
+        nothing_selected: No file selected.
+        deselect: Unselect this file
+      page_browser:
+        nothing_selected: No page selected.
+        deselect: Unselect this page
+    flashes:
+      invalid_record: Not good - ActiveRecord::RecordInvalid
+      successfully_saved: The {{class}} is saved
+      validation_error: The {{class}} could not be saved. Check your input and try again.
+      successfully_deleted: The {{class}} has been deleted.
+      fail_deleted: The {{class}} could not be deleted
+      version_conflict: >
+        <strong>Alert!</strong> This version ({{your_version}}) could not be saved. A newer version ({{current_version}})
+        creaded by <em>{{current_author}}</em> is available. Compare your version with the current version
+        before saving. {{show_link}}
+      successfully_imported: The import was successful
+      no_import_file_selected: Import was not successful, the XML file was not uploaded.
+      import_failed: Import was not successful, check the XML file.
+    index:
+      title: "{{value}} &mdash; Content"
+      intro: On the left side you can see all the possible content-types. Choose one of the content-types to view, edit or delete.
+    list:
+      info: "Details"
+      confirm_deletion: Are you sure you want to delete {{class}}?
+      up_one_level: ".. move up"    
+      blank_slate: "there are no {{class}}"    
+      export: "Export &raquo;"
+      import: "Import &raquo;"
+      title: Content list &mdash; {{class}}
+      title_sublisting: Content list &mdash; {{group}} for {{title}}
+      filter: Filter
+      filter_none: "-- no filter --"    
+      filter_apply: Apply filter
+    import:
+      dialog_title: "Import"
+      choose_file: "Choose file to be imported (XML)"
+    create:
+      title: Create {{class}}
+    edit:
+      title: "Edit {{class}}: {{title}}"
+      meta_information: Meta details
+      available_tags: "Available tags:"
+      available_tags_info: "(click on a tag to select or deselect the tag)"
+      no_tags_available: "There are currently no tags, to add new tags enter them in the box above."
+      tags: Tags
+      publish: Publish
+      published: Published
+      publish_automatically_at: "Publiceren automaticaly on:"
+      add_a_to_b: "add {{a}} to {{b}}"    
+      add_multiple: Add multiple (avoids closing this window)
+      version_conflict: <strong>Attention</strong> Saving will override the changes made by {{current_author}}
+      see_changes_by: Click here to view the changes of {{current_author}}.
+      discard_changes: Discard my changes
+    show:
+      title: "View {{class}}: {{title}}"
+      currently_viewing: >
+        <strong>Shown version </strong> versie {{current_version}}
+        by <em>{{current_author}}</em>.
+    error:
+      title: this content-type does not exist.
+      intro:       
+    global:
+      logged_in_on: Logged in on
+      logged_in_on_as: as <strong>%s</strong>
+      logged_in_as: Logged in as <strong>%s</strong>
+      logout: Logout
+      cancel: Cancel,
+      close_window: Close window  
+      loading: Please wait...        
+      
+  form:
+    form:
+      default_title: Form
+      default_tempate: default
+      no_responses: "There are no respones to this form yet, or there is no handler to save them."
+      headers:
+        actions: "Actions"
+        advanced: "Advanced"        
+      create:
+        flashes:
+          error: "Error adding a new form {{errors}}"
+      edit:
+        confirm_delete_form: "Are you sure you want to delete this form (including all responses)? The form will be deleted from all pages."
+      destroy:
+        flashes:
+          success: "The form has been deleted successfully."
+          error: "Error deleting the from."
+    page:
+      default_title: Page 1
+      default_tempate: default
+      headers:
+        actions: "Acties"
+        advanced: "Advanced"
+      tabs:
+        editor: "editor"
+        preview: "preview"        
+      edit:
+        add_field: "Add question"
+      update:
+        flashes:
+          success: "Form is succesfully saved"
+          error: "Form can't be saved due to an error, check your input and try again."
+    field:
+      form:
+        will_be_destroyed: "{{field}} will be deleted on save."
+        delete: "X"
+        links_to: "Links to: {{referable_title}}"
+    fields:
+      check_box_field:
+        values: 
+          "true" : "checked"
+          "false" : "not checked"
+    handler:
+      headers:
+        actions: "Actions"
+        advanced: "Advanced"
+      tabs:
+        editor: "editor"
+        preview: "preview"        
+      form:
+        will_be_destroyed: "{{handler}} will be deleted on save."
+        delete: "X"
+      edit:
+        add_handler: "Add handler"          
+    handlers:
+      storage_handler:
+        description: "This handler saves posted data to the local database. The data can be viewed and exported at any time later on."
+    response:
+      error: "Some fields contain errors or are left empty, please check your input and try again."
+      select_field_error: "You have to select at lease one option."
+      check_box_error: "You have to check the check box."
+      errors:
+        field: "cannot be empty"
+          
+  tinymce:
+    skyline_table: {
+      desc: "Inserts a new table",
+      row_before_desc: "Insert row before",
+      row_after_desc: "Insert row after",
+      delete_row_desc: "Delete row",
+      col_before_desc: "Insert column before",
+      col_after_desc: "Insert column after",
+      delete_col_desc: "Remove column",
+      split_cells_desc: "Split merged table cells",
+      merge_cells_desc: "Merge table cells",
+      row_desc: "Table row properties",
+      cell_desc: "Table cell properties",
+      props_desc: "Table properties",
+      paste_row_before_desc: "Paste table row before",
+      paste_row_after_desc: "Paste table row after",
+      cut_row_desc: "Cut table row",
+      copy_row_desc: "Copy table row",
+      del: "Delete table",
+      row: "Row",
+      col: "Column",
+      cell: "Cell" }
+    skyline_code: {
+      dialog_title: "HTML bewerken",
+      btn_ok: "Ok",
+      btn_cancel: "annuleren" }
+    skyline: {
+      style_select: "Styles",
+      font_size: "Font size",
+      fontdefault: "Font family",
+      block: "Format",
+      paragraph: "Paragraph",
+      div: "Div",
+      address: "Address",
+      pre: "Preformatted",
+      h1: "Heading 1",
+      h2: "Heading 2",
+      h3: "Heading 3",
+      h4: "Heading 4",
+      h5: "Heading 5",
+      h6: "Heading 6",
+      blockquote: "Blockquote",
+      code: "Code",
+      samp: "Code sample",
+      dt: "Definition term ",
+      dd: "Definition description",
+      bold_desc: "Bold (Ctrl+B)",
+      italic_desc: "Italic (Ctrl+I)",
+      underline_desc: "Underline (Ctrl+U)",
+      striketrough_desc: "Strikethrough",
+      justifyleft_desc: "Align left",
+      justifycenter_desc: "Align center",
+      justifyright_desc: "Align right",
+      justifyfull_desc: "Align full",
+      bullist_desc: "Unordered list",
+      numlist_desc: "Ordered list",
+      outdent_desc: "Outdent",
+      indent_desc: "Indent",
+      undo_desc: "Undo (Ctrl+Z)",
+      redo_desc: "Redo (Ctrl+Y)",
+      link_desc: "Insert/edit link",
+      unlink_desc: "Unlink",
+      image_desc: "Insert/edit image",
+      cleanup_desc: "Cleanup messy code",
+      code_desc: "Edit HTML Source",
+      sub_desc: "Subscript",
+      sup_desc: "Superscript",
+      hr_desc: "Insert horizontal ruler",
+      removeformat_desc: "Remove formatting",
+      custom1_desc: "Your custom description here",
+      forecolor_desc: "Select text color",
+      backcolor_desc: "Select background color",
+      charmap_desc: "Insert custom character",
+      visualaid_desc: "Toggle guidelines/invisible elements",
+      anchor_desc: "Insert/edit anchor",
+      cut_desc: "Cut",
+      copy_desc: "Copy",
+      paste_desc: "Paste",
+      image_props_desc: "Image properties",
+      newdocument_desc: "New document",
+      help_desc: "Help",
+      blockquote_desc: "Blockquote",
+      clipboard_msg: "Copy/Cut/Paste is not available in Mozilla and Firefox.\r\nDo you want more information about this issue?",
+      path: "Path",
+      newdocument: "Are you sure you want clear all contents?",
+      toolbar_focus: "Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X",
+      more_colors: "More colors" }
+      

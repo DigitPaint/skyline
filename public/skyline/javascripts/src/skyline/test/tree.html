@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+	<link href="../assets/tree/tree.css?1195729478" media="screen" rel="stylesheet" type="text/css" />	
+	
+	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/drag.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="../src/tree.js" type="text/javascript" charset="utf-8"></script>
+
+<body>
+
+  <div class="content">
+    <h1>Tree within scrollable area</h1>
+    <div id="scroller">
+      <div id="tree_scroll" class="tree highlight">
+        <ul>
+          <li id="p0">
+            <a href="#">Root1</a>
+            <ul>
+              <li id="p1"><a href="#">A</a></li>
+              <li id="p2">
+                <a href="#">B</a>
+                <ul>
+                  <li id="p2-1"><a href="#">BA</a></li>
+                  <li id="p2-2"><a href="#">BB</a></li>                
+                </ul>
+              </li>
+              <li id="pC"><a href="#">C</a></li>
+              <li id="pD"><a href="#">D</a></li>
+              <li id="pE"><a href="#">E</a></li>
+              <li id="pF"><a href="#">F</a></li>
+              <li id="pG"><a href="#">G</a></li>                              
+            </ul>
+          </li>
+          <li id="p00">
+            <a href="#">Root2</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div style="clear:both"></div>
+    <style type="text/css" media="screen">
+      #scroller{
+        border: 2px solid #000;
+        width: 200px;
+        float: left;
+        height: 200px;
+        overflow: auto;
+      }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+      var treeDefault = new Skyline.Tree("tree_scroll",{
+        offsetParent: $('scroller'),
+      });
+      
+      treeDefault.addEvent("select",function(event,t){
+        event.stop();
+        event.preventDefault();
+      });
+      // tree.collapse(1);    
+    </script>    
+  </div>
+
+  <div class="content">
+    <h1>Tree with extra sub</h1>
+    <div id="tree_sub" class="tree highlight">
+      <ul>
+        <li id="p0">
+          <a href="http://www.google.com"><span>Root1</span></a>
+          <ul>
+            <li id="p1"><a href="#"><span>A</span></a></li>
+            <li id="p2"><a href="http://www.google.com"><span>B</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      var treeDefault = new Skyline.Tree("tree_sub",{
+        fixedRootNodes: true
+      });
+      
+      treeDefault.addEvent("select",function(event,t){
+        event.stop();
+        event.preventDefault();
+      });
+      // tree.collapse(1);    
+    </script>    
+  </div>
+
+  <div class="content">
+    <h1>Tree (orderable=true,fixedRootNodes=true)</h1>
+    <div id="tree1" class="tree highlight">
+      <ul>
+        <li id="p0">
+          <a href="#">Root1</a>
+          <ul>
+            <li id="p1"><a href="#">A</a></li>
+            <li id="p2">
+              <a href="#">B</a>
+              <ul>
+                <li id="p2-1"><a href="#">BA</a></li>
+                <li id="p2-2"><a href="#">BB</a></li>                
+              </ul>
+            </li>
+            <li id="p3"><a href="#">C</a></li>
+            <li id="p4"><a href="#">D</a></li>
+            <li id="p4"><a href="#">E</a></li>
+            <li id="p4"><a href="#">F</a></li>
+            <li id="p4"><a href="#">G</a></li>                              
+          </ul>
+        </li>
+        <li id="p00">
+          <a href="#">Root2</a>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    var treeDefault = new Skyline.Tree("tree1",{
+      fixedRootNodes: true
+    });
+    // tree.collapse(1);    
+  </script>  
+
+<div class="content">
+  <h1>Tree (orderable=false,dragMarker=false,orderBy=function(a,b){..alfabetisch..})</h1>
+  <div id="treeAutoOrder" class="tree highlight">
+    <ul>
+      <li id="p0">
+        <a href="#">Root</a>
+        <ul>
+          <li id="p1"><a href="#">A</a></li>
+          <li id="p2">
+            <a href="#">B</a>
+            <ul>
+              <li id="p2-1"><a href="#">BA</a></li>
+              <li id="p2-2"><a href="#">BB</a></li>                
+            </ul>
+          </li>
+          <li id="p3"><a href="#">C</a></li>
+          <li id="p4"><a href="#">D</a></li>
+          <li id="p4"><a href="#">E</a></li>
+          <li id="p4"><a href="#">F</a></li>
+          <li id="p4"><a href="#">G</a></li>                              
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  var treeDefault = new Skyline.Tree("treeAutoOrder",{
+    orderable: false,
+    dragMarker: false,
+    orderBy : function(dragLi,li){
+      var val = dragLi.getElement("a").get("html") > li.getElement("a").get("html");
+      console.log(dragLi.getElement("a").get("html") + " > " + li.getElement("a").get("html") +  " = " + val);
+      return val
+    }
+  });
+  // tree.collapse(1);    
+</script>
+
+<div class="content">
+  <h1>Tree (orderable=false,dragMarker=false)</h1>
+  <div id="treeUnorderable" class="tree highlight">
+    <ul>
+      <li id="p0">
+        <a href="#">Root</a>
+        <ul>
+          <li id="p1"><a href="#">Page 1</a></li>
+          <li id="p2">
+            <a href="#">Page 2</a>
+            <ul>
+              <li id="p2-1"><a href="#">Subpage 2.1</a></li>
+              <li id="p2-2"><a href="#">Subpage 2.2</a></li>                
+            </ul>
+          </li>
+          <li id="p3"><a href="#">Page 3</a></li>
+          <li id="p4">
+            <a href="#">Page 4</a>
+            <ul>
+              <li id="p4-1"><a href="#">Subpage 4.1</a></li>
+              <li id="p4-2"><a href="#">Subpage 4.2</a></li>                
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  var treeDefault = new Skyline.Tree("treeUnorderable",{
+    orderable: false,
+    dragMarker: false
+  });
+  // tree.collapse(1);    
+</script>
+<style type="text/css" media="screen">
+  .highlight li.droppable a{
+    background-color: #ff0;
+  }
+  .highlight li.droppable li a{
+    background-color: #fff;
+  }
+</style>
+
+
+<div class="content">
+  <h1>Standard Tree (orderable=true,fixedRootNodes=false,draggable=true)</h1>
+  <div id="treeDefault" class="tree" >
+    <ul>
+      <li id="p0">
+        <a href="#">Root</a>
+        <ul>
+          <li id="p1"><a href="#">Page 1</a></li>
+          <li id="p2">
+            <a href="#">Page 2</a>
+            <ul>
+              <li id="p2-1"><a href="#">Subpage 2.1</a></li>
+              <li id="p2-2"><a href="#">Subpage 2.2</a></li>                
+            </ul>
+          </li>
+          <li id="p3"><a href="#">Page 3</a></li>
+          <li id="p4">
+            <a href="#">Page 4</a>
+            <ul>
+              <li id="p4-1"><a href="#">Subpage 4.1</a></li>
+              <li id="p4-2"><a href="#">Subpage 4.2</a></li>                
+            </ul>
+          </li>
+          <li id="p5">
+            <a href="#">Page 5</a>
+            <ul>
+              <li id="p5-1"><a href="#">Subpage 5.1</a></li>
+              <li id="p5-2"><a href="#">Subpage 5.2</a></li>                
+            </ul>
+          </li>
+          <li id="p6">
+            <a href="#">Page 6</a>
+            <ul>
+              <li id="p6-1"><a href="#">Subpage 6.1</a></li>
+              <li id="p6-2"><a href="#">Subpage 6.2</a></li>                
+            </ul>
+          </li>
+          <li id="p7"><a href="#">Page 7</a></li>
+          <li id="p8"><a href="#">Page 8</a></li>
+          <li id="p9"><a href="#">Page 9</a></li>
+          <li id="p10"><a href="#">Page 10</a></li>
+          <li id="p11"><a href="#">Page 11</a></li>
+          <li id="p12">
+            <a href="#">Page 12</a>
+            <ul>
+              <li><a href="#">Page 12.1</a>
+                <ul>
+                  <li><a href="#">Page 12.2</a>
+                    <ul>
+                      <li><a href="#">Page 12.3</a>
+                        <ul>
+                          <li><a href="#">Page 12.4</a>
+                        </ul>
+                      </li>                            
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  var treeDefault = new Skyline.Tree("treeDefault");
+  // tree.collapse(1);    
+</script>
+
+  <style type="text/css" media="screen">
+  
+    .splitter{
+      width: 5px;
+      height: 5px;      
+      background: #000;
+      z-index: 100;
+      overflow: hidden;
+      padding: 0;
+      font-size: 1px;
+    }
+    
+
+    .content{
+      margin: 10px;
+    }
+    
+  </style>
+
+</body>
+</html>

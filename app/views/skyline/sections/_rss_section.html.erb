@@ -1,0 +1,12 @@
+<table class="fields">
+  <tbody>
+    <tr>
+      <th><%= sectionable_form.label_with_text :url %></th>
+      <td><%= sectionable_form.text_field :url, :class => "full" %></td>
+    </tr>
+    <tr>
+      <th><%= sectionable_form.label_with_text :show_count %></th>
+      <td><%= sectionable_form.text_field :show_count, :class => "number", :text_suffix => " " + t(:messages, :scope => [:section, :form]) %></td>
+    </tr>                    
+  </tbody>
+</table>

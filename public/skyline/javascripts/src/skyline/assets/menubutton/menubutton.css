@@ -1,0 +1,66 @@
+dl.menubutton{
+  position: relative;
+  float: left;
+  background: url(menubutton.gif) top left no-repeat;  
+}
+
+dl.menubutton dt,
+dl.panel dl.menubutton dt{
+  float: left;
+  margin-top: 2px;
+  background: url(menubutton.gif) bottom left no-repeat;  
+}
+
+dl.menubutton dt .label,
+dl.menubutton dt .toggle{
+  padding: 0 5px;
+  line-height: 18px;
+  color: #000;
+}
+
+dl.menubutton dt .label,
+dl.menubutton dt .toggle,
+dl.menubutton dt .toggle span{
+  float: left;
+}
+
+dl.menubutton dt .toggle{
+  padding: 0;
+  margin: 0;
+  margin-top: -2px;
+  border-left: 1px solid #a6a6a6;
+  background: url(menubutton.gif) 100% 0% no-repeat;
+}
+
+dl.menubutton dt .toggle span{
+  margin-top: 2px;  
+  background: url(menubutton.gif) 100% 100% no-repeat;
+}
+
+dl.menubutton.active dt .toggle span span,
+dl.menubutton dt .toggle span span{
+  text-indent: -10000px;  
+  width: 12px;  
+  background: url(menubutton-arrow.gif) 50% 50% no-repeat;    
+}
+
+dl.menubutton.active,
+dl.menubutton.active dt,
+dl.panel dl.menubutton.active dt,
+dl.menubutton.active dt .toggle,
+dl.menubutton.active dt .toggle span{
+  background-image: url(menubutton-active.gif)
+}
+
+
+dd.menubuttonbody,
+dl.menubutton dd{
+  position: absolute;
+  display: none;
+  background: #fff;
+  border: 1px solid #a6a6a6;  
+}
+
+dl.menubutton.active dd{
+  display: block;
+}

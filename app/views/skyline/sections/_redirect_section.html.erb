@@ -1,0 +1,10 @@
+<table class="fields">
+  <tr>
+    <th><%= sectionable_form.t :linked %></th>
+    <td><%= link_browser(sectionable_form, :linked, {:skip_class => true}) %></td>
+  </tr>
+  <tr>
+    <th><%= sectionable_form.label_with_text :delay %></th>
+    <td><%= sectionable_form.text_field :delay, :class => "number" %> <%= t(:seconds, :scope => [:redirect_section, :form]) %></td>
+  </tr>
+</table>

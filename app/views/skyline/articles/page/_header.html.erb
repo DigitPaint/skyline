@@ -1,0 +1,72 @@
+<table class="fields">
+  <tbody>
+    <tr>
+      <th><%= vd.label_with_text :title %></th>
+      <td>
+        <%= vd.text_field :title, :class => "full" %>
+        <% if flash[:select_page_title] %>
+          <script type="text/javascript" charset="utf-8">
+            Application.LayoutSettings.focusElement = '<%= vd.dom_id(:title) %>';
+          </script>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= vd.label_with_text :url_part %></th>
+      <td>
+        <% if a.object.root? %>
+          /
+        <% else %>
+          <div class="fake-textfield" id="page_url_path">
+            <span><%= a.object.path %></span>
+            <%= vd.text_field :url_part %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= t(:options, :scope => [:article, :headers]) %></th>
+      <td>
+        <%= vd.label :in_navigation, vd.check_box(:in_navigation, :class => "checkbox") + " " + vd.t(:in_navigation) %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<% unless a.object.root? %>
+  <script type="text/javascript" charset="utf-8">
+    new Skyline.FieldReplicator("<%= vd.dom_id(:title) %>","<%= vd.dom_id(:url_part) %>",{translator: Application.normalizeUrlPart});
+  </script>
+<% end %>
+<dl class="advanced closed">
+  <dt><a href="#" id="toggle_page_advanced"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
+  <dd>
+    <table class="fields">
+      <tbody>
+        <% if Skyline::Configuration.enable_multiple_variants %>
+          <tr>
+            <th><%= v.label_with_text :name %></th>
+            <td><%= v.text_field :name %></td>
+          </tr>
+        <% end %>
+        <% if @renderable_scope.templates_for(a.object).size > 1 %>
+          <tr>
+            <th><%= v.label_with_text :template %></th>
+            <td><%= v.select :template, templates_for_select(a.object) %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <th><%= vd.label_with_text :navigation_title %></th>
+          <td><%= vd.text_field :navigation_title %></td>
+        </tr>
+        <tr>
+          <th><%= vd.label_with_text :custom_title_tag %></th>
+          <td><%= vd.text_field :custom_title_tag, :class => "full" %></td>
+        </tr>
+        <tr>
+          <th><%= vd.label_with_text :meta_description_tag %></th>
+          <td><%= vd.text_field :meta_description_tag, :class => "full" %></td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>

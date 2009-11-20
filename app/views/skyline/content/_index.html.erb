@@ -1,0 +1,28 @@
+<dt id="leftContentHeaderPanel" class="<%= local_assigns[:active] ? "active" : "" %>">
+   <%= link_to_remote t(:default_group, :scope => [:content]), :url => {:controller => "skyline/content", :action => "index"}, :method => :get, :html => {:class => "content"}  %>
+</dt>
+<dd id="leftContentContentPanel">
+  
+  <div class="panel" id="panelContent">
+    <% klasses = Skyline::Configuration.articles + Skyline::Configuration.content_classes %>
+    <% if klasses.any? %>
+  		<ul class="selectlist">
+  			<% klasses.each do |klass| %>
+  			  <% 
+  			    if klass.ancestors.include?(Skyline::Article)
+  			      link = skyline_articles_path(:type => klass)
+              active = klass.to_s.underscore == params[:type]
+  			    else
+  			      link = object_url(klass,:controller => "skyline/content", :action => "list") 
+  			      active = (klass == stack.first.class ? "active" : nil)
+			      end
+  			  %>
+  				<li>
+  					 <%= link_to klass.human_name(:count => 2), link, :class => (active ? "active" : nil) %>
+  				</li>
+  			<% end %>
+  		</ul>    
+    <% end %>
+  </div>
+  
+</dd>

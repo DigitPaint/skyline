@@ -1,0 +1,22 @@
+<% fields_for "article[variants_attributes][1][sections_attributes][#{guid}][sectionable_attributes]", sectionable do |s| %>
+  <table class="fields" id="section-<%=guid%>-tags">
+    <tbody>
+      <tr>
+        <th><%=s.label :raw_tags, Skyline::MediaFile.human_attribute_name("file_tags")%></th>
+        <td>
+          <dl class="tagselector">
+            <dt></dt>
+            <dd><%=s.text_area :raw_tags, :rows => nil %></dd>
+            <dt class="tags"><%=t(:available_tags, :scope => [:media_file, :edit])%></dt>
+            <dd class="tags">
+              <%= render :partial => "/skyline/tags/available_tags"%>
+            </dd>
+          </dl>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script type="text/javascript" charset="utf-8">    
+  	new Skyline.TagSelector("<%= s.dom_id :raw_tags %>","#section-<%=guid%>-tags .taglist li");
+  </script>  
+<% end %>

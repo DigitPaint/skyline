@@ -1,0 +1,14 @@
+<%- @options = {
+  "locale"  => I18n.locale.to_s.downcase
+} -%>
+<% @locale.each do |key,value| %>
+  tinyMCE.addI18n("<%= I18n.locale %>.<%= key %>",
+    <%= value.update(@options).to_json %>
+  );
+<% end %>
+
+I18n = {};
+I18n.LibraryUploader = {
+  allUploadedMessage : "<%=t(:all_uploaded_message, :scope => [:media_file, :new]) %>",
+  someUploadedMessage : "<%=t(:some_uploaded_message, :scope => [:media_file, :new]) %>"
+};

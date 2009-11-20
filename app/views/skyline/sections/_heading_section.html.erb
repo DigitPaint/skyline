@@ -1,0 +1,23 @@
+<div class="tools selectTemplate">
+  <%= template_select = renderable_templates_select(sectionable_form.object, section_form) %>
+</div>
+
+<div class="heading">
+  <%= sectionable_form.text_field :heading, :class => "heading" %>
+</div>
+
+<% if template_select %>
+  <script type="text/javascript" charset="utf-8">
+    var s = function(){
+      new Skyline.HoverSelect($('section_<%= guid %>').getElement(".selectTemplate").getElement("select"));
+    }();
+  </script>
+<% end %>
+  
+<% if controller.controller_name == "sections" && controller.action_name == "new" %>
+  <script type="text/javascript" charset="utf-8">
+    var s = function(){
+      $('<%= sectionable_form.dom_id :heading %>').focus();
+    }();
+  </script>
+<% end %>

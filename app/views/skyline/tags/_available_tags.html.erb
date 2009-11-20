@@ -1,0 +1,5 @@
+<ul class="taglist">
+  <% (local_assigns.has_key?(:tags) ? local_assigns[:tags] : @tags).each do |t|%>
+    <li><%=t.tag%></li>
+  <% end %>
+</ul>

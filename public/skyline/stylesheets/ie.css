@@ -1,0 +1,47 @@
+#mainnavigation,
+#mainnavigation ul,
+#mainnavigation li,
+#mainnavigation li a,
+#mainnavigation li span,
+ul.files,
+ul.files li,
+ul.files li div.file,
+.sections li,
+ul.toptabs,
+.tabs .chrome,
+.innerpanel .submit,
+.innerpanel .actions,
+.tree,
+.tree ul,
+.tree ul li,
+.menubutton li,
+.menubutton li a,
+.selectlist li,
+.selectlist li a{
+  zoom: 1;
+}
+
+input.full{
+  width: 99%;
+}
+
+.section .head,
+.section .body,
+#mceToolbarContainer,
+.content,
+.scrollable{
+  zoom: 1;
+}
+
+#newDir{
+  width: 84px;
+}
+
+.scrollable{
+  background: #fff;
+}
+
+/* Turn off hasLayout */
+.footerPanel .content{
+  zoom: 0;  
+}

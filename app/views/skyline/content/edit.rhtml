@@ -1,0 +1,13 @@
+<% content_for :header do %>
+  <%= @title = t :title, :scope => [:content, :edit], :class => stack.klass.singular_name.downcase, :title => stack.current.human_id %>
+<% end %>
+
+<div class="content editcontent">        
+  <% content_form :element, {:action => "edit", :multipart => true, :submit_value => "save"} do %>
+    <%= render :partial => "meta" %>
+  <% end %>    
+</div>
+
+<% content_for :footer do %>
+  <%= render :partial => "submit" %>
+<% end %>

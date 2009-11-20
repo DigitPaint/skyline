@@ -1,0 +1,69 @@
+<div class="browser">
+<h4>
+	<%= link_to_remote t(:close_window, :scope => [:content, :global]),{:url => {:action => "cancel"}},:class => "cancel" %>
+	<%= t(:add_a_to_b, :scope => [:content, :edit], :a => @target_klass.plural_name.capitalize, :b => @source_klass.singular_name) %>
+</h4>
+<% if @target_klass.filterable? %>
+<div class="filter bar" id="filter_<%= @target_klass.to_s.underscore %>">
+	<% fields = @target_klass.filterable_fields %>
+		<table>
+			<thead>
+				<tr>
+					<th><%= l(:content, :list, :filter) %></th>
+					<% fields.each do |field_name| %>
+					<% field = @target_klass.fields[field_name] %>
+						<td><label for="filter_<%= field.name %>"><%= field.singular_title %></label></td>
+					<% end %>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<% fields.each do |field_name| %>
+					<% field = @target_klass.fields[field_name] %>
+						<td>
+							<%= select_tag("filter[#{field.name}]", options_for_select([[l(:content,:list,:filter_none),nil]] + field.unique_values.map{|k| k.kind_of?(Array) ? [k.first,k.last.to_s] : k.to_s},@filter[field.name].to_s), :id => "filter_#{field.name}") %>
+						</td>
+					<% end %>				
+					<td><%= image_submit_to_remote "buttons/filter.gif",'filter_apply', l(:content, :list, :filter_apply), :url => {}, :with => "Form.serialize('filter_#{@target_klass.to_s.underscore}')" %></td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+<% end %>
+<% if @elements.respond_to?(:total_entries) && @elements.total_entries > @elements.per_page %>
+<div class="pagination bar">
+  <div><%= l :global,:pagination,:number_of, [@target_klass.plural_name] %> <strong><%= @elements.total_entries %></strong></div>
+   <div class="pages">
+   	<span><%= l :global, :pagination, :pages %></span> 
+		<%= will_paginate @elements, :renderer => RemoteLinkRenderer, :params => params %>
+   </div>
+</div>
+<% end %>
+<div class="objects">
+<table class="listing">
+	<% @elements.each do |obj| %>
+	<tr class="<%= cycle "odd","even" %>">
+		<th>
+			<%= h @title_field.value(obj) %>
+		</th>
+		<td class="right">
+			<%= link_to_remote t(:add_to, :scope => [:content, :editors, :joinable_list], :class => @source_klass.singular_name), {
+					:url => {:action => "new", :target_id => obj.id},
+					:with => "'add_multiple=' + $('element_skyline_#{params[:association]}_add_multiple').checked",
+					:loading => "toggle_spin('element_skyline_#{params[:association]}_add_#{obj.id}','#{t(:adding, :scope => [:content, :editors, :joinable_list], :class => @target_klass.singular_name.capitalize)}');",
+					:complete => "toggle_spin('element_skyline_#{params[:association]}_add_#{obj.id}')"
+					}, :class => "add", :id => "element_skyline_#{params[:association]}_add_#{obj.id}" %>			
+		</td>
+	</tr>
+	<% end %>
+</table>
+</div>
+<div class="bar bottom">
+	<%= link_to_remote t(:close_window, :scope => [:content, :global]),{:url => {:action => "cancel"}},:class => "cancel" %>	
+	<label for="<%= "element_skyline_#{params[:association]}_add_multiple" %>">
+		<%= check_box_tag :add_multiple, "1", params[:add_multiple], :id => "element_skyline_#{params[:association]}_add_multiple", :class => "checkbox" %> <%= t(:add_multiple, :scope => [:content, :edit]) %>
+	</label>
+</div>
+</div>

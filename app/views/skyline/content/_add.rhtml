@@ -1,0 +1,30 @@
+<% url_suffix = local_assigns.has_key?(:field) && {:sub => field.name} || {} %>	
+<% url_suffix.update(:return_to => return_to) if local_assigns.has_key?(:return_to) %>
+
+<div class="button">
+  <%= link_to button_image("medium/new.gif", :alt => :new), object_url(record,{:action => "create"}.update(url_suffix)), :class => "add"  %>
+</div>
+
+<% if klass.exportable? %>
+  <div class="button">
+    <%= link_to button_image("small/export.gif", :alt => :export), object_url(record,{:action => "export"}.update(url_suffix)) %>
+  </div>
+<% end %>
+
+<% if klass.importable? %>
+  <div class="button">
+    <%= link_to_remote button_image("small/import.gif", :alt => :import), :url => object_url(record,{:action => "import"}.update(url_suffix)), :method => :get %>
+  </div>
+<% end %>
+
+<dl class="advanced">
+  <dt><a href="#"><%= t(:info, :scope => [:content,:list]) %></a></dt>
+  <dd>
+    <dl class="details">
+      <dt><%= t(:number_of, :scope => [:content, :pagination], :class => stack.klass.plural_name) %></dt>
+      <dd>
+        <%= @elements.respond_to?(:total_entries) ? @elements.total_entries : @elements.size %>
+      </dd>
+    </dl>
+  </dd>
+</dl>

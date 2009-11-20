@@ -1,0 +1,15 @@
+<% if current_user.allow?(Skyline::PageFragment, :index) %>
+  <dt id="leftFragmentHeaderPanel" class="<%= local_assigns[:active] ? "active" : "" %>">
+  	<span class="content">
+  		<%= link_to_remote button_image("small/plus.gif", :alt => "plus"), :url => skyline_articles_path(:type => Skyline::PageFragment), :method => :post %>	  
+  		<%= Skyline::PageFragment.human_name(:count => 2) %>
+  	</span>
+  </dt>
+  <dd  id="leftFragmentContentPanel" class="scrollable">
+    <ul class="selectlist">
+      <% Skyline::PageFragment.ordered_by_title.all.each do |pf| %>
+        <li><%= link_to pf.default_variant_data.title, edit_skyline_article_path(pf), :class => (pf == @article ? "active" : nil) %></li>
+      <% end %>
+    </ul>
+  </dd>
+<% end %>

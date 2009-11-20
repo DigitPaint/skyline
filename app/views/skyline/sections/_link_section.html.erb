@@ -1,0 +1,30 @@
+<div class="body">
+  <table class="fields">
+    <tr>
+      <th><%= sectionable_form.label_with_text :title %></th>
+      <td><%= sectionable_form.text_field :title, :class => "full" %></td>
+    </tr>
+  </table>
+</div>
+<dl class="body">
+  <dt><%= sectionable_form.t :links %></dt>
+  <dd>
+    <ul id="section-<%= guid %>-links" class="links files">
+      <% sectionable_form.object.links.each do |link| %>
+        <%= render :partial => "/skyline/link_section_links/form", :locals => {:sectionable_form => sectionable_form, :link => link, :guid => guid, :link_guid => Guid.new} %>  
+      <% end %>
+    </ul>
+  </dd>
+</dl>
+<script type="text/javascript" charset="utf-8">
+  var linkSectionLinksSortable<%= guid.to_s.gsub("-","") %> = new Skyline.Sortable("section-<%= guid %>-links",{
+    handle: "span.dragLink", 
+    clone: true, 
+    revert: true,
+    offsetParent : $('contentEditPanel')
+  });
+</script>
+
+<div class="submit body">
+  <%= link_to_remote(button_image("small/add_link.gif", :alt => :add_link), :url => new_skyline_link_section_link_path(:object_name => sectionable_form.object_name_with_index, :guid => guid), :method => :get) %>
+</div>

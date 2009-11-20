@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="/skyline/stylesheets/undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+
+  <script src="/skyline/javascripts/mootools-1.2.1-core.js?1226918758" type="text/javascript"></script>
+  <script src="/skyline/javascripts/mootools-1.2-more.js?1226936961" type="text/javascript"></script>	
+  <script src="/skyline/javascripts/application.js?1227027252" type="text/javascript"></script>
+  <script src="/skyline/javascripts/draggable_files.js?1227027252" type="text/javascript"></script>
+  
+  <style type="text/css" media="screen">
+    #topPanel{
+      overflow: auto;
+      background: #ccc;
+    }
+  
+    .splitter{
+      width: 5px;
+      height: 5px;      
+      background: #000;
+      z-index: 100;
+      overflow: hidden;
+      padding: 0;
+      font-size: 1px;
+    }
+    
+    .tree{
+      background: #fcc;
+    }
+
+    .tree:after,
+    .tree ul:after,
+    .tree ul li:after{
+    	content: ".";
+    	visibility:  hidden;
+    	clear: both;
+    	display: block;
+    	height: 0px;      
+    }
+
+    .tree ul.empty{
+      display:none;
+    }
+    
+    .tree ul{
+      zoom: 1;
+      background: url(tree_vert_line.png) 0 0 repeat-y;
+      position: relative;
+    	clear:both;
+    }
+        
+    .tree ul li{
+      zoom: 1;      
+      display: inline;
+      float: left;
+    	clear:both;      
+    	white-space:nowrap;    	
+      padding-left: 16px;
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      background-image: url(li.gif);
+    }
+    
+    .tree ul li a{      
+    	display:inline;
+    	white-space:nowrap;    	    	
+    	float:left;      
+      padding: 1px 3px 1px 22px;
+      background: url(icon.gif) 3px 1px no-repeat;
+    }
+    
+    
+    .tree ul li a:hover{
+      background-color:#E7F4F9;
+      border:1px solid #D8F0FA;
+      background-position: 2px 0px;
+      padding: 0px 2px 0px 21px;
+    }    
+    .tree ul li a.selected{
+      background-color: #BEEBFF;
+      border:1px solid #99DEFD;
+      background-position: 2px 0px;
+      padding: 0px 2px 0px 21px;
+      
+    }    
+
+    .tree ul li.last{
+      background-image: url(last.gif);
+      background-color: #fff;
+    }
+
+    .tree ul li.open{
+      display: block;
+    }
+
+    .tree ul li.open,
+    .tree ul li.hasChildren {
+      background-image: url(middle-open.gif);
+    }
+
+    .tree ul li.closed {
+      background-image: url(middle-closed.gif);      
+    }
+    
+    .tree li.closed ul{
+      display: none;
+    }
+    
+    .treemarker{
+      background: #000;
+      height: 3px;
+      width: 200px;
+      font-size: 1px;
+    }
+    .treemarker.inside{
+      background: #f00;
+    }
+  </style>
+<body>
+  
+  <div id="windowContainer">
+    <div id="topPanel">
+      <div id="tree1" class="tree" style="width: auto">
+        <ul>
+          <li>
+            <a href="#">Root</a>
+            <ul>
+              <li><a href="#" id='1'>Page 1</a></li>
+              <li>
+                <a href="#" id='2'>Page 2</a>
+                <ul>
+                  <li><a href="#" id='3'>Subpage 2.1</a></li>
+                  <li><a href="#" id='4'>Subpage 2.2</a></li>                
+                </ul>
+              </li>
+              <li><a href="#" id='5'>Page 3</a></li>
+              <li>
+                <a href="#" id='6'>Page 4</a>
+                <ul>
+                  <li><a href="#" id='7'>Subpage 4.1</a></li>
+                  <li><a href="#" id='8'>Subpage 4.2</a></li>                
+                </ul>
+              </li>
+              <li>
+                <a href="#" id='9'>Page 5</a>
+                <ul>
+                  <li><a href="#" id='10'>Subpage 5.1</a></li>
+                  <li><a href="#" id='11'>Subpage 5.2</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#" id='12'>Page 6</a>
+                <ul>
+                  <li><a href="#" id='13'>Subpage 5.1</a></li>
+                  <li><a href="#" id='14'>Subpage 5.2</a></li>
+                </ul>
+              </li>              
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="middlePanel" style="background: #eee">
+      <ul id="theList">
+        <li><a href="#" id='1'>File 1</a></li>
+        <li><a href="#" id='2'>File 2</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    var tree = new Skyline.Tree("tree1");
+    //tree.collapse(1);
+    
+    var w = new Skyline.Layout("windowContainer", {orientation: "horizontal"});
+    
+    // Left
+    w.addPanel("topPanel", {size: "fixed"});
+    w.addSplitter("after");
+    
+    // Middle
+    var rp = w.addPanel("middlePanel", {size: "auto"});
+    var fileList = new Skyline.DraggableFileList('#theList li', 'tree1');
+    fileList.addEvent("dropped",function(event){
+        event.stop(); 
+        console.log(fileList.params);
+        return false;
+    });    
+  </script>

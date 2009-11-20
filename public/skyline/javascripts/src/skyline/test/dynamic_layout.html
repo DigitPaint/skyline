@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="/skyline/stylesheets/undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+	
+  <script src="/skyline/javascripts/mootools-1.2.1-core.js?1226918758" type="text/javascript"></script>
+  <script src="/skyline/javascripts/mootools-1.2-more.js?1226936961" type="text/javascript"></script>	
+  <script src="/skyline/javascripts/application.js?1227027252" type="text/javascript"></script>
+<body>
+  
+  <!-- <div id="windowContainer">
+    <div id="topPanel" style="background: #faa">
+      leftPanel
+    </div>
+    <div id="middlePanel" style="background: #eee">
+      <div id="innerRightResizable" style="background: #afa">
+        innerRightResizable
+      </div>
+      <div id="innerRightFixed" style="background: #aaf">
+        innerRightFixed
+      </div>      
+    </div>
+    <div id="bottomPanel" style="background: #ffa">
+      rightPanel
+    </div>
+    <div id="infoPanel" style="background: #faf">
+      infoPanel
+    </div>    
+  </div> -->
+  
+  <div id="windowContainer">
+    <div id="leftPanel" style="background: #faa">
+      <a href="#" id="loadRightPanel">Load right</a>
+    </div>
+    <div id="rightPanel" style="background: #eee">
+      <div id="headerPanel" style="color: #fff; background: #000">
+        This is my head!
+      </div>
+      <div id="bodyPanel">
+        This should be replaced 
+      </div>
+    </div>
+  </div>
+  <style type="text/css" media="screen">
+    .splitter{
+      width: 5px;
+      height: 5px;      
+      background: #000;
+      z-index: 100;
+      overflow: hidden;
+      padding: 0;
+      font-size: 1px;
+    }
+  </style>
+  <script type="text/javascript" charset="utf-8">
+    $('loadRightPanel').addEvent("click",function(ev){
+      new Request.HTML({
+        update: $('bodyPanel'),
+        evalScripts:true,
+        url:'_dynamic_right.html'
+      }).get();
+      return false;      
+    });
+  
+    var w = new Skyline.Layout("windowContainer", {orientation: "horizontal"});
+    
+    // Left
+    w.addPanel("leftPanel", {size: "fixed"});
+    w.addSplitter("after");
+    
+    var rp = w.addPanel("rightPanel", {size: "auto", orientation: "vertical"})
+    
+    rp.addPanel("headerPanel", {size: "fixed"});
+    rp.addPanel("bodyPanel", {size: "auto", orientation: "horizontal"});
+    
+    
+    w.resize();
+  
+  </script>
+
+</body>
+</html>

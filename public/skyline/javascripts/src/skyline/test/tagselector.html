@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+	
+	<script src="../vendor/mootools/mootools-1.2.1-core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../vendor/mootools/mootools-1.2-more.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/tag_selector.js" type="text/javascript" charset="utf-8"></script>
+  <style>
+  div.test {
+    clear: both;
+    padding: 10px;
+  }
+  li {
+    float: left;
+    color: black;
+    background: none;    
+    padding: 5px;
+  }
+  .selected {
+    background: #036;
+    color: white;
+  }
+  </style>
+<body>
+  <div class="test">
+    <h1>Test 1</h1>    
+    <input id="textTags" type="text" />
+    <ul id="tagList">      
+      <li>tag_1</li>          
+      <li>tag_2</li>          
+      <li>tag_3</li>
+      <li>tag_4<li>
+    </ul>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    new Skyline.TagSelector('textTags', '#tagList li');        
+  </script>
+  
+  
+  <div class="test">
+    <h1>Test with one tag</h1>
+    <textarea id="aT1">tag</textarea>
+    <ul id="lT1">
+      <li>tag</li>
+    </ul>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    new Skyline.TagSelector('aT1', '#lT1 li');        
+  </script>
+  
+  <div class="test">
+    <h1>Test with upper and lowerase tag</h1>
+    <textarea id="aT2">tagX</textarea>
+    <ul id="lT2">
+      <li>tagX</li>
+    </ul>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    new Skyline.TagSelector('aT2', '#lT2 li');        
+  </script>  
+  
+</body>
+</html>

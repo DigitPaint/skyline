@@ -1,0 +1,23 @@
+<table class="fields">
+  <tbody>
+    <tr>
+      <th><%= vd.label_with_text :title %></th>
+      <td><%= vd.text_field :title, :class => "full" %></td>
+    </tr>
+  </tbody>
+</table>
+
+<dl class="advanced closed">
+  <dt><a href="#" id="toggle_page_advanced"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
+  <dd>
+    <table class="fields">
+      <tbody>
+        <tr>
+          <th><%= v.label_with_text :name %></th>
+          <td><%= v.text_field :name %></td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+

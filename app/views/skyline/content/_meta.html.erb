@@ -1,0 +1,45 @@
+<% if @element.class.publishable? %>
+  <div class="section">
+    <div class="head"><%= t(:publish, :scope => [:content, :edit]) %></div>
+    <div class="body">
+      <% publish_field = Skyline::Content::MetaData::Field.new(:name => 'published', :owner => @element.class) %>
+      <label for="element_published">
+        <%= boolean_field('element[published]',@element, publish_field, :class => "checkbox",:id => "element_published") %>
+        <%= t(:published, :scope => [:content, :edit]) %>
+      </label>
+    </div>
+  </div>
+<% end %>
+
+<% if @element.class.taggable? %>
+  <div class="section">
+    <div class="head"><%= t(:meta_information, :scope => [:content, :edit]) %></div>
+    <div class="body">        
+      <% tags = @element.available_tags.collect{|tag| content_tag("li", tag.tag)}.join %>
+      <% raw_tags_field = Skyline::Content::MetaData::Field.new(:name => 'raw_tags', :owner => @element.class) %>
+      
+      <dl class="tagselector">
+        <dt><label for="element_raw_tags"><%= t(:tags, :scope => [:content, :edit]) %>:</label></dt>
+        <dd><%= text_area_tag("element[raw_tags]", raw_tags_field.value(@element), :id => "element_raw_tags", :class => "full") %></dd>
+        <dt class="tags">
+          <%=t(:available_tags, :scope => [:content, :edit])%>
+          <span class="info"><%= t(:available_tags_info, :scope => [:content, :edit]) %></span>
+        </dt>
+        <dd class="tags">
+          <% if tags.any? %>
+            <ul id="taglist">
+              <%= tags %>
+            </ul>
+          <% else %>
+            <%= t(:no_tags_available, :scope => [:content,:edit]) %>
+          <% end %>
+        </dd>
+      </dl>
+      <% if tags.any? %>
+        <script type="text/javascript" charset="utf-8">    
+    	    new Skyline.TagSelector("element_raw_tags","#taglist li");
+        </script>
+      <% end %>
+    </div>
+  </div>
+<% end %>

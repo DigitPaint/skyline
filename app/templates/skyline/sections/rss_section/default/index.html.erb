@@ -1,0 +1,11 @@
+<% if rss_section.items.any? %>
+  <h2><%=rss_section.title%></h2>
+  <ul>
+    <% rss_section.items.each do |i| %>
+      <li>
+        <%=link_to i[:title], i[:link], :target => "_blank"%>
+        <%=i[:description]%>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,24 @@
+<div id="innerLeft" style="background: #afa">
+  <a href="#" id="loadRightPanel">Load right content</a>
+</div>
+<div id="innerRight" style="background: #aaf">
+  
+</div>
+ <script type="text/javascript" charset="utf-8">
+    $('loadRightPanel').addEvent("click",function(ev){
+      new Request.HTML({
+        update: $('innerRight'),
+        evalScripts:true,
+        url:'_right_content.html'
+      }).get();
+      return false;      
+    });
+
+  var layout = $('innerLeft').getParent().retrieve("skyline.layout");
+
+  layout.addPanel("innerLeft", {size: "auto"});
+  layout.addSplitter("before")
+  layout.addPanel("innerRight", {size: "fixed"});  
+  
+  layout.reinitialize();
+</script>

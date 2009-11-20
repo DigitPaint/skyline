@@ -1,0 +1,66 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<%= render :partial => "skyline/shared/head" %>	
+</head>
+<body>
+  <div id="loading">
+    <%= t(:loading) %>
+  </div>
+  <div id="application" style="visibility: hidden">
+    <%= render :partial => "skyline/shared/header_area" %>
+    <div id="contentArea">
+			<dl id="leftPanel" class="panel">
+			  <%= render :partial => "skyline/content/index", :locals => {:active => true} %>
+	  	</dl>
+      <dl id="contentPanel" class="panel">
+        <dt id="contentHeaderPanel">
+          <span class="content">
+            <%= yield :header %> ??
+          </span>
+        </dt>
+        <dd id="contentBodyPanel">
+          <div id="contentInfoPanel">  
+            <div class="innerpanel">
+              <div class="body">
+                <%= content_breadcrumb(@stack) %>
+              </div>
+              <div class="actions">
+                <div id="mceToolbarContainer" class="tinymce"></div>
+              </div>
+            </div>
+          </div>
+          <div id="contentEditPanel" class="panel scrollable">        
+            <%= yield %>
+          </div>
+        </dd>
+        <% if footer = yield(:footer) %>
+          <dd id="contentFooterPanel" class="footer">
+          	<div class="content">
+              <%= footer %>
+            </div>
+          </dd>
+        <% end %>        
+      </dl>		       
+      <% if meta = yield(:meta) %>
+        <dl id="metaPanel" class="panel">
+          <dt id="metaHeaderPanel"><span class="content"><%=t(:actions, :scope => [:content, :headers])%></span></dt>
+          <dd id="metaBodyPanel" class="scrollable meta">
+            <div class="content">
+              <%= meta  %>
+            </div>
+          </dd>
+        </dl>
+      <% end %>
+    </div>    
+  </div>
+  <%= render_messages %>
+  <%= render_notifications %>  
+  <script type="text/javascript" charset="utf-8">
+    new Application.Layout.Content();
+  </script>
+  
+</body>
+</html>

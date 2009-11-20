@@ -1,0 +1,41 @@
+<% form_tag( {},:method => :get, :id => "filter") do %>
+<% fields = stack.klass.filterable_fields %>
+	<table>
+		<thead>
+			<tr>
+				<th><%= t(:filter, :scope => [:content, :list]) %></th>
+				<% fields.each do |field_name| %>
+				<% field = stack.klass.fields[field_name] %>
+					<td><label for="filter_<%= field.name %>"><%= field.singular_title %></label></td>
+				<% end %>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<% fields.each do |field_name| %>
+				<% field = stack.klass.fields[field_name] %>
+					<td>
+						<%= select_tag("filter[#{field.name}]", options_for_select([[t(:filter_none, :scope => [:content,:list]),nil]] + field.unique_values.map{|k| k.kind_of?(Array) ? [k.first,k.last.to_s] : k.to_s},params[:filter] && params[:filter][field.name]), :id => "filter_#{field.name}") %>
+					</td>
+				<% end %>				
+				<td><%= image_submit_tag "buttons/filter.gif", :value => t(:filter_apply, :scope => [:content, :list]), :class => "button" %></td>				
+			</tr>
+		</tbody>
+	</table>
+<% end %>
+
+<% if false %>
+	<h3><%= l(:content, :list, :filter) %></h3>
+	<ul>
+	<% stack.klass.filterable_fields.each do |field_name| %>
+		<% field = stack.klass.fields[field_name] %>
+		<li>
+			<label for="filter_<%= field.name %>"><%= field.singular_title %></label>
+			<%= select_tag("filter[#{field.name}]", options_for_select([[t(:filter_none, :scope => [:content,:list]),nil]] + field.unique_values.map{|k| k.kind_of?(Array) ? [k.first,k.last.to_s] : k.to_s},params[:filter] && params[:filter][field.name]), :id => "filter_#{field.name}") %>
+		</li>
+	<% end %>
+	</ul>
+	<%= submit_tag l(:content, :list, :filter_apply) %>
+<% end %>

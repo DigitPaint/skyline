@@ -1,0 +1,35 @@
+<% form_tag "", :class => "unsubmittable" do %>
+  <div class="topPanel">
+    <dl class="selectionPanel panel">
+      <dt><span class="content"><%= t(:publications, :scope => [:publication,:index]) %></span></dt>
+      <dd class="scrollable">
+    		<ul class="selectlist">
+    			<% @article.publications.each do |publication| %>
+      	  	<li>
+      	  	  <a href="<%= skyline_article_article_version_url(@article, publication) %>" class="publication_<%= publication.id %>">
+      	  	    <strong><%=l(publication.created_at, :format => :short)%></strong>
+          	  	<%=publication.data.navigation_title%> (variant: <%=publication.name%>)          	  	 
+          	  </a>
+      	  	</li>
+        	<% end %>
+        </ul>
+      </dd>
+    </dl>
+    <dl class="previewPanel panel">
+      <dt><span class="content"><%= t(:preview, :scope => [:publication,:index]) %></span></dt>
+      <dd>
+        <iframe class="previewFrame preview" src="#" frameborder="0"></iframe>    
+      </dd>
+    </dl>
+  </div>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.close()", :class => "cancel"  %>
+        <% if @article.editable_by?(current_user) %>
+          <%= submit_button "small/rollback-disabled.gif", :value => :rollback %>
+        <% end %>
+      </div>
+    </div>    
+  </div>
+<% end %>

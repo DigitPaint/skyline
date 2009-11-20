@@ -1,0 +1,27 @@
+<table class="fields">
+  <tr>
+    <th><%= sectionable_form.label_with_text :content_item_type %></th>
+    <td><%= sectionable_form.select :content_item_type, [["",""]] + Skyline::Sections::ContentItemSection.selectable_content_models.collect{|klass| [klass.human_name, klass.to_s]} %></td>
+  </tr>
+  <tr>
+    <th><%= sectionable_form.label_with_text :content_item_id %></th>
+    <td id="section-<%= guid %>-content-item-id">
+      <% if sectionable_form.object.content_item_type.present? %>
+        <% @content_item_class = sectionable_form.object.content_item_type.constantize %>
+        <%= render :partial => "/skyline/content_items/content_item", :locals => {:guid => guid, :sectionable => sectionable_form.object} %>  
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+  $('<%= sectionable_form.dom_id :content_item_type %>').addEvent('change', function(){
+    new Request({
+      data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>') + "&content_item_type="+this.value, 
+      evalScripts:true, 
+      url:'<%= new_skyline_content_item_path(:guid => guid) %>', 
+      method:'get'
+    }).send(); 
+    return false;
+  });
+</script>

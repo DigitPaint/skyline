@@ -1,0 +1,5 @@
+<% if pf = page_fragment_section.page_fragment %>
+  <% if pf.sites.include?(site) && pf.published_publication %>
+    <%= render_collection(pf.published_publication.sections) %>
+  <% end %>
+<% end %>

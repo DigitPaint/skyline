@@ -1,0 +1,5 @@
+*.gem
+*.iml
+*.iws
+*.ipr
+doc/site/*.*

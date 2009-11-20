@@ -1,0 +1,28 @@
+<% linked_object = link.linked || link.build_linked %>
+
+<li id="link_section_<%= link_guid %>" class="<%= ref_object_css_class(linked_object.andand.referable) %>">
+  <div class="file">
+    <% sectionable_form.fields_for "links_attributes", link, :index => link_guid do |l| %>
+      <%= l.hidden_field :id unless link.new_record? %>
+      <%= l.hidden_field :_delete, :class => "delete" %>
+      <%= l.positioning_field %>
+    
+      <div class="undestroy">
+        <%= link_to_function button_image("small/undo.gif", :alt => :undo), "PageHelper.unDestroy('link_section_#{link_guid}')", :class => "undo" %>
+        <%= t(:will_be_destroyed, :link => link.title, :scope => [:link_section, :form]) %>        
+      </div>
+  
+      <div class="link">
+        <%= l.text_field :title, :class => "link_title full" %>
+        <%= link_browser(l, :linked, {:object => linked_object, :container => "link_section_#{link_guid}"}) %>
+      </div>
+    
+      <ul class="tools">
+        <li><span class="drag dragLink">&nbsp;</span></li>
+        <li><%= link_to_function(image_tag("/skyline/images/buttons/section-delete.gif", :alt => t(:delete, :scope => [:section, :form])), "PageHelper.destroy('link_section_#{link_guid}')", :class => "delete") %></li>
+      </ul>
+    <% end %>
+  </div>
+</li>
+
+<%= javascript_tag "PageHelper.destroy('link_section_#{link_guid}');" if link.marked_for_destruction? %>

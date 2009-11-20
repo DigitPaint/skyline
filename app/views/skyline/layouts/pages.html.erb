@@ -1,0 +1,59 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<%= render :partial => "skyline/shared/head" %>
+</head>
+<body>
+  <div id="loading">
+    <%= t(:loading) %>
+  </div>
+  <div id="application" style="visibility: hidden">
+    <%= render :partial => "skyline/shared/header_area" %>
+    <div id="contentArea">
+			<dl id="leftPanel" class="panel">
+			  <%= render :partial => "skyline/articles/page/index", :locals => {:active => (@article.andand.kind_of?(Skyline::Page) || params[:type] == "skyline/page")} %>
+			  <%= render :partial => "skyline/articles/page_fragment/index", :locals => {:active => (@article.andand.kind_of?(Skyline::PageFragment) || params[:type] == "skyline/page_fragment")} %>			  			  
+	  	</dl>
+
+      <%= yield %>
+    </div>    
+  </div>
+  <%= render_messages %>
+  <%= render_notifications %>  
+  
+  <script type="text/javascript" charset="utf-8">
+  	new Application.Layout.Content();  
+  	
+  	window.addEvent("domready", function(){
+  	  var tree = new Skyline.Tree("pagetree",{
+  	    offsetParent: $('pagetree').getOffsetParent(),  	    
+        draggable: true,
+        orderable: true,
+        dragMarker: true,
+        fixedRootNodes: true
+      });	  
+	  
+      /*Add move listener to send ajax request when a node is dropped*/
+      tree.addEvent("move", function(branchEl,newParentEl,newPosition){
+        if (!newParentEl){ return false; }
+        var newPageId = Application.getId(newParentEl.get('id'));
+        var id = Application.getId(branchEl.get('id'));
+        var aboveId = null;
+        if (newPosition > 0) {
+          aboveId = Application.getId(branchEl.getParent().getChildren()[newPosition-1].get('id'));
+        }
+        new Request({ 
+          evalScripts:true, 
+          url: '<%= skyline_article_path(1234, :type => Skyline::Page) %>'.replace("1234", id),
+          data: 'authenticity_token='+encodeURIComponent('<%=form_authenticity_token%>')+'&article[parent_id]=' + newPageId + '&article[move_behind]=' + aboveId,
+          method: 'put'
+        }).send();
+        return false;
+      });
+    });
+  </script>
+  
+</body>
+</html>

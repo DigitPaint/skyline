@@ -1,0 +1,26 @@
+<div class="dialog">
+  <div class="tabPanel">
+    <div class="tabs">
+      <div class="chrome">
+        <ul class="toptabs">
+          <% ["Skyline::MediaFile"].each do |tab| %>
+            <li class="<%= "active" if @active_tab == tab %>"><a href="#"><%= t(tab, :scope => [:browser,:tabs]) %></a></li>          
+          <% end %>          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <%= render :partial => "skyline/browser/tabs/media_library/index" %>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.cancel()", :class => "cancel" %>
+        <%= link_to_function button_image("small/ok.gif", :alt => :ok), "Skyline.Dialog.current.select()" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  Skyline.Dialog.current.setTitle("<%= t(:dialog_title, :scope => [:browser,:file]) %>");
+</script>

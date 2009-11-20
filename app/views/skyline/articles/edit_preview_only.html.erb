@@ -1,0 +1,16 @@
+<dl id="contentPanel" class="panel">    
+  <dt id="contentHeaderPanel">    
+    <span class="content"><%= @article.class.human_name %>: <%= @variant.data.title %></span>
+  </dt>
+  <dd id="contentPreviewPanel">
+    <iframe id="contentPreview" src="<%= @article.previewable? ? skyline_article_article_version_url(@article, @variant) : "" %>" <%= @article.previewable? ? "data-url-\"#{skyline_article_article_version_url(@article, @variant)}\"" : '' %>class="preview" frameborder="0"></iframe>
+  </dd>
+</dl>
+<dl id="metaPanel" class="panel">
+  <dt id="metaHeaderPanel"><span class="content"><%= t(:actions, :scope => [:article, :headers]) %></span></dt>
+  <dd id="metaBodyPanel" class="scrollable meta">
+    <div class="content">
+      <%= render :partial => "meta" %>
+    </div>    
+  </dd>
+</dl>

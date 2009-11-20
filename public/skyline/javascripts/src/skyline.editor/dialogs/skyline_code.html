@@ -1,0 +1,19 @@
+<div class="dialog">
+  <div class="contentPanel">
+    <textarea class="sourceEditor" style="border: none; padding: 0; margin: 0"></textarea>
+  </div>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <a href="#" onclick="Skyline.Dialog.current.cancel(); return false" class="cancel">{#skyline_code.btn_cancel}</a>
+        <a href="#" onclick="Skyline.Dialog.current.ok(); return false">
+          <img src="/skyline/images/buttons/{#skyline.locale}/small/ok.gif" class="button" alt="{#skyline_code.btn_ok}"/>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  Skyline.Dialog.current.setTitle("{#skyline_code.dialog_title}");
+</script>

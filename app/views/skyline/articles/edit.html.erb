@@ -1,0 +1,111 @@
+<% form_for :article, @article, :url => skyline_article_path(@article), :html => {:method => :put, :id => "page_form"} do |a| %>
+  <dl id="contentPanel" class="panel">    
+    <% a.fields_for :variants_attributes, @variant, :index => 1 do |v| %>
+      <% v.fields_for :data_attributes, v.object.data do |vd| %>
+        <dt id="contentHeaderPanel">    
+          <%= hidden_field_tag :clone_variant, "0" %>
+          <%= v.hidden_field :id %>
+          <%= v.hidden_field :version %>
+          <%= vd.hidden_field :id %>
+          <%= vd.hidden_field :class, :value => a.object.data_class.name if vd.object.new_record? %>
+          <span class="content">
+            <%= a.object.class.human_name %>: <%= vd.object.title %>
+          </span>
+        </dt>
+      
+        <dd id="contentBodyPanel">
+          <div id="contentInfoPanel">
+            <div class="innerpanel">
+              <% begin %>
+                <% content = capture do  %>
+                  <div class="body">
+                    <%= render :partial => "skyline/articles/#{a.object.class.name.demodulize.underscore}/header", :locals => {:a => a, :v => v, :vd => vd} %>
+                  </div>                  
+                <% end %>
+              <% rescue ActionView::MissingTemplate %>
+                <% content = "" %>
+              <% end %>
+              <%= content %>
+              <div class="actions">
+                <% menu_button t(:add_section, :scope => [:article, :edit]), :id => "add_section_button" do %>
+                  <ul>
+                    <% Skyline::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
+                      <li><%= link_to_remote(section.human_name, :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), :method => :get) %></li>
+                    <% end %>
+                  </ul>              
+                <% end %>
+                <div id="mceToolbarContainer" class="tinymce"></div>
+              </div>
+            </div>
+          </div>
+          <div id="contentEditPanel" class="panel scrollable">
+            <% begin %>
+              <% content = capture do  %>
+                <div class="content" style="padding: 40px 40px 0 40px">
+                  <%= render :partial => "skyline/articles/#{a.object.class.name.demodulize.underscore}/data", :locals => {:a => a, :v => v, :vd => vd} %>
+                </div>
+              <% end %>
+            <% rescue ActionView::MissingTemplate %>
+              <% content = "" %>
+            <% end %>
+            <%= content %>
+            <ul class="content sections" id="contentlist">              
+              <% v.object.sections.each do |section| %>
+                <%= render :partial => "skyline/sections/form", :locals => {:variant_form => v, :section => section, :guid => Guid.new} %>
+              <% end %>
+            </ul>
+          </div>
+        </dd>
+      
+        <% if a.object.previewable? %>
+          <dd id="contentPreviewPanel">
+            <iframe id="contentPreview" src="#" class="preview" frameborder="0" data-url="<%= skyline_article_article_version_url(@article, @variant) %>"></iframe>
+          </dd>
+        <% end %>
+      
+        <dd id="contentFooterPanel" class="footer">
+          <div class="content">
+            <ul class="bottomtabs tabs">
+              <li>
+                <a class="active" href="#" rel="contentBodyPanel" id="editorTabLink"><%= t(:editor, :scope => [:article, :tabs]) %></a>
+              </li>
+              <% if a.object.previewable? %>
+                <li>
+                  <a href="#" rel="contentPreviewPanel" id="previewTabLink"><%= t(:preview, :scope => [:article, :tabs]) %></a>
+                </li>
+              <% end %>
+            </ul>
+            <div class="submit">
+              <%= submit_button "medium/save.gif", :value => :save %>
+            </div>
+          </div>
+        </dd>
+      <% end %>
+    <% end %>
+  </dl>
+<% end %>
+
+<dl id="metaPanel" class="panel">
+  <dt id="metaHeaderPanel"><span class="content"><%= t(:actions, :scope => [:article, :headers]) %></span></dt>
+  <dd id="metaBodyPanel" class="scrollable meta">
+    <div class="content">
+      <%= render :partial => "meta" %>
+
+      <% begin %>
+        <% content = capture do  %>
+          <%= render :partial => "skyline/articles/#{@article.class.name.demodulize.underscore}/meta" %>
+        <% end %>
+      <% rescue ActionView::MissingTemplate %>
+        <% content = "" %>
+      <% end %>
+      <%= content %>      
+    </div>
+  </dd>
+</dl>
+
+<script type="text/javascript" charset="utf-8">
+  
+  <% if Skyline::Configuration.enable_enforce_only_one_user_editing %>
+    new Application.Poller("/skyline/variants/<%= @variant.id %>/current_editor");
+  <% end %>
+</script>

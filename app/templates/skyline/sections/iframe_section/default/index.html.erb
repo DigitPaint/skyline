@@ -1,0 +1,1 @@
+<%=content_tag("iframe", content_tag("p", "Your browser does not support iframes. Please visit #{link_to(iframe_section.url, iframe_section.url, :target => '_blank')} to view the contents of the iframe."), :src => iframe_section.url, :width => iframe_section.width, :height => iframe_section.height)%>

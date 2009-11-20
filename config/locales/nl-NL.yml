@@ -1,0 +1,919 @@
+"nl-NL":
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      long: "%e %B %Y"
+      short: "%e %B"
+      short_with_day_of_week: "%a %e %b"
+  
+    day_names: [zondag, maandag, dinsdag, woensdag, donderdag, vrijdag, zaterdag]
+    abbr_day_names: [zo, ma, di, wo, do, vr, za]
+    month_names: [~, januari, februari, maart, april, mei, juni, juli, augustus, september, oktober, november, december]
+    abbr_month_names: [~, jan, feb, mrt, apr, mei, jun, jul, aug, sep, okt, nov, dec]
+    order: [:day, :month, :year]
+    days: 
+      sunday: zondag
+      monday: maandag
+      tuesday: dinsdag
+      wednesday: woensdag
+      thursday: donderdag
+      friday: vrijdag
+      saturday: zaterdag
+  
+  time:
+    formats:
+      default: "%a %b %d %H:%M:%S %Z %Y"
+      short: "%d %b %H:%M"
+      long: "%d %B %Y %H:%M"
+      time: "%H:%M"
+  
+    am: "'s ochtends"
+    pm: "'s middags"    
+  
+  # Used in array.to_sentence.
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " en "
+      last_word_connector: " en "
+      or:
+        two_words_connector: " of "
+        last_word_connector: " of "
+  
+  number:
+    format:
+      precision: 2
+      separator: ","
+      delimiter: .
+    currency:
+      format:
+        unit: 
+        precision: 2
+        format: '%u %n'
+  
+    # Used in number_to_percentage()
+    percentage:
+      format:
+        # These three are to override number.format and are optional
+        # separator: 
+        delimiter: ""
+        # precision: 
+        
+    # Used in number_to_precision()
+    precision:
+      format:
+        # These three are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+        
+    # Used in number_to_human_size()
+    human:
+      format:
+        # These three are to override number.format and are optional
+        # separator: 
+        delimiter: ""
+        precision: 1
+      storage_units:
+        # Storage units output formatting.
+        # %u is the storage unit, %n is the number (default: 2 MB)
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+  
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  datetime:
+    distance_in_words:
+      half_a_minute: "een halve minuut"
+      less_than_x_seconds:
+        one:   "minder dan een seconde"
+        other: "minder dan {{count}} seconden"
+      x_seconds:
+        one:   "een seconde"
+        other: "{{count}} seconden"
+      less_than_x_minutes:
+        one:   "minder dan een minuut"
+        other: "minder dan {{count}} minuten"
+      x_minutes:
+        one:   "een minuut"
+        other: "{{count}} minuten"
+      about_x_hours:
+        one:   "ongeveer een uur"
+        other: "ongeveer {{count}} uur"
+      x_days:
+        one:   "een dag"
+        other: "{{count}} dagen"
+      about_x_months:
+        one:   "ongeveer een maand"
+        other: "ongeveer {{count}} maanden"
+      x_months:
+        one:   "1 maand"
+        other: "{{count}} maanden"
+      about_x_years:
+        one:   "ongeveer een jaar"
+        other: "ongeveer {{count}} jaar"
+      over_x_years:
+        one:   "meer dan een jaar"
+        other: "meer dan {{count}} jaar"
+    prompts:
+      year:   "Jaar"
+      month:  "Maand"
+      day:    "Dag"
+      hour:   "Uur"
+      minute: "Minuut"
+      second: "Seconden"
+  
+  
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "Door een fout in het invulformulier kon {{model}} niet opgeslagen worden."
+          other:  "Door {{count}} fouten in het invulformulier kon {{model}} niet opgeslagen worden."
+        # The variable :count is also available
+        body: "De volgende problemen traden op:"
+        
+      # The values :model, :attribute and :value are always available for interpolation
+      # The value :count is available when applicable. Can be used for pluralization.
+      messages:
+        inclusion: "staat niet in de lijst"
+        exclusion: "is gereserveerd"
+        invalid: "is ongeldig"
+        confirmation: "wordt niet goed bevestigd"
+        mismatch: "komt niet overeen"
+        accepted: "moet geaccepteerd worden"
+        empty: "mag niet leeg zijn"
+        blank: "moet ingevuld worden"
+        too_long: "is te lang (maximaal {{count}} tekens)"
+        too_short: "is te kort (minimaal {{count}} tekens)"
+        wrong_length: "heeft een verkeerde lengte (het moet {{count}} tekens lang zijn)"
+        taken: "is al bezet"
+        not_a_number: "is geen getal"
+        greater_than: "moet groter zijn dan {{count}}"
+        greater_than_or_equal_to: "moet groter zijn dan of gelijk zijn aan {{count}}"
+        equal_to: "moet gelijk zijn aan {{count}}"
+        less_than: "moet minder zijn dan {{count}}"
+        less_than_or_equal_to: "moet minder zijn dan of gelijk zijn aan {{count}}"
+        odd: "moet oneven zijn"
+        even: "moet even zijn"
+        duplicate: "is reeds in gebruik"
+        changed: "mag niet aangepast worden"
+
+        # Append your own errors here or at the model/attributes scope.
+  
+      models:
+        skyline/variant:
+          attributes:
+            version:
+              outdated: "Een andere gebruiker heeft deze pagina opgeslagen terwijl u deze aan het bewerken was. U kunt deze pagina niet meer opslaan."      
+        
+      # You can define own errors for models or model attributes.
+      # The values :model, :attribute and :value are always available for interpolation.
+      #
+      # For example,
+      #   models:
+      #     user:
+      #       blank: "This is a custom blank message for {{model}}: {{attribute}}"
+      #       attributes:
+      #         login:
+      #           blank: "This is a custom blank message for User login"
+      # Will define custom blank validation message for User model and 
+      # custom blank validation message for login attribute of User model.
+      #models:
+        
+      # Translate model names. Used in Model.human_name().
+      #models:
+        # For example,
+        #   user: "Dude"
+        # will translate User model name to "Dude"
+      
+      # Translate model attribute names. Used in Model.human_attribute_name(attribute).
+      #attributes:
+        # For example,
+        #   user:
+        #     login: "Handle"
+        # will translate User attribute "login" as "Handle"
+    models:
+      skyline/article: 
+        one: "Artikel"
+        other: "Artikelen"
+      skyline/page: 
+        one: "Pagina"
+        other: "Pagina's"
+      skyline/page_fragment:
+        one: "Fragment"
+        other: "Fragmenten"
+      skyline/media_dir: "Map"
+      skyline/media_file: "Bestand"
+      skyline/section: "Sectie"
+      skyline/sections/rss_section: "RSS sectie"
+      skyline/sections/wysiwyg_section: "Paragraaf"
+      skyline/sections/heading_section: "Kop"
+      skyline/sections/iframe_section: "Iframe"
+      skyline/sections/content_collection_section: "Contentlijst"
+      skyline/sections/content_item_section: "Contentelement"
+      skyline/sections/splitter_section: "Splitter"
+      skyline/sections/link_section: "Linklijst"
+      skyline/sections/raw_section: "HTML sectie"
+      skyline/sections/media_section: "Media sectie"  
+      skyline/sections/form_section: "Formulier"          
+      skyline/sections/redirect_section: "Redirect"
+      skyline/sections/page_fragment_section: "Fragment"
+      skyline/form/form:
+        one: "Formulier"
+        other: "Formulieren"
+      skyline/form/page:
+        one: "Pagina"
+        other: "Pagina's"
+      skyline/form/handler:
+        one: "Handler"
+        other: "Handlers"
+      skyline/form/fields/text_field: "Open vraag"
+      skyline/form/fields/select_field: "Keuze vraag"
+      skyline/form/fields/date_field: "Datum vraag"
+      skyline/form/fields/wysiwyg_field: "Paragraaf"
+      skyline/form/fields/heading_field: "Kop"
+      skyline/form/fields/check_box_field: "Checkbox"
+      skyline/form/fields/submit_field: "Verstuurknop"
+      skyline/form/handlers/email_handler: "Email afhandeling"
+      skyline/form/handlers/redirect_handler: "Doorverwijs afhandeling"
+      skyline/form/handlers/storage_handler: "Opslag afhandeling"
+      
+    attributes:
+      skyline/page:
+        title: "Titel"
+        variant: "Variant"
+      skyline/article_version:
+        name: "Variant naam"
+        template: "Weergave"
+      skyline/page/data:
+        title: "Titel"
+        url_part: "URL"
+        in_navigation: "Toon in menu"
+        navigation_title: "Titel in navigatie"
+        custom_title_tag: "Title tag"
+        meta_description_tag: "Meta description tag"
+      skyline/page_fragment/data:
+        title: "Titel"
+      skyline/section:
+        template: "Weergave"
+      skyline/sections/rss_section:        
+        url: "RSS feed"
+        show_count: "Toon"
+      skyline/sections/heading_section:        
+        heading: "Kop"
+      skyline/sections/iframe_section:
+        url: "URL"
+        size: "Afmeting"    
+      skyline/sections/content_collection_section:
+        content_type: "Type"
+        number: "Aantal"
+      skyline/sections/content_item_section:
+        content_item_type: "Type"
+        content_item_id: "Item"
+      skyline/sections/link_section:
+        title: "Titel"
+        links: "Links"
+      skyline/sections/media_section:
+        linked: "Afbeelding"
+        alignment: "Uitlijning"
+        caption: "Onderschrift"
+        alignments:
+          left: "Links"
+          right: "Rechts"
+          block_left: "Links (volle breedte)"
+          block_right: "Rechts (volle breedte)"
+          block_center: "Gecentreerd"
+      skyline/sections/redirect_section:
+        linked: "Redirect naar"
+        delay: "Vertraging"
+      skyline/sections/form_section:
+        form_id: "Formulier"
+      skyline/sections/page_fragment_section:
+        page_fragment_id: "Fragment"
+      skyline/media_dir:
+        name: "Mapnaam"        
+      skyline/media_file:
+        name: "Bestandsnaam"
+        title: "Titel (gebruikt in links)"
+        description: "Beschrijving"
+        file_tags: "Tags"
+      skyline/user:
+        email: "E-mailadres"        
+        name: "Naam"
+        current_password: "Huidige wachtwoord"
+        password: "Wachtwoord"
+        password_confirmation: "Bevestig wachtwoord"
+        role: "Rol"
+        created_at: "Aangemaakt op"
+      skyline/form/page:
+        title: "Titel"
+        template: "Weergave"
+      skyline/form/field:
+        title: "Titel"
+        identifier: "Identifier"
+        prefix: "Tekst vóór invoerveld"
+        suffix: "Tekst achter invoerveld"
+        body: "Tekst"
+        selected: "Standaard geselecteerd"
+        default_value: "Standaard waarde"
+        multiple_select: "Meerdere antwoorden mogen geselecteerd worden"
+        required: "Verplichte vraag"
+      skyline/form/fields/select_field:
+        value_fields: "Antwoordmogelijkheden <span>(vink de standaard geselecteerde mogelijkeheden aan)</span>"
+      skyline/form/fields/check_box_field:
+        title: "Titel (achter checkbox)"
+        prefix: "Tekst vóór checkbox"
+        selected: "Standaard aangevinkt"
+      skyline/form/fields/submit_field:
+        title: "Opdruk"
+      skyline/form/handlers/redirect_handler:
+        linked: "Redirect naar"        
+
+  buttons:
+    plus: "+"
+    add: "Toevoegen"
+    cancel: "Annuleren"
+    save: "Opslaan"
+    publish: "Publiceren"
+    depublish: "Depubliceren"
+    delete_variant: "Verwijder variant"
+    new_variant: "Nieuwe variant"
+    copy_variant: "Kopieer variant"
+    lock: "Blokkeren"
+    unlock: "Deblokkeren"
+    rollback: "Terugzetten"
+    login: "Inloggen"
+    edit: "Bewerk"
+    delete: "Verwijder"
+    new: "Nieuw"
+    export: "Exporteren"
+    import: "Importeren"
+    undo: "Ongedaan maken"
+    add_link: "Link toevoegen"
+    browse: "Bladeren"
+    upload: "Uploaden"
+    ok: "Ok"
+    delete_media_dir: "Folder verwijderen"
+    yes_force_edit: "Ja, bewerken forceren"
+    delete_form: "Verwijder formulier"
+
+  icons:
+    "true" : "ja"
+    "false" : "nee"
+    
+  templates:
+    page:
+      default: "Standaard"
+      without_sidebar: "Zonder rechter kolom"
+      landing: "Landingspagina (geen beadcrumb)"
+      home: "Homepage"
+    sections:
+      content_collection_section:
+        default: "Standaard"
+        sidebar: "Rechterkolom"
+        home: "Home"
+      content_item_section:
+        default: "Standaard"
+      heading_section:
+        default: "Kop"
+        subkop: "Subkop"
+        subsubkop: "Subsubkop"
+      link_section:
+        default: "Standaard"
+        files: "Bestandenlijst"
+        related_pages: "Zie ook"
+      rss_section:
+        default: "Standaard"
+      wysiwyg_section:
+        default: "Standaard"        
+
+  loading: "Laden..."
+  navigation:
+    mainnavigation:
+      pages: "Pagina's"
+      content_library: "Content library"
+      media_library: "Media library"
+      admin: "Beheer"
+      settings: "Instellingen"
+      users: "Gebruikersbeheer"
+      forms: "Formulieren"
+  authentication:
+    logout: "Uitloggen"
+    logged_in_as: "Ingelogd als <strong>{{user}}</strong>"
+    new:
+      log_in: "Inloggen"
+      email: "E-mailadres"
+      password: "Wachtwoord"
+    create: 
+      flashes: 
+        error: "Inloggen mislukt, controlleer uw e-mailadres en wachtwoord en probeer het opnieuw."
+  user:
+    roles:
+      super: "Superbeheerder"
+    index:
+      left_header: "Gebruikers"
+      header: "Er zijn {{count}} gebruikers"
+      confirm_destroy: "Weet u zeker dat u gebruiker {{display_name}} wilt verwijderen?"
+    edit:
+      dialog_title: "Bewerken van gebruiker {{display_name}}"
+      current_password_info: "Bij het bewerken van uw eigen gebruiker dient u uw huidige wachtwoord in te voeren."
+      password_info: "Leeglaten indien het wachtwoord niet gewijzigd hoeft te worden."
+      cannot_change_role: "Het is niet mogelijk uw eigen rol te wijzigen."
+    new:
+      dialog_title: "Aanmaken van nieuwe gebruiker"
+    destroy:
+      flashes:
+        success: "Gebruiker successvol verwijderd."
+        error: "Gebruiker kon niet verwijderd worden."
+        cant_delete_myself: "U kunt uw eigen gebruiker niet verwijderen."
+    create:
+      flashes:
+        success: "Gebruiker successvol aangemaakt."
+        error: "De gegevens van de gebruiker konden niet worden opgeslagen, controlleer uw invoer en probeer het opnieuw."
+    update:
+      flashes:
+        success: "Gegevens van gebruiker successvol gewijzigd."
+        error: "De gegevens van de gebruiker konden niet worden opgeslagen, controlleer uw invoer en probeer het opnieuw."
+  media_dir:
+    directories: "Mappen"
+    new: "Toevoegen"
+    destroy:
+      message: "Weet u zeker dat u deze folder wilt verwijderen?"
+  media_file:
+    update:
+      flashes: 
+        success: "Bestand succesvol opgeslagen."
+        failed: "Bestand kon niet worden opgeslagen, controlleer uw invoer en probeer het opnieuw."
+    index:
+      files_in: "Bestanden in {{directory}}"
+    new:
+      header: "Bestanden uploaden in"
+      no_files: "Nog geen bestanden gekozen"
+      cancel: "annuleren"
+      upload: "uploaden"
+      files: "bestanden"
+      add_files: "bestand(en) toevoegen"
+      file_progress:  "Bezig met uploaden bestand <span class=\"current-file\">1</span> van <span class=\"total-files\">2</span>"
+      percentage_progress: "<span class=\"current-percentage\">20%</span> gereed (<span class=\"current-size\">20 kB</span> van in totaal <span class=\"total-size\">100 kB</span>)"      
+      all_uploaded_message: "De volgende bestanden zijn geupload:"   
+      some_uploaded_message: "Niet alle bestanden konden worden geupload:"  
+    edit:
+      preview: "Preview"
+      download: "Download"
+      size: "Afmeting (bxh)"
+      type: "Type"
+      filesize: "Bestandsgrootte"
+      available_tags: "Beschikbare tags:"
+      meta_data: "Gegevens"
+  variant_current_editor:
+    takeover:
+      dialog_title: "Bewerken overgenomen"
+      message: "{{user}} heeft het bewerken van dit artikel geforceerd overgenomen."
+      action_to_take: "Wat wilt u doen met uw wijzigingen?"
+      ignore_changes: "Mijn wijzigingen verwerpen."
+      save_as_new_variant: "Mijn wijzigingen opslaan in een nieuwe variant."
+      variant_name: "Naam van nieuwe variant:"
+      
+  article:
+    headers:
+      options: "Opties"
+      advanced: "Geavanceerd"
+      actions: "Acties"
+      general: "Algemeen"
+      publication: "Publicatie"
+      variants: "Varianten"
+      security: "Beveiliging"
+      page_fragments: "Fragmenten"
+    tabs:
+      editor: "editor"
+      preview: "preview"
+    buttons:
+      delete_image: "delete_page"
+      delete_alt: "Verwijder artikel"      
+    new:
+      new_page: "Nieuw"
+      below: "Onder"
+      above: "Boven"
+      in: "In"
+    edit:
+      add_page: "+"
+      add_page_below: "Op zelfde niveau"
+      add_page_in: "Onder artikel"
+      add_section: "Sectie toevoegen"
+      published: "(gepubliceerd)"
+      locked_state: "Status:"
+      publication_status: "Publicatiestatus:"
+      current_variant: "Deze variant:"
+      published: "gepubliceerd"
+      created_at: "Aangemaakt op:"
+      updated_at: "Gewijzigd op:"
+      identical_published_variant: "Identiek aan publicatie:"
+      last_published: "Laatste publicatie:"
+      published_variant: "Gepubliceerde variant:"
+      number_of_publications: "Dit artikel is <strong>{{count}} keer</strong> gepubliceerd."
+      publication_history: "Publicatiegeschiedenis:"
+      publication_history_link: "Bekijk oudere publicaties"
+      confirm_delete_variant: "Weet u zeker dat u deze variant wilt verwijderen?"
+      confirm_delete: "Weet u zeker dat u dit hele artikel inclusief de publicatiegeschiedenis wilt verwijderen?"
+      currently_editing_since: "{{user}} is {{duration}} geleden ({{since}}) begonnen met bewerken."
+      currently_editing_by: "Dit artikel wordt momenteel door {{user}} bewerkt."
+      force_editing: "Wilt u dit artikel alsnog bewerken?"
+    update:
+      flashes:
+        success: "Artikel is succesvol opgeslagen"
+        error: "Artikel kon niet worden opgeslagen omdat een fout is opgetreden, controlleer uw invoer en probeer het opnieuw."
+        locked: "Artikel is geblokkeerd"
+        unlocked: "Artikel is niet meer geblokkeerd"
+        lock_failed: "Het blokkeren van het artikel is niet gelukt"
+        unlock_failed: "Het deblokkeren van het artikel is niet gelukt"
+    destroy:
+      flashes:
+        success: "Het artikel is succesvol verwijderd."
+        error: "Fout"
+        error_page_published: "Het artikel kan niet verwijderd worden, omdat het artikel nog gepubliceerd is."
+        error_page_persistent: "Het artikel kan niet verwijderd worden, omdat het een speciaal artikel is."
+        error_page_has_children: "Het artikel kan niet verwijderd worden, omdat het artikel nog artikelen onder zich bevat."
+    create:
+      flashes:
+        error: "Fout bij aanmaken van het nieuwe artikel {{errors}}"
+  page:    
+    buttons:
+      delete_image: "delete_page"
+      delete_alt: "Verwijder pagina"    
+    edit:
+      add_page_in: "Onder pagina"
+      number_of_publications: "Deze pagina is <strong>{{count}} keer</strong> gepubliceerd."
+      confirm_delete: "Weet u zeker dat u deze hele pagina inclusief de publicatiegeschiedenis wilt verwijderen?"
+      currently_editing_by: "Deze pagina wordt momenteel door {{user}} bewerkt."
+      force_editing: "Wilt u deze pagina alsnog bewerken?"
+    update:
+      flashes:
+        success: "Pagina is succesvol opgeslagen"
+        error: "Pagina kon niet worden opgeslagen omdat een fout is opgetreden, controlleer uw invoer en probeer het opnieuw."
+        locked: "Pagina is geblokkeerd"
+        unlocked: "Pagina is niet meer geblokkeerd"
+        lock_failed: "Het blokkeren van de pagina is niet gelukt"
+        unlock_failed: "Het deblokkeren van de pagina is niet gelukt"
+    destroy:
+      flashes:
+        success: "De pagina is succesvol verwijderd."
+        error: "Fout"
+        error_page_published: "De pagina kan niet verwijderd worden, omdat de pagina nog gepubliceerd is."
+        error_page_persistent: "De pagina kan niet verwijderd worden, omdat het een speciale pagina is."
+        error_page_has_children: "De pagina kan niet verwijderd worden, omdat de pagina nog pagina's onder zich bevat."
+    create:
+      flashes:
+        error: "Fout bij aanmaken van de nieuwe pagina {{errors}}"    
+  section:
+    form:
+      will_be_destroyed: "{{section}} wordt verwijderd bij opslaan."
+      delete: "X"
+      no_sectionable: "Help, ik heb geen Sectionable"
+      messages: "berichten"
+  link_section:
+    form:
+      will_be_destroyed: "Link {{link}} wordt verwijderd bij opslaan"
+      delete: "X"
+      links_to: "Linkt naar: {{referable_title}}"
+  redirect_section:
+    form:
+      seconds: "secondes"
+  publication:
+    index:
+      dialog_title: "Oudere publicaties"
+      publications: "Publicaties"
+      preview: "Preview"
+      
+    rollback:
+      flashes:
+        success: "Publicatie succesvol gerollbacked!"
+        error: "Publicatie kon niet teruggedraaid worden..."
+  published_publication:
+    article:
+      create:
+        flashes:
+          success: "Artikel succesvol gepubliceerd!"
+          error: "Artikel niet gereed voor publicatie!"
+      destroy:
+        flashes:
+          success: "Het artikel is succesvol gedepubliceerd"
+          error: "Artikel nog niet gedepubliceerd worden."
+          error_persistent: "Het artikel kan niet gedepubliceerd worden omdat het een speciaal artikel is."
+    page:
+      create:
+        flashes:
+          success: "Pagina succesvol gepubliceerd!"
+          error: "Pagina niet gereed voor publicatie!"
+      destroy:
+        flashes:
+          success: "De pagina is succesvol gedepubliceerd"
+          error: "Pagina nog niet gedepubliceerd worden."
+          error_persistent: "De pagina kan niet gedepubliceerd worden omdat het een speciale pagina is."
+  page_version:
+    default_name: "main"
+    default_title: "Nieuwe pagina"
+  page_fragment:
+    default_title: "Nieuw fragment"
+  variant:
+    create:
+      flashes:
+        success: "Nieuwe variant is succesvol aangemaakt."
+    destroy:
+      flashes:
+        article:
+          success_variant_and_page: "De variant en het gehele artikel zijn succesvol verwijderd."
+        page: 
+          success_variant_and_page: "De variant en de gehele pagina zijn succesvol verwijderd."        
+        success_variant: "De variant is succesvol verwijderd."
+        error: "De variant kon niet verwijderd worden."
+        error_variant_published: "De variant kan niet verwijderd worden omdat deze nog gepubliceerd is."
+  settings:
+    title: "{{class}} instellingen"
+    group_title: Instellingen 
+    update:      
+      flashes:
+        success: De instellingen zijn opgeslagen.
+        error: De instellingen konden niet worden opgeslagen.
+  browser:
+    tabs:
+      "Skyline::Page" : "Pagina's"
+      "Skyline::MediaFile" : "Media library"
+      "Skyline::ReferableUri" : "Extern"
+    external_link:
+      url: "URL"
+    external_image:
+      url: "URL"
+    file:
+      dialog_title: "Kies bestand"
+    page:
+      dialog_title: "Kies pagina"
+    link:
+      dialog_title: "Kies link"
+      title: "Tooltip"
+      target: "Openen in"
+      targets:
+        "_blank" : "Nieuw venster"
+        "-" : "Zelfde venster"
+    image:
+      dialog_title: "Kies afbeelding"
+      alt: "Alt"
+      dimensions: "Afmetingen (BxH)"
+      align: "Uitlijning"
+      alignments:
+        "-" : ""
+        "left" : "Links"
+        "right" : "Rechts"
+        "block" : "Blok"
+    
+  content:
+    headers:
+      actions: "Acties"
+    head: Contentelementen
+    menu: Contentelementen
+    default_group: Contentelementen
+    breadcrumb_prefix: "Kruimelpad:"
+    add_a_new: Voeg {{class}} toe
+    add_more: Voeg meer {{class}} toe
+    pagination:
+      number_of: "Aantal {{class}}:"
+      pages: "Pagina's:"
+      next: "Volgende &raquo;"
+      previous: "Vorige &raquo;"
+    editors:
+      checkable_list:
+        blank: "Er zijn nog geen {{class}}."
+      file:
+        no_file_selected: Geen bestand geselecteerd
+        cancel_selection: Bestand selecteren afbreken
+      display:
+        empty: Leeg
+      joinable_list:
+        adding: "{{class}} wordt toegevoegd..."
+        add_to: "toevoegen aan {{class}}"
+      file_browser:
+        nothing_selected: Nog geen bestand geselecteerd.
+        deselect: Deselecteer dit bestand
+      page_browser:
+        nothing_selected: Nog geen pagina geselecteerd.
+        deselect: Deselecteer deze pagina
+    flashes:
+      invalid_record: Not good - ActiveRecord::RecordInvalid
+      successfully_saved: De/het {{class}} is opgeslagen
+      validation_error: De/het {{class}} kon niet worden opgeslagen. Controleer uw invoer hieronder en probeer het opnieuw.
+      successfully_deleted: De/het {{class}} is verwijderd
+      fail_deleted: De/het {{class}} kon niet worden verwijderd
+      version_conflict: >
+        <strong>Let op!</strong> Deze versie ({{your_version}}) kon niet worden opgeslagen. Een nieuwere versie ({{current_version}})
+        gemaakt door <em>{{current_author}}</em> is beschikbaar. Vergelijk uw versie met de huidige versie
+        alvorens deze op te slaan. {{show_link}}
+      successfully_imported: De import is succesvol verlopen
+      no_import_file_selected: Import is niet succesvol verlopen, er is geen XML bestand geupload
+      import_failed: "Import is niet succesvol verlopen, controleer het invoer XML bestand op: {{errors}}"
+    index:
+      title: "{{value}} &mdash; Content"
+      intro: Aan de linkerkant vindt u alle mogelijke content-types. Kies een van de content-types om deze te bekijken, te bewerken of te verwijderen. 
+    list:
+      info: "Gegevens"
+      confirm_deletion: Weet u zeker dat u deze {{class}} wilt verwijderen?
+      up_one_level: ".. één niveau omhoog"    
+      blank_slate: "Er zijn op het moment nog geen {{class}}"    
+      export: "Export &raquo;"
+      import: "Import &raquo;"
+      title: Content lijst &mdash; {{class}}
+      title_sublisting: Content lijst &mdash; {{group}} voor {{title}}
+      filter: Filter
+      filter_none: "-- geen filter --"    
+      filter_apply: Filter toepassen
+    import:
+      dialog_title: "Importeren"
+      choose_file: "Kies te importeren bestand (XML)"
+    create:
+      title: Aanmaken van {{class}}
+    edit:
+      title: "Bewerken van {{class}}: {{title}}"
+      meta_information: Meta informatie
+      available_tags: "Beschikbare tags:"
+      available_tags_info: "(klik op een tag om deze te selecteren of deselecteren)"
+      no_tags_available: "Er zijn nog geen tags in gebruik, vul hierboven nieuwe tags in."
+      tags: Tags
+      publish: Publiceren
+      published: Gepubliceerd
+      publish_automatically_at: "Automatisch publiceren op:"
+      add_a_to_b: "{{a}} toevoegen aan {{b}}"    
+      add_multiple: Meerdere toevoegen (voorkomt sluiten van dit venster)
+      version_conflict: <strong>Attentie</strong> Opslaan overschrijft de wijzigingen gemaakt door {{current_author}}
+      see_changes_by: Klik hier om de wijzigingen van {{current_author}} te bekijken.
+      discard_changes: Mijn wijzigingen verwerpen
+    show:
+      title: "Tonen van {{class}}: {{title}}"
+      currently_viewing: >
+        <strong>Gentoond wordt </strong> versie {{current_version}}
+        door <em>{{current_author}}</em>.
+    error:
+      title: Dit content-type bestaat niet.
+      intro:       
+    global:
+      logged_in_on: Ingelogd op
+      logged_in_on_as: als <strong>%s</strong>
+      logged_in_as: Ingelogd als <strong>%s</strong>
+      logout: Uitloggen
+      cancel: Afbreken,
+      close_window: Venster sluiten  
+      loading: Een ogenblik geduld aub...        
+
+  form:
+    form:
+      default_title: Formulier
+      default_tempate: default
+      no_responses: "Er zijn nog geen responses op dit formulier, of deze worden niet opgeslagen"
+      headers:
+        actions: "Acties"
+        advanced: "Geavanceerd"        
+      create:
+        flashes:
+          error: "Fout bij aanmaken van een nieuw formulier {{errors}}"
+      edit:
+        confirm_delete_form: "Weet u zeker dat u dit formulier (inclusief alle responses) wilt verwijderen? Het formulier wordt van alle pagina's verwijderd."
+      destroy:
+        flashes:
+          success: "Het formulier is succesvol verwijderd."
+          error: "Fout bij het verwijderen van het formulier."
+    page:
+      default_title: Pagina 1
+      default_tempate: default
+      headers:
+        actions: "Acties"
+        advanced: "Geavanceerd"
+      tabs:
+        editor: "editor"
+        preview: "preview"
+      edit:
+        add_field: "Vraag toevoegen"
+      update:
+        flashes:
+          success: "Formulier is succesvol opgeslagen"
+          error: "Formulier kon niet worden opgeslagen omdat een fout is opgetreden, controlleer uw invoer en probeer het opnieuw."
+    field:
+      form:
+        will_be_destroyed: "{{field}} wordt verwijderd bij opslaan."
+        delete: "X"
+        links_to: "Linkt naar: {{referable_title}}"
+    fields:
+      check_box_field:
+        values: 
+          "true" : "aangevinkt"
+          "false" : "niet aangevinkt"          
+    handler:
+      headers:
+        actions: "Acties"
+        advanced: "Geavanceerd"
+      form:
+        will_be_destroyed: "{{handler}} wordt verwijderd bij opslaan."
+        delete: "X"
+      edit:
+        add_handler: "Handler toevoegen"
+    handlers:
+      storage_handler:
+        description: "Deze handler slaat de ingevoerde gegevens op in de lokale database zodat deze later bekeken en/of geexporteerd kunnen worden."
+    response:
+      error: "Nog niet alle velden zijn (correct) ingevuld, controleer uw invoer en probeer het nogmaals."
+      select_field_error: "U moet minimaal één antwoord selecteren."
+      check_box_error: "U moet het vinkje aanvinken."
+      errors:
+        field: "moet ingevuld worden"
+          
+  tinymce:
+    skyline_table: {
+      desc: "Nieuwe tabel invoegen",
+      row_before_desc: "Rij boven invoegen",
+      row_after_desc: "Rij onder invoegen",
+      delete_row_desc: "Rij verwijderen",
+      col_before_desc: "Kolom links invoegen",
+      col_after_desc: "Kolom rechts invoegen",
+      delete_col_desc: "Kolom verwijderen",
+      split_cells_desc: "Cellen splitsen",
+      merge_cells_desc: "Cellen samenvoegen",
+      row_desc: "Rij-eigenschappen",
+      cell_desc: "Cel-eigenschappen",
+      props_desc: "Tabeleigenschappen",
+      paste_row_before_desc: "Rij boven plakken",
+      paste_row_after_desc: "Rij onder plakken",
+      cut_row_desc: "Rij knippen",
+      copy_row_desc: "Rij kopiëren",
+      del: "Tabel verwijderen",
+      row: "Rij",
+      col: "Kolom",
+      cell: "Cel" }
+    skyline_code: {
+      dialog_title: "HTML bewerken",
+      btn_ok: "Ok",
+      btn_cancel: "annuleren" }
+    skyline: {
+      style_select: "Stijlen",
+      font_size: "Tekengrootte",
+      fontdefault: "Lettertype",
+      block: "Opmaak",
+      paragraph: "Alinea",
+      div: "Div",
+      address: "Adres",
+      pre: "Vaste opmaak",
+      h1: "Kop 1",
+      h2: "Kop 2",
+      h3: "Kop 3",
+      h4: "Kop 4",
+      h5: "Kop 5",
+      h6: "Kop 6",
+      blockquote: "Citaat",
+      code: "Code",
+      samp: "Codevoorbeeld",
+      dt: "Definitieterm",
+      dd: "Definitiebeschrijving",
+      bold_desc: "Vet (Ctrl+B)",
+      italic_desc: "Cursief (Ctrl+I)",
+      underline_desc: "Onderstrepen (Ctrl+U)",
+      striketrough_desc: "Doorhalen",
+      justifyleft_desc: "Links uitlijnen",
+      justifycenter_desc: "Centreren",
+      justifyright_desc: "Rechts uitlijnen",
+      justifyfull_desc: "Uitvullen",
+      bullist_desc: "Opsommingstekens",
+      numlist_desc: "Nummering",
+      outdent_desc: "Inspringing verkleinen",
+      indent_desc: "Inspringing vergroten",
+      undo_desc: "Ongedaan maken (Ctrl+Z)",
+      redo_desc: "Herhalen (Ctrl+Y)",
+      link_desc: "Link invoegen/bewerken",
+      unlink_desc: "Link verwijderen",
+      image_desc: "Afbeelding invoegen/bewerken",
+      cleanup_desc: "Code opruimen",
+      code_desc: "HTML bron bewerken",
+      sub_desc: "Subscript",
+      sup_desc: "Superscript",
+      hr_desc: "Scheidingslijn invoegen",
+      removeformat_desc: "Opmaak verwijderen",
+      custom1_desc: "Uw eigen beschrijving hier",
+      forecolor_desc: "Tekstkleur",
+      backcolor_desc: "Tekstmarkeringskleur",
+      charmap_desc: "Symbool invoegen",
+      visualaid_desc: "Hulplijnen weergeven",
+      anchor_desc: "Anker invoegen/bewerken",
+      cut_desc: "Knippen",
+      copy_desc: "Kopiëren",
+      paste_desc: "Plakken",
+      image_props_desc: "Afbeeldingseigenschappen",
+      newdocument_desc: "Nieuw document",
+      help_desc: "Help",
+      blockquote_desc: "Citaat",
+      clipboard_msg: "Kopiëren/knippen/plakken is niet beschikbaar in Mozilla en Firefox.\nWilt u meer informatie over deze beperking?",
+      path: "Pad",
+      newdocument: "Weet u zeker dat u alle inhoud wilt wissen?",
+      toolbar_focus: "Spring naar werkbalk - Alt+Q, Spring naar tekst - Alt-Z, Spring naar elementpad - Alt-X",
+      more_colors: "Meer kleuren" }

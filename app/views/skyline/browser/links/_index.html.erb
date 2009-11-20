@@ -1,0 +1,56 @@
+<div class="dialog">
+  <div class="tabPanel">
+    <div class="tabs">
+      <div class="chrome">
+        <ul class="toptabs">
+          <% ["Skyline::Page","Skyline::MediaFile","Skyline::ReferableUri"].each do |tab| %>
+            <li class="<%= "active" if @active_tab == tab %>"><a href="#"><%= t(tab, :scope => [:browser,:tabs]) %></a></li>          
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <%= render :partial => "skyline/browser/tabs/pages/index" %>  
+  <%= render :partial => "skyline/browser/tabs/media_library/index" %>
+  <%= render :partial => "skyline/browser/tabs/external_link/index" %>
+  <% if params[:common] %>
+    <div class="commonPanel">
+      <div class="content" style="border-top: 1px solid #000">
+        <table class="fields">
+          <tbody>
+            <tr>
+              <th><label for="browser_title"><%= t(:title,:scope => [:browser,:link]) %>:</label></th>
+              <td><input id="browser_title" type="text" name="browser[title]" value="<%= params[:title] %>" class="full"/></td>
+            </tr>
+            <tr>
+              <th><label for="browser_target"><%= t(:target,:scope => [:browser,:link]) %>:</label></th>
+              <td>
+                <% cur_target = params[:target].blank? ? nil : params[:target] %>
+                <select class="browser_target" id="browser_target" type="text" name="browser[target]" />
+                  <% ["_blank",nil].each do |target| %>
+                    <option value="<%= target %>" <%= "selected=\"selected\"" if target == cur_target %>>
+                      <%= t(target || "-",:scope => [:browser,:link,:targets]) %>
+                    </option>
+                  <% end %>
+                </select>
+              </td>
+            </tr>            
+          </tbody>
+        </table>
+        <input name="browser[ref_id]" value="<%= params[:ref_id] %>" type="hidden" />
+      </div>
+    </div>
+  <% end %>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.cancel()", :class => "cancel" %>
+        <%= link_to_function button_image("small/ok.gif", :alt => :ok), "Skyline.Dialog.current.select()" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  Skyline.Dialog.current.setTitle("<%= t(:dialog_title, :scope => [:browser,:link]) %>");
+</script>

@@ -1,0 +1,13 @@
+<div class="add">
+<%= link_to_remote t(:add_more, :scope => [:content], :class => target_class.plural_name), 
+          {:url => {:controller => "skyline/content/editors/joinable_list", 
+                   :action => "index", 
+                   :source_type => source_object.class.to_s.demodulize.underscore, 
+                   :source_id => source_object,
+                   :association => association},
+					:loading => "toggle_spin('element_skyline_#{association}_add_more','#{t(:loading, :scope => [:content, :global])}')",
+					:complete => "toggle_spin('element_skyline_#{association}_add_more')"}, 
+				:class => "add",
+				:id => "element_skyline_#{association}_add_more"
+ %>
+</div>

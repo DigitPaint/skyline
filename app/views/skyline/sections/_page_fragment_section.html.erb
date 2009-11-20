@@ -1,0 +1,8 @@
+<table class="fields">
+  <tr>
+    <th><%= sectionable_form.label_with_text :page_fragment_id %></th>
+    <td>
+      <%= sectionable_form.select :page_fragment_id, [["",""]] + Skyline::PageFragment.ordered_by_title.all.collect{|item| [item.default_variant_data.title, item.id]} %>
+    </td>
+  </tr>
+</table>

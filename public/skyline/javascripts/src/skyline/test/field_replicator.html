@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+	
+	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/field_replicator.js" type="text/javascript" charset="utf-8"></script>
+
+<style type="text/css" media="screen">
+  body{
+    padding: 20px;
+  }
+  h1{
+    margin-bottom: 1em;
+  }
+  div.test {
+    clear: both;
+    padding: 10px;
+  }
+</style>
+</head>
+<body>
+  <h1>Field replicator test</h1>
+  <div class="content">
+    <h2>Textbox test</h2>
+    <div class="test">
+      Orig: <input type="text" id="t1src"/>
+      Repl: <input type="text" id="t1tg"/>    
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      new Skyline.FieldReplicator("t1src","t1tg");
+    </script>
+  </div>
+  
+  <div class="content">
+    <h2>Transform test</h2>
+    <div class="test">
+      Orig: <input type="text" id="t2src"/>
+      Repl: <input type="text" id="t2tg"/>    
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      new Skyline.FieldReplicator("t2src","t2tg", {
+        translator : function(value){
+          return value.toUpperCase();
+        }
+      });
+    </script>
+  </div>
+
+</body>
+</html>

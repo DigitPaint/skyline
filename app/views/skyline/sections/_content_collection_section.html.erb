@@ -1,0 +1,30 @@
+<table class="fields">
+  <tr>
+    <th><%=sectionable_form.label :content_type, Skyline::Sections::ContentCollectionSection.human_attribute_name("content_type")%></th>
+    <td><%=sectionable_form.select :content_type, [["",""]] + Skyline::Tag.taggable_content_models.collect{|klass| [klass.human_name(:count => 2), klass.to_s]}%></td>
+  </tr>
+  <tr>
+    <th><%=sectionable_form.label :number, Skyline::Sections::ContentCollectionSection.human_attribute_name("number")%></th>
+    <td><%=sectionable_form.text_field :number, :class => "number"%></td>
+  </tr>
+</table>
+
+<% if sectionable_form.object.content_type.present? %>
+  <% @tags = sectionable_form.object.content_type.constantize.available_tags %>
+  <%= render :partial => "/skyline/content_sections/tags", :locals => {:guid => guid, :sectionable => sectionable_form.object} %>  
+<% else %>
+  <div id="section-<%=guid%>-tags"></div>
+<% end %>
+
+
+<script type="text/javascript" charset="utf-8">
+  $('<%= sectionable_form.dom_id :content_type %>').addEvent('change', function(){
+    new Request({
+      data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>') + "&taggable_type="+this.value, 
+      evalScripts:true, 
+      url:'<%= new_skyline_content_section_path(:guid => guid) %>', 
+      method:'get'
+    }).send(); 
+    return false;
+  });
+</script>

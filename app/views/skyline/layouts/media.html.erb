@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<%= render :partial => "skyline/shared/head" %>
+</head>
+<body>
+  <div id="loading">
+    <%= t(:loading) %>
+  </div>
+  <div id="application" style="visibility: hidden"> 
+    <%= render :partial => "skyline/shared/header_area" %>
+    <div id="contentArea">
+      <%= yield %>
+    </div>
+  </div>
+  <%= render_messages %>
+  <%= render_notifications %>  
+</body>
+</html>
+

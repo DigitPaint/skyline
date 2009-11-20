@@ -1,0 +1,22 @@
+<% content_for :header do %>
+  <% if @stack.size > 1 %>
+    <%= @title = t(:title_sublisting, :scope => [:content, :list], :group => @stack.klass.plural_name, :title => @stack[-2].class.singular_name + " " + @stack[-2].human_id.to_s) %>
+  <% else %>
+    <%= @title = t(:title, :scope => [:content, :list], :class => @stack.klass.plural_name) %> 
+  <% end %>
+<% end %>
+
+<div class="content">
+  <%= presenter_for(@elements,stack.klass) %>
+</div>
+
+<% content_for :meta do %>
+  <%= render :partial => "add", :locals => {:klass => stack.klass, :record => stack.current, :return_to => url_for({})} %>	
+  <%= render :partial => "filter" if stack.klass.filterable? %>
+<% end %>
+
+<% if @elements.respond_to?(:total_entries) && @elements.total_entries > @elements.per_page %>
+  <% content_for :footer do %>
+    <%= will_paginate @elements %>
+  <% end %>
+<% end %>

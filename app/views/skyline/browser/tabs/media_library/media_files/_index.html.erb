@@ -1,0 +1,63 @@
+<ul id="browserFilelist" class="files">
+
+  <input value="<%= @media_file.andand.file_type %>" name="browser[file_type]" id="browser_media_file_type" type="hidden"/>    
+  <input value="<%= @media_file.andand.id %>" name="browser[referable_id]" id="browser_media_referable_id" type="hidden"/>
+  <input value="<%= @media_file.andand.class.andand.name %>" name="browser[referable_type]" id="browser_media_referable_type" type="hidden"/>
+  <input value="<%= @media_file.andand.title %>" name="browser[referable_title]" id="browser_media_referable_title" type="hidden"/>
+  
+  <% browser_url = @media_dir && @media_file &&  url_for(:action => :show, :controller => '/skyline/media_files_data', :media_dir_id => @media_dir, :name => @media_file.name) %>
+  <input value="<%= browser_url %>" name="browser[url]" id="skylineReferableLocation" type="hidden">
+  
+  <% if @media_dir %>
+    <% @media_dir.files.each do |f|%>
+      <li class="<%= f.file_type %> <%= "selected" if f == @media_file %>">
+        <div class="file">
+          <% dimen = f.dimension %>
+          <%= link_to(f.name, skyline_browser_tabs_media_library_media_dir_media_file_path(@media_dir, f), 
+                :"data-file_type" => f.file_type,
+                :"data-referable_id" => f.id,
+                :"data-referable_type" => f.class.name,
+                :"data-referable_title" => f.title,
+                :"data-url" => url_for(:action => :show, :controller => '/skyline/media_files_data', :media_dir_id => @media_dir, :name => f.name),
+                :"data-image_width" => dimen.andand["width"],
+                :"data-image_height" => dimen.andand["height"]) %>
+        </div>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+<script type="text/javascript" charset="utf-8">
+  var f = function(ul){
+    ul.addEvent("click", function(ev){
+      ev.stop();
+      ev.preventDefault();
+      
+      var t =  $(ev.target);
+      var li = (t.get("tag") == "li" ? t : t.getParents("li")[0]);
+      if(li){
+        var a = li.getElement("a");        
+        ul.getElements('li.selected').removeClass('selected'); 
+        li.addClass('selected');
+        
+        $('browser_media_file_type').set("value", a.get("data-file_type"));
+        $('browser_media_referable_id').set("value", a.get("data-referable_id"));
+        $('browser_media_referable_type').set("value", a.get("data-referable_type"));
+        $('browser_media_referable_title').set("value", a.get("data-referable_title"));
+        $('skylineReferableLocation').set("value", a.get("data-url"));
+        
+        if($('browserImageWidth')){
+          $('browserImageWidth').set("value", a.get("data-image_width"));
+        };
+        if($('browserImageHeight')){
+          $('browserImageHeight').set("value", a.get("data-image_height"));
+        };
+        
+        new Request({
+          url: a.get("href"),
+          method: "get"
+        }).send();        
+      }
+    })
+  };
+  f($('browserFilelist'));
+</script>

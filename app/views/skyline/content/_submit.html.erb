@@ -1,0 +1,15 @@
+<% if !@element.matching_versions? %>
+  <div class="version-conflict">
+    <%= t(:version_conflict, :scope => [:content, :edit], :current_author => @element.current_author) %>
+    <% show_url = object_url(@element,url_options_for_record(@element,:action => "show")) %>
+    <%= link_to_function(t(:see_changes_by, :scope => [:content, :edit], :current_author => @element.current_author), 
+                  "popup('#{show_url}',800,800,'scrollbars=yes')", :href => show_url) %>
+  </div>
+  <div class="submit">
+    <%= link_to t(:discard_changes, :scope => [:content, :edit]),object_url(@element,url_options_for_record(@element,:discard => 1)) %>
+  </div>
+<% else %>
+  <div class="submit">
+    <%= submit_button "medium/save.gif", :value => :save, :onclick => "$('contentform').submit();" %>
+  </div>
+<% end %>

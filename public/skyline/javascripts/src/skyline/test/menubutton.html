@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+	<link href="../assets/menubutton/menubutton.css?1195729478" media="screen" rel="stylesheet" type="text/css" />	
+	
+	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/menubutton.js" type="text/javascript" charset="utf-8"></script>
+  <style>
+  div.test {
+    clear: both;
+    padding: 10px;
+  }
+  
+  .test1 .active dd{
+    display: none;
+  }
+  
+  .customactive{
+    background: #f00;
+  }
+  
+  .clear:after{
+  	content: ".";
+  	visibility:  hidden;
+  	clear: both;
+  	display: block;
+  	height: 0px;    
+  }
+  
+  .clear{
+    zoom: 1;
+  }
+  
+  </style>
+<body>
+  <div class="test test1">
+    <h1>Test 1</h1>    
+
+    <div style="border: 1px solid #eee">
+      You clicked:
+      <span id="dbg"></span>
+    </div>
+    <div style="background: #f0f; z-index: 99; position: relative" class="clear">
+      <dl class="menubutton" id="mb1" style="z-index: 1001">
+        <dt>
+          <span class="label" href="#">Add section</span>
+          <a class="toggle" href="#"><span><span>down</span></span></a>
+        </dt>
+        <dd>
+          <ul>
+            <li><a href="#" onclick="$('dbg').set('html',$(this).get('html'));">Wysiwyg blok</a></li>
+            <li><a href="#" onclick="$('dbg').set('html',$(this).get('html'));">RSS blok</a></li>
+            <li><a href="#" onclick="$('dbg').set('html',$(this).get('html'));">Content blok</a></li>
+            <li><a href="#" onclick="$('dbg').set('html',$(this).get('html'));">Iframe blok</a></li>
+          </ul>
+        </dd>
+      </dl>
+    </div>
+    <div style="background: #f00; clear:both; position: relative; z-index: 99">
+      <div style="background: #ff0; width: 200px; position: relative; z-index: 98">Some stuff below</div>
+    </div>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    // new Skyline.Toggle('tc1', $('tc1').getParent());    
+    var mb1 = new Skyline.MenuButton('mb1')
+    // alert(mb1.applyZIndex().length);
+  </script>
+
+
+</body>
+</html>

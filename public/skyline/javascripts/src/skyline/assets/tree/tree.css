@@ -1,0 +1,91 @@
+.tree{
+  background: #fff;
+}
+
+.tree:after,
+.tree ul:after,
+.tree ul li:after{
+	content: ".";
+	visibility:  hidden;
+	clear: both;
+	display: block;
+	height: 0px;      
+}
+
+.tree ul.empty{
+  display:none;
+}
+
+.tree ul{
+  zoom: 1;
+  background: url(tree_vert_line.png) 0 0 repeat-y;
+  position: relative;
+	clear:both;
+}
+    
+.tree ul li{
+  zoom: 1;      
+  display: inline;
+  float: left;
+	clear:both;      
+	white-space:nowrap;    	
+  padding-left: 16px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-image: url(li.gif);
+}
+
+.tree ul li a{      
+	display:inline;
+	white-space:nowrap;    	    	
+	float:left;      
+  padding: 1px 3px 1px 22px;
+  background: url(icon.gif) 3px 1px no-repeat;
+}
+
+
+.tree ul li a:hover{
+  background-color:#E7F4F9;
+  border:1px solid #D8F0FA;
+  background-position: 2px 0px;
+  padding: 0px 2px 0px 21px;
+}    
+.tree ul li a.selected{
+  background-color: #BEEBFF;
+  border:1px solid #99DEFD;
+  background-position: 2px 0px;
+  padding: 0px 2px 0px 21px;
+  
+}    
+
+.tree ul li.last{
+  background-image: url(last.gif);
+  background-color: #fff;
+}
+
+.tree ul li.open{
+  display: block;
+}
+
+.tree ul li.open,
+.tree ul li.hasChildren {
+  background-image: url(middle-open.gif);
+}
+
+.tree ul li.closed {
+  background-image: url(middle-closed.gif);      
+}
+
+.tree li.closed ul{
+  display: none;
+}
+
+.treemarker{
+  background: #000;
+  height: 3px;
+  width: 200px;
+  font-size: 1px;
+}
+.treemarker.inside{
+  background: #f00;
+}

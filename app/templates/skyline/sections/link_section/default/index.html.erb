@@ -1,0 +1,11 @@
+<% if link_section.title.present? %>
+<% x = assign(:heading_level).to_i + 1 %>
+<h<%= x %>><%=link_section.title%></h<%= x %>>
+<% end %>
+<% if link_section.links.any? %>
+  <ul class="linklist">
+    <% link_section.links.each do |link| %>
+      <li><%=link_to link.title, link.url%></li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,9 @@
+<% @title = t(:title, :scope => [:content,:show], :class => stack.klass.singular_name.downcase, :title => stack.current.human_id) %>
+<%= render :partial => "/shared/tiny_mce" %>
+<div id="content">
+  <div class="flashes notice">
+    <%= t(:currently_viewing, :scope => [:content, :show], :current_author => @element.current_author, :current_version => @element.current_version) %>
+  </div>
+  
+  <%= content_fields(@element.class,:element, @element)%>
+</div>

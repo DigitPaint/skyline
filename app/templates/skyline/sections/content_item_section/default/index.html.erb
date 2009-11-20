@@ -1,0 +1,6 @@
+<% object_type = content_item_section.content_item_type.underscore %>
+<% object = content_item_section.content_item_type.constantize.for_content_item_section.find_by_id(content_item_section.content_item_id) %>
+
+<% if object %>
+  <%= render :partial => "#{object_type}", :locals => {object_type.to_sym => object} %>
+<% end %>

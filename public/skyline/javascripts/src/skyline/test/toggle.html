@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+	
+	<script src="../vendor/mootools/mootools-1.2.1-core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../vendor/mootools/mootools-1.2-more.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/toggle.js" type="text/javascript" charset="utf-8"></script>
+  <style>
+  div.test {
+    clear: both;
+    padding: 10px;
+  }
+  li {
+    float: left;
+    color: black;
+    background: none;    
+    padding: 5px;
+  }
+  
+  .test1 .active dd{
+    display: none;
+  }
+  
+  .customactive{
+    background: #f00;
+  }
+  
+  </style>
+<body>
+  <div class="test test1">
+    <h1>Toggle parent (no options)</h1>    
+    
+    <dl>
+      <dt id="tc1">Click me!</dt>
+      <dd>This should hide</dd>
+    </dl>
+
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    new Skyline.Toggle('tc1', $('tc1').getParent());        
+  </script>
+
+  <div class="test test2">
+    <h1>Toggle multiple elements ({class: "customactive"})</h1>    
+
+    <a href="#" id="tc2">Highlight!</a>
+    
+    <ul>
+      <li id="l1">This one</li>
+      <li id="l2">Not htis one</li>
+      <li id="l3">And this one</li>
+    </ul>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    new Skyline.Toggle('tc2', $('l1'),$('l3'),{ "class": "customactive"});        
+  </script>
+
+  
+  <div class="test test1">
+    <h1>Toggle parent, with initial state (no options)</h1>    
+    
+    <dl class="active">
+      <dt id="tc3">Click me!</dt>
+      <dd>This should hide</dd>
+    </dl>
+
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    new Skyline.Toggle('tc3', $('tc3').getParent());        
+  </script>  
+  
+  <div class="test">
+    <h1>Fail with too less arguments</h1>
+    <div id="f1">
+    </div>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    try {
+      new Skyline.Toggle();
+    }  catch(err) {
+      $('f1').set("html",err + " <span style='color: #0f0'>OK</span>");
+    }
+  </script>  
+  
+</body>
+</html>

@@ -1,0 +1,30 @@
+<% if Skyline::Configuration.enable_locking && @article.enable_locking? %>
+  <dl class="advanced" id="article_security">
+    <dt><a href="#"><span><%= t(:security, :scope => [:article, :headers]) %></span></a></dt>
+    <dd>
+      <table class="details">
+        <tbody>
+          <tr>
+            <th><%= t(:locked_state, :scope => [:article, :edit]) %></th>
+            <td class="center">
+              <%= image_tag "/skyline/images/icons/lock#{"-open" unless @article.locked? }.gif" %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <% if  @variant.editable_by?(current_user) && current_user.allow?(@article, :lock) %>
+        <% remote_form_for(:article, @article, :url => skyline_article_path(@article, :variant_id => @variant), :html => {:method => "put"}) do |f| %>
+          <div class="button" style="margin-top: 5px">
+    		    <% if @article.locked? %>
+    		      <%= f.hidden_field :locked, :value => "0" %>
+    		  	  <%= submit_button "small/unlock.gif" %>
+    		  	<% else %>
+    		      <%= f.hidden_field :locked, :value => "1" %>  		  	
+    		  	  <%= submit_button "small/lock.gif" %>
+    	  	  <% end %>
+    	  	</div>
+  	  	<% end %>
+    	<% end %>          
+    </dd>
+  </dl>
+<% end %>

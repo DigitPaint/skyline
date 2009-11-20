@@ -1,0 +1,46 @@
+<% content_for :left do %>
+  <dt><span class="content"><%=t(:group_title, :scope => [:settings]) %></span></dt>
+  <dd>
+    <ul class="selectlist">
+    	<% @implementation.settings.ordered_pages.each do |page| %>
+    		<li>
+    			<%= link_to page.human_name, edit_skyline_setting_path(page.name), :class => (page.name == @settings.page.name ? "selected" : "") %>
+    		</li>
+    	<% end %>
+    </ul>
+  </dd>
+<% end %>
+
+<% form_for :settings, @settings, :url => skyline_setting_path(@settings.page.name), :html => {:method => :put} do |f| %>
+  <dl id="contentPanel" class="panel">
+    <dt id="contentHeaderPanel">
+      <span class="content">
+        <%= t(:title, :scope => [:settings], :class => @settings.page.human_name) %>
+      </span>
+    </dt>
+    <dd id="contentBodyPanel">
+      <div id="contentInfoPanel">  
+        <div class="innerpanel">
+          <div class="body">
+            <%= @settings.page.description %>
+          </div>
+          <div class="actions">
+            <div id="mceToolbarContainer" class="tinymce"></div>
+          </div>
+        </div>
+      </div>
+      <div id="contentEditPanel" class="panel scrollable">        
+        <div class="content editcontent">
+        	<%= content_fields(@settings.page,:settings, @settings) %>
+        </div>
+      </div>
+    </dd>
+    <dd id="contentFooterPanel" class="footer">
+    	<div class="content">
+    	  <div class="submit">
+          <%= submit_button "medium/save.gif", :value => :save  %>
+        </div>
+      </div>
+    </dd>
+  </dl>
+<% end %>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+  <link href="../assets/dialog/dialog.css?1195729478" media="screen" rel="stylesheet" type="text/css" /> 
+
+	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/dialog.js" type="text/javascript" charset="utf-8"></script>
+<body>
+
+<h1>Dialog demo</h1>
+
+<p>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+
+<p>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+
+
+<select>
+  <option>test</option>
+</select>
+
+<p>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+
+<iframe src="#" width="200" height="200"></iframe>
+
+<p>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+
+<style type="text/css" media="screen">
+  body{
+    font-size: 62.5%;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    background: #fff;  
+
+  }
+</style>
+
+
+  <div id="theDialog" class="dialog">
+    <div class="head"><div class="rightShadow"><div class="leftShadow"><div class="inner">
+      The la header! 
+      <div class="controls">
+        <a href="#"><img src="../assets/dialog/button-close.gif" alt="X" /></a>
+      </div>
+    </div></div></div></div>
+    <div class="body"><div class="shadow"><div class="inner">
+      The Boddeh!
+    </div></div></div>
+    <div class="bottomShadow">
+      <div class="leftShadow">&nbsp;</div>
+      <div class="middleShadow">&nbsp;</div>
+      <div class="rightShadow">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript" charset="utf-8">
+  // Skyline.Blocker.show(0.5);
+  var d = new Skyline.Dialog({width: 200, height: "auto"});
+  
+  d.setContent("bla di bla");
+  d.setTitle("This is my title");
+  
+  // Updates content
+  // d.update("Content!")
+  
+  d.setup();
+  d.show();
+  
+  
+</script>
+
+</body>
+</html>

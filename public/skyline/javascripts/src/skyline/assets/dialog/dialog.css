@@ -1,0 +1,104 @@
+#overlay{
+  position:fixed;
+	top:0; 
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #ddd;
+	z-index: 600;
+}
+
+#overlayiframe{
+  position:fixed;
+	top:0; 
+	left: 0;
+	width: 100%;
+	height: 100%;
+  
+  z-index: 599;
+}
+
+.dialog{
+  z-index: 1000; 
+  position: absolute; 
+}
+
+.dialog .head{
+  font-weight: bold;
+  background: url(shadow-tl-corner.png) 0 0 no-repeat;    
+}
+
+.dialog .head .controls{
+  position: absolute;
+  right: 12px;
+  top: 7px;
+}
+
+.dialog .head .controls .close{
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: url(button-close.gif) 0 0 no-repeat;
+  text-indent: -10000px;
+}
+
+.dialog .head .rightShadow{
+  background: url(shadow-tr-corner.png) right 0 repeat-y;
+  margin-left: 11px;
+  padding-right: 9px;
+}
+
+.dialog .head .leftShadow{
+  margin: 0;
+  padding: 0;
+  padding-top: 4px;
+  background: url(shadow-top.png) right 0 repeat-x;
+  border-bottom: 1px solid #5f5f5f;    
+}  
+
+.dialog .head .inner{
+  min-height: 10px;
+  padding: 3px 7px;
+  background: url(head.gif) #989797 right 0 repeat-x;
+}
+
+.dialog .body{
+  background: url(shadow-left.png) 0 0 repeat-y;    
+}
+
+.dialog .body .shadow{
+  background: url(shadow-right.png) right 0 repeat-y;
+  margin-left: 11px;
+  padding-right: 9px;
+}
+
+.dialog .body .inner{
+  background: #fff;
+}
+
+.dialog .bottomShadow{
+  position: relative;
+}
+
+.dialog .bottomShadow .leftShadow{
+  position: absolute;
+  left: 0;
+  top: 0;    
+  width: 19px;
+  height: 14px;
+  background: url(shadow-bl-corner.png) 0 0 no-repeat;
+}
+
+.dialog .bottomShadow .middleShadow{
+  margin: 0 17px 0 19px;
+  background: url(shadow-bottom.png) 0 0 repeat-x;    
+}
+ 
+.dialog .bottomShadow .rightShadow{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 17px;
+  height: 14px;
+  background: url(shadow-br-corner.png) right 0 no-repeat;
+}

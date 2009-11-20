@@ -1,0 +1,92 @@
+*EDGE*
+
+* Implemented RedirectSection
+* Added branding possibity to Skyline config
+* Moved implementation specific roles to implementation seed file
+* Allow roles to be system (just like users)
+* Added configuration to allow implementations to inject their own Skyline stylesheets
+* Refactored Pages to Article in preparation of article editing an PageFragments
+* Added PageFragements
+* Automatically scroll to the currently selected page in the tree
+* Implemented PageFragmentSection
+* Sections and link_section_links are now flagged for deletion again after a submit fails
+* Added password confirmation field in user edit screen
+* Added current password field when editing your own user
+* A user now can't edit his own role
+* A user now can't delete himself
+* Refactored custom_url of all models to Skyline::ReferableUri
+* Removed PageObserver (used for indexing) in favor of general of SearchableItem module
+* HTML tags from indexed strings in Solr are now stripped
+* Articles (except Pages) can now be previewed inside a real Page
+* It is now possible to configure which sections are available for what kinds of Article classes
+* A subclass of Article has now more influence on the meta panel
+* Moved gem dependencies from rails/init.rb to Gemfile
+* Developed plugin features
+* Ready for open source release
+* Define all offsetparents for tree elements
+
+*3.0.6 (October 2, 2009)*
+
+* Fix drag of tree elements when there was scroll. (#67) Minor improvements on visual drag-cues.
+
+*3.0.5 (September 10, 2009)*
+
+* Fix issue with IE6 and external links. (resolves #13)
+* Removed memoize from page.rb
+
+*3.0.4 (August 28, 2009)*
+
+* Import functions of content model can now return error messages
+
+*3.0.3 (August 6, 2009)*
+
+* Add better page locking, as long as someone is editing a variant it can't be edited by someone else.
+* Add support for edit "takeover" so you can take over editing even if someone else is editing a variant.
+* Add "variant_force_edit" right to restrict access to the "takeover".
+* Added English language file
+* Added "mootools-on-rails" as a vendor branch, it's highly modified anyway.
+* Make the config/initializers/skyline_configuration.rb file optional
+* Add some default helpers to Skyline::Renderer
+* Always load all app/helpers/* helpers when using renderer. 
+* Removed support for @Page in favour of @page_class in rendering
+* Removed support for local variable "page" in favour of "page_version" in rendering
+* Move ActionView::Base.field_error_proc and ActionView::Base.default_form_builder to initializers/rails_defaults.rb
+* Add RAW/HTML section so users can inject raw HTML into their pages.
+* Add initial version of Media section.
+* Refactored sections that use the browse dialogs. The javascript to select a link/image is now unified.
+* Deprecate renderer.page in favour of renderer.page_version, also expose it through a helper.
+* Add support for passing a block to renderer#render_collection.
+* Added settings helpers to default renderer.
+* Add seed file for Page and MediaNode roots.
+* Cleanup functionality added to delete unuused tags
+* Moved selection of content items (for ContentItemSection) to model and ContentItem module
+
+*3.0.2.1 (July 23, 2009)*
+Bugfix release, mainly for monitoring deletions of InlineRefs.
+
+* Add version number to login screen.
+* Add logger statement when InlineRef's are deleted, watch for [InlineRef].
+* Nullify RefObject#refering_id on all links when a page is deleted
+
+*3.0.2 (July 23, 2009)*
+
+* Added localization for TinyMCE through skyline localization file
+* Automatically select target="_blank" if selecting a file or external link 
+  when making a new link from wysiwyg
+* Added html code editor for TinyMCE
+* Date editor now accepts options for the year field
+* A LinkSectionLink is now only external when its custom_url fields starts with a URI scheme
+* Added tinymce_edit_html right for use with Skyline.Editor
+* Added TinyMCE Skyline Contextmenu plugin
+* Added TinyMCE Skyline Table plugin (edit simple tables)
+
+*3.0.1 (July 21, 2009)*
+
+* Load helpers with Skyline.root as base
+* The browser controllers are now descendants of Skyline::ApplicationController  
+* Update TinyMCE to 3.2.5 
+* Bug: LinkSectionLink isn't in module Skyline::Sections
+
+*3.0.0 (July 20, 2009)*
+
+* Initial Skyline 3.0.0 version released as a Rails plugin.

@@ -1,0 +1,28 @@
+<div>
+  <select id="imageSource">
+    <option value="media">Media library</option>
+    <option value="external">External</option>
+  </select>
+  
+  <h1>Media library</h1>
+  refId: <input id="skylineRefId" type="text"/> <br/>
+  referableId: <input id="skylineReferableId" type="text"/> <br/>
+  referableType: <input id="skylineReferableType" type="text"/> <br/>
+  referableLocation: <input id="skylineReferableLocation" type="text">
+  
+  <h1>External</h1>
+  URL: <input id="externalLocation" type="text"/>
+  
+  <h1>Image</h1>
+  
+  Alt: <input id="imageAlt" type="text" />
+  Align: <select id="imageAlign"><option>Left</option><option>Center</option><option>Right</option></select>
+  
+  <div class="submit">
+    <input type="button" onclick="Skyline.Dialog.current.insertAndClose();" value="OK"/>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  Skyline.Dialog.current.setTitle("Select image");
+</script>

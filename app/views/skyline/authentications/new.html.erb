@@ -1,0 +1,58 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<%= render :partial => "skyline/shared/head" %>	
+</head>
+<body class="login">
+  <div id="application">
+    <div id="headerArea">
+      <div id="header">
+        <img src="<%= Skyline::Configuration.skyline_logo %>" alt="Entopic/cms" />
+      </div>
+    </div>
+    <div id="contentArea">
+      <% form_tag skyline_authentication_path do %>      
+        <dl class="login panel">
+          <dt><span class="content"><%= t(:log_in, :scope => [:authentication,:new]) %></span></dt>
+          <dd id="messageArea"></dd>
+          <dd>
+            <div class="content">
+              <table class="fields">
+                <tbody>
+                  <tr>
+                    <th><%= label_tag t(:email, :scope => [:authentication,:new])%></th>
+                    <td><%=text_field_tag 'email',params[:email], :class => "full" %></td>
+                  </tr>
+                  <tr>
+                    <th><%=label_tag t(:password, :scope => [:authentication,:new])%></th>
+                    <td><%=password_field_tag 'password'%></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </dd>
+          <dd class="footer">
+            <div class="content">
+              <div class="submit">
+                <%= submit_button "medium/login.gif", :value => :login %>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      <% end %>
+      <div class="subfooter">
+        <div class="version">version <%= Skyline.version %></div>        
+        <% if Skyline::Configuration.custom_logo %>
+          <strong><%= Skyline::Configuration.branding_name %></strong> is powered by 
+          <img src="/skyline/images/logo.png" alt="Skyline"  style="vertical-align: middle"/>
+        <% end %>
+      </div>
+    </div>    
+  </div>
+  <%= render_messages %>
+  <%= render_notifications %>  
+
+</body>
+</html>

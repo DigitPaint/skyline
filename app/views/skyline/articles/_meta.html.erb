@@ -1,0 +1,147 @@
+<% plugin_hook :top %>
+
+<dl class="advanced">
+  <dt><a href="#"><span><%= t(:general, :scope => [:article, :headers]) %></span></a></dt>
+  <dd>
+    <dl class="details">
+      <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
+        <dt><%= t(:current_variant, :scope => [:article, :edit]) %></dt>
+        <dd>
+          <% form_tag edit_skyline_article_path(@article), {:method => :get, :id => "change_variant_form"} do %>
+            <%= select_tag "variant_id", 
+                  options_for_select(
+                      @article.variants.map{|v| ["#{v.name}#{" (#{t(:published, :scope => [:article, :edit])})" if v.published_variant?}",v.id] }, 
+                      @variant.id), 
+                  :id => "new_variant_id", :style => "width: 100%" %>
+          <% end %>
+          <%= javascript_tag("$('new_variant_id').addEvent('change', function(){PageHelper.newVariantSelected(this.value)});") %>
+        </dd>
+      <% end %>    
+      
+      <dt><%= t(:created_at, :scope => [:article, :edit]) %></dt>
+      <dd>
+        <%= l(@variant.created_at, :format => :short) %>
+        <%= "<br/>#{@variant.creator.display_name}" if @variant.creator %>
+      </dd>
+    
+      <dt><%= t(:updated_at, :scope => [:article, :edit]) %></dt>
+      <dd>
+        <%= l(@variant.updated_at, :format => :short) %>
+        <%= "<br/>#{@variant.last_updated_by.display_name}" if @variant.last_updated_by %>              
+      </dd>
+    </dl>
+  </dd>
+</dl>
+
+<% if @article.enable_publishing? %>
+  <dl class="advanced">
+    <dt><a href="#"><span><%= t(:publication, :scope => [:article, :headers]) %></span></a></dt>
+    <dd>
+    
+      <dl class="details">
+        <dt><%= t(:publication_status, :scope => [:article, :edit]) %></dt>
+        <dd>
+          <table class="details">
+            <tbody>
+              <tr>
+                <th><%= @article.class.human_name %></th>
+                <td class="center"><%= tick_image(@article.published?) %></td>
+              </tr>
+              <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
+                <% if @article.published? %>
+                  <tr>
+                    <th><%= t(:current_variant, :scope => [:article, :edit]) %></th>
+                    <td class="center"><%= tick_image(@variant.published_variant?) %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+              <% if @variant.published_variant? %>
+                <tr>
+                  <th><%= t(:identical_published_variant, :scope => [:article, :edit]) %></th>
+                  <td class="center"><%= tick_image(@variant.identical_published_variant?) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </dd>
+        <% if @article.publications.any? %>              
+          <% if @article.published? && !@variant.published_variant? %>
+            <dt>
+              <dt><%= t(:published_variant, :scope => [:article, :edit]) %></dt>
+              <dd>
+                <%= link_to @article.published_publication.variant.name, edit_skyline_article_path(@article, :variant_id => @article.published_publication.variant) %>
+              </dd>
+            </dt>
+          <% end %>
+      
+          <dt><%= t(:last_published, :scope => [:article, :edit]) %></dt>
+          <dd>
+            <%= l(@article.publications.first.created_at, :format => :short) %>
+            <%= "<br/>#{@article.publications.first.last_updated_by.display_name}" if @article.publications.first.last_updated_by %>
+          </dd>
+          <% if @article.keep_history? %>
+            <dt><%= t(:publication_history, :scope => [:article, :edit]) %></dt>
+            <dd>
+              <%= t(:number_of_publications, :count => @article.publications.size, :scope => [@article.class, :edit]) %>
+            </dd>
+            <dd>
+              <%= link_to_remote t(:publication_history_link, :scope => [:article, :edit]), :url => skyline_article_publications_path(@article), :method => :get %>
+            </dd>
+          <% end %>
+        <% end %>                
+      </dl>
+    
+      <% if !@variant.identical_published_variant? && @variant.editable_by?(current_user) %>
+        <div class="button">
+          <%= submit_button_to "medium/publish.gif", skyline_article_published_publication_path(@article, :variant_id => @variant.id), :value => :publish %>
+        </div>
+      <% end %>
+    
+      <% if @article.published? && @variant.editable_by?(current_user) %>
+        <div class="button">
+          <% if @article.depublishable? %>
+            <%= submit_button_to "small/depublish.gif", skyline_article_published_publication_path(@article, :variant_id => @variant.id), :method => :delete, :value => :depublish %>
+          <% else %>
+            <%= submit_button_to "small/depublish-disabled.gif", skyline_article_published_publication_path(@article, :variant_id => @variant.id), :method => :delete, :value => :depublish %>
+          <% end %>
+        </div>
+      <% end %>
+    
+    </dd>
+  </dl>
+<% end %>
+
+<%= render :partial => "security" %>
+
+<dl class="advanced">
+  <dt><a href="#"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
+  <dd>
+    <div class="button">
+      <% delete_button_image = t(:delete_image, :scope => [@article.class, :buttons]) %>
+      <% delete_button_alt = t(:delete_alt, :scope => [@article.class, :buttons]) %>
+      <% if @article.destroyable? && @variant.editable_by?(current_user) %>
+        <%= submit_button_to "small/#{delete_button_image}.gif", skyline_article_path(@article), :method => :delete, :alt => delete_button_alt, :confirm => t(:confirm_delete, :scope => [@article.class, :edit]) %>
+      <% else %>
+        <%= submit_button_to "small/#{delete_button_image}-disabled.gif", skyline_article_path(@article), :method => :delete, :alt => delete_button_alt %>
+      <% end %>
+    </div>
+    
+    <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
+      <div class="button">
+        <% if @variant.destroyable? && @variant.editable_by?(current_user) %>
+          <%= submit_button_to "small/delete_variant.gif", skyline_article_variant_path(@article, @variant), :method => :delete, :alt => :delete_variant, :confirm => t(:confirm_delete_variant, :scope => [:article,:edit]) %>          
+        <% else %>
+          <%= submit_button_to "small/delete_variant-disabled.gif", skyline_article_variant_path(@article, @variant), :method => :delete, :alt => :delete_variant %>          
+        <% end %>
+      </div>  
+      
+      <div class="button">
+        <%= submit_button_to "small/new_variant.gif", skyline_article_variants_path(@article), :alt => :new_variant %>
+      </div>
+      
+      <div class="button">
+        <%= submit_button_to "small/copy_variant.gif", skyline_article_variants_path(@article, :variant_id => @variant.id), :alt => :copy_variant %>          
+      </div>
+    <% end %>
+  </dd>
+</dl>
