@@ -15,4 +15,4 @@ ActionController::Dispatcher.middleware.use(Skyline::SprocketsMiddleware, Rails.
   env.map "skyline/javascripts/skyline.editor.js", "skyline/javascripts/src/skyline.editor.js"    
 end
 
-ActionController::Dispatcher.middleware.use Skyline::PluginsLoaderMiddleware
+ActionController::Dispatcher.middleware.use(Skyline::PluginsLoaderMiddleware) unless Rails.configuration.cache_classes

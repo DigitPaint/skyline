@@ -4,11 +4,7 @@ class Skyline::PluginsLoaderMiddleware
   end
 
   def call(env)
-    # Load external skyline plugins
-    Dir[Rails.root + "vendor/skyline_plugins/*/skyline/load.rb"].each do |file|
-      load file
-    end
-    
+    Skyline::PluginsManager.load_all!    
     @app.call(env)
   end
 end

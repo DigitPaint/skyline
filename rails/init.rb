@@ -1,3 +1,4 @@
+puts "INIT SKYLINE"
 require 'fileutils'
 
 # Add these directories to the loadpath
@@ -23,3 +24,5 @@ end
 Dir[Skyline.root + "config/initializers/*.rb"].each do |file|
  require file
 end
+
+Skyline::PluginsManager.load_all!
