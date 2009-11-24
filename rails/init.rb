@@ -1,4 +1,3 @@
-puts "INIT SKYLINE"
 require 'fileutils'
 
 # Add these directories to the loadpath
