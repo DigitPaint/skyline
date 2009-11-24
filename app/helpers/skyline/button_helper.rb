@@ -77,7 +77,13 @@ module Skyline::ButtonHelper
   end
 
   def button_options(src,options={})
-    img_src = "/skyline/images/buttons/#{locale_dir}/#{src}"
+    plugin = options.delete(:plugin)
+    if plugin
+      img_src = "/skyline_plugins/#{plugin}/images/buttons/#{locale_dir}/#{src}"
+    else
+      img_src = "/skyline/images/buttons/#{locale_dir}/#{src}"
+    end
+    
     options.reverse_merge! :alt => src.split("/").last.gsub("\..+$","").to_sym, :class => "button"
     
     if options[:alt].kind_of?(Symbol)

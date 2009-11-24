@@ -223,28 +223,8 @@
       skyline/sections/link_section: "Linklijst"
       skyline/sections/raw_section: "HTML sectie"
       skyline/sections/media_section: "Media sectie"  
-      skyline/sections/form_section: "Formulier"          
       skyline/sections/redirect_section: "Redirect"
       skyline/sections/page_fragment_section: "Fragment"
-      skyline/form/form:
-        one: "Formulier"
-        other: "Formulieren"
-      skyline/form/page:
-        one: "Pagina"
-        other: "Pagina's"
-      skyline/form/handler:
-        one: "Handler"
-        other: "Handlers"
-      skyline/form/fields/text_field: "Open vraag"
-      skyline/form/fields/select_field: "Keuze vraag"
-      skyline/form/fields/date_field: "Datum vraag"
-      skyline/form/fields/wysiwyg_field: "Paragraaf"
-      skyline/form/fields/heading_field: "Kop"
-      skyline/form/fields/check_box_field: "Checkbox"
-      skyline/form/fields/submit_field: "Verstuurknop"
-      skyline/form/handlers/email_handler: "Email afhandeling"
-      skyline/form/handlers/redirect_handler: "Doorverwijs afhandeling"
-      skyline/form/handlers/storage_handler: "Opslag afhandeling"
       
     attributes:
       skyline/page:
@@ -294,8 +274,6 @@
       skyline/sections/redirect_section:
         linked: "Redirect naar"
         delay: "Vertraging"
-      skyline/sections/form_section:
-        form_id: "Formulier"
       skyline/sections/page_fragment_section:
         page_fragment_id: "Fragment"
       skyline/media_dir:
@@ -313,29 +291,6 @@
         password_confirmation: "Bevestig wachtwoord"
         role: "Rol"
         created_at: "Aangemaakt op"
-      skyline/form/page:
-        title: "Titel"
-        template: "Weergave"
-      skyline/form/field:
-        title: "Titel"
-        identifier: "Identifier"
-        prefix: "Tekst vóór invoerveld"
-        suffix: "Tekst achter invoerveld"
-        body: "Tekst"
-        selected: "Standaard geselecteerd"
-        default_value: "Standaard waarde"
-        multiple_select: "Meerdere antwoorden mogen geselecteerd worden"
-        required: "Verplichte vraag"
-      skyline/form/fields/select_field:
-        value_fields: "Antwoordmogelijkheden <span>(vink de standaard geselecteerde mogelijkeheden aan)</span>"
-      skyline/form/fields/check_box_field:
-        title: "Titel (achter checkbox)"
-        prefix: "Tekst vóór checkbox"
-        selected: "Standaard aangevinkt"
-      skyline/form/fields/submit_field:
-        title: "Opdruk"
-      skyline/form/handlers/redirect_handler:
-        linked: "Redirect naar"        
 
   buttons:
     plus: "+"
@@ -363,7 +318,6 @@
     ok: "Ok"
     delete_media_dir: "Folder verwijderen"
     yes_force_edit: "Ja, bewerken forceren"
-    delete_form: "Verwijder formulier"
 
   icons:
     "true" : "ja"
@@ -404,7 +358,6 @@
       admin: "Beheer"
       settings: "Instellingen"
       users: "Gebruikersbeheer"
-      forms: "Formulieren"
   authentication:
     logout: "Uitloggen"
     logged_in_as: "Ingelogd als <strong>{{user}}</strong>"
@@ -768,67 +721,6 @@
       cancel: Afbreken,
       close_window: Venster sluiten  
       loading: Een ogenblik geduld aub...        
-
-  form:
-    form:
-      default_title: Formulier
-      default_tempate: default
-      no_responses: "Er zijn nog geen responses op dit formulier, of deze worden niet opgeslagen"
-      headers:
-        actions: "Acties"
-        advanced: "Geavanceerd"        
-      create:
-        flashes:
-          error: "Fout bij aanmaken van een nieuw formulier {{errors}}"
-      edit:
-        confirm_delete_form: "Weet u zeker dat u dit formulier (inclusief alle responses) wilt verwijderen? Het formulier wordt van alle pagina's verwijderd."
-      destroy:
-        flashes:
-          success: "Het formulier is succesvol verwijderd."
-          error: "Fout bij het verwijderen van het formulier."
-    page:
-      default_title: Pagina 1
-      default_tempate: default
-      headers:
-        actions: "Acties"
-        advanced: "Geavanceerd"
-      tabs:
-        editor: "editor"
-        preview: "preview"
-      edit:
-        add_field: "Vraag toevoegen"
-      update:
-        flashes:
-          success: "Formulier is succesvol opgeslagen"
-          error: "Formulier kon niet worden opgeslagen omdat een fout is opgetreden, controlleer uw invoer en probeer het opnieuw."
-    field:
-      form:
-        will_be_destroyed: "{{field}} wordt verwijderd bij opslaan."
-        delete: "X"
-        links_to: "Linkt naar: {{referable_title}}"
-    fields:
-      check_box_field:
-        values: 
-          "true" : "aangevinkt"
-          "false" : "niet aangevinkt"          
-    handler:
-      headers:
-        actions: "Acties"
-        advanced: "Geavanceerd"
-      form:
-        will_be_destroyed: "{{handler}} wordt verwijderd bij opslaan."
-        delete: "X"
-      edit:
-        add_handler: "Handler toevoegen"
-    handlers:
-      storage_handler:
-        description: "Deze handler slaat de ingevoerde gegevens op in de lokale database zodat deze later bekeken en/of geexporteerd kunnen worden."
-    response:
-      error: "Nog niet alle velden zijn (correct) ingevuld, controleer uw invoer en probeer het nogmaals."
-      select_field_error: "U moet minimaal één antwoord selecteren."
-      check_box_error: "U moet het vinkje aanvinken."
-      errors:
-        field: "moet ingevuld worden"
           
   tinymce:
     skyline_table: {

@@ -6,6 +6,11 @@ namespace :skyline do
     task :migrate => :environment do
       ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
       ActiveRecord::Migrator.migrate(Skyline.root + "db/migrate/", ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+      
+      Skyline::PluginsManager.migration_paths.each do |dir|
+        ActiveRecord::Migrator.migrate(dir, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+      end      
+      
       Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby      
     end
 

@@ -60,8 +60,8 @@ class Skyline::Renderer
     protected
     
     # Convert a renderable specified by string to a class
-    def renderables_to_class(type, renderables)
-      map = {:sections => "Skyline::Sections"}
+    def renderables_to_class(type, renderables, additional_map = {})
+      map = {:sections => "Skyline::Sections"}.merge(additional_map)
       renderables.map{|f| f.kind_of?(String) ? "#{[map[type],f.camelize].compact.join("::")}".constantize : f}
     end
     
@@ -97,7 +97,7 @@ class Skyline::Renderer
       Rails.logger.debug "Rendering index template from paths: #{load_paths.join(', ')} (object.template = #{template})"
 
       av = ActionView::Base.new(load_paths.map(&:to_s))
-      
+
       self.assigns.merge(options[:assigns]).each do |k, v|
         av.assigns[k.to_sym] = v
       end
@@ -194,8 +194,9 @@ class Skyline::Renderer
     self.config[klass.name].andand[:templates] || []
   end
   
-  def config
+  def config(options = {})
     return self._config if self._config && Rails.env == "production"
+    options.reverse_merge!(:additional_config => {})
     
     delegate_proc = Proc.new do |object| 
       {
@@ -208,7 +209,7 @@ class Skyline::Renderer
     config = {"Skyline::Variant"      => delegate_proc,
               "Skyline::Publication"  => delegate_proc,
               "Skyline::Section"      => {:proxy => Proc.new{|renderer, section, options| renderer.render(section.sectionable, options)}},
-             }
+             }.merge(options[:additional_config])
     
     self.class.renderable_types.each do |type|
       self.class.renderables(type).each do |renderable|
@@ -244,11 +245,11 @@ class Skyline::Renderer
     object_config.respond_to?(:call) ? object_config.call(object) : object_config
   end
   
-  def object_template(object)
+  def object_template(object, template = nil)
     object_config = self.object_config(object)
     
-    template = object.section.template if object.respond_to?(:section)
-    template = object.template if object.respond_to?(:template)
+    template ||= object.template if object.respond_to?(:template)
+    template ||= object.section.template if object.respond_to?(:section)
     template ||= "default"
     unless object_config[:templates].include?(template)
       Rails.logger.debug "Can find template '#{template}' for class '#{object.class}' so falling back to the default template. Available templates: #{object_config[:templates].inspect}"

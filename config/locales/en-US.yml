@@ -223,27 +223,8 @@
       skyline/sections/link_section: "Link list"
       skyline/sections/raw_section: "HTML section"      
       skyline/sections/media_section: "Media section"
-      skyline/sections/form_section: "Form"
       skyline/sections/redirect_section: "Redirect"
       skyline/sections/page_fragment_section: "Fragment"
-      skyline/form/form:
-        one: "Form"
-        other: "Forms"
-      skyline/form/page:
-        one: "Page"
-        other: "Pages"
-      skyline/form/handler:
-        one: "Handler"
-        other: "Handlers"      
-      skyline/form/fields/text_field: "Open question"
-      skyline/form/fields/select_field: "Choise question"
-      skyline/form/fields/date_field: "Date question"
-      skyline/form/fields/info_field: "Text"
-      skyline/form/fields/check_box_field: "Check box"
-      skyline/form/fields/submit_field: "Send button"
-      skyline/form/handlers/email_handler: "Email handler"
-      skyline/form/handlers/redirect_handler: "Redirect handler"
-      skyline/form/handlers/storage_handler: "Storage handler"   
       
     attributes:
       skyline/page:
@@ -293,8 +274,6 @@
       skyline/sections/redirect_section:
         linked: "Redirect to"
         delay: "Delay"
-      skyline/sections/form_section:
-        form_id: "Form"        
       skyline/sections/page_fragment_section:
         page_fragment_id: "Fragment"
       skyline/media_dir:
@@ -312,29 +291,6 @@
         password_confirmation: "Confirm password"
         role: "Role"
         created_at: "Created on"
-      skyline/form/page:
-        title: "Title"
-        template: "Template"
-      skyline/form/field:
-        title: "Title"
-        identifier: "Identifier"
-        prefix: "Text in front of input field"
-        suffix: "Text after of input field"
-        body: "Text"
-        selected: "Selected by default"
-        default_value: "Default value"
-        multiple_select: "Multiple answers may be selected"
-        required: "Required question"
-      skyline/form/fields/select_field:
-        value_fields: "Possible answers"
-      skyline/form/fields/check_box_field:
-        title: "Title (after check box)"
-        prefix: "Text before check box"
-        selected: "Selected by default"
-      skyline/form/fields/submit_field:
-        title: "Caption"        
-      skyline/form/handlers/redirect_handler:
-        linked: "Redirect to"              
 
   buttons:
     plus: "+"
@@ -362,7 +318,6 @@
     ok: "Ok"
     delete_media_dir: "Delete folder"
     yes_force_edit: "Yes, enforce editing"
-    delete_form: "Delete form"
     
   icons:
     "true" : "true"
@@ -403,7 +358,6 @@
       admin: "Admin"
       settings: "Settings"
       users: "Usermanagement"
-      forms: "Forms"
   authentication:
     logout: "Log out"
     logged_in_as: "Logged in as <strong>{{user}}</strong>"
@@ -767,70 +721,6 @@
       cancel: Cancel,
       close_window: Close window  
       loading: Please wait...        
-      
-  form:
-    form:
-      default_title: Form
-      default_tempate: default
-      no_responses: "There are no respones to this form yet, or there is no handler to save them."
-      headers:
-        actions: "Actions"
-        advanced: "Advanced"        
-      create:
-        flashes:
-          error: "Error adding a new form {{errors}}"
-      edit:
-        confirm_delete_form: "Are you sure you want to delete this form (including all responses)? The form will be deleted from all pages."
-      destroy:
-        flashes:
-          success: "The form has been deleted successfully."
-          error: "Error deleting the from."
-    page:
-      default_title: Page 1
-      default_tempate: default
-      headers:
-        actions: "Acties"
-        advanced: "Advanced"
-      tabs:
-        editor: "editor"
-        preview: "preview"        
-      edit:
-        add_field: "Add question"
-      update:
-        flashes:
-          success: "Form is succesfully saved"
-          error: "Form can't be saved due to an error, check your input and try again."
-    field:
-      form:
-        will_be_destroyed: "{{field}} will be deleted on save."
-        delete: "X"
-        links_to: "Links to: {{referable_title}}"
-    fields:
-      check_box_field:
-        values: 
-          "true" : "checked"
-          "false" : "not checked"
-    handler:
-      headers:
-        actions: "Actions"
-        advanced: "Advanced"
-      tabs:
-        editor: "editor"
-        preview: "preview"        
-      form:
-        will_be_destroyed: "{{handler}} will be deleted on save."
-        delete: "X"
-      edit:
-        add_handler: "Add handler"          
-    handlers:
-      storage_handler:
-        description: "This handler saves posted data to the local database. The data can be viewed and exported at any time later on."
-    response:
-      error: "Some fields contain errors or are left empty, please check your input and try again."
-      select_field_error: "You have to select at lease one option."
-      check_box_error: "You have to check the check box."
-      errors:
-        field: "cannot be empty"
           
   tinymce:
     skyline_table: {

@@ -6,5 +6,9 @@ class Skyline::PluginsManager
         load file
       end      
     end
+    
+    def migration_paths
+      Dir[Rails.root + "vendor/skyline_plugins/*/db/migrate"]
+    end
   end
 end
