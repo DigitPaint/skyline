@@ -2,7 +2,7 @@ class Skyline::Site::PagesController < ApplicationController
   before_filter :find_site, :find_page_version_and_url_parts, :possibly_redirect
   
   def show
-    renderer = @site.renderer
+    renderer = @site.renderer(:controller => self)
     
     if @page_version    
       
