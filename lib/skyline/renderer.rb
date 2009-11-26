@@ -358,7 +358,7 @@ class Skyline::Renderer
     end
     
     def flash
-      @_controller.flash
+      @_controller.send(:flash)
     end
     
     def site
