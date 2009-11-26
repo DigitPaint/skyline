@@ -1,6 +1,13 @@
-<div class="media <%= media_section.alignment %>">
+<% 
+  has_block = media_section.alignment == "block_left" ||  media_section.alignment == "block_right"
+  alignment = has_block ? media_section.alignment.split("_")[1]: media_section.alignment 
+%>
+
+<%= "<div class=\"block\">" if has_block %>
+<div class="media <%= alignment %>" style="width: <%= media_section.linked.width %>px;" >
   <img src="<%= media_section.url %>" alt="<%= media_section.caption %>" />
   <% if media_section.caption.present? %>
     <p class="caption"><%= media_section.caption %></p>
   <% end %>
 </div>
+<%= "</div>" if has_block %>
