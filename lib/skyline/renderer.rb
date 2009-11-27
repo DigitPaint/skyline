@@ -71,7 +71,6 @@ class Skyline::Renderer
     options.reverse_merge!(:assigns => {}, 
                            :controller => nil, 
                            :paths => ["app/templates", Skyline.root + "app/templates/skyline"],
-                           :page_version => nil,
                            :page_class => Skyline::Page,
                            :site => nil)
 
