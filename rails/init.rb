@@ -24,6 +24,7 @@ Dir[Skyline.root + "config/initializers/*.rb"].sort.each do |file|
  require file
 end
 
+Skyline::PluginsManager.init_all!
 if Rails.configuration.cache_classes || !Rails.configuration.reload_plugins
   Skyline::PluginsManager.load_all!
 end
