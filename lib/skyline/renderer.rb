@@ -105,6 +105,7 @@ class Skyline::Renderer
       av.assigns[:_renderer] = self
       av.assigns[:_local_object_name] = object_config[:class_name].demodulize.underscore.to_sym
       av.assigns[:_local_object] = object
+      @_local_object = object   # for object function
       
       av.extend RendererHelper
       av.extend Helpers
@@ -145,6 +146,10 @@ class Skyline::Renderer
       skip!    
     end
   end  
+  
+  def object
+    @_local_object
+  end
   
   # Render a collection of objects (array), this gives
   # support for peek() and skip!() in the templates. A template
