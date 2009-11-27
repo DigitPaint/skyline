@@ -20,7 +20,7 @@ if !public_path.exist? #&& !public_path.symlink?
 end
 
 # Load our own plugin initializers
-Dir[Skyline.root + "config/initializers/*.rb"].each do |file|
+Dir[Skyline.root + "config/initializers/*.rb"].sort.each do |file|
  require file
 end
 
