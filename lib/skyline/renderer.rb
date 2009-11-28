@@ -62,21 +62,20 @@ class Skyline::Renderer
     # Convert a renderable specified by string to a class
     def renderables_to_class(type, renderables, additional_map = {})
       map = {:sections => "Skyline::Sections"}.merge(additional_map)
-      renderables.map{|f| f.kind_of?(String) ? "#{[map[type],f.camelize].compact.join("::")}".constantize : f}
+      renderables.map{|f| f.kind_of?(String) ? "#{[map[type], f.camelize].compact.join("::")}".constantize : f}
     end
     
   end
+  
   
   def initialize(options = {})
     options.reverse_merge!(:assigns => {}, 
                            :controller => nil, 
                            :paths => ["app/templates", Skyline.root + "app/templates/skyline"],
-                           :page_class => Skyline::Page,
                            :site => nil)
 
     @assigns = options[:assigns].update(:_controller => options[:controller], 
-                                        :_site => options[:site],
-                                        :page_class => options[:page_class])
+                                        :_site => options[:site])
 
     @template_paths = options[:paths].collect{|p| (Rails.root + p).to_s}
     @template_assigns = {}
@@ -101,7 +100,7 @@ class Skyline::Renderer
         av.assigns[k.to_sym] = v
       end
 
-      av.assigns[:_assigns] = @template_assigns
+      av.assigns[:_template_assigns] = @template_assigns
       av.assigns[:_renderer] = self
       av.assigns[:_local_object_name] = object_config[:class_name].demodulize.underscore.to_sym
       av.assigns[:_local_object] = object
@@ -112,6 +111,10 @@ class Skyline::Renderer
       
       av.render(:file => "index", :locals => options[:locals])
     end
+  end
+  
+  def object
+    @_local_object
   end
   
   def peek(n = 1)
@@ -145,12 +148,8 @@ class Skyline::Renderer
       return if yield i
       skip!    
     end
-  end  
-  
-  def object
-    @_local_object
   end
-  
+
   # Render a collection of objects (array), this gives
   # support for peek() and skip!() in the templates. A template
   # can decide too look n items forward and skip n items because the template
@@ -159,12 +158,23 @@ class Skyline::Renderer
   # By default each object is rendered with the default rendering options. If
   # you pass a block, this block is called for every item in the collection. The
   # return value of the block will be added to the output. No automatic rendering will be done.
+  #
+  # All assigns and template_assigns will be available to all (cloned) renderers. (This is
+  # because clone only makes a shallow clone, attributes (like assigns) which are Hashes aren't copied:
+  # a clone uses the same memory address of the attribute.)
   # --
   def render_collection(objects, options = {}, &block)
+    self.clone._render_collection(objects, options, &block)
+  end
+
+  # Do not use this method directly. Instead use the render_collection method.
+  # This is because nested calls to render_collection will fail due to shared
+  #   variables (like @_current_collection).
+  def _render_collection(objects, options = {}, &block)
     @_collection_skip = 0
     @_current_collection = objects
     output = []
-    Array(objects).each_with_index do |object,i|
+    Array(objects).each_with_index do |object, i|
       
       if @_collection_skip > 0
         @_collection_skip -= 1
@@ -299,7 +309,7 @@ class Skyline::Renderer
       module_name << "_helper" if module_name !~ /_helper$/
       module_name = module_name.camelize
       module_name = "::#{module_name}" if module_name !~ /^::/
-      self.send(:include,module_name.constantize)      
+      self.send(:include, module_name.constantize)      
     end
     module_function :helper
 
@@ -313,8 +323,8 @@ class Skyline::Renderer
   module RendererHelper
 
     def assign(key, value = nil)
-      return @_assigns[key] if value.nil?
-      @_assigns[key] = value
+      return @_template_assigns[key] if value.nil?
+      @_template_assigns[key] = value
     end
   
     def renderer
@@ -326,7 +336,7 @@ class Skyline::Renderer
     end
     
     def render_collection(objects, options = {},&block)
-      renderer.render_collection(objects, options,&block)
+      renderer.render_collection(objects, options, &block)
     end
     
     def peek(n=1, &block)
