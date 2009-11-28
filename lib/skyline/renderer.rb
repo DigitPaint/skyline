@@ -135,6 +135,10 @@ class Skyline::Renderer
     peeking
   end
   
+  def render_until(&block)
+    peek_until(&block).collect{|i| self.render(i)}.join
+  end
+      
   def skip!(n = 1)
     return 0 if @_current_collection.blank?    
     @_collection_skip += n
@@ -346,6 +350,10 @@ class Skyline::Renderer
     def peek_until(&block)
       renderer.peek_until(&block)
     end
+    
+    def render_until(&block)
+      renderer.render_until(&block)
+    end    
     
     def skip!(n=1)
       renderer.skip!(n)
