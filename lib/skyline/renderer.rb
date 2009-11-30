@@ -129,14 +129,13 @@ class Skyline::Renderer
     return [] unless items
     items.each do |i|
       return peeking if yield i
-      skip!    
       peeking << i
     end
     peeking
   end
   
   def render_until(&block)
-    peek_until(&block).collect{|i| self.render(i)}.join
+    peek_until(&block).collect{|i| self.skip!; self.render(i)}.join
   end
       
   def skip!(n = 1)
