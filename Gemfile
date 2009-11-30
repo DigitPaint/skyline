@@ -14,7 +14,6 @@ source "http://gems.github.com"
 
 gem "rails", "2.3.4"
 gem "rack", "1.0.0"
-gem "thin", "1.2.2"
 gem "polyglot", "0.2.6"
 gem "sprockets", "1.0.2"
 gem "mysql", "2.8.1"
