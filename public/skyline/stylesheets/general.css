@@ -1068,18 +1068,18 @@ ul.files li.selected a{
   color: #fff;
 }
 
-ul.files .excel      .file { background-image: url(../images/icons/excel.gif); }
-ul.files .image      .file { background-image: url(../images/icons/image.gif); }
-ul.files .pdf        .file { background-image: url(../images/icons/pdf.gif); }
-ul.files .text       .file { background-image: url(../images/icons/text.gif); }
-ul.files .compressed .file { background-image: url(../images/icons/compressed.gif); }
-ul.files .word       .file { background-image: url(../images/icons/word.gif); }
-ul.files .html       .file { background-image: url(../images/icons/html.gif); }
-ul.files .powerpoint .file { background-image: url(../images/icons/powerpoint.gif); }
-ul.files .executable .file { background-image: url(../images/icons/executable.gif); }
-ul.files .audio      .file { background-image: url(../images/icons/audio.gif); }
-ul.files .video      .file { background-image: url(../images/icons/video.gif); }
-ul.files .flash      .file { background-image: url(../images/icons/flash.gif); }
+.excel div.relatesTo span.referable_title, ul.files .excel      .file { background-image: url(../images/icons/excel.gif); }
+.image div.relatesTo span.referable_title, ul.files .image      .file { background-image: url(../images/icons/image.gif); }
+.pdf div.relatesTo span.referable_title, ul.files .pdf        .file { background-image: url(../images/icons/pdf.gif); }
+.text div.relatesTo span.referable_title, ul.files .text       .file { background-image: url(../images/icons/text.gif); }
+.compressed div.relatesTo span.referable_title, ul.files .compressed .file { background-image: url(../images/icons/compressed.gif); }
+.word div.relatesTo span.referable_title, ul.files .word       .file { background-image: url(../images/icons/word.gif); }
+.html div.relatesTo span.referable_title, ul.files .html       .file { background-image: url(../images/icons/html.gif); }
+.powerpoint div.relatesTo span.referable_title, ul.files .powerpoint .file { background-image: url(../images/icons/powerpoint.gif); }
+.executable div.relatesTo span.referable_title, ul.files .executable .file { background-image: url(../images/icons/executable.gif); }
+.audio div.relatesTo span.referable_title, ul.files .audio      .file { background-image: url(../images/icons/audio.gif); }
+.video div.relatesTo span.referable_title, ul.files .video      .file { background-image: url(../images/icons/video.gif); }
+.flash div.relatesTo span.referable_title, ul.files .flash      .file { background-image: url(../images/icons/flash.gif); }
 
 /* ==================== */
 /* = Definition lists = */
@@ -1540,6 +1540,39 @@ div.relatesTo.linked a.delete{
   display: inline;
 }
 
+.relatesTo .not-linked{
+  display: block;
+}
+.relatesTo .linked{
+  display: none;
+}
+
+.linked .not-linked{
+  display: none;
+}
+.linked .linked{
+  display: block;
+}
+
+
+div.relatesTo span.referable_title{
+  height: 12px;
+  padding: 2px 0 2px 25px;
+  background: url(../images/icons/default.gif) 2px 50% no-repeat;
+}
+
+.mediaFile .relatesTo span.referable_title{
+  background-image: url(../images/icons/attachment.gif);  
+}
+
+.file .relatesTo span.referable_title{
+  background-image: url(../images/icons/default.gif);  
+}
+
+.external .relatesTo span.referable_title{
+  background-image: url(../images/icons/link-external.gif);
+}
+
 /* ============ */
 /* = Sections = */
 /* ============ */
@@ -1730,13 +1763,11 @@ li.invalid .section .head{
 
 .linkSection ul.links .relatesTo {
   padding-top: 3px;
-  line-height: 16px;
-  vertical-align: middle;
 }
 
-.linkSection ul.links .relatesTo img{
-  margin-left: 1em;
-  vertical-align: middle;
+.linkSection div.relatesTo span.referable_title{
+  background: none;
+  padding-left: 0;
 }
 
 .linkSection ul.links li{
@@ -2051,19 +2082,6 @@ span.drag{
   vertical-align: middle;  
 }
 
-.content-browser .relatesTo .not-linked{
-  display: block;
-}
-.content-browser .relatesTo .linked{
-  display: none;
-}
-
-.content-browser .linked .not-linked{
-  display: none;
-}
-.content-browser .linked .linked{
-  display: block;
-}
 
 /* ================== */
 /* = General styles = */
