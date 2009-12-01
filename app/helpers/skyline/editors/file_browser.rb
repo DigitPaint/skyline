@@ -25,8 +25,7 @@ class Skyline::Editors::FileBrowser < Skyline::Editors::Editor
     end
     
     <<-EOF
-      <div id="#{input_id_prefix}">
-        
+      <div id="#{input_id_prefix}" class="#{!media_file.blank? && media_file.file_type}">
         #{hidden_field_tag(input_name(attr_names+['id']), media_file.id) if location == :model}
         #{hidden_field_tag(input_name(attr_names+['_delete']), 0, :class => 'delete')}
         #{hidden_field_tag(input_name(attr_names+['referable_type']), referable_type, :class => 'referable_type')}
@@ -36,19 +35,15 @@ class Skyline::Editors::FileBrowser < Skyline::Editors::Editor
           <div class="relatesTo#{' linked' if linked}">
             <div class="not-linked">
               <div class="blank">
-                #{t(:nothing_selected, :scope => [:content,:editors, :file_browser])}
-                #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse"}
+                #{t(:nothing_selected, :scope => [:browser,:file])}
+                #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse"}            
               </div>
-            </div>
-        
+            </div>        
+
             <div class="linked">
-              <ul class="files">
-                <li class="#{!media_file.blank? && media_file.referable_type.present? && media_file.file_type}"><div class="file">
-                  <span class="referable_title">#{media_file_name}</span>
-                  #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse"}
-                  #{link_to_function t(:deselect, :scope => [:content,:editors,:file_browser]),  "Application.Browser.unlink('#{input_id_prefix}');", :class => "deselect"}
-                </div></li>
-              </ul>
+              #{t(:links_to, :scope => [:browser,:file], :referable_title => "<span class=\"referable_title\">#{media_file_name}</span>")}
+              #{link_to_function(button_image("small/delete.gif", :alt => :delete), "Application.Browser.unlink('#{input_id_prefix}');", :class => "delete")}
+              #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse"}
             </div>
           </div>
         </div>

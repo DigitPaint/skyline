@@ -539,7 +539,6 @@
     form:
       will_be_destroyed: "Link {{link}} wordt verwijderd bij opslaan"
       delete: "X"
-      links_to: "Linkt naar: {{referable_title}}"
   redirect_section:
     form:
       seconds: "secondes"
@@ -610,10 +609,16 @@
       url: "URL"
     file:
       dialog_title: "Kies bestand"
+      links_to: "{{referable_title}}"
+      nothing_selected: "Nog geen bestand gekozen"
     page:
       dialog_title: "Kies pagina"
+      links_to: "{{referable_title}}"
+      nothing_selected: "Nog geen pagina gekozen"
     link:
       dialog_title: "Kies link"
+      links_to: "Linkt naar: {{referable_title}}"
+      nothing_selected: "Nog geen link gekozen"      
       title: "Tooltip"
       target: "Openen in"
       targets:
@@ -621,6 +626,8 @@
         "-" : "Zelfde venster"
     image:
       dialog_title: "Kies afbeelding"
+      links_to: "Linkt naar: {{referable_title}}"
+      nothing_selected: "Nog geen afbeelding gekozen"      
       alt: "Alt"
       dimensions: "Afmetingen (BxH)"
       align: "Uitlijning"
@@ -655,12 +662,6 @@
       joinable_list:
         adding: "{{class}} wordt toegevoegd..."
         add_to: "toevoegen aan {{class}}"
-      file_browser:
-        nothing_selected: Nog geen bestand geselecteerd.
-        deselect: Deselecteer dit bestand
-      page_browser:
-        nothing_selected: Nog geen pagina geselecteerd.
-        deselect: Deselecteer deze pagina
     flashes:
       invalid_record: Not good - ActiveRecord::RecordInvalid
       successfully_saved: De/het {{class}} is opgeslagen

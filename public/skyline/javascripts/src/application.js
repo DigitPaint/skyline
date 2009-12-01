@@ -200,7 +200,10 @@ Application.Layout = (function(){
 
     initializeDirTree : function(id){
       if(this.tree){
-        return this.tree.reload();
+        this.tree.reload();
+        //Fire select event to open the active node
+        this.tree.selectNode(null, this.tree.selectedNode);
+        return;
       };
 
       var self = this;

@@ -36,19 +36,15 @@ class Skyline::Editors::PageBrowser < Skyline::Editors::Editor
 
             <div class="not-linked">
               <div class="blank">
-                #{t(:nothing_selected, :scope => [:content,:editors, :page_browser])}
+                #{t(:nothing_selected, :scope => [:browser,:page])}
                 #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browsePageFor('#{input_id_prefix}');", :class => "browse"}            
               </div>
             </div>        
 
             <div class="linked">
-              <ul class="files">
-                <li class="page"><div class="file">
-                  <span class="referable_title">#{page_title}</span>
-                  #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browsePageFor('#{input_id_prefix}');", :class => "browse"}
-                  #{link_to_function t(:deselect, :scope => [:content,:editors,:page_browser]),  "Application.Browser.unlink('#{input_id_prefix}');", :class => "deselect"}              
-                </div></li>
-              </ul>
+              #{t(:links_to, :scope => [:browser,:page], :referable_title => "<span class=\"referable_title\">#{page_title}</span>")}
+              #{link_to_function(button_image("small/delete.gif", :alt => :delete), "Application.Browser.unlink('#{input_id_prefix}');", :class => "delete")}
+              #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browsePageFor('#{input_id_prefix}');", :class => "browse"}
             </div>
           </div>
         </div>

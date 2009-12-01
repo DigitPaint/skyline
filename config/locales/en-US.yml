@@ -535,7 +535,6 @@
     form:
       will_be_destroyed: "Link {{link}} will be deleted when saving"
       delete: "X"
-      links_to: "Links to: {{referable_title}}"
   redirect_section:
     form:
       seconds: "seconds"
@@ -606,10 +605,16 @@
       url: "URL"
     file:
       dialog_title: "Choose file"
+      links_to: "{{referable_title}}"
+      nothing_selected: "No file has been selected"      
     page:
       dialog_title: "Choose page"
+      links_to: "{{referable_title}}"
+      nothing_selected: "No page has been selected"      
     link:
       dialog_title: "Choose link"
+      links_to: "Links to: {{referable_title}}"
+      nothing_selected: "No link has been selected"
       title: "Tooltip"
       target: "Open in"
       targets:
@@ -617,6 +622,8 @@
         "-" : "Same window"
     image:
       dialog_title: "Choose image"
+      links_to: "{{referable_title}}"
+      nothing_selected: "No image has been selected"      
       alt: "Alt"
       dimensions: "Size (WxH)"
       align: "Align"
@@ -651,12 +658,6 @@
       joinable_list:
         adding: "{{class}} beeing added..."
         add_to: "add to {{class}}"
-      file_browser:
-        nothing_selected: No file selected.
-        deselect: Unselect this file
-      page_browser:
-        nothing_selected: No page selected.
-        deselect: Unselect this page
     flashes:
       invalid_record: Not good - ActiveRecord::RecordInvalid
       successfully_saved: The {{class}} is saved
