@@ -111,7 +111,7 @@ Skyline.Editor = new Class({
 		
     // Remove all divs
     process([
-      /<\/?(img|font|meta|link|style|div|h\d)[^>]*>/gi, // Remove img/div etc.
+      /<\/?(pre|code|img|font|meta|link|style|div|h\d)[^>]*>/gi, // Remove img/div etc.
       /<\/?(small|big)[^>]*>/gi // Remove small/big etc.
     ]);
     
