@@ -45,7 +45,7 @@ module Skyline::RefObjectHelper
       c << linked_form.hidden_field(:id) unless linked_form.object.new_record?    
       c << linked_form.hidden_field(:referable_type, :class => "referable_type")
       c << linked_form.hidden_field(:referable_id, :class => "referable_id")
-      c << linked_form.hidden_field(:_delete, :class => "delete", :value => 0)    
+      c << linked_form.hidden_field(:_destroy, :class => "delete", :value => 0)    
       linked_form.fields_for "referable_attributes", linked_form.object.referable do |referable_form|
         c << hidden_field_tag(referable_form.object_name + "[uri]", referable_form.object.respond_to?(:uri) ? referable_form.object.uri : "", :class => "link_custom_url")
       end

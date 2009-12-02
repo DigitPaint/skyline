@@ -10,7 +10,7 @@ class Skyline::UsersController < Skyline::ApplicationController
   
   def index
     
-    @users = Skyline::User.paginate(:per_page => self.per_page,:conditions => {:system => false, :destroyed => false}, :include => [:roles], :page => params[:page])
+    @users = Skyline::User.paginate(:per_page => self.per_page,:conditions => {:system => false, :is_destroyed => false}, :include => [:roles], :page => params[:page])
   end
   
   def new

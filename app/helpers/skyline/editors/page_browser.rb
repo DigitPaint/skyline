@@ -27,7 +27,7 @@ class Skyline::Editors::PageBrowser < Skyline::Editors::Editor
     <<-EOF
       <div id="#{input_id_prefix}">
         #{hidden_field_tag(input_name(attr_names+['id']), page.id) if location == :model}
-        #{hidden_field_tag(input_name(attr_names+['_delete']), 0, :class => 'delete')}
+        #{hidden_field_tag(input_name(attr_names+['_destroy']), 0, :class => 'delete')}
         #{hidden_field_tag(input_name(attr_names+['referable_type']), referable_type, :class => 'referable_type')}
         #{hidden_field_tag(input_name(attr_names+['referable_id']), referable_id, :class => 'referable_id')}
 

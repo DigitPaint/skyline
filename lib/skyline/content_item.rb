@@ -118,7 +118,7 @@ module Skyline::ContentItem
             referable_params = attributes.delete("referable_attributes")
             self.previous_referables ||= {}
             self.previous_referables[:#{f}] = self.#{f}.referable.dup if self.#{f}.andand.referable
-            assign_nested_attributes_for_one_to_one_association(:#{f}, attributes, true)
+            assign_nested_attributes_for_one_to_one_association(:#{f}, attributes)
   
             # only create and modify referable if it is a Skyline::ReferableUri
             if self.#{f} && attributes[:referable_type] == "Skyline::ReferableUri"

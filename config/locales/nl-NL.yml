@@ -286,6 +286,7 @@
         name: "Bestandsnaam"
         title: "Titel (gebruikt in links)"
         description: "Beschrijving"
+        date: "Datum"
         file_tags: "Tags"
       skyline/user:
         email: "E-mailadres"        

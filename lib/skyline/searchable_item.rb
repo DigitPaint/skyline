@@ -34,6 +34,7 @@ module Skyline::SearchableItem
 		base.send(:after_destroy, :remove_from_index)
 		base.send(:cattr_accessor, :searchable_fields)
 		base.send(:cattr_accessor, :indexer_options)
+		base.send(:indexer_options=, {})
 	end
  	
  	module ClassMethods

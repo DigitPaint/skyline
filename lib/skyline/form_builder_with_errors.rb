@@ -27,14 +27,14 @@ class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
   # Usage example:
   #   <% article_form.fields_for "sections_attributes", section, :index => guid do |s| %>
   #     <%= s.hidden_field :id unless s.object.new_record? %>
-  #     <%= s.hidden_field :_delete, :class => "delete" %>
+  #     <%= s.hidden_field :_destroy, :class => "delete" %>
   #     <%= s.positioning_field %>
   #     ...
   #   <% end %>
   # 
   # Will result in the following fields:
   #  <input type="hidden" name="article[sections_attributes][489e1519-56de-1e95-482b-bae29dd411ef][id]"      id="article_sections_attributes_489e1519-56de-1e95-482b-bae29dd411ef_id"      value="2211"/>
-  #  <input type="hidden" name="article[sections_attributes][489e1519-56de-1e95-482b-bae29dd411ef][_delete]" id="article_sections_attributes_489e1519-56de-1e95-482b-bae29dd411ef__delete" class="delete"/>
+  #  <input type="hidden" name="article[sections_attributes][489e1519-56de-1e95-482b-bae29dd411ef][_destroy]" id="article_sections_attributes_489e1519-56de-1e95-482b-bae29dd411ef__destroy" class="delete"/>
   #  <input type="hidden" name="article[sections_position][]"                                                id="article_sections_position_489e1519-56de-1e95-482b-bae29dd411ef"           value="489e1519-56de-1e95-482b-bae29dd411ef"/>
   #
   def positioning_field

@@ -2,7 +2,7 @@
 <li id="section_<%=guid%>" class="<%= sectionable_type.camelcase(:lower) %> <%= section.sectionable.andand.errors.any? ? "invalid" : "" %>">
   <% variant_form.fields_for "sections_attributes", section, :index => guid do |section_form| %>
     <%= section_form.hidden_field :id unless section_form.object.new_record? %>
-    <%= section_form.hidden_field :_delete, :class => "delete" %>
+    <%= section_form.hidden_field :_destroy, :class => "delete" %>
     <%= section_form.positioning_field %>
     
     <% section_form.fields_for "sectionable_attributes", section_form.object.sectionable do |sectionable_form| %>

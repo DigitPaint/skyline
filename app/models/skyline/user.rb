@@ -28,6 +28,7 @@ class Skyline::User < ActiveRecord::Base
   
   validates_presence_of :email
   validate :valid_email_address
+  validates_uniqueness_of :email, :unless => :is_destroyed
 
   validate :grants_didnt_change, :if => :editing_myself
 
@@ -47,7 +48,7 @@ class Skyline::User < ActiveRecord::Base
     # User:: The user if authentication passed
     # --
     def authenticate(email,password)
-      user = self.first(:conditions => {:email => email.to_s.downcase, :password => encrypt(password.to_s), :destroyed => false})
+      user = self.first(:conditions => {:email => email.to_s.downcase, :password => encrypt(password.to_s), :is_destroyed => false})
       user && user || false
     end
     
@@ -138,14 +139,15 @@ class Skyline::User < ActiveRecord::Base
   # Display the name or e-mailaddress of the user for
   # display purposes.
   def display_name
+    return self.name
     self.name.present? ? self.name : self.email
   end
   
   # Don't really destroy the object, just
-  # set the destroyed? flag.
+  # set the is_destroyed? flag.
   def destroy_without_callbacks
     unless new_record?
-      self.update_attributes(:destroyed => true)
+      self.update_attributes(:is_destroyed => true)
     end
     
     freeze

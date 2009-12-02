@@ -4,7 +4,7 @@
   <div class="file">
     <% sectionable_form.fields_for "links_attributes", link, :index => link_guid do |l| %>
       <%= l.hidden_field :id unless link.new_record? %>
-      <%= l.hidden_field :_delete, :class => "delete" %>
+      <%= l.hidden_field :_destroy, :class => "delete" %>
       <%= l.positioning_field %>
     
       <div class="undestroy">

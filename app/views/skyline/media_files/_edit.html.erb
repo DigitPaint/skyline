@@ -42,6 +42,9 @@
       
         <dt><%=f.label :description, Skyline::MediaFile.human_attribute_name("description")%></dt>
         <dd><%= f.text_area :description, :cols=>20, :rows=>5%></dd>
+
+        <dt><%=f.label :date, Skyline::MediaFile.human_attribute_name("date")%></dt>
+        <dd><%= f.date_select :date, :use_month_numbers => true %></dd>
       </dl>
       <dl class="tagselector line">
         <dt><%=f.label :raw_tags, Skyline::MediaFile.human_attribute_name("file_tags")%></dt>
