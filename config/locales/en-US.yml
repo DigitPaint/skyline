@@ -173,7 +173,11 @@
           attributes:
             version:
               outdated: "Antoher user has saved this page while you were editing it. You can't save this page anymore."
-  
+        skyline/sections/link_section:
+          attributes:
+            links:
+              no_links: "No links have been added yet."
+                
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
       #

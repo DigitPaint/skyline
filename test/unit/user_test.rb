@@ -56,10 +56,10 @@ class UserTest < ActiveSupport::TestCase
       end
       
       should "set the destroyed flag on #destroy" do
-        assert @user.destroyed?
+        assert @user.is_destroyed?
       end
       should "not be removed from the database" do
-        assert Skyline::User.find_by_id_and_destroyed(@user.id,true)
+        assert Skyline::User.find_by_id_and_is_destroyed(@user.id,true)
       end
       should "not be able to authenticate" do
         assert !Skyline::User.authenticate("destroy@test.com","qwedsa")
