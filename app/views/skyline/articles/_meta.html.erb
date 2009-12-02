@@ -117,8 +117,7 @@
   <dt><a href="#"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
   <dd>
     <div class="button">
-      <% delete_button_image = t(:delete_image, :scope => [@article.class, :buttons]) %>
-      <% delete_button_alt = t(:delete_alt, :scope => [@article.class, :buttons]) %>
+      <% delete_button_alt = t(:delete, :scope => [@article.class, :buttons]) %>
       <% if @article.destroyable? && @variant.editable_by?(current_user) %>
         <%= submit_button_to delete_button_alt, skyline_article_path(@article), :method => :delete, :class => "small red", :confirm => t(:confirm_delete, :scope => [@article.class, :edit]) %>
       <% else %>

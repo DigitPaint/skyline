@@ -449,8 +449,7 @@
       editor: "editor"
       preview: "preview"
     buttons:
-      delete_image: "delete_page"
-      delete_alt: "Verwijder artikel"      
+      delete: "Verwijder artikel"      
     new:
       new_page: "Nieuw"
       below: "Onder"
@@ -574,6 +573,8 @@
     default_title: "Nieuwe pagina"
   page_fragment:
     default_title: "Nieuw fragment"
+    buttons:
+      delete: "Verwijder fragment"
   variant:
     create:
       flashes:
