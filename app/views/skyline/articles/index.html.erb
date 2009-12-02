@@ -38,7 +38,7 @@
                 <div class="draggable">
                   <div class="content">
                     <h3>
-                      <%= article.title %>
+                      <%= article.title.blank? ? "&nbsp;" : article.title %>
                     </h3>
                   </div>
                 </div>
