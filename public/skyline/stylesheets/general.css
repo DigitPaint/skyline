@@ -1556,11 +1556,14 @@ div.relatesTo.linked a.delete{
   display: block;
 }
 
-
 div.relatesTo span.referable_title{
   height: 12px;
-  padding: 2px 10px 2px 25px;
+  padding: 2px 0 2px 25px;
   background: url(../images/icons/default.gif) 2px 50% no-repeat;
+}
+
+div.relatesTo span.title{
+  padding-right: 10px;
 }
 
 .mediaFile .relatesTo span.referable_title{
@@ -2101,7 +2104,6 @@ button.medium,
 button.small{
   line-height: 14px;
   display: inline-block;
-/*  zoom: 1;*/
   vertical-align: middle;
   border: 1px solid #949494;
   color: #333333;
@@ -2127,8 +2129,9 @@ button.medium:active {
 
 a.button.small,
 button.small{
-  padding: 0px 10px;
+  padding: 1px 10px;
   font-size: 10px;
+  line-height: 12px;
   font-weight: normal;
   background-image: url(/skyline/images/buttons/buttons-small.gif);
 }

@@ -56,13 +56,13 @@ module Skyline::RefObjectHelper
     
       c << content_tag("div", :class => "not-linked") do
         nl = []
-        nl << t(:nothing_selected, :scope => [:browser,browser])
+        nl << content_tag("span",t(:nothing_selected, :scope => [:browser,browser]), :class => "title")
         nl << browse_button
       end
       
       c << content_tag("div", :class => "linked") do
         l = []
-        referable_title = content_tag("span", ref_object_title(linked_form.object.andand.referable) + " ", :id => linked_form.dom_id(:title), :class => "referable_title")
+        referable_title = content_tag("span", ref_object_title(linked_form.object.andand.referable) + " ", :id => linked_form.dom_id(:title), :class => "title referable_title")
         l << t(:links_to, :scope => [:browser,browser], :referable_title => referable_title)
         l << deselect_button
         l << browse_button
