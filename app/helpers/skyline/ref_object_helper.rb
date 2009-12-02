@@ -46,8 +46,8 @@ module Skyline::RefObjectHelper
       end
 
       
-      deselect_button = link_to_function(button_image("small/delete.gif", :alt => :delete), "Application.Browser.unlink('#{options[:container]}');", :class => "delete")
-      browse_button = link_to_function(button_image("small/browse.gif", :alt => :browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}');")      
+      deselect_button = link_to_function(button_text(:delete), "Application.Browser.unlink('#{options[:container]}');", :class => "button small red delete") + " "
+      browse_button = link_to_function(button_text(:browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}');", :class => "button small")
     
       c << content_tag("div", :class => "not-linked") do
         nl = []

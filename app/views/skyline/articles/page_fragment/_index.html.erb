@@ -1,7 +1,7 @@
 <% if current_user.allow?(Skyline::PageFragment, :index) %>
   <dt id="leftFragmentHeaderPanel" class="<%= local_assigns[:active] ? "active" : "" %>">
   	<span class="content">
-  		<%= link_to_remote button_image("small/plus.gif", :alt => "plus"), :url => skyline_articles_path(:type => Skyline::PageFragment), :method => :post %>	  
+  		<%= link_to_remote button_text(:plus), {:url => skyline_articles_path(:type => Skyline::PageFragment), :method => :post}, :class => "button small" %>
   		<%= Skyline::PageFragment.human_name(:count => 2) %>
   	</span>
   </dt>

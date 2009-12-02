@@ -382,7 +382,7 @@ Application.Layouts.History = new Class({
     this.disableForm = function(ev){ ev.stop(); ev.preventDefault(); };
     this.form.addEvent("submit",this.disableForm);
     this.formDisabled = true;
-    this.button = this.footerPanel.element.getElement("input.button");
+    this.button = this.footerPanel.element.getElement("button");    
     
     this.layout.setup();
     
@@ -390,7 +390,9 @@ Application.Layouts.History = new Class({
   activate : function(id,url){
     if(this.formDisabled && this.button){
       this.form.removeEvent("submit",this.disableForm);
-      this.button.set("src", this.button.get("src").replace("-disabled",""));
+      this.button.removeClass("disabled");
+      this.button.addClass("green");
+      this.button.set("disabled","");
       this.formDisabled = false;
     }
     

@@ -2,7 +2,7 @@
   <% if current_user.allow?(:variant_force_edit) %>
     <span class="button">
       <%= t(:force_editing, :scope => [@article.class, :edit]) %>
-      <%= submit_button "small/yes_force_edit.gif", :alt => :yes_force_edit, :width => 126 %>
+      <span style="padding-left: 1em"><%= submit_button :yes_force_edit, :class => "small" %></span>
     </span>
   <% end %>
   <strong>

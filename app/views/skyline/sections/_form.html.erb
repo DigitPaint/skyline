@@ -10,7 +10,7 @@
       <%= sectionable_form.hidden_field :class if sectionable_form.object.new_record? %>    
 
       <div class="undestroy">
-        <%= link_to_function button_image("small/undo.gif", :alt => :undo), "PageHelper.unDestroy('section_#{guid}')", :class => "undo" %>
+        <%= link_to_function button_text(:undo), "PageHelper.unDestroy('section_#{guid}')", :class => "undo button small" %>
         <%= t(:will_be_destroyed, :section => section.sectionable.class.human_name, :scope => [:section, :form]) %>
       </div>  
       <div class="section">   	        

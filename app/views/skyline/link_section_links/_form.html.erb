@@ -8,7 +8,7 @@
       <%= l.positioning_field %>
     
       <div class="undestroy">
-        <%= link_to_function button_image("small/undo.gif", :alt => :undo), "PageHelper.unDestroy('link_section_#{link_guid}')", :class => "undo" %>
+        <%= link_to_function button_text(:undo), "PageHelper.unDestroy('link_section_#{link_guid}')", :class => "button small undo" %>
         <%= t(:will_be_destroyed, :link => link.title, :scope => [:link_section, :form]) %>        
       </div>
   

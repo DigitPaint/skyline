@@ -294,7 +294,7 @@
 
   buttons:
     plus: "+"
-    add: "Toevoegen"
+    add: "+ Toevoegen"
     cancel: "Annuleren"
     save: "Opslaan"
     publish: "Publiceren"
@@ -312,7 +312,7 @@
     export: "Exporteren"
     import: "Importeren"
     undo: "Ongedaan maken"
-    add_link: "Link toevoegen"
+    add_link: "+ Link toevoegen"
     browse: "Bladeren"
     upload: "Uploaden"
     ok: "Ok"

@@ -21,34 +21,32 @@ module Skyline::ButtonHelper
     EOS
   end
   
-  # Places <img src="xxx"> tag with the right localized button image
+  # Translates the key if it's a symbol otherwise just places key
   # --
-  def button_image(src,options={})
-    src,options = button_options(src,options)
-    image_tag(src,options)
+  def button_text(key)
+    key.kind_of?(Symbol) ? t(key, :scope => :buttons) : key
   end
   
-  # Places a <input type=img> tag with the right image
-  # localized.
+  # Places a <button type="submit">..</button> tag
   #
   # ==== Parameters
   # src :: The location of the image relative to the locale directory
-  # options :: Options to pass through to image_submit_tag
+  # options :: Options to pass through to content_tag
   #
   # ==== Options
   # :value :: If value is a symbol, it will be translated in scope buttons
   # --
-  def submit_button(src,options={})
-    img_src,options = button_options(src,options)
-    options.reverse_merge! :value => options[:alt]
+  def submit_button(label,options={})
+    convert_boolean_attributes!(options, %w( disabled ))
     
-    image_submit_tag img_src, options
+    options.reverse_merge! :type => "submit"
+    content_tag("button", button_text(label) ,options)
   end
   
-  
-  def submit_button_to(src,options={},html_options={})
-    img_src,html_options = button_options(src,html_options)    
+  def submit_button_to(label,options={},html_options={})
+    
     html_options = html_options.stringify_keys
+    disabled = html_options[:disabled]
     convert_boolean_attributes!(html_options, %w( disabled ))
     
     method_tag = ''
@@ -70,29 +68,10 @@ module Skyline::ButtonHelper
     url = options.is_a?(String) ? options : self.url_for(options)
     name ||= url
     
-    html_options.reverse_merge! :value => options[:alt], :type => "image", :src => img_src
+    html_options.reverse_merge! :type => "submit"
     
     "<form method=\"#{form_method}\" action=\"#{escape_once url}\" class=\"button-to\"><div>" +
-      method_tag + tag("input", html_options) + request_token_tag + "</div></form>"
-  end
-
-  def button_options(src,options={})
-    plugin = options.delete(:plugin)
-    if plugin
-      img_src = "/skyline_plugins/#{plugin}/images/buttons/#{locale_dir}/#{src}"
-    else
-      img_src = "/skyline/images/buttons/#{locale_dir}/#{src}"
-    end
-    
-    options.reverse_merge! :alt => src.split("/").last.gsub("\..+$","").to_sym, :class => "button"
-    
-    if options[:alt].kind_of?(Symbol)
-      options[:alt] = t(options[:alt], :scope => :buttons)
-    end
-    [img_src,options]
+      method_tag + content_tag("button", button_text(label) ,html_options) + request_token_tag + "</div></form>"    
   end
   
-  def locale_dir
-    I18n.locale.downcase
-  end
 end

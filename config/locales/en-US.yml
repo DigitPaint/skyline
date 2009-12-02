@@ -294,7 +294,7 @@
 
   buttons:
     plus: "+"
-    add: "Add"
+    add: "+ Add"
     cancel: "Cancel"
     save: "Save"
     publish: "Publish"
@@ -312,7 +312,7 @@
     export: "Export"
     import: "Import"
     undo: "Undo"
-    add_link: "Add link"
+    add_link: "+ Add link"
     browse: "Browse"
     upload: "Upload"
     ok: "Ok"

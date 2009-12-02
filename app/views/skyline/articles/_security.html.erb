@@ -17,10 +17,10 @@
           <div class="button" style="margin-top: 5px">
     		    <% if @article.locked? %>
     		      <%= f.hidden_field :locked, :value => "0" %>
-    		  	  <%= submit_button "small/unlock.gif" %>
+    		  	  <%= submit_button :unlock, :class => "small" %>
     		  	<% else %>
     		      <%= f.hidden_field :locked, :value => "1" %>  		  	
-    		  	  <%= submit_button "small/lock.gif" %>
+    		  	  <%= submit_button :lock, :class => "small" %>
     	  	  <% end %>
     	  	</div>
   	  	<% end %>

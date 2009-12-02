@@ -41,13 +41,13 @@ class Skyline::Presenters::Presenter
   protected
   
   def edit_button(record)
-		link_to button_image("small/edit.gif", :alt => :edit),{:action => "edit", :types => stack.url_types(:down => [record.id]), :return_to  => url_for({:filter => params[:filter]})}
+		link_to button_text(:edit),{:action => "edit", :types => stack.url_types(:down => [record.id]), :return_to  => url_for({:filter => params[:filter]})}, :class => "button small"
   end
   
   def delete_button(record)
-    link_to_remote button_image("small/delete.gif", :alt => :delete), 
+    link_to_remote button_text(:delete),{ 
                    :url => {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
-                   :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name)
+                   :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name) }, :class => "button small red"
   end
 
     
