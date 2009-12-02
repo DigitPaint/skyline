@@ -273,6 +273,11 @@ Skyline.Tree.SubTreeDrag = new Class({
     if(this.options.fixedRootNodes && this.rootNodes.indexOf(droppable) > -1){ return "inside" }
     if(!this.options.orderable){ return "inside";}
     
+    // See if this is a single node or one that has a subtree.
+    // Closed subtrees also count as single nodes. If it's NOT single node
+    // you can't drop below the node (it would give a weird result)
+    var singleNode = droppable.hasClass("closed") || !droppable.hasClass("hasChildren");
+    
     // Take first child to determine droppable position, the LI element
     // can be higher due to subtrees.
     var droppable = droppable.getFirst();
@@ -284,10 +289,13 @@ Skyline.Tree.SubTreeDrag = new Class({
         
     if((dropTop + h/4) > dragTop){
       return "before";
-    } else if((dropTop + h * 3/4) < dragTop){
-      return "after";
     } else {
-      return "inside";
+      if(!singleNode){ return "inside"; }
+      if((dropTop + h * 3/4) < dragTop){
+        return "after";
+      } else {
+        return "inside";
+      }
     }
   },    
   getDroppables : function(){
