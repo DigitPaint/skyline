@@ -29,6 +29,7 @@ a img,:link img,:visited img { border:none }
 /* ============================= */
 /* = Remove all button margins = */
 /* ============================= */
+a.button,
 button { 
 	position: relative;
 	border: 0 none; 
@@ -37,12 +38,14 @@ button {
 	overflow: visible; /* removes extra side padding in IE */
 }
 
+a.button::-moz-focus-inner,
 button::-moz-focus-inner {
   border: none;  /* overrides extra padding in Firefox */
   margin: 0;
   padding: 0;
 }
 
+a.button span,
 button span { 
 	position: relative;
 	display: block; 

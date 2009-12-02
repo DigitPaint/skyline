@@ -189,7 +189,7 @@ Skyline.Layout  = new Class({
       this.resizeTimer = null;
     }
     
-    var options = {width: window.getWidth(), height: window.getHeight()};    
+    var options = {width: window.getWidth(), height: window.getHeight()};   
     if(this.options.width != options.width || this.options.height != options.height){
       this.setOptions(options);
       this.setup();      
@@ -281,22 +281,25 @@ Skyline.VerticalLayout = new Class({
   setupHeights : function(){
     this.element.setStyle("height",this.height);
     var rest = this.height;
-    var variablePanel = null;
-    this.panels.each(function(panel){
-      if(panel.hidden){ return; }      
-      if(panel.options.height){
-        if(panel.options.height == "content"){
-          panel.element.setStyle("height","auto");
-          this.setPanelSize(panel,panel.element.offsetHeight);
+    
+    if(this.panels.length > 0){
+      var variablePanel = null;
+      this.panels.each(function(panel){
+        if(panel.hidden){ return; }      
+        if(panel.options.height){
+          if(panel.options.height == "content"){
+            panel.element.setStyle("height","auto");
+            this.setPanelSize(panel,panel.element.offsetHeight);
+          } else {
+            this.setPanelSize(panel,panel.options.height);
+          }
+          rest = rest - panel.height;
+          panel.setupHeights();
         } else {
-          this.setPanelSize(panel,panel.options.height);
+          variablePanel = panel;
         }
-        rest = rest - panel.height;
-        panel.setupHeights();
-      } else {
-        variablePanel = panel;
-      }
-    }.bind(this));
+      }.bind(this));
+    }
     if(variablePanel){
       this.setPanelSize(variablePanel,rest);      
       variablePanel.setupHeights();

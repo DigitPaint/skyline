@@ -466,8 +466,7 @@ form.upload ul.files li.failed  { background-image: url(../images/icons/file-fai
   padding: 3px;
 }
 
-
-#leftFragmentHeaderPanel dt .content:after,
+dl.panel dt .content:after,
 #mainnavigation:after,
 ul.files:after,
 ul.toptabs:after,
@@ -2102,6 +2101,7 @@ a.button.small,
 a.button.medium,
 button.medium,
 button.small{
+	font-size: 12px;  
   line-height: 14px;
   display: inline-block;
   vertical-align: middle;
@@ -2115,8 +2115,8 @@ button.small{
 	-moz-border-radius: 3px; 
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
-	font-size: 12px; 
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+  overflow: hidden;
 }
 
 a.button:active,
