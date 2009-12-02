@@ -77,7 +77,7 @@ class Skyline::Renderer
     @assigns = options[:assigns].update(:_controller => options[:controller], 
                                         :_site => options[:site])
 
-    @template_paths = options[:paths].collect{|p| (Rails.root + p).to_s}
+    @template_paths = options[:paths].collect{|p| (Rails.root + p).to_s if File.exist?(Rails.root + p)}.compact
     @template_assigns = {}
   end
   

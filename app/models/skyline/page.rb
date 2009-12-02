@@ -23,7 +23,12 @@ class Skyline::Page < Skyline::Article
     end
 
     def validate_url_part
-      self.errors.add :url_part, :blank if !self.version.article.root? && self.url_part.blank?
+      return if self.version.article.root?
+      if self.url_part.blank?
+        self.errors.add :url_part, :blank 
+      else
+        self.errors.add :url_part, :taken if self.version.article.parent.children.find_by_url_part(self.url_part)
+      end      
     end
   end
   

@@ -173,6 +173,10 @@
           attributes:
             version:
               outdated: "Een andere gebruiker heeft deze pagina opgeslagen terwijl u deze aan het bewerken was. U kunt deze pagina niet meer opslaan."      
+        skyline/sections/link_section:
+          attributes:
+            links:
+              no_links: "Er zijn nog geen links aan de linklijst toegevoegd."
         
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.

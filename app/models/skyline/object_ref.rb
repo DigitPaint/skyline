@@ -1,5 +1,4 @@
 class Skyline::ObjectRef < Skyline::RefObject	
-  belongs_to :referable, :polymorphic => true, :autosave => true
   after_destroy :destroy_referable
   
 	def respond_to?(m)

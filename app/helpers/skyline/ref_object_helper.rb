@@ -36,6 +36,11 @@ module Skyline::RefObjectHelper
 
     c = []
       
+    if options[:object].andand.marked_for_destruction?
+      options[:object].referable_type = nil
+      options[:object].referable_id = nil
+    end
+    
     form_builder.fields_for "#{field}_attributes", options[:object] do |linked_form|
       c << linked_form.hidden_field(:id) unless linked_form.object.new_record?    
       c << linked_form.hidden_field(:referable_type, :class => "referable_type")
@@ -63,7 +68,7 @@ module Skyline::RefObjectHelper
         l << browse_button
       end
       
-      c = content_tag("div", c.join, :class => "relatesTo #{"linked" if linked_form.object.andand.referable}")
+      c = content_tag("div", c.join, :class => "relatesTo #{"linked" if linked_form.object.andand.referable && !linked_form.object.andand.marked_for_destruction?}")
     end
 
     

@@ -172,7 +172,7 @@ $extend(Application.Browser,{
     var dialog = new browser(dialogParams);
       
     dialog.addEvent("select",function(values){
-      if (values.referable_type && values.referable_type !== "") {
+      if (values.referable_type && values.referable_type !== "Skyline::ReferableUri") {
         rTEl.set("value",values.referable_type);
         rIEl.set("value",values.referable_id);
         if(rTitleEl){ rTitleEl.set("html",values.referable_title); }

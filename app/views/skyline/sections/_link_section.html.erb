@@ -7,7 +7,10 @@
   </table>
 </div>
 <dl class="body">
-  <dt><%= sectionable_form.t :links %></dt>
+  <dt>
+    <%= sectionable_form.t :links %>
+    <%= sectionable_form.fieldset_errors :links %>
+  </dt>
   <dd>
     <ul id="section-<%= guid %>-links" class="links files">
       <% sectionable_form.object.links.each do |link| %>
