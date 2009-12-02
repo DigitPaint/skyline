@@ -20,7 +20,7 @@
       <div class="innerpanel">
         <div class="actions">
           <% if @current_user.allow?(:user_create) %>
-            <%= link_to_remote button_image("small/add.gif", :style => "padding-top: 3px;"), :url => new_skyline_user_path, :method => :get %>
+            <%= link_to_remote button_text(:add), {:url => new_skyline_user_path, :method => :get}, :class => "button small", :style => "margin-top: 3px" %>
           <% end %>
         </div>
       </div>
@@ -46,11 +46,10 @@
                 <td><%= l(u.created_at, :format => :long) %></td> 
                 <td class="right">
                   <% if @current_user.allow?(:user_update) %>
-                    <%= link_to_remote button_image("small/edit.gif", :alt => :edit), :url => edit_skyline_user_path(u), :method => :get %>
+                    <%= link_to_remote button_text(:edit), {:url => edit_skyline_user_path(u), :method => :get}, :class => "button small" %>
                   <% end %>
                   <% if @current_user.allow?(:user_delete) %>
-                    <% image = @current_user == u ? "delete-disabled.gif" : "delete.gif" %>
-                    <%= link_to_remote button_image("small/#{image}", :alt => :delete), :url => skyline_user_path(u,:page => params[:page]), :method => :delete, :confirm => t(:confirm_destroy, :scope => [:user,:index], :display_name => u.display_name) %>
+                    <%= link_to_remote button_text(:delete), {:url => skyline_user_path(u,:page => params[:page]), :method => :delete, :confirm => t(:confirm_destroy, :scope => [:user,:index], :display_name => u.display_name)}, :class => "button #{@current_user == u ? "disabled" : "red"} small" %>
                   <% end %>
                   
                 </td>

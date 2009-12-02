@@ -25,3 +25,26 @@ ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input,td,th,
 a img,:link img,:visited img { border:none }
 
 /* more varnish stripping as necessary... */
+
+/* ============================= */
+/* = Remove all button margins = */
+/* ============================= */
+button { 
+	position: relative;
+	border: 0 none; 
+	padding: 0;
+	cursor: pointer;
+	overflow: visible; /* removes extra side padding in IE */
+}
+
+button::-moz-focus-inner {
+  border: none;  /* overrides extra padding in Firefox */
+  margin: 0;
+  padding: 0;
+}
+
+button span { 
+	position: relative;
+	display: block; 
+	white-space: nowrap;	
+}

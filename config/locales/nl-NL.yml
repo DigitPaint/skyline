@@ -298,7 +298,7 @@
 
   buttons:
     plus: "+"
-    add: "Toevoegen"
+    add: "+ Toevoegen"
     cancel: "Annuleren"
     save: "Opslaan"
     publish: "Publiceren"
@@ -316,7 +316,7 @@
     export: "Exporteren"
     import: "Importeren"
     undo: "Ongedaan maken"
-    add_link: "Link toevoegen"
+    add_link: "+ Link toevoegen"
     browse: "Bladeren"
     upload: "Uploaden"
     ok: "Ok"
@@ -453,8 +453,7 @@
       editor: "editor"
       preview: "preview"
     buttons:
-      delete_image: "delete_page"
-      delete_alt: "Verwijder artikel"      
+      delete: "Verwijder artikel"      
     new:
       new_page: "Nieuw"
       below: "Onder"
@@ -578,6 +577,8 @@
     default_title: "Nieuwe pagina"
   page_fragment:
     default_title: "Nieuw fragment"
+    buttons:
+      delete: "Verwijder fragment"
   variant:
     create:
       flashes:

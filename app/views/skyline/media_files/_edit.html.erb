@@ -52,15 +52,16 @@
         </dd>
       </dl>
       <div class="submit">
-        <%=submit_button("small/save.gif")%>
+        <%=submit_button :save, :class => "small green"%>
       </div>
     </div>          
     <div class="content">
-      <%=link_to_remote button_image("small/delete.gif", :alt => :delete) ,
+      <%=link_to_remote button_text(:delete), {
           :url => skyline_media_dir_media_file_url, 
           :method=> :delete,
           :confirm => 'Weet u zeker dat u dit bestand wilt verwijderen?',
-          :href => url_for(:action => "destroy", :id => media_file.id)
+          :href => url_for(:action => "destroy", :id => media_file.id) },
+          { :class => "button small red" }
       %>
     </div>
     <% end %>

@@ -2,18 +2,18 @@
 <% url_suffix.update(:return_to => return_to) if local_assigns.has_key?(:return_to) %>
 
 <div class="button">
-  <%= link_to button_image("medium/new.gif", :alt => :new), object_url(record,{:action => "create"}.update(url_suffix)), :class => "add"  %>
+  <%= link_to button_text(:new), object_url(record,{:action => "create"}.update(url_suffix)), :class => "add button medium green"  %>
 </div>
 
 <% if klass.exportable? %>
   <div class="button">
-    <%= link_to button_image("small/export.gif", :alt => :export), object_url(record,{:action => "export"}.update(url_suffix)) %>
+    <%= link_to button_text(:export), object_url(record,{:action => "export"}.update(url_suffix), :class => "button small") %>
   </div>
 <% end %>
 
 <% if klass.importable? %>
   <div class="button">
-    <%= link_to_remote button_image("small/import.gif", :alt => :import), :url => object_url(record,{:action => "import"}.update(url_suffix)), :method => :get %>
+    <%= link_to_remote button_text(:import), { :url => object_url(record,{:action => "import"}.update(url_suffix)), :method => :get }, :class => "button small" %>
   </div>
 <% end %>
 

@@ -19,9 +19,9 @@
           </div>
           <div id="submit-buttons" class="submit">
             <a id="cancelselect" href="#" class="cancel"><%=t(:cancel, :scope => [:media_file,:new]) %></a>
-            <%=submit_button("small/upload.gif", :class => "button upload", :id=> "uploadbutton", :alt => :upload)%>
+            <%= submit_button :upload, :class => "small green upload", :id=> "uploadbutton" %>
             
-            <%=submit_button("small/ok.gif", :class => "button upload", :id=> "finishedbutton", :alt => :ok)%>
+            <%= submit_button :ok, :class => "small green upload", :id=> "finishedbutton" %>
           </div>
         </div>
         <div class="upload-progress hide">

@@ -33,12 +33,12 @@
             <% @articles.each do |article| %>
               <li class="<%= cycle("odd","even") %> element">
                 <div class="edit">
-                  <%= link_to button_image("small/edit.gif", :alt => "edit"), edit_skyline_article_path(article) %>
+                  <%= link_to button_text(:edit), edit_skyline_article_path(article), :class => "button small" %>
                 </div>
                 <div class="draggable">
                   <div class="content">
                     <h3>
-                      <%= article.title %>
+                      <%= article.title.blank? ? "&nbsp;" : article.title %>
                     </h3>
                   </div>
                 </div>
@@ -63,7 +63,7 @@
   <dd id="metaBodyPanel" class="scrollable meta">
     <div class="content">
       <div class="button">
-        <%= link_to button_image("medium/new.gif", :alt => :new), skyline_articles_path(:type => params[:type]), :method => :post, :class => "add" %>
+        <%= link_to button_text(:new), skyline_articles_path(:type => params[:type]), :method => :post, :class => "add button medium green" %>
       </div>      
     </div>
   </dd>

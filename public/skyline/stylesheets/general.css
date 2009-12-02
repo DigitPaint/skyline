@@ -466,6 +466,8 @@ form.upload ul.files li.failed  { background-image: url(../images/icons/file-fai
   padding: 3px;
 }
 
+
+#leftFragmentHeaderPanel dt .content:after,
 #mainnavigation:after,
 ul.files:after,
 ul.toptabs:after,
@@ -1537,7 +1539,7 @@ div.relatesTo a.delete{
 }
 
 div.relatesTo.linked a.delete{
-  display: inline;
+  display: inline-block;
 }
 
 .relatesTo .not-linked{
@@ -1557,7 +1559,7 @@ div.relatesTo.linked a.delete{
 
 div.relatesTo span.referable_title{
   height: 12px;
-  padding: 2px 0 2px 25px;
+  padding: 2px 10px 2px 25px;
   background: url(../images/icons/default.gif) 2px 50% no-repeat;
 }
 
@@ -1778,7 +1780,7 @@ li.invalid .section .head{
   padding-left: 24px;  
 }
 
-.linkSection ul.links li a{
+.linkSection ul.tools li a{
   padding: 0;
 }
 
@@ -2081,6 +2083,80 @@ span.drag{
 .content-browser img.button{
   vertical-align: middle;  
 }
+
+/* =========== */
+/* = Buttons = */
+/* =========== */
+
+#metaPanel div.button a.button,
+#metaPanel div.button button{
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+a.button.small,
+a.button.medium,
+button.medium,
+button.small{
+  line-height: 14px;
+  display: inline-block;
+/*  zoom: 1;*/
+  vertical-align: middle;
+  border: 1px solid #949494;
+  color: #333333;
+  padding: 4px 20px;
+  font-weight: bold;
+	position: relative;
+	cursor: pointer;              
+  background: url(/skyline/images/buttons/buttons-medium.gif) #c5c5c5 0 0 repeat-x;
+	-moz-border-radius: 3px; 
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+	font-size: 12px; 
+}
+
+a.button:active,
+button.small:active,
+button.medium:active { 
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) inset, 0 2px rgba(255, 255, 255, 0.4);  
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) inset, 0 2px rgba(255, 255, 255, 0.4);  
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) inset, 0 2px rgba(255, 255, 255, 0.4);
+}
+
+a.button.small,
+button.small{
+  padding: 0px 10px;
+  font-size: 10px;
+  font-weight: normal;
+  background-image: url(/skyline/images/buttons/buttons-small.gif);
+}
+
+a.button.green,
+button.green{
+  background-position: 0 -40px;
+  background-color: #5fad54;
+  border-color: #3e7436;
+  color: #20411b;
+}
+
+a.button.red,
+button.red{
+  background-position: 0 -80px;
+  background-color: #cc4747;
+  border-color: #991c1c;
+  color: #4d0c0c;
+}
+
+a.button.disabled,
+button.disabled{
+  background-position: 0 -120px;
+  background-color: #dbdbdb;
+  border-color: #c7c7c7;
+  color: #bbb;
+}
+
 
 
 /* ================== */

@@ -294,7 +294,7 @@
 
   buttons:
     plus: "+"
-    add: "Add"
+    add: "+ Add"
     cancel: "Cancel"
     save: "Save"
     publish: "Publish"
@@ -312,7 +312,7 @@
     export: "Export"
     import: "Import"
     undo: "Undo"
-    add_link: "Add link"
+    add_link: "+ Add link"
     browse: "Browse"
     upload: "Upload"
     ok: "Ok"
@@ -449,8 +449,7 @@
       editor: "editor"
       preview: "preview"
     buttons:
-      delete_image: "delete_page"
-      delete_alt: "Delete article" 
+      delete: "Delete article" 
     new:
       new_page: "New"
       below: "Below"
@@ -574,6 +573,8 @@
     default_title: "New page"
   page_fragment:
     default_title: "New fragment"
+    buttons:
+      delete: "Delete fragment"
   variant:
     create:
       flashes:

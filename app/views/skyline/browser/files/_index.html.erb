@@ -15,7 +15,7 @@
     <div class="content">
       <div class="submit">
         <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.cancel()", :class => "cancel" %>
-        <%= link_to_function button_image("small/ok.gif", :alt => :ok), "Skyline.Dialog.current.select()" %>
+        <%= link_to_function button_text(:ok), "Skyline.Dialog.current.select()", :class => "button small green" %>
       </div>
     </div>
   </div>

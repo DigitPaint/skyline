@@ -93,16 +93,16 @@
     
       <% if !@variant.identical_published_variant? && @variant.editable_by?(current_user) %>
         <div class="button">
-          <%= submit_button_to "medium/publish.gif", skyline_article_published_publication_path(@article, :variant_id => @variant.id), :value => :publish %>
+          <%= submit_button_to :publish, skyline_article_published_publication_path(@article, :variant_id => @variant.id), :class => "medium green" %>
         </div>
       <% end %>
     
       <% if @article.published? && @variant.editable_by?(current_user) %>
         <div class="button">
           <% if @article.depublishable? %>
-            <%= submit_button_to "small/depublish.gif", skyline_article_published_publication_path(@article, :variant_id => @variant.id), :method => :delete, :value => :depublish %>
+            <%= submit_button_to :depublish, skyline_article_published_publication_path(@article, :variant_id => @variant.id), :method => :delete, :class => "small red" %>
           <% else %>
-            <%= submit_button_to "small/depublish-disabled.gif", skyline_article_published_publication_path(@article, :variant_id => @variant.id), :method => :delete, :value => :depublish %>
+            <%= submit_button_to :depublish, skyline_article_published_publication_path(@article, :variant_id => @variant.id), :method => :delete, :class => "small disabled", :disabled => true %>
           <% end %>
         </div>
       <% end %>
@@ -117,30 +117,29 @@
   <dt><a href="#"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
   <dd>
     <div class="button">
-      <% delete_button_image = t(:delete_image, :scope => [@article.class, :buttons]) %>
-      <% delete_button_alt = t(:delete_alt, :scope => [@article.class, :buttons]) %>
+      <% delete_button_alt = t(:delete, :scope => [@article.class, :buttons]) %>
       <% if @article.destroyable? && @variant.editable_by?(current_user) %>
-        <%= submit_button_to "small/#{delete_button_image}.gif", skyline_article_path(@article), :method => :delete, :alt => delete_button_alt, :confirm => t(:confirm_delete, :scope => [@article.class, :edit]) %>
+        <%= submit_button_to delete_button_alt, skyline_article_path(@article), :method => :delete, :class => "small red", :confirm => t(:confirm_delete, :scope => [@article.class, :edit]) %>
       <% else %>
-        <%= submit_button_to "small/#{delete_button_image}-disabled.gif", skyline_article_path(@article), :method => :delete, :alt => delete_button_alt %>
+        <%= submit_button_to delete_button_alt, skyline_article_path(@article), :method => :delete, :class => "small disabled", :disabled => true %>
       <% end %>
     </div>
     
     <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
       <div class="button">
         <% if @variant.destroyable? && @variant.editable_by?(current_user) %>
-          <%= submit_button_to "small/delete_variant.gif", skyline_article_variant_path(@article, @variant), :method => :delete, :alt => :delete_variant, :confirm => t(:confirm_delete_variant, :scope => [:article,:edit]) %>          
+          <%= submit_button_to :delete_variant, skyline_article_variant_path(@article, @variant), :method => :delete, :class => "small", :confirm => t(:confirm_delete_variant, :scope => [:article,:edit]) %>
         <% else %>
-          <%= submit_button_to "small/delete_variant-disabled.gif", skyline_article_variant_path(@article, @variant), :method => :delete, :alt => :delete_variant %>          
+          <%= submit_button_to :delete_variant, skyline_article_variant_path(@article, @variant), :method => :delete, :class => "small disabled", :disabled => true %>          
         <% end %>
       </div>  
       
       <div class="button">
-        <%= submit_button_to "small/new_variant.gif", skyline_article_variants_path(@article), :alt => :new_variant %>
+        <%= submit_button_to :new_variant, skyline_article_variants_path(@article), :class => "small" %>
       </div>
       
       <div class="button">
-        <%= submit_button_to "small/copy_variant.gif", skyline_article_variants_path(@article, :variant_id => @variant.id), :alt => :copy_variant %>          
+        <%= submit_button_to :copy_variant, skyline_article_variants_path(@article, :variant_id => @variant.id), :class => "small" %>          
       </div>
     <% end %>
   </dd>

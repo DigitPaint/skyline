@@ -36,14 +36,14 @@ class Skyline::Editors::FileBrowser < Skyline::Editors::Editor
             <div class="not-linked">
               <div class="blank">
                 #{t(:nothing_selected, :scope => [:browser,:file])}
-                #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse"}            
+                #{link_to_function button_text(:browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse button small"}            
               </div>
             </div>        
 
             <div class="linked">
               #{t(:links_to, :scope => [:browser,:file], :referable_title => "<span class=\"referable_title\">#{media_file_name}</span>")}
-              #{link_to_function(button_image("small/delete.gif", :alt => :delete), "Application.Browser.unlink('#{input_id_prefix}');", :class => "delete")}
-              #{link_to_function button_image("small/browse.gif", :alt => :browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse"}
+              #{link_to_function button_text(:delete), "Application.Browser.unlink('#{input_id_prefix}');", :class => "delete button small red"}
+              #{link_to_function button_text(:browse),  "Application.Browser.browseFileFor('#{input_id_prefix}');", :class => "browse button small"}
             </div>
           </div>
         </div>

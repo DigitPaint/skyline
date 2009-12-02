@@ -27,7 +27,7 @@
       <div class="submit">
         <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.close()", :class => "cancel"  %>
         <% if @article.editable_by?(current_user) %>
-          <%= submit_button "small/rollback-disabled.gif", :value => :rollback %>
+          <%= submit_button :rollback, :disabled => true, :class => "small disabled" %>
         <% end %>
       </div>
     </div>    
