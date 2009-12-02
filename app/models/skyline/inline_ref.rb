@@ -1,5 +1,9 @@
 class Skyline::InlineRef < Skyline::RefObject  
 
+  attr_accessor :previous_referable
+  after_save :possibly_destroy_previous_referable
+  after_destroy :possibly_destroy_referable
+
   class << self    
     # Convert an html tag to RefObject tag and update or create RefObject in database
     #
@@ -109,6 +113,9 @@ class Skyline::InlineRef < Skyline::RefObject
     def create_ref_from_node(html_node, refering_object, refering_column_name, src_attr, skyline_class)            
       id, ref_id, ref_type = remove_attributes(html_node, ["skyline-ref-id", "skyline-referable-id", "skyline-referable-type"])
       
+      referable_params = {}
+      referable_params[:uri] = html_node[:href]
+
       options = []        
       html_node.remove_attribute(src_attr)
       
@@ -119,6 +126,8 @@ class Skyline::InlineRef < Skyline::RefObject
    
       new_ref = skyline_class.find_by_id(id) if id
       new_ref ||= skyline_class.new
+
+      new_ref.previous_referable = new_ref.referable.dup if new_ref.referable
         
       new_ref.attributes = {
         :referable_id => ref_id,
@@ -129,6 +138,17 @@ class Skyline::InlineRef < Skyline::RefObject
         :refering_column_name => refering_column_name.to_s
       }
       
+      new_ref.referable.reload if new_ref.referable
+      if ref_type == "Skyline::ReferableUri"
+        new_ref.referable ||= ref_type.constantize.new
+
+        if referable_params.kind_of?(Hash)
+          referable_params.each do |k, v|
+            new_ref.referable.send(k.to_s + "=", v) if new_ref.referable.respond_to?(k.to_s + "=")
+          end
+        end
+      end
+
       new_ref.save!
       
       new_ref.id
@@ -147,4 +167,16 @@ class Skyline::InlineRef < Skyline::RefObject
       end
     end
   end    
+  
+  protected
+  def possibly_destroy_previous_referable
+    return unless self.previous_referable
+    if previous_referable != self.referable
+      previous_referable.destroy if previous_referable.kind_of?(Skyline::ReferableUri)
+    end
+  end
+
+  def possibly_destroy_referable
+    self.referable.destroy if self.referable.kind_of?(Skyline::ReferableUri)
+  end  
 end
