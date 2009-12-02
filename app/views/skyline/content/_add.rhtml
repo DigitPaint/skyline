@@ -7,7 +7,7 @@
 
 <% if klass.exportable? %>
   <div class="button">
-    <%= link_to button_text(:export), object_url(record,{:action => "export"}.update(url_suffix), :class => "button small") %>
+    <%= link_to button_text(:export), object_url(record,{:action => "export"}.update(url_suffix)), :class => "button small" %>
   </div>
 <% end %>
 
