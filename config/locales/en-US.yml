@@ -286,6 +286,7 @@
         name: "Filename"
         title: "Title (used in links)"
         description: "Description"
+        date: "Date"
         file_tags: "Tags"
       skyline/user:
         email: "E-mail address"        
