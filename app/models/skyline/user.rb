@@ -28,6 +28,7 @@ class Skyline::User < ActiveRecord::Base
   
   validates_presence_of :email
   validate :valid_email_address
+  validates_uniqueness_of :email, :unless => :is_destroyed
 
   validate :grants_didnt_change, :if => :editing_myself
 
