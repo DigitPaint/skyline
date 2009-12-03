@@ -10,14 +10,14 @@ Replace all occurences of `var = peek_until...` and make sure they manually do `
 a better sollution is to use `render_until`.
 
 **2. Template changes: @Page\_class** `@Page_class` is no longer accesible in the renderer. Use
-`Site.root` if you need to access the root class.
+`site.root` if you need to access the root class.
 
 **3. Template changes: Renderer partials** You no longer need to pass the currently rendererd object
 to partials. You can access the currently rendered object by using `renderer.object`.
 
 **3. Custom sections: Buttons are no longer images** The helpers `button_image` has been removed
 and the syntax of `submit_button` and `submit_button_to` has changed. Search for occurences of one 
-of these three helper and replace them accordingly:
+of these three helpers and replace them accordingly:
 
 **button_image**
 
