@@ -1,24 +1,18 @@
-# Use this Module in all Skyline Sections and in all custom implementation Sections
+# Defines the SectionItem interface. Include this module in all your sections.
 #
+# If you're creating your Section within the Skyline module (you probably shouldn't), it
+# will automatically sets your models table name to `skyline_sections_#{base.table_name}`
 #
-# Usage: 
-# class Model < ActiveRecord::Base
-#   include Skyline::SectionItem
-# end
+# @example Usage: 
+#   class Model < ActiveRecord::Base
+#     include Skyline::SectionItem
+#   end
 #
-# 
-# 1) Sets your models class name to "skyline_sections_#{base.table_name}"
-# 
-# 2) Gives your Model the following interface:
-# 
-#    class  Model < ActiveRecord::Base
-#      has_one :section, :as => :sectionable, :class_name => "Skyline::Section" 
-#     
-#      cattr_accessor :default_interface    (defaults to true)
+# @example Defines:
+#   Model.default_interface = true # defaults to true
+#   @model = Model.new
+#   @model.to_text #=> ""
 #
-#      def to_text                          (returns "")
-#    end
-
 module Skyline::SectionItem 
  
   def self.included(base)
@@ -29,10 +23,12 @@ module Skyline::SectionItem
     base.send(:cattr_accessor, :default_interface)
     base.send(:default_interface=, true)
   end
-  
-  # to_text
-  # ==== returns 
-  # String:: plain text of section
+
+  # The to_text method is needed for searching and other string operations which
+  # just want the content of this section without any markup.
+  # 
+  # @return [String] The section's content flattened to only text
+  # @abstract Implement in your own section
   def to_text
     ""
   end

@@ -1,3 +1,4 @@
+# @private
 class Skyline::Content::Implementation
   extend ActiveSupport::Memoizable
   include Singleton

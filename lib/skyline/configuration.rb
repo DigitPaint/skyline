@@ -1,3 +1,8 @@
+# Contains the default skyline configuration. Currently this is also
+# the place to look for available configuration options.
+#
+# @todo This configuration class will soon change as it's not flexible enough
+#   for out purposes.
 class Skyline::Configuration < Configure
   
   defaults do |config|
