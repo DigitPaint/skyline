@@ -2,10 +2,10 @@ Skyline CMS
 ===========
 
 **Homepage**:  [http://www.skylinecms.nl](http://www.skylinecms.nl)   
-**IRC**:       Join us on IRC in #skylinecms on irc.freenode.net!
-**Twitter**:   Follow [skylinecms](http://www.twitter.com/skylinecms) on twitter
+**IRC**:       Join us on IRC in #skylinecms on irc.freenode.net!  
+**Twitter**:   Follow [skylinecms](http://www.twitter.com/skylinecms) on twitter  
 **Git**:       [http://github.com/digitpaint/skyline](http://github.com/digitpaint/skyline)   
-**Author**:    DigitPaint
+**Author**:    DigitPaint  
 **License**:   LGPL
 
 Synopsis
