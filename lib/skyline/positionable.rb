@@ -32,12 +32,16 @@ module Skyline::Positionable
       @positionable_scope = scope
     end
   end
-    
+  
+  protected
+  
   def set_position
+    return unless self.position.nil?
+    
     if self.class.positionable_scope
-      self.position = self.class.find_by_sql(["SELECT MAX(position) as position FROM #{self.class.table_name} WHERE #{self.class.positionable_scope}=?", self.send(self.class.positionable_scope)]).first["position"].to_i + 1 if self.position.nil?
+      self.position = self.class.find_by_sql(["SELECT MAX(position) as position FROM #{self.class.table_name} WHERE #{self.class.positionable_scope}=?", self.send(self.class.positionable_scope)]).first["position"].to_i + 1
     else
-      self.position = self.class.find_by_sql("SELECT MAX(position) as position FROM #{self.class.table_name}").first["position"].to_i + 1 if self.position.nil?
+      self.position = self.class.find_by_sql("SELECT MAX(position) as position FROM #{self.class.table_name}").first["position"].to_i + 1
     end
   end  
 end
