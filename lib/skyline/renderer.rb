@@ -245,16 +245,8 @@ class Skyline::Renderer
     
     self._config = config
   end
-  
-  def templates_in_path(path)
-    template_paths = []
-    @template_paths.each do |root|
-      Dir.chdir(root) do
-        template_paths = template_paths | Dir.glob("#{path}/*").select{|d| File.directory?(d)  }.map{|d| File.basename(d)}
-      end
-    end
-    template_paths
-  end
+
+  protected
   
   def object_config(object)
     object_config = self.config[object.class.name]
@@ -288,15 +280,43 @@ class Skyline::Renderer
     load_paths += @template_paths.collect{|p| File.join(p, template_path)}
     load_paths += @template_paths.collect{|p| File.join(p, default_path)} unless template == "default"
     load_paths
-  end
+  end  
   
-  def file_path(object, filename)
-    paths = object_template_paths(object)
-    paths.each do |path|
-      return File.join(path, filename) if File.exists?(File.join(path, filename))
+  def templates_in_path(path)
+    template_paths = []
+    @template_paths.each do |root|
+      Dir.chdir(root) do
+        template_paths = template_paths | Dir.glob("#{path}/*").select{|d| File.directory?(d)  }.map{|d| File.basename(d)}
+      end
     end
-    nil
-  end
+    template_paths
+  end  
+  
+  # Do not use this method directly. Instead use the render_collection method.
+  # This is because nested calls to render_collection will fail due to shared
+  #   variables (like @_current_collection).
+  def _render_collection(objects, options = {}, &block)
+    @_collection_skip = 0
+    @_current_collection = objects
+    output = []
+    Array(objects).each_with_index do |object, i|
+      
+      if @_collection_skip > 0
+        @_collection_skip -= 1
+        next
+      end
+      
+      @_current_collection_index = i
+      if block_given?
+        output << yield(object)
+      else
+        output << self.render(object, options)
+      end
+    end    
+    @_current_colection = nil
+    
+    output.join("\n")
+  end  
   
     
   # The default Helpers module
