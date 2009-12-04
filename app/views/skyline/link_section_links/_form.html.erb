@@ -14,7 +14,7 @@
   
       <div class="link">
         <%= l.text_field :title, :class => "link_title full" %>
-        <%= link_browser(l, :linked, {:object => linked_object}) %>
+        <%= link_browser(l, :linked, {:object => linked_object, :container => "link_section_#{link_guid}"}) %>
         <%= l.fieldset_errors :linked %>
       </div>
     

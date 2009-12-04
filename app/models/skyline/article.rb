@@ -10,10 +10,10 @@ class Skyline::Article < ActiveRecord::Base
       parent.send(:belongs_to, :default_variant_data, :class_name => subclass.name)
       parent.send(:belongs_to, :published_publication_data, :class_name => subclass.name)
       
-      ActiveSupport::Dependencies.autoloaded_constants << subclass.to_s
+      ActiveSupport::Dependencies.autoloaded_constants << subclass.to_s if Rails.configuration.reload_plugins
     end
-    
-    ActiveSupport::Dependencies.autoloaded_constants << "Skyline::Article::Data"
+
+    ActiveSupport::Dependencies.autoloaded_constants << "Skyline::Article::Data" if Rails.configuration.reload_plugins
     
     has_one :version, :as => :data, :class_name => "Skyline::ArticleVersion"
 
