@@ -1,3 +1,8 @@
+# The {Skyline::PluginsManager} load all plugins. Currently the manager is quite
+# static as it can only load plugins from `Rails.root/vendor/skyline_plugins`. As
+# we extend the Plugin API the manager will become more advanced.
+# 
+# @private
 class Skyline::PluginsManager
   class << self
     def init_all!

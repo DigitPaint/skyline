@@ -2,12 +2,9 @@ module Skyline::Rendering::Helpers::ColumnHelper
   
   # Devides the sections into columns depending on splitter location
   #
-  # ==== Parameters
-  # page_version<PageVersion>:: The PageVersion to split
+  # @param page_version [ArticleVersion] The ArticleVersion to get section from to split
   #
-  # ==== Returns
-  # Array[Array[Section]]:: An array of columns (array of sections)
-  # --
+  # @return [Array<Array<Section>>]:: An array of columns each containing and array of sections.
   def page_sections_per_column(page_version)
     sections_per_col ||= []
     col = 0

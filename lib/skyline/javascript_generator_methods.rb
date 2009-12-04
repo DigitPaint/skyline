@@ -1,3 +1,6 @@
+# The JavascriptGeneratorMethods are added so they can be used within RJS blocks
+# and `render :update` blocks.
+# 
 # @private
 module Skyline::JavascriptGeneratorMethods
   def message(type,message,options={})

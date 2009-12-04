@@ -1,3 +1,7 @@
+# The Indexer currently used to index content wtihin skyline. It's basically
+# a unified interface for RSolr.
+# 
+# @private
 class Skyline::Indexer
   include Singleton
   

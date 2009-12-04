@@ -1,4 +1,6 @@
 lib/**/*.rb
+app/models/**/*.rb
+app/helpers/**/*.rb
 --no-private 
 -o ydoc
 -
