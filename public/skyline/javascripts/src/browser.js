@@ -127,7 +127,10 @@ $extend(Application.Browser,{
     element.getElement("input.referable_type").set("value","");
     element.getElement("input.referable_id").set("value","");
     element.getElement("span.referable_title").set("html","");
-    element.getElement("input.delete").set("value","1");
+    
+    var rDelete = element.getElement("input.referable_delete") || element.getElement("input.delete");
+    rDelete.set("value","1");
+    
     if(relatesTo = element.getElement("div.relatesTo")){
       relatesTo.removeClass('linked');
     }
