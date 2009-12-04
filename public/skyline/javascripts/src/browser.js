@@ -158,7 +158,7 @@ $extend(Application.Browser,{
     var rTitleEl = element.getElement("span.referable_title");
     var ltEl = element.getElement("input.link_title");
     var lcuEl = element.getElement("input.link_custom_url");
-    var rDelete = element.getElement("input.delete");
+    var rDelete = element.getElement("input.referable_delete") || element.getElement("input.delete");
     
     var dialogParams = {
       "referable_type" : rTEl.get("value"), 
