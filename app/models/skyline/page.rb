@@ -27,7 +27,9 @@ class Skyline::Page < Skyline::Article
       if self.url_part.blank?
         self.errors.add :url_part, :blank 
       else
-        self.errors.add :url_part, :taken if self.version.article.parent.children.find_by_url_part(self.url_part)
+        if match = self.version.article.parent.children.find_by_url_part(self.url_part)
+          self.errors.add :url_part, :taken  if match != self.version.article
+        end
       end      
     end
   end
