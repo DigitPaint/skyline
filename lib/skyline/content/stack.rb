@@ -1,3 +1,4 @@
+# @private
 class Skyline::Content::Stack < Array
   
   def logger
@@ -21,19 +22,17 @@ class Skyline::Content::Stack < Array
   end
   
   # URL based on the current stack
-  # <tt>up</tt>::
-  #   Integer which tells the url how many type levels we should walk up
-  # <tt>down</tt>::
-  #   Array of items to add to the types array
-  # <tt>collection</tt>::
-  #   If set to true doesn't add the ID of the last object on the stack. Doesn't do anything if the last object
-  #   on the type array isn't an ID
   #
   # Up and down can be combined! If we currently have [[:pages,1],[:pages,13],[:pages,29]] in the types array
-  # and we pass in {:up => 1, :down => [:articles,5]} we will end up with [[:pages,1],[:pages,13],[:articles,5]]
+  # and we pass in \{:up => 1, :down => [:articles,5]} we will end up with [[:pages,1],[:pages,13],[:articles,5]]
   #
   # If by accident nil is still in the types array (due to incorrectly walkin up the types array) it will be compacted.
   # be aware that this might break things!
+  # @param [Hash] options The options to use
+  # @option options [Integer] :up Integer which tells the url how many type levels we should walk up
+  # @option options [Array<String>] :down Array of items to add to the types array
+  # @option options [Boolean] :collection If set to true doesn't add the ID of the last object on the stack. Doesn't do anything if the last object
+  #   on the type array isn't an ID
   def url_types(options={})
     base = self.types.dup.flatten
     base.pop if options[:collection]

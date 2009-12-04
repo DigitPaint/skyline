@@ -1,4 +1,17 @@
 class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
+
+  # Custom InstanceTag class from which we can extract the ID
+  # @private
+  class CustomInstanceTag < ActionView::Helpers::InstanceTag
+    def to_id(options={})
+      options = options.stringify_keys
+      name_and_id = options.dup
+      add_default_name_and_id(name_and_id)
+      options.delete("index")
+      name_and_id["id"]
+    end
+  end
+  ActiveSupport::Dependencies.autoloaded_constants << "Skyline::FormBuilderWithErrors::CustomInstanceTag"
   
   (field_helpers - %w(label fields_for radio_button check_box hidden_field) + %w(select collection_select time_zone_select date_select time_select datetime_select)).each do |selector|
     src = <<-end_src
@@ -89,7 +102,6 @@ class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
     
   end
   
-  
   def fieldset_errors(attribute)
     return unless @object.errors[attribute]
     out = []
@@ -114,14 +126,4 @@ class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
     self.object.class.human_attribute_name(attribute_key_name.to_s, options)
   end
   
-end
-
-class CustomInstanceTag < ActionView::Helpers::InstanceTag
-  def to_id(options={})
-    options = options.stringify_keys
-    name_and_id = options.dup
-    add_default_name_and_id(name_and_id)
-    options.delete("index")
-    name_and_id["id"]
-  end
 end

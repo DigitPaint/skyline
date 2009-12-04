@@ -1,3 +1,4 @@
+# @private
 module Skyline::Content
   module Content
     def self.included(obj)

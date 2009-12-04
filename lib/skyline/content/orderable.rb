@@ -1,3 +1,5 @@
+#
+# @private
 module Skyline::Content
   module Orderable
     

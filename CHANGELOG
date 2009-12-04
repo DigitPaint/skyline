@@ -1,5 +1,20 @@
 *EDGE*
 
+* Compatible with Rails 2.3.5
+* Files in the media library now have support for date as metadata
+* Users must now be unique (by email address)
+* Added renderer.object method to return the object currently being rendered
+* Cleanup of renderer, nested render_collection now works correctly
+* Renderer.peek_until does not skip forward in the collection anymore, render_until does
+* Remove "Thin" as a dependency.
+* Unified the display of the different browsers when a file/page/link is selected.
+* PRE and CODE tags are filtered when pasting into wysiwygs
+* Skyline doesn't break if you don't have app/templates
+* The Page URL part is now validated on publication
+* Linksections without valid links now validate correctly
+* External links in wysiwygs are now stored in ReferableUri too
+* Fix memory leak related to Article::Data classes
+* Replaced all image buttons with styled tags
 * Implemented RedirectSection
 * Added branding possibity to Skyline config
 * Moved implementation specific roles to implementation seed file

@@ -1,27 +1,21 @@
 # Use this module in all models that have references to MediaFiles/Pages etc via WYSWIWYG-editors
+# It adds the class method `referable_field`. With {Skyline::Referable::ClassMethods#referable_field} you can use any
+# text/string database field to have links/images that will refer correctly to their respective
+# targets through RefObject
 #
-# Usage: 
-# class Model < ActiveRecord::Base
-#   include Skyline::Referable
-# 
-#   referable_field :body
-# end
+# @example Usage: 
+#   class Model < ActiveRecord::Base
+#     include Skyline::Referable
+#     referable_field :body # :body is a database text/string field
+#   end
 #
-# 
-# 1) Gives your Model the following interface:
-# 
-#    class  Model < ActiveRecord::Base
-#      before_save :parse_referable_fields
-#      after_save :update_referable_objects
-#      has_many :image_refs, :class_name => "Skyline::ImageRef", :foreign_key => :refering_id, :source_type => "Model", :dependent => :destroy
-#      has_many :link_refs,  :class_name => "Skyline::LinkRef",  :foreign_key => :refering_id, :source_type => "Model", :dependent => :destroy
+# @example Defines:
+#   @model = Model.new
+#   @model.body = "text <a href='http://www.google.com'>test</a>"
+#   @model.body_before_typecast #=> The unconverted value which still includes [REF:XX] tags.
+#   @model.body #=> Evertyhing is converted back to it's original state
+#   @model.body(true) #=> The HTML includes extra attributes used for editing in the WYSIWYG-editor
 #
-#      def body=(body)
-#      def body_before_typecast
-#      def body(edit = false, options={})
-#    end
-
-
 module Skyline::Referable 
  
   def self.included(base)
@@ -35,6 +29,14 @@ module Skyline::Referable
   
   module ClassMethods    
     
+    
+    # Make one or more fields/columns have support for referable content in HTML.
+    #
+    # Overwrites the models accessors for the specified fields/columns. It also adds
+    # extra options to the reader. The reader accepts two parameters: `edit` (Boolean) and
+    # an options string which is passed to {Skyline::InlineRef#convert}
+    #
+    # @param fields [String,Symbol] The field(s) to enable the referable content for.
     def referable_field(*fields)      
       self.referable_fields ||= []
       
@@ -57,6 +59,8 @@ module Skyline::Referable
     end
   end
   
+  # Implementation of the clone interface
+  # @private
   def clone
     returning super do |clone|      
       if !self.referable_fields.nil?
@@ -66,11 +70,15 @@ module Skyline::Referable
       end
     end
   end
-  
+
+  # @private  
+  # @todo Shouldn't this be protected?  
   def referable_field_bodies
     @referable_field_bodies ||= {}
   end
         
+  # @private
+  # @todo Shouldn't this be protected?    
   def parse_referable_fields  
     return if self.referable_fields.nil?    
       
@@ -85,6 +93,8 @@ module Skyline::Referable
     @updated_ids = updated_refs.join(",")
   end
   
+  # @private
+  # @todo Shouldn't this be protected?  
   def update_referable_objects
     return if self.referable_fields.nil?
     Skyline::InlineRef.update_all({:refering_id => self.id}, "id IN(#{@updated_ids})") unless @updated_ids.blank?

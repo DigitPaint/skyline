@@ -1,0 +1,6 @@
+lib/**/*.rb
+--no-private 
+-o ydoc
+-
+doc/INSTALL.md
+doc/MIGRATION.md
