@@ -1,3 +1,2 @@
 <% proxy = content_collection_section.content_class.published.with_site(site).with_tags(content_collection_section.tags).scoped(:limit => content_collection_section.number) %>
-sssss
 <%= render :partial => "#{content_collection_section.content_name.pluralize}", :locals => {content_collection_section.content_name.pluralize.to_sym => proxy} %>
