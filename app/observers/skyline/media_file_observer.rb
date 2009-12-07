@@ -12,7 +12,7 @@ class Skyline::MediaFileObserver < ActiveRecord::Observer
               "ext.literal.title" => "#{media_file.title}", 
               "ext.literal.url" => "#{media_file.url}",
               "ext.literal.cat" => "#{media_file.class.name}",
-              "ext.literal.documentdate" => Time.now.to_time.utc.iso8601(3),
+              "ext.literal.documentdate" => media_file.date.present? ? media_file.date.to_time.utc.iso8601(3) : nil,
               "ext.literal.tags_multi" => media_file.tags.collect{|t| t.tag},
               "ext.literal.description_s" => media_file.description,
               "ext.literal.file_type_s"=>media_file.file_type,
