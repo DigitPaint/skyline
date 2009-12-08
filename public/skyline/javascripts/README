@@ -1,16 +1,5 @@
 == Skyline Javscripts
 
-Tijdens de ontwikkeling van skyline / skyline.js maken we gebruik van een "ongepackte" variant van alle js sources. 
+During development the SprocketsMiddleware will regenerate application.js and skyline.js on every request. 
 
-De JS sources worden op 't moment nog in de HTML-klikmodel tree beheerd. Dit kan later uiteraard naar de hoofdapplicatie
-gemoved worden.
-
-Om toch makkelijk te kunnen ontwikkelen heb ik een SprocketsMiddleware toegevoegd. Deze linkt:
-
-/skyline/javascripts/application.js -> /skyline/javascripts/src/application.js
-/skyline/javascripts/skyline.js -> /skyline/javascripts/src/skyline.js
-
-En combined daarin alle requires die in die files staan. Zo hoeven alleen de bovenstaande files + de
-mootools_on_rails patches gerequired worden in de sources.
-
-Wijzigingen aan de src javascript moeten momementeel nog teruggemerged worden naar het klikmodel!
+In production they will be rendered once and then cached.
