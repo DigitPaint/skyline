@@ -284,7 +284,30 @@ class Skyline::Renderer
     
     self._config = config
   end
+  
+  def object_template_paths(object)
+    object_config = self.object_config(object)
+    template = self.object_template(object)
+    
+    template_path = object_config[:path]
+    path = "#{template_path}/#{template}"
+    default_path = "#{template_path}/default"
 
+    load_paths = []
+    load_paths += @template_paths.collect{|p| File.join(p, path)}
+    load_paths += @template_paths.collect{|p| File.join(p, template_path)}
+    load_paths += @template_paths.collect{|p| File.join(p, default_path)} unless template == "default"
+    load_paths
+  end
+
+  def file_path(object, filename)
+    paths = object_template_paths(object)
+    paths.each do |path|
+      return File.join(path, filename) if File.exists?(File.join(path, filename))
+    end
+    nil
+  end
+  
   protected
   
   def object_config(object)
@@ -306,21 +329,6 @@ class Skyline::Renderer
     template
   end
 
-  def object_template_paths(object)
-    object_config = self.object_config(object)
-    template = self.object_template(object)
-    
-    template_path = object_config[:path]
-    path = "#{template_path}/#{template}"
-    default_path = "#{template_path}/default"
-
-    load_paths = []
-    load_paths += @template_paths.collect{|p| File.join(p, path)}
-    load_paths += @template_paths.collect{|p| File.join(p, template_path)}
-    load_paths += @template_paths.collect{|p| File.join(p, default_path)} unless template == "default"
-    load_paths
-  end  
-  
   def templates_in_path(path)
     template_paths = []
     @template_paths.each do |root|
