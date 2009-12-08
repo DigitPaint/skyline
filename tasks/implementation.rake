@@ -1,0 +1,1 @@
+import File.dirname(__FILE__) + "/database.rake"
