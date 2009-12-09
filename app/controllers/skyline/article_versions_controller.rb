@@ -20,7 +20,7 @@ class Skyline::ArticleVersionsController < Skyline::ApplicationController
   end  
 
   def load_renderable_scope
-    @renderable_scope = Skyline::WildcardRenderableScope.new
+    @renderable_scope = Skyline::Site.new
   end
 
   def find_article_version
