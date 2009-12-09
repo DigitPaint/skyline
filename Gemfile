@@ -30,12 +30,12 @@ gem "rmagick", "2.9.1",                     :require_as => "RMagick"
 gem "hpricot", "0.8.2",                     :require_as => "hpricot"
 gem "guid", "0.1.1"
 gem "will_paginate", "~>2.3.11"
-gem "curb", "0.4.2.0"
 gem "seed-fu", "~>1.2.0"
 
 # If you want to use the (outdated) rsolr interface, please 
 # add the following two gems to your implementation Gemfile.
 #
+# gem "curb", "0.4.2.0"
 # gem "mwmitchell-rsolr", "0.8.8",            :require_as => "rsolr"
 # gem "mwmitchell-rsolr-ext", "0.7.35",       :require_as => "rsolr-ext"
 

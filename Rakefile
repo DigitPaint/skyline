@@ -32,7 +32,6 @@ begin
     gemspec.add_dependency "hpricot", "0.8.2"
     gemspec.add_dependency "guid", "0.1.1"
     gemspec.add_dependency "will_paginate", "~>2.3.11"
-    gemspec.add_dependency "curb", "0.4.2.0"
     gemspec.add_dependency "seed-fu", "~>1.2.0"
     
   end
