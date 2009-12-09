@@ -15,7 +15,7 @@ begin
     gemspec.files.exclude "tasks/testing.rake"
     gemspec.files.exclude "Gemfile"
     gemspec.files.exclude ".gitignore"
-    gemspec.files.exclude "test"
+    gemspec.files.exclude "test/"
     
     gemspec.test_files = []
     gemspec.has_rdoc = false
