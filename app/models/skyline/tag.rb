@@ -15,6 +15,12 @@ class Skyline::Tag < ActiveRecord::Base
       taggable_models.delete_if{|m| m.parents.include?(Skyline) }
     end
     
+    def register_taggable_model(klass)
+      self.taggable_models ||= []
+      self.taggable_models.delete_if{|c| c.to_s == klass.to_s } # Hack to remove stale object
+      self.taggable_models << klass      
+    end
+    
     def delete_unused_tags
       self.connection.execute("DELETE FROM #{self.table_name} WHERE id NOT IN (SELECT DISTINCT tag_id FROM #{Skyline::AssociatedTag.table_name})")
     end

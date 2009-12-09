@@ -21,8 +21,7 @@
 
 module Skyline::Taggable 
   def self.included(base)
-    Skyline::Tag.taggable_models ||= []
-    Skyline::Tag.taggable_models << base
+    Skyline::Tag.register_taggable_model(base)
     
     base.extend(ClassMethods)
     base.send :has_many, :associated_tags, :class_name => "Skyline::AssociatedTag", :as => "taggable"
