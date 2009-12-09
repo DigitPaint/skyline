@@ -18,7 +18,9 @@ begin
     gemspec.files.exclude "test/"
     
     gemspec.test_files = []
+    
     gemspec.has_rdoc = false
+    gemspec.extra_rdoc_files = %w{README.md doc/MIGRATION.md}
     
     gemspec.add_dependency "thor", "0.12.0"
     
