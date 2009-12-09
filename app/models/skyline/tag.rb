@@ -12,7 +12,7 @@ class Skyline::Tag < ActiveRecord::Base
         Dir.glob("*.rb").map{|f| f.sub(".rb","").camelcase.constantize}
       end
 
-      taggable_models.delete_if{|m| m.parents.include?(Skyline) }
+      (taggable_models || []).delete_if{|m| m.parents.include?(Skyline) } 
     end
     
     def register_taggable_model(klass)
