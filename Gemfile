@@ -27,11 +27,12 @@ gem "polyglot", "0.2.6"
 gem "sprockets", "1.0.2"
 gem "mime-types", "1.16",                   :require_as => "mime/types"
 gem "rmagick", "2.9.1",                     :require_as => "RMagick"
-gem "hpricot", "0.6.164",                   :require_as => "hpricot"
+gem "hpricot", "0.8.2",                     :require_as => "hpricot"
 gem "guid", "0.1.1"
-gem "mislav-will_paginate", "2.3.7",        :require_as => "will_paginate"
+gem "will_paginate", "~>2.3.11"
 gem "curb", "0.4.2.0"
-gem "mbleigh-seed-fu", "0.0.3",             :require_as => "seed-fu"
+gem "seed-fu", "~>1.2.0"
+
 # If you want to use the (outdated) rsolr interface, please 
 # add the following two gems to your implementation Gemfile.
 #

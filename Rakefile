@@ -24,17 +24,17 @@ begin
     
     gemspec.add_dependency "rails", "2.3.5"
     gemspec.add_dependency "rack", "1.0.1"
-    
+        
     gemspec.add_dependency "polyglot", "0.2.6"
     gemspec.add_dependency "sprockets", "1.0.2"
-    gemspec.add_dependency "mysql", "2.8.1"
     gemspec.add_dependency "mime-types", "1.16"
     gemspec.add_dependency "rmagick", "2.9.1"
-    gemspec.add_dependency "hpricot", "0.6.164"
+    gemspec.add_dependency "hpricot", "0.8.2"
     gemspec.add_dependency "guid", "0.1.1"
-    gemspec.add_dependency "mislav-will_paginate", "2.3.7"
+    gemspec.add_dependency "will_paginate", "~>2.3.11"
     gemspec.add_dependency "curb", "0.4.2.0"
-    gemspec.add_dependency "mbleigh-seed-fu", "0.0.3"
+    gemspec.add_dependency "seed-fu", "~>1.2.0"
+    
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install jeweler"
