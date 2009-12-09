@@ -119,7 +119,7 @@ class Skyline::InlineRef < Skyline::RefObject
       options = []        
       html_node.remove_attribute(src_attr)
       
-      options = html_node.attributes.inject({}) do |result, element|
+      options = html_node.attributes.to_hash.inject({}) do |result, element|
         result[element.first.to_s] = element.last.to_s
         result
       end
