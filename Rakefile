@@ -9,7 +9,7 @@ begin
     gemspec.summary = "The new Ruby on Rails open source standard in content management"
     gemspec.description = "Skyline is an extremely flexible and expandable open source content management system. Its feature rich interface allows for fast and intuitive management of websites."
     gemspec.email = "info@digitpaint.nl"
-    gemspec.homepage = "http://github.com/digitpaint/skyline"
+    gemspec.homepage = "http://www.skylinecms.nl"
     gemspec.authors = ["DigitPaint"]
     
     gemspec.files.exclude "tasks/testing.rake"
