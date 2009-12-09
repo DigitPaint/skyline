@@ -93,6 +93,16 @@ module Skyline
         end
       end
       
+      def remove_default_rails_assets
+        say "=> Removing default rails assets"
+        %w{public/index.html public/images/rails.png}.each do |f|
+          if (self.target_dir + f).exist?
+            say_status "removing", f
+            FileUtils.rm(self.target_dir + f)
+          end
+        end
+      end
+      
       protected
       
       def target_dir
