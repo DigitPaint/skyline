@@ -46,12 +46,14 @@ class Skyline::Configuration < Configure
       config.assets_path = File.join(Rails.root,"tmp/upload")
       config.media_file_cache_path = File.join(Rails.root,"/tmp/media_files/cache")
       config.rss_section_cache_path = File.join(Rails.root,"/tmp/rss_sections/cache")
-      
+    end 
+    
+    unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
       # We need to reload the configuration because this file get's reloaded 
       if (Rails.root + "config/initializers/skyline_configuration.rb").exist?
         load Rails.root + "config/initializers/skyline_configuration.rb"
-      end
-    end 
+      end    
+    end
     
     # enable/disable 'modules'
     config.enable_multiple_variants = true
