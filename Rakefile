@@ -34,8 +34,6 @@ begin
     gemspec.add_dependency "guid", "0.1.1"
     gemspec.add_dependency "mislav-will_paginate", "2.3.7"
     gemspec.add_dependency "curb", "0.4.2.0"
-    gemspec.add_dependency "mwmitchell-rsolr", "0.8.8"
-    gemspec.add_dependency "mwmitchell-rsolr-ext", "0.7.35"
     gemspec.add_dependency "mbleigh-seed-fu", "0.0.3"
   end
 rescue LoadError

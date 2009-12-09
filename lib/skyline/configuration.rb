@@ -89,6 +89,7 @@ class Skyline::Configuration < Configure
   def load_dependencies
     if self.solr_indexing
       require "rsolr"
+      require "rsolr-ext"      
     end
   end
   
