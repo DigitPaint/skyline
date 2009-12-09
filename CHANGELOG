@@ -1,5 +1,8 @@
 *EDGE*
 
+* Added the skylincms binary to bootstrap new implementation
+* Made skyline compatible with standard Rails 2.3 config.gem
+* Render 404 instead of 500 if a requested MediaFile isn't found
 * Compatible with Rails 2.3.5
 * Files in the media library now have support for date as metadata
 * Users must now be unique (by email address)
