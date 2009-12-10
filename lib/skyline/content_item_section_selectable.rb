@@ -21,8 +21,7 @@
 
 module Skyline::ContentItemSectionSelectable
   def self.included(base)
-    Skyline::Sections::ContentItemSection.selectable_models ||= []
-    Skyline::Sections::ContentItemSection.selectable_models << base
+    Skyline::Sections::ContentItemSection.register_selectable_model(base)
     
     if base.column_names.include?("published")
       base.send :named_scope, :for_content_item_section, :conditions => {:published => true}

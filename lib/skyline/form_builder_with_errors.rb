@@ -18,7 +18,10 @@ class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
       name_and_id["id"]
     end
   end
-  ActiveSupport::Dependencies.autoloaded_constants << "Skyline::FormBuilderWithErrors::CustomInstanceTag"
+  
+  unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
+    ActiveSupport::Dependencies.autoloaded_constants << "Skyline::FormBuilderWithErrors::CustomInstanceTag"
+  end  
   
   # Overwrite all standard helpers with a wrapped version.
   (field_helpers - %w(label fields_for radio_button check_box hidden_field) + %w(select collection_select time_zone_select date_select time_select datetime_select)).each do |selector|

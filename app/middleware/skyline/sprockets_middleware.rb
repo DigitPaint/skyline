@@ -28,7 +28,7 @@ class Skyline::SprocketsMiddleware
   end
   
   def call(env)
-    url = Rack::Utils.unescape(env["PATH_INFO"])
+    url = Rack::Utils.unescape(env["PATH_INFO"].to_s)
     
     url = url.sub(/^\//,"")
     

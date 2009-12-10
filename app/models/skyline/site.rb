@@ -1,4 +1,6 @@
 class Skyline::Site
+  include Comparable
+  
   class << self
     def find_by_id(id)
       self.new
@@ -20,4 +22,9 @@ class Skyline::Site
   def named_scope_with_site_for(article_data_class)
     {}
   end
+  
+  def <=>(other)
+    other.class <=> self.class
+  end
+  
 end
