@@ -13,6 +13,8 @@
 
 <body>
   <h1><%= article_version.data.title%></h1>
+  <% assign(:heading_level,1) %>
+  
   <%= render_collection(article_version.sections) %>
   <%= @body %>
 </body>
