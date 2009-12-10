@@ -124,7 +124,7 @@ class Skyline::InlineRef < Skyline::RefObject
         result
       end
    
-      new_ref = skyline_class.find_by_id(id) if id
+      new_ref = skyline_class.find_by_id_and_refering_type_and_refering_id(id,refering_object.class.name,refering_object.id) if id
       new_ref ||= skyline_class.new
 
       new_ref.previous_referable = new_ref.referable.dup if new_ref.referable
