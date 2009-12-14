@@ -307,7 +307,7 @@
     delete_variant: "Delete variant"
     new_variant: "New variant"
     copy_variant: "Copy variant"
-    lock: "lock"
+    lock: "Lock"
     unlock: "Unlock"
     rollback: "Rollback"
     login: "Log in"
