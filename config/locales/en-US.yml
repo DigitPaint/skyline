@@ -1,9 +1,9 @@
 "en-US":
   date:
     formats:
-      default: "%d-%m-%Y"
-      long: "%e %B %Y"
-      short: "%e %B"
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
       short_with_day_of_week: "%a %e %b"
   
     day_names: [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
