@@ -18,6 +18,18 @@ class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
     end    
   end
   
+  def collection_name
+    self.content_name.pluralize.to_sym
+  end
+  
+  def collection
+    self.full_collection.scoped(:limit => self.number)
+  end
+  
+  def full_collection
+    self.content_class.published.with_tags(self.tags).scoped(:limit => self.number)
+  end
+  
   def clone
     returning super do |clone|
       clone.associated_tags = self.associated_tags.collect{|associated_tag| associated_tag.clone}
