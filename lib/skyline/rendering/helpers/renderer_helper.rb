@@ -2,9 +2,26 @@
 module Skyline::Rendering
   module Helpers
     module RendererHelper
-      def assign(key, value = nil)
-        return @_template_assigns[key] if value.nil?
-        @_template_assigns[key] = value
+      
+      # Set global renderer assigns. These are accessible throughout all render/render_collection calls. They
+      # are especially usefull in scenarios where you want a sub-item render a piece of the page. You can assign it
+      # to `:content_for_sidebar` and in your page template you can read `assigns(:content_for_sidebar)` and place the content
+      # the content item rendered to the variable `:content_for_sidebar`
+      # 
+      # @param key [Symbol] The key to store or read
+      # @param value [Object] Anything you want to store, if empty and no block given this method just returns the stored value
+      # 
+      # @yield A block to capture, see also the `capture` documentation in Rails
+      # @yieldreturn [String] The result of doing a regular `capture`
+      # 
+      # @return The value stored with the key.
+      def assign(key, value = nil, &block)
+        return @_template_assigns[key] if value.nil? && !block_given?
+        if block_given?
+          @_template_assigns[key] = capture(&block)
+        else
+          @_template_assigns[key] = value
+        end
       end
 
       # Get's the current Renderer instance that is rendering the template we're in.
