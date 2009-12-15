@@ -1,4 +1,12 @@
+# Articles are container objects that contain Sections, have history and can (optional) be previewed
+# and published.
+#
+# @abstract Subclass and implement the Article interface
 class Skyline::Article < ActiveRecord::Base
+  
+  # The data object contains required structured data needed for an article.
+  # 
+  # @abstract Subclass and implement the Article::Data interface
   class Data < ActiveRecord::Base
     self.abstract_class = true
     
@@ -57,29 +65,35 @@ class Skyline::Article < ActiveRecord::Base
     
     # The prefix to use when determining rights. User#allow? uses
     # this method when called with 2 parameters.
-    # --    
+    # 
+    # @return [String] The string to prefix to the right (_create, _update, _delete)
+    # @abstract Implement the value correct value in your subclass, defaults to 'article'
     def right_prefix
       "article"      
     end
     
-    # used by SearchableItem
+    # Is this type of article publishable?
+    # 
+    # @return [true,false] Wether or not this article type can be published
+    # @abstract Implement in subclass if needed, true is a sensible default.
     def publishable?
       true
     end
   end
 
+  # Has this article been puslished?
+  #
+  # @return [true,false] True if it has a published_publication, meaning it's currently published
   def published?
     # Don't use only "self.published_publication" here, it causes way too many lookups
     # If the next test is wrong, than maybe you should wonder why it is wrong? Foreign key left behind?
     self.published_publication_id.present?
   end
 
-  # Depublish a page, removes the published_publication if keep_history? is false
+  # Depublish an article, removes the published_publication if keep_history? is false
   # 
-  # ==== Raises
-  # StandardError:: if page is persistent
-  # 
-  # --
+  # @raise [StandardError] If page is persistent and cannot be depulished
+  # @return [void] 
   def depublish
     raise StandardError, "can't be depublished because this page is persistent" if self.persistent?
     
@@ -94,30 +108,46 @@ class Skyline::Article < ActiveRecord::Base
     self.save
   end
   
+  # Depublish this article and destroy it.
+  # 
+  # @see Skylien::Article#depublish
+  # @return [false,true] True sucessfully destroyed, otherwise false
   def destroy
     depublish
     super
   end
   
+  # Can this article be depublished? 
+  # 
+  # @return [true,false]
   def depublishable?
     !self.persistent?
   end
   
+  # Can this article be destroyed? Only works if the article isn't persisntent and does not have
+  # a publication (isn't published).
+  # 
+  # @return [true,false]
   def destroyable?
     !self.persistent? && self.published_publication == nil
   end
   
+  # Can this article be rendered. This basically means wether or not there are any templates for
+  # this article.
+  # 
+  # @return [true,false]
   def renderable?
     self.renderable_scope.renderer.templates_for(self).any?
   end
   
-  def renderable_scope
-    Skyline::WildcardRenderableScope.new
-  end
-  
+  # Can this article be previewed? Delegates to Skyline::Article#renderable?
+  #
+  # @return [true,false]
+  # @see Skyline::Article#renderable?
   def previewable?
     self.renderable?
   end
+  
   
   def rollbackable?
     true
@@ -142,12 +172,15 @@ class Skyline::Article < ActiveRecord::Base
 
   # Checks if the page can be edited by a certain user
   # Currently only checks on page locks.
-  # --
+  # 
+  # @param user [Skyline::User,Integer] The user or user id to check the access for.
+  # @return [true,false] True if the user can edit this page, false otherwise
   def editable_by?(user)
     user = user.kind_of?(Skyline::User) ? user : Skyline::User.find_by_id(user)    
     self.locked? && user.allow?(:page_lock) || !self.locked?
   end  
 
+  
   def set_default_variant!(variant)
     return if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
     self.update_attributes(:default_variant_id => variant.id, :default_variant_data_id => variant.data_id)
@@ -159,14 +192,16 @@ class Skyline::Article < ActiveRecord::Base
   end  
 
   # The class that provides our custom data fields.
-  # --
-  # Note: We can't use memoize here, because it freezes the class
+  # 
+  # @return [Class,false] False if we don't have an inner Data class, the inner Data class if there is one.
   def data_class
+    # Note: We can't use memoize here, because it freezes the class
     return @_data_class unless @_data_class.nil?
     @_data_class = (self.class.name + "::" + "Data").constantize
   rescue NameError
     @_data_class = false
   end
+  
   
   def right_prefix
     self.class.right_prefix
@@ -176,7 +211,10 @@ class Skyline::Article < ActiveRecord::Base
     self.id
   end
   
-  # a subclass might return a Page in which the article (ie: NewsItem) will be rendered for previewing
+  # A subclass can return a Page in which the article (ie: NewsItem) will be rendered for previewing
+  # 
+  # @return [Skyline::Page,nil] The page to wrap this article in when previewing. Nil if no wrapping is needed.
+  # @abstract Implement this in a subclass to get the Page from Settings or from somewhere else.
   def preview_wrapper_page
     nil
   end
@@ -187,6 +225,10 @@ class Skyline::Article < ActiveRecord::Base
   
   def site
     Skyline::Site.new
+  end  
+  
+  def renderable_scope
+    Skyline::WildcardRenderableScope.new
   end  
   
   protected
