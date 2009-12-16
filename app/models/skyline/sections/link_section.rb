@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::LinkSection < ActiveRecord::Base
   include Skyline::SectionItem
   include NestedAttributesPositioning  

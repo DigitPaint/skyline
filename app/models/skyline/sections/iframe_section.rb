@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::IframeSection < ActiveRecord::Base
   extend Skyline::UrlValidation  
   include Skyline::SectionItem

@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::HeadingSection < ActiveRecord::Base
   include Skyline::SectionItem
   

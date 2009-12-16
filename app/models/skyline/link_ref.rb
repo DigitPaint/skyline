@@ -1,3 +1,4 @@
+# @private
 class Skyline::LinkRef < Skyline::InlineRef
   
   # Render html start tag for specified RefObject

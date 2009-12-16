@@ -1,3 +1,4 @@
+# @private
 class Skyline::Content::Versioning::Version < ActiveRecord::Base
   set_table_name "skyline_versions"
   belongs_to :versionable, :polymorphic => true

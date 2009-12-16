@@ -1,3 +1,4 @@
+# @private
 class Skyline::LinkSectionLink < ActiveRecord::Base
   include Skyline::ContentItem
   include Skyline::Positionable

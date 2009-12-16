@@ -1,3 +1,4 @@
+# @private
 class Skyline::MediaNode < ActiveRecord::Base
   set_table_name :skyline_media_nodes
 

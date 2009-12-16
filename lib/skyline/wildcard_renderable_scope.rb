@@ -1,3 +1,4 @@
+# @private
 class Skyline::WildcardRenderableScope
   include Skyline::RenderableScopeInterface
 

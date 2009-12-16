@@ -1,3 +1,4 @@
+# @private
 class Skyline::InlineRef < Skyline::RefObject  
 
   attr_accessor :previous_referable

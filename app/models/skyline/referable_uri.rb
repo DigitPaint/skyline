@@ -1,3 +1,4 @@
+# @private
 class Skyline::ReferableUri < ActiveRecord::Base
   set_table_name :skyline_referable_uris
   

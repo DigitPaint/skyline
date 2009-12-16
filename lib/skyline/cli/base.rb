@@ -5,7 +5,9 @@ require File.dirname(__FILE__) + '/../../skyline'
 require File.dirname(__FILE__) + '/../version'
 
 module Skyline
+  # @private
   module Cli
+    # @private
     class Base < Thor
       include Thor::Actions
       

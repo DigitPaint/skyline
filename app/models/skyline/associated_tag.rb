@@ -1,3 +1,4 @@
+# @private
 class Skyline::AssociatedTag < ActiveRecord::Base
   set_table_name :skyline_associated_tags
   

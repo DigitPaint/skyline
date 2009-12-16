@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::PageFragmentSection < ActiveRecord::Base
   include Skyline::SectionItem
 

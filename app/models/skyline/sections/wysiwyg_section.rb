@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::WysiwygSection < ActiveRecord::Base
   include Skyline::SectionItem
   include Skyline::Referable

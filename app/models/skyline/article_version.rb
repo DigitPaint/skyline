@@ -1,3 +1,4 @@
+# @private
 class Skyline::ArticleVersion < ActiveRecord::Base
   set_table_name :skyline_article_versions
   

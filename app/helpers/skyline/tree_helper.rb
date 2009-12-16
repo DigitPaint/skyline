@@ -1,3 +1,4 @@
+# @private
 module Skyline::TreeHelper
   
   def page_tree(pages, roots, options = {})

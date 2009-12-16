@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::RedirectSection < ActiveRecord::Base
   include Skyline::SectionItem
   include Skyline::ContentItem

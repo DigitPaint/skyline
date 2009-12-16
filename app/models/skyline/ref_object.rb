@@ -1,3 +1,4 @@
+# @private
 class Skyline::RefObject < ActiveRecord::Base
   belongs_to :referable, :polymorphic => true, :autosave => true
 

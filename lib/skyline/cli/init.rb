@@ -3,6 +3,7 @@ require 'fileutils'
 
 module Skyline
   module Cli
+    # @private
     class Init < Thor::Group
       include Thor::Actions
       

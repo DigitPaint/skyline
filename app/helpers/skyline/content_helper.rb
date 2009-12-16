@@ -1,3 +1,4 @@
+# @private
 module Skyline::ContentHelper
 
   # We need some preconditions to make automatic breadcrumbs work

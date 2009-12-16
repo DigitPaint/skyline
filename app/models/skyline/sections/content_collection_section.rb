@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
   include Skyline::SectionItem
   include Skyline::Taggable

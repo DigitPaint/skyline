@@ -1,3 +1,4 @@
+# @private
 class Skyline::Section < ActiveRecord::Base
   set_table_name :skyline_sections
   

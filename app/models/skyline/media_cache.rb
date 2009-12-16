@@ -1,3 +1,4 @@
+# @private
 class Skyline::MediaCache < ActiveRecord::Base    
   set_table_name :skyline_media_cache  
   cattr_accessor :cache_path

@@ -1,3 +1,4 @@
+# @private
 class Skyline::Sections::MediaSection < ActiveRecord::Base
   include Skyline::SectionItem
   include Skyline::ContentItem
