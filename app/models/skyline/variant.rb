@@ -158,12 +158,7 @@ class Skyline::Variant < Skyline::ArticleVersion
   end
   
   def update_article_default_variant
-    if !self.article.default_variant.present? ||        # no default_variant has been set yet
-       !self.article.default_variant_data.present? ||   # no default_variant has been set yet
-       !self.article.published?                         # article isn't published, so now I'm the default variant
-
-      self.article.set_default_variant!(self) 
-    end
+    self.article.set_default_variant!(self) 
   end
   
   def update_article_default_variant_on_destroy

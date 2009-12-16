@@ -12,7 +12,7 @@ module Skyline::Rendering::Helpers::BreadCrumbHelper
   def bread_crumb(bc,options={})
     if bc.kind_of? Skyline::ArticleVersion
       page = bc
-      bc = bc.page.nesting.map{|p| [p.published_publication_data.navigation_title,p.url]}
+      bc = bc.page.nesting.map{|p| [p.published_publication_data.andand.navigation_title,p.url]}
       bc[-1][0] = page.data.navigation_title
     end
     
