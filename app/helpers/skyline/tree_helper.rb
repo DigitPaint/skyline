@@ -58,5 +58,4 @@ module Skyline::TreeHelper
     content_tag("ul",tags.join("\n"));
   end
   
-  # content_tag("span", node.name)
 end
