@@ -5,15 +5,11 @@ module Skyline::Rendering::Helpers::SettingsHelper
   # @param setting_identifier [Symbol] the symbol of the settings page
   # @param field [Symbol] the name of the setting
   # 
-  # @return Object the value of the setting or nil if not found
+  # @return [Object] the value of the setting or nil if not found
+  # 
+  # @deprecated Will be removed 3.1 in favour of {Settings.get}
   def setting(setting_identifier, field)
-    if s = ::Settings[setting_identifier] 
-      if s.respond_to?(field)
-        return s.send(field)
-      end
-    end
-    Rails.logger.warn "Couldn't find Setting[:#{setting_identifier}].#{field}"
-    nil
+    ::Settings.get(setting_identifier,field)
   end
   
   # a safe way to get a page from the settings  
@@ -21,11 +17,10 @@ module Skyline::Rendering::Helpers::SettingsHelper
   # @param setting_identifier [Symbol] the symbol of the settings page
   # @param field [Symbol] the name of the setting that references a page_id
   # 
-  # @return [Page,nil] The page if found, nil otherwise
+  # @return [Page, NilClass] The page if found, nil otherwise
+  # 
+  # @deprecated Will be removed 3.1 in favour of {Settings.get_page}  
   def page_from_setting(setting_identifier, field)
-    if page_id = setting(setting_identifier, field)
-      return Skyline::Page.find_by_id(page_id) if page_id.present?
-    end    
-    nil
-  end  
+    ::Settings.get_page(setting_identifier,field)
+  end
 end
