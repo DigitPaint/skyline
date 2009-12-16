@@ -7,7 +7,7 @@ module Skyline::Rendering::Helpers::SettingsHelper
   # 
   # @return [Object] the value of the setting or nil if not found
   # 
-  # @deprecated Will be removed 3.1 in favour of {Settings.get}
+  # @deprecated Will be removed 3.1 in favour of {Skyline::Settings::KlassMethods#get}
   def setting(setting_identifier, field)
     ::Settings.get(setting_identifier,field)
   end
@@ -19,7 +19,7 @@ module Skyline::Rendering::Helpers::SettingsHelper
   # 
   # @return [Page, NilClass] The page if found, nil otherwise
   # 
-  # @deprecated Will be removed 3.1 in favour of {Settings.get_page}  
+  # @deprecated Will be removed 3.1 in favour of {Skyline::Settings::KlassMethods#get_page}  
   def page_from_setting(setting_identifier, field)
     ::Settings.get_page(setting_identifier,field)
   end

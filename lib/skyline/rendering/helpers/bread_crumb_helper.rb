@@ -2,11 +2,13 @@ module Skyline::Rendering::Helpers::BreadCrumbHelper
   
   # Helper to easily create breadcrumbs that are cut off in the middle.
   #
-  # @param bc [Array<Array>] :: An array of arrays with two elements: [[title,url],[title,url]...]
-  # @param options [Hash] :: Options
+  # @param bc [Array<Array>] An array of arrays with two elements: [[title,url],[title,url]...]
+  # @param options [Hash] Options
   #
   # @option options :max_length [Integer] () Limit the max length in chars. Returns an array with nil element where 
   #   something has been cut away.
+  # 
+  # @return [Array<Array>] Array of arrays with the first element the title and as second element the url.
   def bread_crumb(bc,options={})
     if bc.kind_of? Skyline::ArticleVersion
       page = bc
