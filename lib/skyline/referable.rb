@@ -25,6 +25,8 @@ module Skyline::Referable
     base.send(:cattr_accessor, :referable_fields)
     base.send(:has_many, :image_refs, :class_name => "Skyline::ImageRef", :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
     base.send(:has_many, :link_refs, :class_name => "Skyline::LinkRef", :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
+    
+    base.send :alias_method_chain, :clone, :referables    
   end
   
   module ClassMethods    
@@ -61,8 +63,8 @@ module Skyline::Referable
   
   # Implementation of the clone interface
   # @private
-  def clone
-    returning super do |clone|      
+  def clone_with_referables
+    returning clone_without_referables do |clone|      
       if !self.referable_fields.nil?
         self.referable_fields.each do |field|         
           clone.send("#{field}=".to_sym, self.send(field,true,{:nullify => true}))
