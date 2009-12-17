@@ -75,7 +75,8 @@ class Skyline::Page < Skyline::Article
       pages = self.connection.select_all("
         SELECT page.id,
                page.parent_id,
-               IF(ISNULL(data.navigation_title) || data.navigation_title='', data.title, data.navigation_title) AS title,
+               data.navigation_title as navigation_title,
+               data.title as title,
                page.locked,
                page.published_publication_id,
                page.default_variant_id,
@@ -93,7 +94,13 @@ class Skyline::Page < Skyline::Article
         class << o
           def id; self["id"].to_i; end
           def parent_id; self["parent_id"].blank? ? nil : self["parent_id"].to_i; end
-          def title; self["title"].blank? ? "n/a" : self["title"]; end
+          def title
+            if self["navigation_title"].blank?
+              self["title"].blank? ? "n/a" : self["title"]
+            else
+              self["navigation_title"]
+            end
+          end
           def published?; self["published_publication_id"].present?; end
           def identical_to_publication?
             self["published_publication_variant_id"] == self["default_variant_id"] && self["published_publication_version"] == self["default_variant_version"]
