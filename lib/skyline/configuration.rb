@@ -43,7 +43,7 @@ class Skyline::Configuration < Configure
       config.media_file_cache_path = nil
       config.rss_section_cache_path = nil
     else
-      config.assets_path = File.join(Rails.root,"tmp/upload")
+      config.assets_path = File.join(Rails.root,"/tmp/upload")
       config.media_file_cache_path = File.join(Rails.root,"/tmp/media_files/cache")
       config.rss_section_cache_path = File.join(Rails.root,"/tmp/rss_sections/cache")
     end 
