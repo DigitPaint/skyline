@@ -2,6 +2,7 @@ lib/**/*.rb
 app/models/**/*.rb
 app/helpers/skyline/*.rb
 --no-private 
+--title "Skyline API documentation"
 -o ydoc
 -
 doc/INSTALL.md
