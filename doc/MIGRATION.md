@@ -1,6 +1,30 @@
 Skyline Version Migration
 =========================
 
+General update recipe
+---------------------
+
+After every Skyline update make sure that:
+
+* You have updated your `Gemfile`, or the `config.gem` specifications in your `environment.rb`.
+* Run `rake skyline:db:migrate` to update your Skyline tables.
+* Run `rake skyline:db:seed` to update roles/rights and other important data updates.
+* **Plugin users only!** The assets (`RAILS_ROOT/public/skyline`) are from the new version. If they are symlinked, Skyline will 
+  take care of them for you.
+
+Version 3.0.7 -> Version 3.0.8
+------------------------------
+
+There are no pressing changes you need to make to your implementation. Keep in mind however
+that we deprecated some methods. The deprecated methods will be removed in version 3.1.0
+
+**page\_sections\_per_column** in templates. Use `sections_per_column` instead. The old method
+is still available as an alias.
+
+**setting and page\_from\_settings** in templates. These two helpers are deprecated
+in favour of `Settings.get` for `setting` and `Settings.get_page` for `page_from_setting`. The
+method signatures are identical was merly a restructuring.
+
 First OS release -> Version 3.0.7
 ---------------------------------
 

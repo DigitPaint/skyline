@@ -1,3 +1,15 @@
+*3.0.8 (December 18, 2009)*
+
+* Added support for SQLite3
+* Always make the last saved variant the default variant
+* Fix longstanding bug which can be caused by copy-paste from one wysiwyg section to another
+* Make the default templates more bullet-proof
+* Implemented capture functionality on RendererHelper#assign
+* Add some helper methods to the ContentCollectionSection. Simplified the templates accordingly
+* Added loads and loads of API documentation
+* Deprecate the settings helper in favour of Settings#get and Settings#get_page
+* Deprecate page_sections_per_column in favour of sections_per_column
+
 *3.0.7 (December 8, 2009)*
 
 * Minor optimalisation to make (auto)loading work better
