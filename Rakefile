@@ -99,7 +99,7 @@ end
 namespace :doc do
   desc "Generate the Skyline CMS documentation (uses Yard)"
   YARD::Rake::YardocTask.new(:generate) do |t|
-    t.options = ["-o#{OPTIONS["doc"]["output_path"]}"]
+    t.options = ["-o#{OPTIONS["doc"]["output_path"]}", "--title=\"Skyline #{Skyline.version} API documentation\""]
   end
   
   task :deploy do
