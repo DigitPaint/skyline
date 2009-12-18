@@ -6,7 +6,7 @@ module Skyline
   module VERSION
     MAJOR = 3
     MINOR = 0
-    TINY = 7
+    TINY = 8
     BUILD = 0
 
     # Some hackery to determine if we're on a development branch or not
