@@ -8,7 +8,7 @@ module Skyline
       include Thor::Actions
       
       def self.source_root
-        Skyline.root
+        Skyline.root.expand_path
       end
       
       def verify_rails_dir
