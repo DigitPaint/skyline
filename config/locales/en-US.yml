@@ -266,7 +266,8 @@
         title: "Title"
         links: "Links"        
       skyline/sections/media_section:
-        linked: "Image"
+        media: "Image"
+        link: "Link (optional)"
         alignment: "Alignment"
         caption: "Caption"
         alignments:

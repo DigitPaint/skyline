@@ -1,8 +1,12 @@
 <table class="fields">
   <tr>
-    <th><%= sectionable_form.t :linked %></th>
-    <td><%= image_browser(sectionable_form, :linked, {:skip_class => true}) %></td>    
+    <th><%= sectionable_form.t :media %></th>
+    <td><%= image_browser(sectionable_form, :media, {:skip_class => true}) %></td>    
   </tr>
+  <tr>
+    <th><%= sectionable_form.t :link %></th>
+    <td><%= link_browser(sectionable_form, :link, {:skip_class => true}) %></td>    
+  </tr>  
   <tr>
     <th><%= sectionable_form.label_with_text :alignment %></th>
     <td>
