@@ -28,14 +28,8 @@ class Skyline::MediaFile < Skyline::MediaNode
   def thumbnail(width=100,height=100)
     img = Magick::Image::read(self.file_path).first
     
-    org_w = img.columns
-    org_h = img.rows
-        
-    if (width.to_i > org_w || height.to_i > org_h) 
-      width = [width.to_i, org_w].min
-      height = [height.to_i, org_h].min
-    end
-
+    width,height = self.proportional_dimension(width,height,img.columns,img.rows)
+    
     stream = img.change_geometry!("#{width}x#{height}"){ |c,r,i| i.resize!(c,r) }
     stream.to_blob        
   end
@@ -47,6 +41,35 @@ class Skyline::MediaFile < Skyline::MediaNode
   def dimension
     return nil if self.file_type != "image"
     {"width" => self.width, "height" => self.height}
+  end
+  
+  # Calculate the proportional dimension of this media file
+  # this method will never go beyond the bounds of org_w and org_h.
+  # 
+  # @param width [Integer] The target width of this calculation
+  # @param height [Integer] The target height of this calculation
+  # @param org_w [Integer] The original width
+  # @param org_h [Integer] The origin height
+  #
+  # @return Array<Integer,Integer> The new width and height
+  def proportional_dimension(width,height,org_w = self.width, org_h = self.height)
+    return nil if org_w.blank? && org_h.blank?
+
+    # Make sure we don't go beyond the actual size!
+    if (width.to_i > org_w || height.to_i > org_h) 
+      width = [width.to_i, org_w].min
+      height = [height.to_i, org_h].min
+    end
+    
+    w_factor = width.to_f / org_w.to_f
+    h_factor = height.to_f / org_h.to_f
+    factor = case 
+      when w_factor == 0 then h_factor
+      when h_factor == 0 then w_factor
+      else [w_factor, h_factor].min
+    end
+    
+    [(org_w*factor).round, (org_h*factor).round]
   end
   
   # sanitize filename and set correct mime-type for IO object of file data
