@@ -1,6 +1,6 @@
 # @private
 class Skyline::Sections::RedirectSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   include Skyline::BelongsToReferable
   
   belongs_to_referable :linked

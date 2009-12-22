@@ -1,19 +1,26 @@
-# Defines the SectionItem interface. Include this module in all your sections.
+# Defines the section interface. Include this module in all your sections.
 #
 # If you're creating your Section within the Skyline module (you probably shouldn't), it
 # will automatically sets your models table name to `skyline_sections_#{base.table_name}`
 #
 # @example Usage: 
-#   class Model < ActiveRecord::Base
-#     include Skyline::SectionItem
+# 
+# class Model < ActiveRecord::Base
+#   include Skyline::Sections::Interface
+# end
+#
+# @example Defines the following interface:
+# 
+# class Model < ActiveRecord::Base
+#   has_one :section, :as => :sectionable, :class_name => "Skyline::Section" # The link back to the section
+#   self.default_interface = true # defaults to true
+#   
+#   def to_text
+#     ...
 #   end
-#
-# @example Defines:
-#   Model.default_interface = true # defaults to true
-#   @model = Model.new
-#   @model.to_text #=> ""
-#
-module Skyline::SectionItem 
+# end
+# 
+module Skyline::Sections::Interface
  
   def self.included(base)
     base.class_eval do

@@ -1,7 +1,7 @@
 # @private
 class Skyline::Sections::IframeSection < ActiveRecord::Base
   extend Skyline::UrlValidation  
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   
   validates_numericality_of :width, :height
   validates_presence_of :url

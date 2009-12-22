@@ -1,6 +1,6 @@
 # @private
 class Skyline::Sections::MediaSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   include Skyline::BelongsToReferable
   
   ALIGNMENT = %w{left right block_left block_right block_center}

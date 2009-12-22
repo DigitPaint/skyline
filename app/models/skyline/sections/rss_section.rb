@@ -4,7 +4,7 @@ require 'fileutils'
 class Skyline::Sections::RssSection < ActiveRecord::Base
   extend ActiveSupport::Memoizable
   extend Skyline::UrlValidation  
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
 
   
   validates_numericality_of :show_count

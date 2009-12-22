@@ -1,5 +1,5 @@
 class Skyline::TestSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   include Skyline::HasManyReferablesIn
   
   has_many_referables_in :body_a

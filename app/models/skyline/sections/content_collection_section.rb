@@ -1,6 +1,6 @@
 # @private
 class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   include Skyline::Taggable
   taggable_scope lambda{|ccs| ccs.content_type}
   

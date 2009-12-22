@@ -28,6 +28,8 @@ module Skyline
     end
   end
   
+  SectionItem = Skyline::Sections::Interface
+  
   # 
   # module SectionItem
   # end

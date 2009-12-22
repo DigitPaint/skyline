@@ -1,6 +1,6 @@
 # @private
 class Skyline::Sections::ContentItemSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
 
   belongs_to :content_item, :polymorphic => true
   

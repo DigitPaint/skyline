@@ -1,6 +1,6 @@
 # @private
 class Skyline::Sections::WysiwygSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   include Skyline::HasManyReferablesIn
   
   self.default_interface = false
