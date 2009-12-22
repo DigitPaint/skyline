@@ -1,9 +1,9 @@
 # @private
 class Skyline::Sections::RedirectSection < ActiveRecord::Base
   include Skyline::SectionItem
-  include Skyline::ContentItem
+  include Skyline::BelongsToReferable
   
-  referable_content :linked
+  belongs_to_referable :linked
   
   validates_numericality_of :delay
 

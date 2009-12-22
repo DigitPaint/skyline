@@ -1,15 +1,15 @@
 # @private
 class Skyline::Sections::MediaSection < ActiveRecord::Base
   include Skyline::SectionItem
-  include Skyline::ContentItem
+  include Skyline::BelongsToReferable
   
   ALIGNMENT = %w{left right block_left block_right block_center}
   
   # The media linked to this section
-  referable_content :media
+  belongs_to_referable :media
   
   # An optional link
-  referable_content :link
+  belongs_to_referable :link
   
   validates_numericality_of :width, :height, :allow_nil => true
   

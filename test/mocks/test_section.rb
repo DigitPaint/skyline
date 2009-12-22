@@ -1,9 +1,9 @@
 class Skyline::TestSection < ActiveRecord::Base
   include Skyline::SectionItem
-  include Skyline::Referable
+  include Skyline::HasManyReferablesIn
   
-  referable_field :body_a
-  referable_field :body_b
+  has_many_referables_in :body_a
+  has_many_referables_in :body_b
   
   attr_accessor :fail_validation
   
