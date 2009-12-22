@@ -19,8 +19,15 @@ module Skyline
     end    
   end
   
-  # module Referable
-  # end
+  module Referable
+    def self.included(base)
+      base.send(:include, Skyline::HasManyReferablesIn)
+      class << base 
+        alias_method :referable_field, :has_many_referables_in
+      end      
+    end
+  end
+  
   # 
   # module SectionItem
   # end

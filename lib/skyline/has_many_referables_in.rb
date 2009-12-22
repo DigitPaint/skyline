@@ -1,12 +1,14 @@
-# Use this module in all models that have references to MediaFiles/Pages etc via WYSWIWYG-editors
-# It adds the class method `referable_field`. With {Skyline::Referable::ClassMethods#referable_field} you can use any
+# Use this module in all models that have references to MediaFiles/Page/URL etc via WYSWIWYG-editors
+# It adds the class method `has_many_referables_in`. With {Skyline::HasManyReferablesIn::ClassMethods#has_many_referables_in} you can use any
 # text/string database field to have links/images that will refer correctly to their respective
 # targets through RefObject
+# 
+# @see Skyline::BelongsToReferable If you want to use a reference to a MediaFile/Page/URL directly as an association.
 #
 # @example Usage: 
 #   class Model < ActiveRecord::Base
 #     include Skyline::Referable
-#     referable_field :body # :body is a database text/string field
+#     has_many_referables_in :body # :body is a database text/string field
 #   end
 #
 # @example Defines:
@@ -16,13 +18,14 @@
 #   @model.body #=> Evertyhing is converted back to it's original state
 #   @model.body(true) #=> The HTML includes extra attributes used for editing in the WYSIWYG-editor
 #
-module Skyline::Referable 
+module Skyline::HasManyReferablesIn 
  
   def self.included(base)
     base.extend(ClassMethods)
     base.send(:before_save, :parse_referable_fields)
     base.send(:after_save, :update_referable_objects)
     base.send(:cattr_accessor, :referable_fields)
+    
     base.send(:has_many, :image_refs, :class_name => "Skyline::ImageRef", :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
     base.send(:has_many, :link_refs, :class_name => "Skyline::LinkRef", :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
     
@@ -39,7 +42,7 @@ module Skyline::Referable
     # an options string which is passed to {Skyline::InlineRef#convert}
     #
     # @param fields [String,Symbol] The field(s) to enable the referable content for.
-    def referable_field(*fields)      
+    def has_many_referables_in(*fields)      
       self.referable_fields ||= []
       
       fields.each do |f|
