@@ -1,6 +1,6 @@
-# Requiring this file gives you all the old interfaces.
-
 module Skyline
+
+  # @deprecated  
   module ContentItem
     
     def self.included(base)
@@ -19,6 +19,7 @@ module Skyline
     end    
   end
   
+  # @deprecated
   module Referable
     def self.included(base)
       base.send(:include, Skyline::HasManyReferablesIn)
@@ -28,7 +29,12 @@ module Skyline
     end
   end
   
-  SectionItem = Skyline::Sections::Interface
+  # @deprecated  
+  module SectionItem
+    def self.included(base)
+      base.send(:include, Skyline::Sections::Interface)
+    end
+  end
   
   # 
   # module SectionItem
