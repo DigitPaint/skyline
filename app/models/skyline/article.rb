@@ -14,9 +14,20 @@ class Skyline::Article < ActiveRecord::Base
       super      
       subclass.set_table_name subclass.name.underscore.gsub("/","_")
       
-      parent = subclass.parent
-      parent.send(:belongs_to, :default_variant_data, :class_name => subclass.name)
-      parent.send(:belongs_to, :published_publication_data, :class_name => subclass.name)
+      parentclass = subclass.parent
+      parentclass.class_eval do
+        belongs_to :default_variant_data, :class_name => subclass.name
+        belongs_to :published_publication_data, :class_name => subclass.name
+      end
+      
+      subclass.class_eval do
+        has_one :article, :foreign_key => "published_publication_data_id", :class_name => parentclass.name
+        
+        named_scope :published, {
+          :include => [:article],
+          :conditions => "skyline_articles.published_publication_data_id = #{self.table_name}.id"
+        }
+      end
       
       if !Rails.configuration.cache_classes && !(ActiveSupport::Dependencies.load_once_path?(__FILE__) && subclass.parents[-2] == ::Skyline)        
         ActiveSupport::Dependencies.autoloaded_constants << subclass.to_s

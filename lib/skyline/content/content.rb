@@ -5,8 +5,20 @@ module Skyline::Content
       obj.extend(KlassMethods)
      
        if obj.ancestors.include?( ::ActiveRecord::Base)
-         obj.send(:after_save, "process_after_save")
-       end    
+         obj.class_eval do 
+           after_save :process_after_save
+           
+           named_scope :published, lambda {
+             if obj.publishable?
+               {:conditions => {:published => true}}
+             else
+               {}
+             end
+           }
+
+           named_scope :with_site, {}
+         end         
+       end
      end 
      
      module KlassMethods  #:nodoc:

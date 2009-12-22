@@ -1,11 +1,11 @@
 module Skyline::Settings
   
   def self.included(obj)
-    obj.extend(KlassMethods)
+    obj.extend(ClassMethods)
     obj.send(:serialize, :data)
   end  
   
-  module KlassMethods
+  module ClassMethods
     
     # Define a page in the object, see example below
     #
@@ -95,6 +95,20 @@ module Skyline::Settings
       end        
       nil
     end
+    
+    # Can be used to reference a Page/MediaFile etc directly. Sets it
+    # to `FIELD_id`.
+    # 
+    # @param field [String,Symbol] The field name to use (multiple possible)
+    def referable_serialized_content(*fields)
+      fields.each do |f|
+        self.class_eval <<-END
+          def #{f}_attributes=(attr)
+            self.#{f}_id = attr[:referable_id]
+          end
+        END
+      end
+    end    
     
     protected
     
