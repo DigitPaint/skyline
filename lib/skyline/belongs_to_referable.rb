@@ -1,8 +1,10 @@
 # Use this Module in in a class that references a Page/MediaFile/URL as an association.
+# It adds the class method `belongs_to_referable`. With {Skyline::Referable::ClassMethods#belongs_to_referable} you create a
+# `belongs_to` association to an Page/MediaFile/URL through a RefObject.
 # 
 # @see Skyline::BelongsToReferable::ClassMethods#belongs_to_referable
 #
-# @example Usage and interface definition.
+# @example Usage
 #
 # class Model < ActiveRecord::Base
 #   include Skyline::BelongsToReferable
@@ -11,7 +13,7 @@
 # end
 #
 #
-# # Gives your Model the following interface:
+# @example Gives your Model the following interface:
 #
 # class Model < ActiveRecord::Base
 #   after_save :possibly_destroy_previous_referables

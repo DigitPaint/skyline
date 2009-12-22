@@ -7,7 +7,7 @@
 #
 # @example Usage: 
 #   class Model < ActiveRecord::Base
-#     include Skyline::Referable
+#     include Skyline::HasManyReferablesIn
 #     has_many_referables_in :body # :body is a database text/string field
 #   end
 #
