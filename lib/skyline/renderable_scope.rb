@@ -1,5 +1,5 @@
 class Skyline::RenderableScope < Array
-  include Skyline::RenderableScopeInterface
+  include Skyline::Rendering::Scopes::Interface
 
   class << self  
     def from_a(array)
@@ -14,7 +14,7 @@ class Skyline::RenderableScope < Array
   def renderer(options = {})
     # TODO renderer alleen doorsnede laten nemen
     options.merge!(:paths => self.collect{|i| i.template_paths}.flatten, :site => self.first)
-    Skyline::Renderer.new(options)
+    Skyline::Renderering::Renderer.new(options)
   end
     
   def serialize

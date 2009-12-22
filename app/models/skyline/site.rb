@@ -16,7 +16,7 @@ class Skyline::Site
   end
   
   def renderer(options = {})
-    Skyline::Renderer.new(options.merge(:site => self))
+    Skyline::Rendering::Renderer.new(options.merge(:site => self))
   end
   
   def named_scope_with_site_for(article_data_class)

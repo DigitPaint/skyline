@@ -1,6 +1,6 @@
 # The skyline renderer renders all Articles, Sections and basically anything that's renderable
 # or previewable in Skyline.
-class Skyline::Renderer
+class Skyline::Rendering::Renderer
   attr_reader :assigns, :template_paths
   attr_accessor :_config
   

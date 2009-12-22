@@ -72,8 +72,8 @@ class Skyline::Configuration < Configure
     Skyline::Sections::RssSection.cache_path = self["rss_section_cache_path"]
     Skyline::Sections::RssSection.cache_timeout = self["rss_section_cache_timeout"]
     
-    Skyline::Renderer.register_renderables(:sections,self["sections"])
-    Skyline::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])  
+    Skyline::Rendering::Renderer.register_renderables(:sections,self["sections"])
+    Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])  
     
     load_dependencies
   end  

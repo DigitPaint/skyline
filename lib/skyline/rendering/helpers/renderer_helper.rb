@@ -26,42 +26,42 @@ module Skyline::Rendering
 
       # Get's the current Renderer instance that is rendering the template we're in.
       # 
-      # @return [Skyline::Renderer] The renderer
+      # @return [Skyline::Rendering::Renderer] The renderer
       def renderer
         @_renderer
       end
 
-      # @see Skyline::Renderer#render
+      # @see Skyline::Rendering::Renderer#render
       def render_object(object, options = {})
         renderer.render(object, options)
       end
 
-      # @see Skyline::Renderer#render_collection
+      # @see Skyline::Rendering::Renderer#render_collection
       def render_collection(objects, options = {},&block)
         renderer.render_collection(objects, options, &block)
       end
 
-      # @see Skyline::Renderer#peek
+      # @see Skyline::Rendering::Renderer#peek
       def peek(n=1, &block)
         renderer.peek(n, &block)
       end
 
-      # @see Skyline::Renderer#peek_until} 
+      # @see Skyline::Rendering::Renderer#peek_until} 
       def peek_until(&block)
         renderer.peek_until(&block)
       end
 
-      # @see Skyline::Renderer#render_until
+      # @see Skyline::Rendering::Renderer#render_until
       def render_until(&block)
         renderer.render_until(&block)
       end    
 
-      # @see Skyline::Renderer#skip!
+      # @see Skyline::Rendering::Renderer#skip!
       def skip!(n=1)
         renderer.skip!(n)
       end
 
-      # @see Skyline::Renderer#skip_until!
+      # @see Skyline::Rendering::Renderer#skip_until!
       def skip_until!(&block)
         renderer.skip_until!(&block)
       end

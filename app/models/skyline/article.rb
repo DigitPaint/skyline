@@ -239,7 +239,7 @@ class Skyline::Article < ActiveRecord::Base
   end  
   
   def renderable_scope
-    Skyline::WildcardRenderableScope.new
+    Skyline::Rendering::Scopes::Wildcard.new
   end  
   
   protected
@@ -260,7 +260,7 @@ class Skyline::Article < ActiveRecord::Base
     raise StandardError, "can't be destroyed because this page is persistent" if self.persistent?
   end  
 
-  # reset ref objects that refer to removed media file
+  # Reset ref objects that refer to this now removed Article.
   # by setting referable_id = nil
   def reset_ref_object
     Skyline::RefObject.update_all({:referable_id => nil}, {:referable_id => self.id, :referable_type => self.class.name})    

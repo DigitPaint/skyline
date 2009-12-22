@@ -1,9 +1,9 @@
 # @private
-class Skyline::WildcardRenderableScope
-  include Skyline::RenderableScopeInterface
+class Skyline::Rendering::Scopes::Wildcard
+  include Skyline::Rendering::Scopes::Interface
 
   def renderer(options = {})
-    Skyline::Renderer.new(options)
+    Skyline::Rendering::Renderer.new(options)
   end
     
   def serialize
