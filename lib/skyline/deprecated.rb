@@ -80,5 +80,27 @@ module Skyline
       
       base.send(:extend, ::UrlValidation)
     end
-  end    
+  end
+  
+  
+  module Rendering
+    module Helpers
+      module SettingsHelper
+        # @deprecated Will be removed 3.1 in favour of {Skyline::Settings::KlassMethods#get}
+        def setting(setting_identifier, field)
+          warn "[DEPRECATION] Don't use #setting anymore, use Settings#get (will be removed in 3.1.0) [#{caller[1]}]"
+          ::Settings.get(setting_identifier,field)
+        end
+
+        # @deprecated Will be removed 3.1 in favour of {Skyline::Settings::KlassMethods#get_page}  
+        def page_from_setting(setting_identifier, field)
+          warn "[DEPRECATION] Don't use #page_from_setting anymore, use Settings#get_page (will be removed in 3.1.0) [#{caller[1]}]"
+          ::Settings.get_page(setting_identifier,field)
+        end
+      end
+    end
+  end
+  
+  # Include it in the RendererHelper for now, RendererHelper will always exist.
+  Rendering::Helpers::RendererHelper.send(:include, Rendering::Helpers::SettingsHelper)
 end

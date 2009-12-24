@@ -370,7 +370,6 @@ class Skyline::Rendering::Renderer
   module Helpers
     include Skyline::Rendering::Helpers::ColumnHelper
     include Skyline::Rendering::Helpers::BreadCrumbHelper
-    include Skyline::Rendering::Helpers::SettingsHelper    
     
     def helper(module_name)
       return self.send(:include,module_name) if module_name == Module
