@@ -137,7 +137,7 @@ module Skyline::Rendering
       # Simple, quick 'n dirty solution so you can use 'acticle_version', 'news_item', .. in all 
       # your templates. So you don't have to use @.... or pass the local to all partials.
       # 
-      # @private
+      # @deprecated Don't use the name of the object anymore,  use `renderer.object` instead.
       def method_missing(method, *params, &block)
         return @_local_object if @_local_object_name == method
         super
