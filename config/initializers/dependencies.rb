@@ -4,6 +4,7 @@ require 'rss/2.0'
 require 'open-uri'
 
 require 'andand/andand'
+require 'weppos/url_validation'
 require 'digitpaint/unique_identifiers'
 require 'digitpaint/configure'
 require 'digitpaint/personify/personify'

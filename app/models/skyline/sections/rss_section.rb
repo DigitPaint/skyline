@@ -3,7 +3,7 @@ require 'fileutils'
 # @private
 class Skyline::Sections::RssSection < ActiveRecord::Base
   extend ActiveSupport::Memoizable
-  extend Skyline::UrlValidation  
+  extend UrlValidation  
   include Skyline::Sections::Interface
 
   

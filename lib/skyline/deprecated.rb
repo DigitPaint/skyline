@@ -73,4 +73,13 @@ module Skyline
     
   end
     
+
+  # @deprecated Don't use Skyline::UrlValidation anymore, use UrlValidation (will be removed in 3.1.0)
+  module UrlValidation
+    def self.extended(base)
+      warn "[DEPRECATION] Don't use Skyline::UrlValidation anymore, use UrlValidation (will be removed in 3.1.0) [#{caller[1]}]"
+      
+      base.send(:extend, ::UrlValidation)
+    end
+  end    
 end
