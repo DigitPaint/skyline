@@ -20,3 +20,5 @@ require "hpricot"
 require "guid"
 require "will_paginate"
 require "seed-fu"
+
+require 'skyline/deprecated'
