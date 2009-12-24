@@ -34,7 +34,6 @@ class Skyline::Page < Skyline::Article
     end
   end
   
-  include Skyline::SearchableItem
   include Skyline::Positionable
   self.positionable_scope = :parent_id
   
@@ -51,13 +50,6 @@ class Skyline::Page < Skyline::Article
   named_scope :with_default_data, {:include => [:default_variant_data, :default_variant, :published_publication]}
   
   default_scope :order => "position"
-  
-  indexer_option :if => :published_publication_id_changed?
-  
-  searchable_field :title => lambda{|article| article.published_publication_data.title},
-                   :url => :url,
-                   :documentdate => lambda{|article| article.published_publication.updated_at.to_time.utc.iso8601(3)},
-                   :body => lambda{|article| article.published_publication.to_text}
  
   class << self
     extend ActiveSupport::Memoizable

@@ -29,8 +29,6 @@ class Skyline::Configuration < Configure
     
     config.rss_section_cache_timeout = 1.hour  
     
-    config.solr_indexing = false
-    
     config.custom_logo = false
     config.skyline_logo = "/skyline/images/logo.png"
     config.branding_name = ""
@@ -73,9 +71,7 @@ class Skyline::Configuration < Configure
     Skyline::Sections::RssSection.cache_timeout = self["rss_section_cache_timeout"]
     
     Skyline::Rendering::Renderer.register_renderables(:sections,self["sections"])
-    Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])  
-    
-    load_dependencies
+    Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])      
   end  
   
   def articles
@@ -87,14 +83,7 @@ class Skyline::Configuration < Configure
   end
   
   protected
-  
-  def load_dependencies
-    if self.solr_indexing
-      require "rsolr"
-      require "rsolr-ext"      
-    end
-  end
-  
+    
   # Check if a path is set, and if we're in production made raise an assertion
   # if the path does not exist. It just creates the path in development mode.
   def check_or_create_path(path, key="assets_path")
