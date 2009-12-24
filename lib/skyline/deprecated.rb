@@ -36,11 +36,12 @@ module Skyline
     end
   end
   
-  # 
-  # module SectionItem
-  # end
-  # 
-  # module FormBuilderWithErrors
-  # end
-  
+  # @deprecated
+  module FormBuilderWithErrors
+    def self.included(base)
+      
+      base.send(:include, Skyline::FormBuilder)
+    end
+  end
+    
 end
