@@ -4,6 +4,8 @@ module Skyline
   module ContentItem
     
     def self.included(base)
+      warn "[DEPRECATION] Don't use Skyline::ContentItem anymore, use Skyline::BelongsToReferable"
+      
       base.send(:include, Skyline::BelongsToReferable)
       
       base.class_eval do
@@ -22,6 +24,8 @@ module Skyline
   # @deprecated
   module Referable
     def self.included(base)
+      warn "[DEPRECATION] Don't use Skyline::Referable anymore, use Skyline::HasManyReferablesIn"
+            
       base.send(:include, Skyline::HasManyReferablesIn)
       class << base 
         alias_method :referable_field, :has_many_referables_in
@@ -32,6 +36,8 @@ module Skyline
   # @deprecated  
   module SectionItem
     def self.included(base)
+      warn "[DEPRECATION] Don't use Skyline::SectionItem anymore, use Skyline::Sections::Interface"
+      
       base.send(:include, Skyline::Sections::Interface)
     end
   end
@@ -39,6 +45,7 @@ module Skyline
   # @deprecated
   module FormBuilderWithErrors
     def self.included(base)
+      warn "[DEPRECATION] Don't use Skyline::FormBuilderWithErrors anymore, use Skyline::FormBuilder"
       
       base.send(:include, Skyline::FormBuilder)
     end
