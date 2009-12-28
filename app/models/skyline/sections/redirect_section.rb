@@ -7,7 +7,7 @@ class Skyline::Sections::RedirectSection < ActiveRecord::Base
   validates_numericality_of :delay
 
   def url(request)
-    if self.linked.external? 
+    if self.linked.external? || self.linked.url =~ /:\/\//
       self.linked.url
     else
       request.protocol + request.host_with_port + self.linked.url
