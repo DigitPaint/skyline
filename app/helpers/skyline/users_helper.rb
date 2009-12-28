@@ -1,2 +1,0 @@
-module Skyline::UsersHelper
-end

@@ -1,3 +1,4 @@
+# @private
 class Skyline::Right < ActiveRecord::Base
   set_table_name :skyline_rights
   

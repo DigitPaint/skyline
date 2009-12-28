@@ -4,7 +4,8 @@ require 'mocks/test_content_object.rb'
 class TestContentObjectTest < ActiveSupport::TestCase
   context "test content object" do
     setup do
-      @image = Skyline::MediaFile.new(:name => "test_img.gif", :parent_id => nil, :data => fixture_file_upload("../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif"))
+      upload = ActionController::TestUploadedFile.new((Skyline.root + "db/fixtures/files/test.gif").to_s, "image/gif")
+      @image = Skyline::MediaFile.new(:name => "test_img.gif", :parent_id => nil, :data => upload)
       @image.save
     end
     should "be able to save without an image" do

@@ -1,5 +1,6 @@
+# @private
 class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   include Skyline::Taggable
   taggable_scope lambda{|ccs| ccs.content_type}
   
@@ -16,6 +17,18 @@ class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
     else
       self.content_class.name.underscore 
     end    
+  end
+  
+  def collection_name
+    self.content_name.pluralize.to_sym
+  end
+  
+  def collection
+    self.full_collection.scoped(:limit => self.number)
+  end
+  
+  def full_collection
+    self.content_class.published.with_tags(self.tags).scoped(:limit => self.number)
   end
   
   def clone

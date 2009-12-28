@@ -1,3 +1,4 @@
+# @private
 class Skyline::MediaDir < Skyline::MediaNode
   extend ActiveSupport::Memoizable
   include UniqueIdentifiers

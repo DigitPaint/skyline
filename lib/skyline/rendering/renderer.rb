@@ -1,4 +1,6 @@
-class Skyline::Renderer
+# The skyline renderer renders all Articles, Sections and basically anything that's renderable
+# or previewable in Skyline.
+class Skyline::Rendering::Renderer
   attr_reader :assigns, :template_paths
   attr_accessor :_config
   
@@ -11,14 +13,10 @@ class Skyline::Renderer
   class << self
     # The list of renderable classes by type
     #
-    # ==== Parameters
-    # type<Symbol>:: The type to get the renderable classes for
-    # [sub<Symbol|Class>:: The sub class ie. :news_item or Skyline::Page when @@renderables[type] is an Hash]
-    #
-    # ==== Returns
-    # Array[Class]:: Array of renderable classes
-    #
-    # --
+    # @param type [Symbol] The type to get the renderable classes for
+    # @param sub [Symbol,Class] The sub class ie. :news_item or Skyline::Page when @@renderables[type] is an Hash]
+    # 
+    # @return [Array<Class>] Array of renderable classes
     def renderables(type, sub = :all)
       @@renderables ||= {}
       
@@ -37,21 +35,23 @@ class Skyline::Renderer
     end
 
     # Add your own renderables
+    #
+    # @param type [Symbol] The type (for instance `:sections` or `:articles`) to register your renderables under
+    # @param renderables [Array<String,Symbol,Class>] Your own renderables
     def register_renderables(type, renderables)
       @@renderables[type] = renderables
     end
     
     # All availables renderable types
+    #
+    # @return [Array<Symbol>] All available types
     def renderable_types
       @@renderables.keys
     end
 
     # Add a helper to the standard renderer
     #
-    # ==== Parameters
-    # module_name<~to_s,Module>:: Module/module name to include in the helper for renderer.
-    #
-    # --
+    # @param module_name [~to_s,Module>] Module/module name to include in the helper for renderer.
     def helper(module_name)
       Helpers.helper(module_name)
     end   
@@ -67,7 +67,16 @@ class Skyline::Renderer
     
   end
   
-  
+  # Creates a new renderer instance.
+  #
+  # @param options [Hash] Options
+  #
+  # @option options :assigns [Hash] ({}) Assigns to pass to the template, all assigns are accessible
+  #   by their instance variable. `:test` becomes @test in the template.
+  # @option options :controller [Controller] (nil) The controller that is serving the current request.
+  # @option options :paths [Array<String,Pathname>]  (["app/templates", Skyline.root + "app/templates/skyline"])
+  #   Paths that will be searched for templates.
+  # @option options :site [Site] The currently active site object
   def initialize(options = {})
     options.reverse_merge!(:assigns => {}, 
                            :controller => nil, 
@@ -81,6 +90,15 @@ class Skyline::Renderer
     @template_assigns = {}
   end
   
+  # Render one renderable object
+  # 
+  # @param object [renderable] A renderable object
+  # @param options [Hash] Options
+  #
+  # @option options :locals [Hash] ({}) Locals to make available to the template
+  # @option options :assigns [Hash] ({}) Assigns merged with the global assigns of this renderer
+  # 
+  # @return [String] The rendered template
   def render(object, options = {})
     options.reverse_merge!(:locals => {}, :assigns => {})
     
@@ -106,53 +124,13 @@ class Skyline::Renderer
       av.assigns[:_local_object] = object
       @_local_object = object   # for object function
       
-      av.extend RendererHelper
+      av.extend Skyline::Rendering::Helpers::RendererHelper
       av.extend Helpers
       
       av.render(:file => "index", :locals => options[:locals])
     end
   end
   
-  def object
-    @_local_object
-  end
-  
-  def peek(n = 1)
-    return [] if @_current_collection.blank?
-    @_current_collection[@_current_collection_index + @_collection_skip + 1, n]
-  end
-  
-  def peek_until(&block)
-    return [] if @_current_collection.blank?
-    peeking = []
-    items = @_current_collection[@_current_collection_index + @_collection_skip + 1 .. -1]
-    return [] unless items
-    items.each do |i|
-      return peeking if yield i
-      peeking << i
-    end
-    peeking
-  end
-  
-  def render_until(&block)
-    peek_until(&block).collect{|i| self.skip!; self.render(i)}.join
-  end
-      
-  def skip!(n = 1)
-    return 0 if @_current_collection.blank?    
-    @_collection_skip += n
-  end
-  
-  def skip_until!(&block)
-    return [] if @_current_collection.blank?
-    items = @_current_collection[@_current_collection_index + @_collection_skip + 1 .. -1]
-    return [] unless items
-    item.each do |i|
-      return if yield i
-      skip!    
-    end
-  end
-
   # Render a collection of objects (array), this gives
   # support for peek() and skip!() in the templates. A template
   # can decide too look n items forward and skip n items because the template
@@ -165,52 +143,113 @@ class Skyline::Renderer
   # All assigns and template_assigns will be available to all (cloned) renderers. (This is
   # because clone only makes a shallow clone, attributes (like assigns) which are Hashes aren't copied:
   # a clone uses the same memory address of the attribute.)
-  # --
+  #
+  # @param objects [Array<renderable>] An array of renderable objects.
+  # @param options [Hash] Options will be passed to each consequent {Renderer#render} call.
+  # 
+  # @return [String] The rendererd templates
   def render_collection(objects, options = {}, &block)
-    self.clone._render_collection(objects, options, &block)
+    self.clone.send(:_render_collection, objects, options, &block)
   end
-
-  # Do not use this method directly. Instead use the render_collection method.
-  # This is because nested calls to render_collection will fail due to shared
-  #   variables (like @_current_collection).
-  def _render_collection(objects, options = {}, &block)
-    @_collection_skip = 0
-    @_current_collection = objects
-    output = []
-    Array(objects).each_with_index do |object, i|
-      
-      if @_collection_skip > 0
-        @_collection_skip -= 1
-        next
-      end
-      
-      @_current_collection_index = i
-      if block_given?
-        output << yield(object)
-      else
-        output << self.render(object, options)
-      end
-    end    
-    @_current_colection = nil
-    
-    output.join("\n")
+  
+  # The current object that's being rendered
+  #
+  # @return [renderable] The renderable object.
+  def object
+    @_local_object
+  end
+  
+  # Peek looks forward N position in the current renderable collection. Peek does not
+  # modify the renderable collection.
+  # 
+  # Can only be used within a render_collection call. 
+  # 
+  # @param n [Integer] Number of items to look ahead
+  # 
+  # @return [Array<renderable>] N renderable items (or less if the collection end has been reached)
+  def peek(n = 1)
+    return [] if @_current_collection.blank?
+    @_current_collection[@_current_collection_index + @_collection_skip + 1, n]
+  end
+  
+  # Peek until the conditions in the passed block return true. Peek_until does not
+  # modify the renderable collection.
+  # 
+  # Can only be used within a render_collection call. 
+  # 
+  # @yield [i] A block that must evaluate to true/false
+  # @yieldparam i [renderable] The current renderable item
+  # @yieldreturn [true,false] If true the collection from the entry point up until the
+  #   moment the block returns true is returned as an array. If false the loop continues until
+  #   the end of the collection is reached or the conditions in the block are met.
+  # 
+  # @return [Array<renderable>] Renderable items.
+  def peek_until(&block)
+    return [] if @_current_collection.blank?
+    peeking = []
+    items = @_current_collection[@_current_collection_index + @_collection_skip + 1 .. -1]
+    return [] unless items
+    items.each do |i|
+      return peeking if yield i
+      peeking << i
+    end
+    peeking
+  end
+  
+  # Render_until does the same as peek_until but it also renders the objects
+  # and advances the collection pointer until the conditions in the block are met.
+  # 
+  # @see peek_until
+  def render_until(&block)
+    peek_until(&block).collect{|i| self.skip!; self.render(i)}.join
+  end
+  
+  # Advances the collection pointer by one
+  # 
+  # Can only be used within a render_collection call.
+  # 
+  # @param n [Integer] Number of items to skip
+  def skip!(n = 1)
+    return 0 if @_current_collection.blank?    
+    @_collection_skip += n
+  end
+  
+  # Skip_until! works like peek_until except it skips until the conditions
+  # in the passed block are met.
+  # 
+  # @see peek_until
+  def skip_until!(&block)
+    return [] if @_current_collection.blank?
+    items = @_current_collection[@_current_collection_index + @_collection_skip + 1 .. -1]
+    return [] unless items
+    item.each do |i|
+      return if yield i
+      skip!    
+    end
   end
   
   # Returns a list of templates for a certain object or class. Raises an exception
   # if the class can't be found in the config.
   #
-  # ==== Parameters
-  # klass_or_obj<Class,Object>:: The instance / class to get the templates for.
+  # @param klass_or_obj [Class,Object] The instance / class to get the templates for.
   #
-  # === Returns
-  # Array:: An array with template names
-  #
-  # --
+  # @return [Array] An array with template names
   def templates_for(klass_or_obj)
     klass = klass_or_obj.kind_of?(Class) ? klass_or_obj : klass_or_obj.class
     self.config[klass.name].andand[:templates] || []
   end
   
+  # The current rendering configuration
+  # 
+  # @param options [Hash] Options
+  #
+  # @option options :additional_config [Hash] ({}) An additional config to use just for 
+  #   this instance of the renderer. Setting :additional_config updates the config!
+  # 
+  # @return [Hash] the current config
+  # 
+  # @todo Check the exact syntax of options and what happens with the parameters of the :proxy.
+  #   blocks.
   def config(options = {})
     return self._config if self._config && Rails.env == "production"
     options.reverse_merge!(:additional_config => {})
@@ -246,15 +285,30 @@ class Skyline::Renderer
     self._config = config
   end
   
-  def templates_in_path(path)
-    template_paths = []
-    @template_paths.each do |root|
-      Dir.chdir(root) do
-        template_paths = template_paths | Dir.glob("#{path}/*").select{|d| File.directory?(d)  }.map{|d| File.basename(d)}
-      end
-    end
-    template_paths
+  def object_template_paths(object)
+    object_config = self.object_config(object)
+    template = self.object_template(object)
+    
+    template_path = object_config[:path]
+    path = "#{template_path}/#{template}"
+    default_path = "#{template_path}/default"
+
+    load_paths = []
+    load_paths += @template_paths.collect{|p| File.join(p, path)}
+    load_paths += @template_paths.collect{|p| File.join(p, template_path)}
+    load_paths += @template_paths.collect{|p| File.join(p, default_path)} unless template == "default"
+    load_paths
   end
+
+  def file_path(object, filename)
+    paths = object_template_paths(object)
+    paths.each do |path|
+      return File.join(path, filename) if File.exists?(File.join(path, filename))
+    end
+    nil
+  end
+  
+  protected
   
   def object_config(object)
     object_config = self.config[object.class.name]
@@ -275,35 +329,47 @@ class Skyline::Renderer
     template
   end
 
-  def object_template_paths(object)
-    object_config = self.object_config(object)
-    template = self.object_template(object)
-    
-    template_path = object_config[:path]
-    path = "#{template_path}/#{template}"
-    default_path = "#{template_path}/default"
-
-    load_paths = []
-    load_paths += @template_paths.collect{|p| File.join(p, path)}
-    load_paths += @template_paths.collect{|p| File.join(p, template_path)}
-    load_paths += @template_paths.collect{|p| File.join(p, default_path)} unless template == "default"
-    load_paths
-  end
-  
-  def file_path(object, filename)
-    paths = object_template_paths(object)
-    paths.each do |path|
-      return File.join(path, filename) if File.exists?(File.join(path, filename))
+  def templates_in_path(path)
+    template_paths = []
+    @template_paths.each do |root|
+      Dir.chdir(root) do
+        template_paths = template_paths | Dir.glob("#{path}/*").select{|d| File.directory?(d)  }.map{|d| File.basename(d)}
+      end
     end
-    nil
-  end
+    template_paths
+  end  
+  
+  # Do not use this method directly. Instead use the render_collection method.
+  # This is because nested calls to render_collection will fail due to shared
+  #   variables (like @_current_collection).
+  def _render_collection(objects, options = {}, &block)
+    @_collection_skip = 0
+    @_current_collection = objects
+    output = []
+    Array(objects).each_with_index do |object, i|
+      
+      if @_collection_skip > 0
+        @_collection_skip -= 1
+        next
+      end
+      
+      @_current_collection_index = i
+      if block_given?
+        output << yield(object)
+      else
+        output << self.render(object, options)
+      end
+    end    
+    @_current_colection = nil
+    
+    output.join("\n")
+  end  
   
     
   # The default Helpers module
   module Helpers
     include Skyline::Rendering::Helpers::ColumnHelper
     include Skyline::Rendering::Helpers::BreadCrumbHelper
-    include Skyline::Rendering::Helpers::SettingsHelper    
     
     def helper(module_name)
       return self.send(:include,module_name) if module_name == Module
@@ -322,106 +388,4 @@ class Skyline::Renderer
     end  
     
   end
-  
-  module RendererHelper
-
-    def assign(key, value = nil)
-      return @_template_assigns[key] if value.nil?
-      @_template_assigns[key] = value
-    end
-  
-    def renderer
-      @_renderer
-    end
-    
-    def render_object(object, options = {})
-      renderer.render(object, options)
-    end
-    
-    def render_collection(objects, options = {},&block)
-      renderer.render_collection(objects, options, &block)
-    end
-    
-    def peek(n=1, &block)
-      renderer.peek(n, &block)
-    end
-    
-    def peek_until(&block)
-      renderer.peek_until(&block)
-    end
-    
-    def render_until(&block)
-      renderer.render_until(&block)
-    end    
-    
-    def skip!(n=1)
-      renderer.skip!(n)
-    end
-
-    def skip_until!(&block)
-      renderer.skip_until!(&block)
-    end
-            
-    def session
-      @_controller.session
-    end
-    
-    def params
-      @_controller.params
-    end
-    
-    def cookies
-      @_controller.cookies
-    end
-    
-    def request
-      @_controller.request
-    end
-    
-    def flash
-      @_controller.send(:flash)
-    end
-    
-    def site
-      @_site
-    end
-    
-    def url_for(options = {})
-      options ||= {}
-      url = case options
-      when String
-        super
-      when Hash
-        options = { :only_path => options[:host].nil? }.update(options.symbolize_keys)
-        escape  = options.key?(:escape) ? options.delete(:escape) : true
-        @_controller.send(:url_for, options)
-      when :back
-        escape = false
-        @_controller.request.env["HTTP_REFERER"] || 'javascript:history.back()'
-      else
-        super
-      end
-
-      escape ? escape_once(url) : url
-    end
-    
-    def protect_against_forgery?
-      @_controller.send(:protect_against_forgery?)
-    end
-    
-    def request_forgery_protection_token
-      @_controller.request_forgery_protection_token
-    end
-    
-    def form_authenticity_token
-      @_controller.send(:form_authenticity_token)
-    end
-    
-    # Simple, quick 'n dirty solution so you can use 'acticle_version', 'news_item', .. in all 
-    # your templates. So you don't have to use @.... or pass the local to all partials.
-    def method_missing(method, *params, &block)
-      return @_local_object if @_local_object_name == method
-      super
-    end
-  end  
 end

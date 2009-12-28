@@ -1,9 +1,9 @@
 "en-US":
   date:
     formats:
-      default: "%d-%m-%Y"
-      long: "%e %B %Y"
-      short: "%e %B"
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
       short_with_day_of_week: "%a %e %b"
   
     day_names: [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
@@ -266,7 +266,8 @@
         title: "Title"
         links: "Links"        
       skyline/sections/media_section:
-        linked: "Image"
+        media: "Image"
+        link: "Link (optional)"
         alignment: "Alignment"
         caption: "Caption"
         alignments:
@@ -307,7 +308,7 @@
     delete_variant: "Delete variant"
     new_variant: "New variant"
     copy_variant: "Copy variant"
-    lock: "lock"
+    lock: "Lock"
     unlock: "Unlock"
     rollback: "Rollback"
     login: "Log in"

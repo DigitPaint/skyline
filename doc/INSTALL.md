@@ -1,64 +1,94 @@
 Skyline installation instructions
 =================================
 
-Create the file 'Gemfile' in the root of your application
----------------------------------------------------------
-Add the following contents:
+Choose your flavour
+-------------------
 
-    #  To bundle all gems run:  gem bundle --build-options build_options.yml
+**Install as a gem** The skylinecms gem is perfect if you want to have stable environment
+and don't care too much about cutting-edge new features. We release new versions fairly
+often.
+
+**Install the plugin** Use the plugin if you want to be on the latest development version
+with all the 'cool' new features. Especially if you use git, because we're hosting the
+source on github. It's of course entirely possible to use a stable tagged version as a
+plugin too.
+
+Create your rails app
+---------------------
+
+Create an empty rails app. Make sure you're usin MySQL for now,
+we didn't test with other databases yet.
+
+    rails my_app --database=mysql
+    cd my_app
+
+Installation as a gem
+---------------------
+
+Install the gems, and initialize Skyline. 
+
+    gem install skylinecms
+    skylincms init
+    
+Continue below.
+
+Installation as plugin
+-----------------------
+
+Download the Skyline source from [http://github.com/DigitPaint/skyline](http://github.com/DigitPaint/skyline).
+You can use it as a Git submodule or yust download the zip version and unpack it to
+`vendor/plugins/skyline`
+
+If you're using bundler, add the following to your `Gemfile`
+
     skyline_gemfile = File.join(File.dirname(__FILE__), 'vendor', 'plugins', 'skyline', 'Gemfile')
     instance_eval(File.read(skyline_gemfile), skyline_gemfile)
-    bundle_path "vendor/bundler_gems"
-    disable_system_gems
 
+Setup your database
+-------------------
 
-Create the file 'build_options.yml' in the root of your application
--------------------------------------------------------------------
-You only need this if your system needs specific build options
+Modify `config/database.yml` to match your database configuration and then run:
 
-    mysql:
-      mysql-config: /usr/bin/mysql_config
+    rake db:create
+    rake skyline:db:migrate
+    rake skyline:db:seed
+    
+Create your first user and grant him/her access
+-----------------------------------------------
 
+Open a Rails console by running `./script/console`
 
-Create the file config/preinitializer.rb
-----------------------------------------
+    u = Skyline::User.new(:email => 'admin@admin.com', :password => 'secret')
+    u.roles << Skyline::Role.first
+    u.save!
 
-    require "#{File.dirname(__FILE__)}/../vendor/bundler_gems/environment"
- 
+Make sure the user exists in the database.
 
-Add to config/environment.rb (just below the require boot line)
---------------------------------------------------------------------
+If you went the "gem route" you're done now just start the server with `./script/server`
+and browse to `http://localhost:3000/skyline` and log in with the just created user.
 
-    # Hijack rails initializer to load the bundler gem environment before loading the rails environment.
-    Rails::Initializer.module_eval do
-      alias load_environment_without_bundler load_environment
+Extra work when using the plugin
+--------------------------------
 
-      def load_environment
-        Bundler.require_env configuration.environment
-        load_environment_without_bundler
-      end
+### Create configuration file
+
+Create a Rails initializer in `config/initializers` (we call it `skyline_configuration.rb`) and
+add the following:
+
+    Skyline::Configuration.configure do |config|  
+      config.assets_path = File.join(Rails.root,"tmp/upload")
+      config.media_file_cache_path = File.join(Rails.root,"tmp/cache/media_files/cache")
+      config.rss_section_cache_path = File.join(Rails.root,"tmp/cache/rss_sections/cache")   
     end
 
+### Create template folder
 
-Add to .gitignore:
-------------------
-If you're using git.
+Create the template folder in your `app` directory.
 
-    bin
-    vendor/bundler_gems/doc
-    vendor/bundler_gems/environment.rb
-    vendor/bundler_gems/gems
-    vendor/bundler_gems/specifications
+    mkdir app/templates
 
+### Add default route for pages
 
-Add to config/deploy.rb:
-------------------------
+Open `config/routes.rb` and add the default Skyline route below all other routes:
 
-    task :bundle, :roles => [:app] do
-      run "mkdir -p #{deploy_to}/shared/bundler_gems/gems #{deploy_to}/shared/bundler_gems/specifications"
-      run "cd #{current_path}/vendor/bundler_gems; ln -fs #{deploy_to}/shared/bundler_gems/gems"
-      run "cd #{current_path}/vendor/bundler_gems; ln -fs #{deploy_to}/shared/bundler_gems/specifications"
-      run "cd #{current_path}; gem bundle --build-options build_options.yml"
-    end
-  
-    after "deploy", ....., "deploy:bundle"
+    map.connect '*url', :controller => "skyline/site/pages", :action => "show"  

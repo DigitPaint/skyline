@@ -12,7 +12,13 @@ class Skyline::Tag < ActiveRecord::Base
         Dir.glob("*.rb").map{|f| f.sub(".rb","").camelcase.constantize}
       end
 
-      taggable_models.delete_if{|m| m.parents.include?(Skyline) }
+      (taggable_models || []).delete_if{|m| m.parents.include?(Skyline) } 
+    end
+    
+    def register_taggable_model(klass)
+      self.taggable_models ||= []
+      self.taggable_models.delete_if{|c| c.to_s == klass.to_s } # Hack to remove stale object
+      self.taggable_models << klass      
     end
     
     def delete_unused_tags

@@ -1,3 +1,4 @@
+# @private
 class Skyline::ObjectRef < Skyline::RefObject	
   after_destroy :destroy_referable
   

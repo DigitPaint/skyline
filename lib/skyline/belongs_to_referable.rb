@@ -1,94 +1,67 @@
-# Use this Module in in a class that references a Page/MediaFile etc throug an ObjectRef
+# Use this Module in in a class that references a Page/MediaFile/URL as an association.
+# It adds the class method `belongs_to_referable`. With {Skyline::Referable::ClassMethods#belongs_to_referable} you create a
+# `belongs_to` association to an Page/MediaFile/URL through a RefObject.
+# 
+# @see Skyline::BelongsToReferable::ClassMethods#belongs_to_referable
 #
+# @example Usage
 #
-# Usage: 
 # class Model < ActiveRecord::Base
-#   include Skyline::ContentItem
-# 
-#   referable_content :teaser      (column teaser_id must be crreated)
+#   include Skyline::BelongsToReferable
+#
+#   belongs_to_referable :teaser      # column teaser_id must be available
 # end
 #
-# 
-# 1) Gives your Model the following interface:
-# 
-#    class Model < ActiveRecord::Base
-#      before_save :set_refering_type_and_id
-#      after_create :set_refering_id
-#      named_scope :published             (scope to return only published items)
 #
-#      def referable_content(*fields)
+# @example Gives your Model the following interface:
 #
-#      belongs_to :teaser, :class_name => "Skyline::ObjectRef", :foreign_key => "teaser_id", :dependent => :destroy
-#      accepts_nested_attributes_for :teaser, :reject_if => proc {|attributes| attributes['referable_type'].blank?}, :allow_destroy => true
-#      [validates_presence_of :teaser     (only if options[:allow_nil] is not set)]
-#     
-#      def teaser_with_passthrough=(obj)            (obj can be an ObjectRef or a Teaser, in which case it will be passed through)
-#      alias_method_chain :teaser=, :passthrough
-#    end
+# class Model < ActiveRecord::Base
+#   after_save :possibly_destroy_previous_referables
+#   after_destroy :possibly_destroy_referables
+#   before_save :set_refering_type_and_id
+#   after_create :set_refering_id
 #
+#   belongs_to :teaser, :class_name => "Skyline::ObjectRef", :foreign_key => "teaser_id", :dependent => :destroy
+#   accepts_nested_attributes_for :teaser, :reject_if => proc {|attributes| attributes['referable_type'].blank?}, :allow_destroy => true
+#   validates_presence_of :teaser   # only if options[:allow_nil] is not set
 #
-# ***** OR *****
-#
-# it can be used to reference a Page/MediaFile etc directly when the foreign key must be serialized (or isn't available as an association)
-#
-# Usage: 
-# class Settings < ActiveRecord::Base
-#   include Skyline::ContentItem
-# 
-#   referable_serialized_content  :results_page      (obj.results_page_id and obj.results_page_id= must be available)
+#   def teaser_with_passthrough=(obj) # obj can be an ObjectRef or a Teaser, in which case it will be passed through
+#     # ...
+#   end
+#   alias_method_chain :teaser=, :passthrough
 # end
 #
-# 
-# 1) Gives your Settings the following interface:
-# 
-#    class Settings < ActiveRecord::Base
-#      def referable_serialized_content(*fields)
-#
-#      def results_page_attributes=       (set results_page_id to the referable_id; bypassing an ObjectRef)
-#    end
-
-module Skyline::ContentItem 
+module Skyline::BelongsToReferable 
   def self.included(base)
     base.extend(ClassMethods)
 
+    # Callbacks
     base.send(:before_save, :set_refering_type_and_id)
     base.send(:after_create, :set_refering_id)
-    base.send(:cattr_accessor, :referable_contents)
-    base.send(:attr_accessor, :previous_referables)
-    base.send(:alias_method_chain, :clone, :referable_content)
     base.send(:after_save, :possibly_destroy_previous_referables)
     base.send(:after_destroy, :possibly_destroy_referables)
     
-    base.send("referable_contents=", [])
+    base.send(:cattr_accessor, :referable_contents)
+    base.send(:attr_accessor, :previous_referables)
+    base.send(:alias_method_chain, :clone, :referable_content)
     
-    base.class_eval do
-      
-      named_scope :published, lambda {
-        if self.respond_to?(:publishable?) && self.publishable?
-          {:conditions => {:published => true}}
-        elsif self.ancestors.include?(Skyline::Article::Data)
-          {:include => self.table_name.sub("_data", "").to_sym,
-           :conditions => "skyline_articles.published_publication_data_id = #{self.table_name}.id"}
-        else
-          {}
-        end
-      }
-
-      named_scope :with_site, lambda {|site|
-        if site && self.ancestors.include?(Skyline::Article::Data)
-          site.named_scope_with_site_for(self)
-        else
-          {}
-        end
-      }
-    end
+    
+    base.send("referable_contents=", [])
   end  
   
   module ClassMethods   
 
-    # accepts options as the last parameter
-    #   options[:allow_nil] = true/false    (default: true)
-    def referable_content(*fields)
+    # Defines a relationship to a referable.
+    # 
+    # @see Skyline::BelongsToReferable For a usage example.
+    # 
+    # @overload belongs_to_referable(*fields, options = {})
+    #   @param *fields [String,Symbol] The referable(s) to create associations to.
+    # 
+    #   @option options :allow_nil [true, false] (true) Allow this association to be empty?
+    # 
+    # @return [void]
+    def belongs_to_referable(*fields)
       options = fields.extract_options!.reverse_merge(:allow_nil => true)
       fields.each do |f|
         self.referable_contents << f
@@ -136,17 +109,24 @@ module Skyline::ContentItem
       end
     end
     
-    def referable_serialized_content(*fields)
-      fields.each do |f|
-        self.class_eval <<-END
-          def #{f}_attributes=(attr)
-            self.#{f}_id = attr[:referable_id]
+  end
+  
+  # @private
+  def clone_with_referable_content
+    returning clone_without_referable_content do |clone|      
+      if self.referable_contents.any?
+        self.referable_contents.each do |field|
+          if self.send(field).present?
+            clone.send("#{field}_id=", nil)
+            clone.send("#{field}=", self.send(field).clone)
           end
-        END
+        end
       end
     end
   end
   
+  protected
+
   def set_refering_type_and_id
     self.referable_contents.each do |field|
       if object_ref = self.send(field)
@@ -160,19 +140,6 @@ module Skyline::ContentItem
     self.referable_contents.each do |field|
       if object_ref = self.send(field) 
         object_ref.update_attribute(:refering_id, self.id) if object_ref.refering_id.blank?
-      end
-    end
-  end
-  
-  def clone_with_referable_content
-    returning clone_without_referable_content do |clone|      
-      if self.referable_contents.any?
-        self.referable_contents.each do |field|
-          if self.send(field).present?
-            clone.send("#{field}_id=", nil)
-            clone.send("#{field}=", self.send(field).clone)
-          end
-        end
       end
     end
   end

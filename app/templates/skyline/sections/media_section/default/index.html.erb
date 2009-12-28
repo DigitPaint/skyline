@@ -1,15 +1,15 @@
-<% 
-  has_block = media_section.alignment == "block_left" || media_section.alignment == "block_right" || media_section.alignment == "block_center"
-  alignment = has_block ? media_section.alignment.split("_")[1]: media_section.alignment 
-%>
+<% block_alignment = media_section.alignment.to_s[/^block_(.+)/,1] %>
 
-<% if media_section.andand.linked.present? %>
-  <%= "<div class=\"block\">" if has_block %>
-  <div class="media <%= alignment %>" style="width: <%= media_section.width %>px;" >
-    <img src="<%= media_section.url %>" alt="<%= media_section.caption %>" />
+<% if media_section.andand.media.present? %>
+  <%= "<div class=\"block\">" if block_alignment %>
+  <div class="media <%= block_alignment || media_section.alignment  %>" style="width: <%= media_section.width %>px;" >
+    <% image = capture do %>
+      <img src="<%= media_section.media.url %>" alt="<%= media_section.caption %>" />
+    <% end %>
+    <%= media_section.link.present? ? link_to(image,media_section.link.url) : image %>
     <% if media_section.caption.present? %>
       <p class="caption"><%= media_section.caption %></p>
     <% end %>
   </div>
-  <%= "</div>" if has_block %>
+  <%= "</div>" if block_alignment %>
 <% end %>

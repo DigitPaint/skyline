@@ -1,5 +1,6 @@
+# @private
 class Skyline::Sections::HeadingSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   
   self.default_interface = false
 end

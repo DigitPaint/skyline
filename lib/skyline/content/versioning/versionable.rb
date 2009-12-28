@@ -1,5 +1,7 @@
 module Skyline::Content
+  # @private  
   module Versioning
+    # @private    
     module Versionable
       def self.included(obj)
         obj.send(:has_one, :skyline_version, :as => :versionable, :class_name => "Skyline::Content::Versioning::Version")

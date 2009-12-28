@@ -1,5 +1,6 @@
+# @private
 class Skyline::Sections::LinkSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
   include NestedAttributesPositioning  
   
   has_many :links, :class_name => "Skyline::LinkSectionLink", :dependent => :destroy

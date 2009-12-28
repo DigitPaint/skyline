@@ -1,3 +1,4 @@
+# @private
 class Skyline::Grant < ActiveRecord::Base
   set_table_name :skyline_grants
   

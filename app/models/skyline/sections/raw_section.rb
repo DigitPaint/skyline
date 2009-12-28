@@ -1,5 +1,6 @@
+# @private
 class Skyline::Sections::RawSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
     
   def to_text
     HTML::FullSanitizer.new.sanitize(self.body)

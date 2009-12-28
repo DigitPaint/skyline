@@ -1,7 +1,7 @@
 class Skyline::TestContentObject < ActiveRecord::Base
-  include Skyline::ContentItem
+  include Skyline::BelongsToReferable
    
-  referable_content :image
+  belongs_to_referable :image
     
   # before_save :create_object_ref
   # after_save :update_object_ref

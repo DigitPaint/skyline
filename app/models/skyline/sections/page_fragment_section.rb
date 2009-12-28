@@ -1,5 +1,6 @@
+# @private
 class Skyline::Sections::PageFragmentSection < ActiveRecord::Base
-  include Skyline::SectionItem
+  include Skyline::Sections::Interface
 
   belongs_to :page_fragment, :class_name => "Skyline::PageFragment"
   

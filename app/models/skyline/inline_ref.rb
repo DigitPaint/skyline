@@ -1,3 +1,4 @@
+# @private
 class Skyline::InlineRef < Skyline::RefObject  
 
   attr_accessor :previous_referable
@@ -119,12 +120,12 @@ class Skyline::InlineRef < Skyline::RefObject
       options = []        
       html_node.remove_attribute(src_attr)
       
-      options = html_node.attributes.inject({}) do |result, element|
+      options = html_node.attributes.to_hash.inject({}) do |result, element|
         result[element.first.to_s] = element.last.to_s
         result
       end
    
-      new_ref = skyline_class.find_by_id(id) if id
+      new_ref = skyline_class.find_by_id_and_refering_type_and_refering_id(id,refering_object.class.name,refering_object.id) if id
       new_ref ||= skyline_class.new
 
       new_ref.previous_referable = new_ref.referable.dup if new_ref.referable

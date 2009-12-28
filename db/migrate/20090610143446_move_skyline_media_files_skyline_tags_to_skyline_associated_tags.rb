@@ -2,7 +2,7 @@ class MoveSkylineMediaFilesSkylineTagsToSkylineAssociatedTags < ActiveRecord::Mi
   def self.up
     rename_table :skyline_media_files_skyline_tags, :skyline_associated_tags
     rename_column :skyline_associated_tags, :media_file_id, :taggable_id
-    add_column :skyline_associated_tags, :taggable_type, :string, :null => false
+    add_column :skyline_associated_tags, :taggable_type, :string, :null => false, :default => ""
     execute "UPDATE skyline_associated_tags SET taggable_type='Skyline::MediaNode'"
   end
 

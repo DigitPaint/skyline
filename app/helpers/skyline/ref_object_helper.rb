@@ -31,8 +31,15 @@ module Skyline::RefObjectHelper
   
   def referable_field_browser(form_builder, field, browser, options = {})
     options.reverse_merge! :object => form_builder.object.send(field) || form_builder.object.send("build_#{field}"), 
-                           :container => form_builder.dom_id(field),
+                           :container => nil,
                            :skip_class => false
+                           
+    if !options[:container]
+      options[:container] = form_builder.dom_id(field)
+      css_class = ref_object_css_class(options[:object].referable)
+    else
+      css_class = ""
+    end
 
     c = []
       
@@ -51,7 +58,7 @@ module Skyline::RefObjectHelper
       end
 
       
-      deselect_button = link_to_function(button_text(:delete), "Application.Browser.unlink('#{options[:container]}');", :class => "button small red delete") + " "
+      deselect_button = link_to_function(button_text(:delete), "Application.Browser.unlink('#{options[:container]}');", :class => "button small red delete")
       browse_button = link_to_function(button_text(:browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}');", :class => "button small")
     
       c << content_tag("div", :class => "not-linked") do
@@ -65,13 +72,13 @@ module Skyline::RefObjectHelper
         referable_title = content_tag("span", ref_object_title(linked_form.object.andand.referable) + " ", :id => linked_form.dom_id(:title), :class => "title referable_title")
         l << t(:links_to, :scope => [:browser,browser], :referable_title => referable_title)
         l << deselect_button
+        l << "&nbsp;"
         l << browse_button
       end
       
       c = content_tag("div", c.join, :class => "relatesTo #{"linked" if linked_form.object.andand.referable && !linked_form.object.andand.marked_for_destruction?}")
     end
 
-    
-    content_tag "div", c, :id => form_builder.dom_id(field)
+    content_tag "div", c, :id => form_builder.dom_id(field), :class => css_class
   end
 end

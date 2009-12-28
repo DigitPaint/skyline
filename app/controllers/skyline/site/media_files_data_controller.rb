@@ -16,6 +16,7 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
     filename = "#{params[:name]}.#{params[:format]}"
     
     @media_file = Skyline::MediaFile.find(:first, :conditions => {:parent_id => params[:media_dir_id], :name => filename})
+    return self.handle_404 unless @media_file
     
     cached_file = File.join(self.page_cache_directory,request.path)    
     
@@ -56,11 +57,17 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
   end
   
   protected
-    def perform_cache
-      return if @skip_caching
-      ActiveRecord::Base.transaction do
-        Skyline::MediaCache.create(:url => request.path, :object_type => "MediaFile", :object_id => @media_file.id)
-        self.class.cache_page(response.body, request.path)
-      end
+  
+  def handle_404
+    render :nothing => true, :status => :not_found    
+  end
+    
+  def perform_cache
+    return if @skip_caching
+    return unless @media_file
+    ActiveRecord::Base.transaction do
+      Skyline::MediaCache.create(:url => request.path, :object_type => "MediaFile", :object_id => @media_file.id)
+      self.class.cache_page(response.body, request.path)
     end
+  end
 end

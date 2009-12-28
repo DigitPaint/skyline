@@ -266,7 +266,8 @@
         title: "Titel"
         links: "Links"
       skyline/sections/media_section:
-        linked: "Afbeelding"
+        media: "Afbeelding"
+        link: "Link (optioneel)"
         alignment: "Uitlijning"
         caption: "Onderschrift"
         alignments:

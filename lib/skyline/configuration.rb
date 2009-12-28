@@ -29,8 +29,6 @@ class Skyline::Configuration < Configure
     
     config.rss_section_cache_timeout = 1.hour  
     
-    config.solr_indexing = false
-    
     config.custom_logo = false
     config.skyline_logo = "/skyline/images/logo.png"
     config.branding_name = ""
@@ -43,15 +41,17 @@ class Skyline::Configuration < Configure
       config.media_file_cache_path = nil
       config.rss_section_cache_path = nil
     else
-      config.assets_path = File.join(Rails.root,"tmp/upload")
+      config.assets_path = File.join(Rails.root,"/tmp/upload")
       config.media_file_cache_path = File.join(Rails.root,"/tmp/media_files/cache")
       config.rss_section_cache_path = File.join(Rails.root,"/tmp/rss_sections/cache")
-      
+    end 
+    
+    unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
       # We need to reload the configuration because this file get's reloaded 
       if (Rails.root + "config/initializers/skyline_configuration.rb").exist?
         load Rails.root + "config/initializers/skyline_configuration.rb"
-      end
-    end 
+      end    
+    end
     
     # enable/disable 'modules'
     config.enable_multiple_variants = true
@@ -70,10 +70,8 @@ class Skyline::Configuration < Configure
     Skyline::Sections::RssSection.cache_path = self["rss_section_cache_path"]
     Skyline::Sections::RssSection.cache_timeout = self["rss_section_cache_timeout"]
     
-    Skyline::Renderer.register_renderables(:sections,self["sections"])
-    Skyline::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])  
-    
-    load_dependencies
+    Skyline::Rendering::Renderer.register_renderables(:sections,self["sections"])
+    Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])      
   end  
   
   def articles
@@ -85,13 +83,7 @@ class Skyline::Configuration < Configure
   end
   
   protected
-  
-  def load_dependencies
-    if self.solr_indexing
-      require "rsolr"
-    end
-  end
-  
+    
   # Check if a path is set, and if we're in production made raise an assertion
   # if the path does not exist. It just creates the path in development mode.
   def check_or_create_path(path, key="assets_path")

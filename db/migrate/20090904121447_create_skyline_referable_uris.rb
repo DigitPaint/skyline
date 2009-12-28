@@ -1,20 +1,20 @@
 class CreateSkylineReferableUris < ActiveRecord::Migration
   class Skyline::LinkSectionLink < ActiveRecord::Base
     set_table_name "skyline_link_section_links"     
-    include Skyline::ContentItem
-    referable_content :linked    
+    include Skyline::BelongsToReferable
+    belongs_to_referable :linked    
   end
   
   class Skyline::Sections::MediaSection < ActiveRecord::Base
     set_table_name "skyline_sections_media_sections"     
-    include Skyline::ContentItem
-    referable_content :linked
+    include Skyline::BelongsToReferable
+    belongs_to_referable :linked
   end
   
   class Skyline::Sections::RedirectSection < ActiveRecord::Base
     set_table_name "skyline_sections_redirect_sections"     
-    include Skyline::ContentItem
-    referable_content :linked
+    include Skyline::BelongsToReferable
+    belongs_to_referable :linked
   end  
   
   class Skyline::ReferableUri < ActiveRecord::Base
