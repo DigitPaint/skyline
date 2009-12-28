@@ -97,6 +97,7 @@ class Skyline::Page < Skyline::Article
           def identical_to_publication?
             self["published_publication_variant_id"] == self["default_variant_id"] && self["published_publication_version"] == self["default_variant_version"]
           end
+          def open; true; end
         end
 
         out[o.parent_id] ||= []
