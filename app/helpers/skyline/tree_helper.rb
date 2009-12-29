@@ -53,7 +53,7 @@ module Skyline::TreeHelper
       selected = options[:selected].present? ? options[:selected].id == node.id : false
       li = link_to(options[:node_content].call(node), options[:node_url].call(node), :class => (selected ? "selected" : nil), :title => options[:node_title].call(node))
       li << node_tree(node_collection,node_collection[node.id],options) if node_collection.has_key?(node.id)
-      node_class = node.open ? "open" : "closed" if node_collection.has_key?(node.id)
+      node_class = node.open ? "open" : "closed" if node_collection.has_key?(node.id) && node.respond_to?(:open)
       tags << content_tag("li",li , :id => "#{options[:id_prefix]}_#{node.id}", :class => node_class)
     end
     
