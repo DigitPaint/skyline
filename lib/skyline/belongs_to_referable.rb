@@ -129,9 +129,11 @@ module Skyline::BelongsToReferable
 
   def set_refering_type_and_id
     self.referable_contents.each do |field|
-      if object_ref = self.send(field)
-        object_ref.refering_type = self.class.name
-        object_ref.refering_id = self.id unless self.new_record?
+      if object_ref = self.send(field) 
+        unless object_ref.marked_for_destruction?
+          object_ref.refering_type = self.class.name
+          object_ref.refering_id = self.id unless self.new_record?
+        end
       end
     end
   end
