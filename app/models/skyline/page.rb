@@ -107,7 +107,7 @@ class Skyline::Page < Skyline::Article
     end
     
     def root
-      self.find_by_parent_id(nil)
+      self.first(:conditions => "parent_id IS NULL")
     end
     
     # build menu of certain level
