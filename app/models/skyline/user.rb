@@ -139,7 +139,6 @@ class Skyline::User < ActiveRecord::Base
   # Display the name or e-mailaddress of the user for
   # display purposes.
   def display_name
-    return self.name
     self.name.present? ? self.name : self.email
   end
   
