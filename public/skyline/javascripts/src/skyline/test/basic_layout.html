@@ -9,8 +9,8 @@
 	<title>Skyline v3</title>
 
 	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
-  	<script src="../vendor/mootools/mootools-1.2.1-core.js" type="text/javascript" charset="utf-8"></script>
-  	<script src="../vendor/mootools/mootools-1.2-more.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8"></script>
   	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
   	<script src="../src/layout.js" type="text/javascript" charset="utf-8"></script>  	
     <style type="text/css" media="screen">
@@ -55,11 +55,12 @@
         <div id="leftTopPanel" style="color: #fff; background: #000">
           Top top top
         </div>
-        <div id="leftBottomPanel">
-          Bot bot bot
+        <div id="leftBottomPanel" style="padding: 10px">
+          I have 10px padding!
         </div>
       </div>
-      <div id="middlePanel" style="background: #eee; overflow: auto">
+      <div id="middlePanel" style="background: #eee; overflow: auto; padding: 20px">
+        <strong>20px padding</strong>.<br/>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         <a href="#" onclick="b.replacePanel('middlePanel','otherMiddlePanel'); b.setup();">Replace this panel!</a>
       </div>
