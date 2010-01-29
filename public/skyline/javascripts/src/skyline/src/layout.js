@@ -188,7 +188,7 @@ Skyline.Layout  = new Class({
     }
     
     var element = arguments[2] || this.element;
-    var sizes = (new Hash(element.getStyles("padding-" + position, "border-" + position + "-width"))).getValues();
+    var sizes = (new Hash(element.getStyles("padding-" + position, "border-" + position + "-width", "margin-" + position))).getValues();
     var out = 0;
     sizes.each(function(v){
       if(/px$/.test(v)){
