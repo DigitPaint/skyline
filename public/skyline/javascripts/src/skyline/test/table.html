@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3 - Table</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+  <!-- <link href="../assets/tree/tree.css?1195729478" media="screen" rel="stylesheet" type="text/css" />  -->
+	
+	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../src/table.js" type="text/javascript" charset="utf-8">
+	</script>	
+  <style type="text/css" media="screen">
+  
+    table{
+      border-collapse: collapse;
+      background: #fff;
+    }
+  
+    table td,
+    table th{
+      text-align: left;
+      vertical-align: top;
+      padding: 2px 5px;
+      border-bottom: 1px solid #aaa;
+      border-right: 1px solid #ddd;
+    }
+    
+    table tr.even td,
+    table tr.even th{
+      background-color: #f2f2f2;
+    }    
+
+    .controls{
+      margin-top: 1em;
+      padding: 10px;
+      background: #eee;
+    }
+
+    .content{
+      margin: 10px;
+    }
+    
+  </style>	
+</head>
+<body>
+
+  <div class="content">
+    <h1>Table (scroll, fixed width, fixed height)</h1>
+    
+    <table id="t0" class="grid" style="width: 800px; height: 100px">
+      <thead>
+        <tr>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr class="even">
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>          
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>        
+      </tbody>
+    </table>
+    
+    <div class="controls">
+      <button id="resize_500_t0">Resize to 500!</button>
+      <button id="resize_800_t0">Resize to 800!</button>
+    </div>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    // alert("0");
+    // alert($('t0'));
+    
+    $('resize_500_t0').addEvent("click", function(){
+      $('t0').setStyles({"width" : 500});
+      $('t0').retrieve("skyline.table").resize();
+    });
+    
+    $('resize_800_t0').addEvent("click", function(){
+      $('t0').setStyles({"width" : 800});
+      $('t0').retrieve("skyline.table").resize();
+    });
+    
+    
+    window.addEvent("domready", function(){ 
+      // alert("!!"); 
+      new Skyline.Table("t0"); 
+    });
+  </script>  
+
+  <div class="content">
+    <h1>Table (scroll, fixed width)</h1>
+
+    <div style="background: #f00; float: left">
+      <table id="t1" class="grid" style="width: 500px">
+        <thead>
+          <tr>
+            <th>Head 1</th>
+            <th>Head 2</th>
+            <th>Head 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            </td>
+            <td>
+              sed do eiusmod tempor incididunt ut 
+            </td>
+            <td>
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            </td>          
+          </tr>
+          <tr class="even">
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            </td>
+            <td>
+              sed do eiusmod tempor incididunt ut 
+            </td>
+            <td>
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            </td>          
+          </tr>
+          <tr>
+            <td>
+              sed do eiusmod tempor incididunt ut 
+            </td>
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            </td>          
+            <td>
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            </td>          
+          </tr>        
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    // alert("0");
+    // alert($('t0'));
+    window.addEvent("domready", function(){ 
+      // alert("!!"); 
+      new Skyline.Table("t1"); 
+    });
+  </script>
+
+
+
+</body>
+</html>
