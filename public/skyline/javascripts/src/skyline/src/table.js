@@ -13,7 +13,9 @@
   Events:
     selectRow   - Fired if a row has been selected.
     droppedRow  -
-    reorder     - Fired if sortable is true and the order has been changed.
+    reorder     - Fired if sortable is true and the order has been changed. 
+                  Passes 3 parameters: the dropped row, the adjecent row and
+                  the position (before or after) relative to the adjecent row.
 */
 
 Skyline.Table = (function(){
@@ -304,6 +306,7 @@ Skyline.Table = (function(){
         if(row && row.getParent("table") == this.table.element && row != this.dragEl){
           var pos = this._getSortPosition(row);
           this.dragEl.inject(row,pos[0]);
+          this.fireEvent("reorder",[this.dragEl,row,pos[0]]);
         }
       }
     },    
