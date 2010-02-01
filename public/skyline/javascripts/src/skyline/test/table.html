@@ -17,13 +17,22 @@
 	</script>
 	<script src="../src/skyline.js" type="text/javascript" charset="utf-8">
 	</script>
+	<script src="../src/drag.js" type="text/javascript" charset="utf-8">
+	</script>
 	<script src="../src/table.js" type="text/javascript" charset="utf-8">
-	</script>	
+	</script>
+		
   <style type="text/css" media="screen">
   
     table{
       border-collapse: collapse;
       background: #fff;
+    }
+  
+    table thead tr td,
+    table thead tr th{
+      background: #000;
+      color: #fff;
     }
   
     table td,
@@ -40,24 +49,97 @@
       background-color: #f2f2f2;
     }    
 
+    table tr.selected td,
+    table tr.selected th{
+      background-color: #faa;
+    }
+
     .controls{
       margin-top: 1em;
       padding: 10px;
-      background: #eee;
+      background: #ddd;
     }
 
     .content{
-      margin: 10px;
+      margin: 10px 10px 30px 10px;
+      padding: 10px;
+      background: #f2f2f2;
+    }
+    
+    h1{
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .tablemarker{
+      background: #000;
+      height: 2px;
+      overflow: hidden;
     }
     
   </style>	
 </head>
 <body>
+  
+  <div class="content">
+    <h1>Table (selectable, fixed width, fixed height, draggable)</h1>
+    
+    <div style="">
+    <table id="t2" class="grid" style="width: 800px; border: 1px solid #000; height: 200px">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="t2_1">
+          <th>1</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_2" class="even">
+          <th>2</th><td>Lorem  elit</td><td>sed do bla</td><td>labore et  veniam, quis nostrud</td>
+        </tr>
+        <tr id="t2_3">
+          <th>3</th><td>sed do eiu ut </td><td>Lorem ipsu elit</td><td>enim ad minim veniam, quis nostrud</td>          
+        </tr>  
+        <tr id="t2_4" class="even">
+          <th>4</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_5">
+          <th>5</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_6" class="even">
+          <th>6</th><td>Lorem  elit</td><td>sed do bla</td><td>labore et  veniam, quis nostrud</td>
+        </tr>
+        <tr id="t2_7">
+          <th>7</th><td>sed do eiu ut </td><td>Lorem ipsu elit</td><td>enim ad minim veniam, quis nostrud</td>          
+        </tr>
+        <tr id="t2_8" class="even">
+          <th>8</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_9">
+          <th>9</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_10" class="even">
+          <th>10</th><td>Lorem  elit</td><td>sed do bla</td><td>labore et  veniam, quis nostrud</td>
+        </tr>
+        <tr id="t2_11">
+          <th>11</th><td>sed do eiu ut </td><td>Lorem ipsu elit</td><td>enim ad minim veniam, quis nostrud</td>          
+        </tr>                      
+      </tbody>
+    </table>
+    </div>
+  </div>  
+  <script type="text/javascript" charset="utf-8">
+    var t2 = new Skyline.Table("t2", {draggable : true, sortable : true});
+  </script>
 
   <div class="content">
     <h1>Table (scroll, fixed width, fixed height)</h1>
     
-    <table id="t0" class="grid" style="width: 800px; height: 100px">
+    <table id="t0" class="grid" style="width: 800px; height: 100px; border: 1px solid #000">
       <thead>
         <tr>
           <th>Head 1</th>
@@ -125,14 +207,22 @@
     
     window.addEvent("domready", function(){ 
       // alert("!!"); 
-      new Skyline.Table("t0"); 
+      var t = new Skyline.Table("t0"); 
+      t.addEvents({
+        selectRow : function(tr){
+          tr.addClass("selected");
+        },
+        deselectRow : function(tr){
+          tr.removeClass("selected");
+        }
+      });
     });
   </script>  
 
   <div class="content">
     <h1>Table (scroll, fixed width)</h1>
 
-    <div style="background: #f00; float: left">
+    <div style="background: #f00; float: left;">
       <table id="t1" class="grid" style="width: 500px">
         <thead>
           <tr>
@@ -178,6 +268,7 @@
         </tbody>
       </table>
     </div>
+      <div style="clear: both">&nbsp;</div>    
   </div>
   
   <script type="text/javascript" charset="utf-8">
