@@ -33,27 +33,34 @@ Skyline.Table = (function(){
       this.element.store("skyline.table", this);
     
       this.setOptions(arguments[1]);
+      this.ready = false;
 
       // onDomready
       window.addEvent("domready", function(){
         this._arrangeTable();    
         this._attachEvents();
-        this.resize();
+        this.resize(this.setWidth,this.setHeight);
       }.bind(this));
     },
   
-    resize : function(){
+    resize : function(w,h){
+      if(!this.ready){ this.setWidth = w; this.setHeight = h; return; }
+      
+      var styles = {}  
       var s = this.element.getStyles("width", "height");    
-      var styles = {}
-    
-      if(parseInt(s.width) > 0){
+      
+      if(w){
+        styles.width = w;
+      } else if(parseInt(s.width) > 0){
         styles.width = s.width;
       }
-      if(parseInt(s.height) > 0){
+      if(h){
+        styles.height = h;
+      } else if(parseInt(s.height) > 0){
         styles.height = s.height;      
       }
     
-      this.wrapEl.setStyles(styles);        
+      this.wrapEl.setStyles(styles);
     
       var widths = this.cellWidths = this._measureCells();
       this.theadEl.getElement("tr").getChildren().each(function(cell,i){
@@ -63,7 +70,7 @@ Skyline.Table = (function(){
   
     _measureCells : function(){
       // Set the width to 100% 
-      this.element.setStyles({width: "100%"});    
+      this.element.setStyles({width: "100%", height: "auto"});    
     
       this.width = this.element.getSize().x;
     
@@ -128,6 +135,7 @@ Skyline.Table = (function(){
     
       scroller.adopt(this.element);
       wrapper.adopt(this.theadEl);
+      this.ready = true;
     },
   
     _attachEvents : function(){
