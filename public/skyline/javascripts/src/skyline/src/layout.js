@@ -21,6 +21,7 @@ Skyline.Layout  = new Class({
   },
   initialize : function(element){
     this.element = $(element);
+    this.element.collectComponentEvents("skyline.layout",this);
     this.domId = this.element.get("id");
     
     this.panels = [];
@@ -236,6 +237,7 @@ Skyline.Layout  = new Class({
     this.setupWidths();
     this.setupHeights();
     this.placePanels();
+    this.fireEvent("afterSetup");
   },
   
   attachWindowEvents : function(){
