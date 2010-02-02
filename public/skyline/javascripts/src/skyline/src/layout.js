@@ -1,3 +1,11 @@
+/*
+  Class: Skyline.Layout
+  Provides layout management.
+  
+  Events:
+  afterSetup - Fires after the layout has been set up.
+  
+*/
 Skyline.Layout  = new Class({
   Implements: [Options,Events],
   options: {
