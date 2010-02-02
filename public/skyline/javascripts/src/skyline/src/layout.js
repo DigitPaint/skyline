@@ -4,6 +4,7 @@
   
   Events:
   afterSetup - Fires after the layout has been set up.
+  resize - Fires after the panel has been resized.
   
 */
 Skyline.Layout  = new Class({
@@ -237,7 +238,7 @@ Skyline.Layout  = new Class({
     this.setupWidths();
     this.setupHeights();
     this.placePanels();
-    this.fireEvent("afterSetup");
+    this.fireEvent("afterSetup",[this]);
   },
   
   attachWindowEvents : function(){
@@ -321,6 +322,8 @@ Skyline.HorizontalLayout = new Class({
       panel.setupHeights();
     }.bind(this));
     
+    // setupHeights fires last so we add fireResize here.
+    this.fireEvent("resize", [this]);
   },
   
   getStartPos : function(){
@@ -380,6 +383,8 @@ Skyline.VerticalLayout = new Class({
       this.setPanelSize(variablePanel,rest);      
       variablePanel.setupHeights();
     }
+    // setupHeights fires last so we add fire Resize here.
+    this.fireEvent("resize", [this]);
   },
   
   getStartPos : function(){
