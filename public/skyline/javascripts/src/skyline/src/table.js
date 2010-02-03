@@ -289,7 +289,8 @@ Skyline.Table = (function(){
         return false
       }
       
-      var el = this._getDroppableFromEvent(clone,event);
+      var el = this._getTargetFromEvent(clone,event);
+      if(!el){ return }
       
       // Sortable
       if(this.table.options.sortable){
@@ -317,7 +318,7 @@ Skyline.Table = (function(){
         this.table.fireEvent("dropRow", [this.dragEl,this._getDroppableFromEvent(clone,event)]);
       }      
       if(this.table.options.sortable){
-        var el = this._getDroppableFromEvent(clone,event);
+        var el = this._getTargetFromEvent(clone,event);
         var row = el.getParent("tr");
         if(row && row.getParent("table") == this.table.element && row != this.dragEl){
           var pos = this._getSortPosition(row);
@@ -336,7 +337,7 @@ Skyline.Table = (function(){
         return ["after", t + h];
       }
     },
-    _getDroppableFromEvent : function(clone, event){
+    _getTargetFromEvent : function(clone, event){
       var x,y;
       
       if(Browser.Engine.presto || Browser.Engine.webkit){
@@ -351,10 +352,14 @@ Skyline.Table = (function(){
       var el = document.elementFromPoint(x,y);
       clone.setStyle("display", "");
       
-      // Opera 9 detects a textnode so we take it's parentNode
-      if (el.nodeType == 3) { el = el.parentNode; }
-      
-      return $(el);
+      if(el){
+        // Opera 9 detects a textnode so we take it's parentNode
+        if (el.nodeType == 3) { el = el.parentNode; }
+    
+        return $(el);
+      } else {
+        return null;
+      }
     },
     _onDone : function(){
       this.clone.destroy();
