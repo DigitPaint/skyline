@@ -11,11 +11,17 @@
     sortable   - true/false
   
   Events:
-    selectRow   - Fired if a row has been selected.
-    droppedRow  -
-    reorder     - Fired if sortable is true and the order has been changed. 
-                  Passes 3 parameters: the dropped row, the adjecent row and
-                  the position (before or after) relative to the adjecent row.
+    selectRow    - Fired if a row has been selected.
+    deselectRow  - Fired if a row has been deselected (meaning another one has been selected).
+    dropRow      - Fired when a row is being dropped 
+                   Passes 2 parameters: the dropped row and the target it's been dropped on.
+    startDragRow - Fired when a row is being dragged
+                   Passes 2 parameters: the dragging row and the clone
+    stopDragRow  - Fired when a row has stopped being dragged
+                   Passes 1 parameters: the row
+    reorder      - Fired if sortable is true and the order has been changed. 
+                   Passes 3 parameters: the dropped row, the adjecent row and
+                   the position (before or after) relative to the adjecent row.
 */
 
 Skyline.Table = (function(){
@@ -172,8 +178,7 @@ Skyline.Table = (function(){
       var row = target.getParent("tr");
       if(!row){ return; }
       
-      this.drag = new RowDrag(row,{
-        table : this,
+      this.drag = new RowDrag(row,this,{
         offsetParent : this.scrollEl,
         orderable : this.options.orderable,
         dragMarker : this.options.dragMarker
@@ -181,8 +186,6 @@ Skyline.Table = (function(){
       
       this.drag.addEvents({
         "snap" : function(){ event.stop(); }
-        // "stop" : this.onStopDragSubtree.bind(this),
-        // "move" : this.onMoveSubtree.bind(this)
       });
 
       this.drag.start(event);      
@@ -204,15 +207,15 @@ Skyline.Table = (function(){
       checkDroppables: false,
       dragMarker: true
     },    
-    initialize : function(element){
+    initialize : function(element,table){
       this.dragEl = element;
-      this.setOptions(arguments[1]);
+      this.setOptions(arguments[2]);
       
-      this.table = this.options.table || this.dragEl.getParent("table").retrieve("skyline.table");
+      this.table = table || this.dragEl.getParent("table").retrieve("skyline.table");
       
       this.options.droppables = this.getDroppables();
 
-      this.origOpacity = this.dragEl.get('opacity');
+      // this.origOpacity = this.dragEl.get('opacity');
       this.clone = this.createClone(this.dragEl);
       
       if(this.options.dragMarker){
@@ -250,7 +253,8 @@ Skyline.Table = (function(){
       
       clone.setStyles({
         position: "absolute",
-        width: self.table.element.getSize().x
+        width: self.table.element.getSize().x,
+        display: "none"
       });
       var pos = this.dragEl.getPosition();
       var scr = self.table.scrollEl.getScroll();
@@ -277,7 +281,8 @@ Skyline.Table = (function(){
     },
     // Events
     _onSnap : function(){
-      
+      this.clone.setStyle("display","block");
+      this.table.fireEvent("startDragRow", [this.dragEl, this.clone]);
     },
     _onDrag : function(clone, event){
       if(!this.table.options.sortable && !this.table.options.draggable){
@@ -307,14 +312,17 @@ Skyline.Table = (function(){
       
     },
     // droppable is always empty, because we don't use it
-    _onDrop : function(clone,droppable,event){
+    _onDrop : function(clone, droppable, event){
+      if(this.table.options.draggable){
+        this.table.fireEvent("dropRow", [this.dragEl,this._getDroppableFromEvent(clone,event)]);
+      }      
       if(this.table.options.sortable){
         var el = this._getDroppableFromEvent(clone,event);
         var row = el.getParent("tr");
         if(row && row.getParent("table") == this.table.element && row != this.dragEl){
           var pos = this._getSortPosition(row);
           this.dragEl.inject(row,pos[0]);
-          this.fireEvent("reorder",[this.dragEl,row,pos[0]]);
+          this.table.fireEvent("reorder", [this.dragEl,row,pos[0]]);
         }
       }
     },    
@@ -351,6 +359,7 @@ Skyline.Table = (function(){
     _onDone : function(){
       this.clone.destroy();
       if(this.marker){ this.marker.destroy(); }
+      this.table.fireEvent("stopDragRow", this.dragEl);      
     }
     
   });
