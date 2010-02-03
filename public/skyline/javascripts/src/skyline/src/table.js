@@ -9,19 +9,22 @@
     selectable - true/false (default=true)
     draggable  - true/false
     sortable   - true/false
+    droppables - A css selector that has to match for an elemen to qualify as a droptarget.
   
   Events:
-    selectRow    - Fired if a row has been selected.
-    deselectRow  - Fired if a row has been deselected (meaning another one has been selected).
-    dropRow      - Fired when a row is being dropped 
-                   Passes 2 parameters: the dropped row and the target it's been dropped on.
-    startDragRow - Fired when a row is being dragged
-                   Passes 2 parameters: the dragging row and the clone
-    stopDragRow  - Fired when a row has stopped being dragged
-                   Passes 1 parameters: the row
-    reorder      - Fired if sortable is true and the order has been changed. 
-                   Passes 3 parameters: the dropped row, the adjecent row and
-                   the position (before or after) relative to the adjecent row.
+    selectRow       - Fired if a row has been selected.
+    deselectRow     - Fired if a row has been deselected (meaning another one has been selected).
+    dropRow         - Fired when a row is being dropped 
+                      Passes 2 parameters: the dropped row and the target it's been dropped on.
+    startDragRow    - Fired when a row is being dragged
+                      Passes 2 parameters: the dragging row and the clone
+    stopDragRow     - Fired when a row has stopped being dragged
+                      Passes 1 parameters: the row
+    enterDroppable  - Fired when the draggable row enters a droppable that matches the options.droppables selector.
+    leaveDroppable  - Fired when the draggable row leaves a droppable.
+    reorder         - Fired if sortable is true and the order has been changed. 
+                      Passes 3 parameters: the dropped row, the adjecent row and
+                      the position (before or after) relative to the adjecent row.
 */
 
 Skyline.Table = (function(){
@@ -308,14 +311,32 @@ Skyline.Table = (function(){
       
       // Drag elsewhere
       if(this.table.options.draggable){
-        
+        if(this.prevTarget != el){
+          var drop = this._getDroppable(el);
+          if(drop){
+            if(this.lastDrop != drop){
+              if(this.lastDrop){
+                this.table.fireEvent("leaveDroppable", [this.dragEl, this.lastDrop]);
+              }
+              this.table.fireEvent("enterDroppable", [this.dragEl, drop]);  
+              this.lastDrop = drop;
+            }
+          } else if(this.lastDrop != null){
+            this.table.fireEvent("leaveDroppable", [this.dragEl, this.lastDrop]);
+            this.lastDrop = null;
+          }
+        } 
+        this.prevTarget = el;        
       }
       
     },
     // droppable is always empty, because we don't use it
     _onDrop : function(clone, droppable, event){
       if(this.table.options.draggable){
-        this.table.fireEvent("dropRow", [this.dragEl,this._getDroppableFromEvent(clone,event)]);
+        var drop = this._getDroppable(this._getTargetFromEvent(clone,event));
+        if(drop){
+          this.table.fireEvent("dropRow", [this.dragEl,drop]);
+        }
       }      
       if(this.table.options.sortable){
         var el = this._getTargetFromEvent(clone,event);
@@ -326,7 +347,10 @@ Skyline.Table = (function(){
           this.table.fireEvent("reorder", [this.dragEl,row,pos[0]]);
         }
       }
-    },    
+    },
+    _getDroppable : function(el){
+      return (el.match(this.table.options.droppables) && el) || el.getParent(this.table.options.droppables);
+    },
     _getSortPosition : function(row){
       var h = row.getSize().y;
       var t = row.getPosition().y + this.scroll.y;

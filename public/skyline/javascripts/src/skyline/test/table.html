@@ -95,7 +95,83 @@
 <body>
   
   <div class="content">
-    <h2>Table that's too small</h2>
+    <h2>Table width droptargets</h2>
+    <table id="t5" class="grid" style="width: 800px">
+      <thead>
+        <tr>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr class="even">
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>          
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>        
+      </tbody>
+    </table>
+        
+    <div class="target" style="margin: 5px; background: #f00; border: 1px solid #000; width: 50px; height: 50px; float: left">
+      <span style="background: #fff; width: 30px; height: 30px; float: left; margin: 5px; padding: 5px">T1</span>
+    </div>
+
+    <div class="target" style="margin: 5px; background: #f00; border: 1px solid #000; width: 50px; height: 50px; float: left">
+      T1
+    </div>
+
+    
+    <div style="clear: both"></div>
+    <script type="text/javascript" charset="utf-8">
+      var t5 = new Skyline.Table("t5", {draggable: true, droppables : ".target" });
+      
+      t5.addEvent("enterDroppable", function(row,target){
+        target.setStyle("background", "#fff");
+      });
+
+      t5.addEvent("leaveDroppable", function(row,target){
+        target.setStyle("background", "#f00");        
+      });
+      
+      t5.addEvent("dropRow", function(row,target){
+        target.setStyle("background", "#ff0");
+      });
+      
+    </script>
+    
+  </div>  
+  
+  <div class="content">
+    <h2>[FAILS] Table that's too small</h2>
     <table id="t4" class="grid" style="width: 150px">
       <thead>
         <tr>
