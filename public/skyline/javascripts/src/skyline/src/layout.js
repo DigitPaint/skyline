@@ -323,7 +323,7 @@ Skyline.HorizontalLayout = new Class({
     }.bind(this));
     
     // setupHeights fires last so we add fireResize here.
-    this.fireEvent("resize", [this]);
+    this.fireEvent("resize", [this, this.width - this.offsets.width, height]);
   },
   
   getStartPos : function(){
@@ -384,7 +384,7 @@ Skyline.VerticalLayout = new Class({
       variablePanel.setupHeights();
     }
     // setupHeights fires last so we add fire Resize here.
-    this.fireEvent("resize", [this]);
+    this.fireEvent("resize", [this, this.width - this.offsets.width, height]);
   },
   
   getStartPos : function(){
