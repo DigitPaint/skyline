@@ -22,7 +22,9 @@ Skyline.Layout  = new Class({
   },
   initialize : function(element){
     this.element = $(element);
-    this.element.collectComponentEvents("skyline.layout",this);
+    if(this.element.collectComponentEvents){
+      this.element.collectComponentEvents("skyline.layout",this);
+    }
     this.domId = this.element.get("id");
     
     this.panels = [];
@@ -198,17 +200,25 @@ Skyline.Layout  = new Class({
     }
     
     var element = arguments[2] || this.element;
-    var sizes = (new Hash(element.getStyles("padding-" + position, "border-" + position + "-width", "margin-" + position))).getValues();
+    var sizes = (new Hash(element.getStyles("padding-" + position, "border-" + position + "-width", "margin-" + position)));
+    var margin = sizes["margin-" + position];
+    sizes = sizes.getValues();
     var out = 0;
-    sizes.each(function(v){
-      if(/px$/.test(v)){
-        out += parseInt(v);
-      }
-    });
-    if(!this._Offsets){ this._Offsets = {}; }
-    this._Offsets[position] = out;
     
-    return out
+    var convert_to_int = function(v){
+      if(/px$/.test(v)){
+        return parseInt(v);
+      } else {
+        return 0;
+      }
+    }
+    
+    sizes.each(function(v){ out += convert_to_int(v); });
+    
+    if(!this._Offsets){ this._Offsets = {}; }
+    this._Offsets[position] = [out,convert_to_int(margin)];
+    
+    return this._Offsets[position];
   },
   
   cacheOffsets : function(){
@@ -222,7 +232,9 @@ Skyline.Layout  = new Class({
     };
     
     ["left", "right","top","bottom"].each(function(f){
-      this.offsets[f] = this.getOffset(f);
+      var off = this.getOffset(f,true);
+      this.offsets[f] = off[0];
+      this.offsets["margin-" + f] = off[1];
     }.bind(this))
     
     this.offsets.width = this.offsets.left + this.offsets.right;
@@ -276,7 +288,7 @@ Skyline.HorizontalLayout = new Class({
   orientation: "horizontal",
   placePanelAt : function(panel,pos){
     panel.position = pos;    
-    panel.element.setStyles({"top": this.offsets.top, "left" : pos});    
+    panel.element.setStyles({"top": this.offsets.top - this.offsets["margin-top"], "left" : pos});    
     return pos + panel.width;
   },
   setPanelSize : function(panel,size){
@@ -286,7 +298,8 @@ Skyline.HorizontalLayout = new Class({
   },  
   setupWidths : function(){
     var width = this.width - this.offsets.width;
-    
+    if(width < 0) { width = 0; }
+        
     this.element.setStyle("width",width);
     var rest = width;
     var variablePanel = null;
@@ -314,7 +327,8 @@ Skyline.HorizontalLayout = new Class({
   
   setupHeights : function(){
     var height = this.height - this.offsets.height;
-    
+    if(height < 0){ height = 0; }
+        
     this.element.setStyle("height",height);
     this.panels.each(function(panel){
       if(panel.hidden){ return; }      
@@ -327,7 +341,7 @@ Skyline.HorizontalLayout = new Class({
   },
   
   getStartPos : function(){
-    return this.offsets.left;
+    return this.offsets.left - this.offsets["margin-left"];
   }
 });
 
@@ -336,7 +350,7 @@ Skyline.VerticalLayout = new Class({
   orientation: "vertical",
   placePanelAt : function(panel,pos){
     panel.position = pos;    
-    panel.element.setStyles({"left" : this.offsets.left, "top" : pos});
+    panel.element.setStyles({"left" : this.offsets.left - this.offsets["margin-left"] , "top" : pos});
     return pos + panel.height;
   },
   
@@ -348,6 +362,8 @@ Skyline.VerticalLayout = new Class({
 
   setupWidths : function(){
     var width = this.width - this.offsets.width;
+    if(width < 0) { width = 0; }
+    
     this.element.setStyle("width", width);
     this.panels.each(function(panel){
       if(panel.hidden){ return; }      
@@ -358,6 +374,7 @@ Skyline.VerticalLayout = new Class({
   
   setupHeights : function(){
     var height = this.height - this.offsets.height;
+    if(height < 0){ height = 0; }
     this.element.setStyle("height",height);
     var rest = height;
     
@@ -388,7 +405,7 @@ Skyline.VerticalLayout = new Class({
   },
   
   getStartPos : function(){
-    return this.offsets.top;
+    return this.offsets.top - this.offsets["margin-top"];
   }  
   
 });
