@@ -32,15 +32,31 @@ Application.Sections = new Class({
       "start" : function(){ this.contentScroller.start(); }.bind(this),
       "stop" : function(){ this.contentScroller.stop(); this.contentScroller.detach(); }.bind(this),
       "beforeDrop" : function(el){
+        var ed;
         if(ed = el.retrieve("skyline.editor")){
-          ed.element.setStyles({height: ed.editor.skyline_editor_height - 1, visibility: "hidden"});
-          ed.clear();
+          var fn = function(ed){
+            ed.element.setStyles({height: ed.editor.skyline_editor_height - 1, visibility: "hidden"});
+            ed.clear();            
+          }
+          if($type(ed) == "array"){ 
+            $A(ed).each(fn);
+          } else {
+            fn(ed);
+          }
         }              
       },
       "afterDrop" : function(el){
+        var ed;
         if(ed = el.retrieve("skyline.editor")){
-          ed.element.setStyles({height: 5, visibility: "visible"});
-          ed.render();
+          var fn = function(ed){
+            ed.element.setStyles({height: 5, visibility: "visible"});
+            ed.render();            
+          }
+          if($type(ed) == "array"){ 
+            $A(ed).each(fn);
+          } else {
+            fn(ed);
+          }
         }                            
       }
     });    
