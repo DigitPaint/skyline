@@ -68,9 +68,10 @@ Application.Sections = new Class({
     clone = new Element("li",{"class" : "clone"}).setStyles({
       margin: '0px',
       position: 'absolute',
-      visibility: 'hidden'
+      visibility: 'hidden',
+      opacity: 0.5
     });
-    var es = clone.adopt(new Element("div",{"class" : "section"}).setStyles({"width": sectionSize.x, "height": sectionSize.y, opacity: 0.5}));
+    var es = clone.adopt(new Element("div",{"class" : "section"}).setStyles({"width": sectionSize.x, "height": sectionSize.y}));
     
     if(tools = element.getElement("ul.sectiontools")){
       clone.adopt(tools.clone(true));
