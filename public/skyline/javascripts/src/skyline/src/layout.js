@@ -211,6 +211,7 @@ Skyline.Layout  = new Class({
     var element = arguments[2] || this.element;
     var sizes = (new Hash(element.getStyles("padding-" + position, "border-" + position + "-width", "margin-" + position)));
     var margin = sizes["margin-" + position];
+    var border = sizes["border-" + position + "-width"];    
     sizes = sizes.getValues();
     var out = 0;
     
@@ -225,7 +226,7 @@ Skyline.Layout  = new Class({
     sizes.each(function(v){ out += convert_to_int(v); });
     
     if(!this._Offsets){ this._Offsets = {}; }
-    this._Offsets[position] = [out,convert_to_int(margin)];
+    this._Offsets[position] = [out,convert_to_int(margin) + convert_to_int(border)];
     
     return this._Offsets[position];
   },
