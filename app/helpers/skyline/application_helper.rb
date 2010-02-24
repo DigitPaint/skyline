@@ -25,7 +25,7 @@ module Skyline::ApplicationHelper
   #
   # --
   def message(type,message,options={})
-    MessageGenerator.new(type,message,options)
+    Skyline::MessageGenerator.new(type,message,options)
   end
 
   # You can use this method to place a notification directly in your view. This also
@@ -38,7 +38,7 @@ module Skyline::ApplicationHelper
   #
   # --  
   def notification(type,message,options={})
-    MessageGenerator.new(type,message,options)    
+    Skyline::NotificationGenerator.new(type,message,options)    
   end
   
   def render_messages(options={})
@@ -46,6 +46,7 @@ module Skyline::ApplicationHelper
   end
   
   def render_notifications(options={})
+    options.reverse_merge! :generator => Skyline::NotificationGenerator
     _render_volatiles(self.notifications,options)
   end
   
