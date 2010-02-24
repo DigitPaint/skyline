@@ -92,7 +92,7 @@ Skyline.Table = (function(){
       this.element.setStyles({width: this.width});
     
       // measure inner cell sizes by adding a row with only div's
-      var cells = this.element.getElement("tbody tr").getChildren();
+      var cells = this.element.getElement("thead tr").getChildren();
       var tb = this.element.getElement("tbody");
       var tr = new Element("tr");
       tb.adopt(tr);
@@ -169,10 +169,10 @@ Skyline.Table = (function(){
       var row = target.getParent("tr");
       if(row){
         if(this.selectedRow){
-          this.fireEvent("deselectRow",[this.selectedRow])
+          this.fireEvent("deselectRow",[this.selectedRow,event])
         }
         this.selectedRow = row;
-        this.fireEvent("selectRow",[row]);
+        this.fireEvent("selectRow",[row,event]);
       }
     },
     
