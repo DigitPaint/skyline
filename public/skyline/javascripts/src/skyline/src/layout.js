@@ -2,6 +2,11 @@
   Class: Skyline.Layout
   Provides layout management.
   
+  Element data always overrides options.
+  
+  Element Data options:
+  data-panel-hidden - "true","false"
+  
   Events:
   afterSetup - Fires after the layout has been set up.
   resize - Fires after the panel has been resized.
@@ -49,21 +54,23 @@ Skyline.Layout  = new Class({
     }
     
     this.setOptions(o);
-    
-    if(this.options.hidden){
-      this.hide(true);
-    } else {
-      this.show(true);
-    }
-    
-    this.cacheOffsets();
-        
-    this.element.setStyles({
-      position: this.options.position,
-      "z-index": this.options.zIndex
-    });
-    this.element.store("skyline.layout",this);
+    this.initializeElement();
+    this.cacheOffsets();    
   },
+  
+  setElementDataOptions : function(){
+    var optionKeys = ["hidden"];
+    var options = {};
+    var el = this.element;
+    
+    optionKeys.each(function(k){ 
+      var prop = el.getProperty("data-panel-" + k);
+      if(prop){ options[k] = prop }
+    });
+    
+    this.setOptions(options);
+  },
+  
   /*
     Function: addPanel(element)
     Add a new panel to this layout (a panel is just another layout)
@@ -240,7 +247,37 @@ Skyline.Layout  = new Class({
     this.offsets.width = this.offsets.left + this.offsets.right;
     this.offsets.height = this.offsets.top + this.offsets.bottom;    
   },
-  
+  /* 
+    Function: restore
+    Restore the elements for this panel
+  */
+  restore : function(){
+    if(this.element){
+      this.element.eliminate("skyline.layout"); // Cleanup
+    }
+    this.element = $(this.domId);
+    this.initializeElement();
+    this.panels.each(function(p){ p.restore(); });
+  },
+  // Setup the attached element.
+  initializeElement : function(){
+    this.setElementDataOptions();
+    
+    if(this.options.hidden){
+      this.hide(true);
+    } else {
+      this.show(true);
+    }
+        
+    this.element.setStyles({
+      position: this.options.position,
+      "z-index": this.options.zIndex
+    });
+    this.element.store("skyline.layout",this);    
+  },  
+  /* 
+    Function: setup 
+  */
   setup : function(){
     if(!this.parent){
       this.width = this.options.width;
