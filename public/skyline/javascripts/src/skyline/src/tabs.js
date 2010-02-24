@@ -7,8 +7,8 @@
   
   Events:
   
-  activateTab(tab)   - called when any tab get's activated.
-  deactivateTab(tab) - called when any tab get's deactivated.
+  activateTab(tabs,tab)   - called when any tab get's activated.
+  deactivateTab(tabs,tab) - called when any tab get's deactivated.
 */
 Skyline.Tabs = new Class({
   Implements : [Events,Options],
