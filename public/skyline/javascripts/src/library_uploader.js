@@ -35,8 +35,17 @@ Application.LibraryUploader = new Class({
     });    
     this.parent(options);
   },
+  
+  // Reset the uploader to beginstate.
+  reset : function(){
+    this.onInit();
+    this.remove();
+  },
+  
   // Events
   onInit : function(){
+    this.uploadBrowser.browseEl.setStyle("visibility","visible");
+    this.box.setStyle("visibility","visible");  
     this.uploadBrowser.show();
     this.uploadProgress.hide();
   },
@@ -51,8 +60,8 @@ Application.LibraryUploader = new Class({
   onCompleteUpload : function(){
     this.uploadBrowser.show();
     this.uploadProgress.hide();
-    this.uploadBrowser.browseEl.destroy();
-    this.box.destroy();
+    this.uploadBrowser.browseEl.setStyle("visibility","hidden");
+    this.box.setStyle("visibility","hidden");
   },
   onCompleteSuccess : function(){
     this.uploadBrowser.setMessage(this.options.allUploadedMessage);
