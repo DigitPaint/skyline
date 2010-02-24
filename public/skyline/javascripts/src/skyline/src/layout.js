@@ -6,6 +6,8 @@
   
   Element Data options:
   data-panel-hidden - "true","false"
+  data-panel-height -
+  data-panel-width  -
   
   Events:
   afterSetup - Fires after the layout has been set up.
@@ -59,7 +61,7 @@ Skyline.Layout  = new Class({
   },
   
   setElementDataOptions : function(){
-    var optionKeys = ["hidden"];
+    var optionKeys = ["hidden", "width", "height"];
     var options = {};
     var el = this.element;
     
