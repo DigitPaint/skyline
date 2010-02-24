@@ -15,11 +15,15 @@ class Skyline::MessageGenerator
         else v
       end
     end    
-    "new Application.Message('#{self.escape_javascript(@message)}',#{self.options_for_javascript(options)})"
+    "new #{self.js_object}('#{self.escape_javascript(@message)}',#{self.options_for_javascript(options)})"
   end
   
   def to_str
     to_s
+  end
+  
+  def js_object
+    "Application.Message"
   end
   
 end
