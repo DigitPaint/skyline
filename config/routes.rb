@@ -3,15 +3,15 @@ ActionController::Routing::Routes.draw do |map|
   # =================
   # = Skyline url's =
   # =================
-  map.namespace :skyline do |skyline|
+  map.namespace :skyline, :path_prefix => "/admin" do |skyline|
     
-    skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
+#    skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
     
     skyline.resources :articles, :collection => {:reorder => :put} do |page|
       page.resources :article_versions
       page.resources :variants, :member => {:force_edit => :put}
       page.resources :publications, :member => {:rollback => :post}
-      page.resource :published_publication
+#      page.resource :published_publication
     end
     
     # These are currently just used for polling
@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
       variant.map "current_editor", :controller => "variant_current_editor", :action => "poll"
     end
 
-    skyline.resource :authentication
+#    skyline.resource :authentication
     skyline.resources :users
     
     skyline.resources :sections
@@ -30,21 +30,6 @@ ActionController::Routing::Routes.draw do |map|
     
     skyline.resources :locales, :only => [:show]
 
-    skyline.resources :media_dirs do |media_dir|
-    	# Alert! Routes hard coded in app/views/skyline/media_files/_index.html.erb
-      media_dir.resources :media_files
-            
-      media_dir.connect 'media_files_data/:size/:name.:format',
-          :controller => 'media_files_data',
-          :action => 'show',
-          :conditions => { :method => :get }
-      media_dir.connect 'media_files_data/:name.:format',
-          :controller => 'media_files_data',
-          :action => 'show',
-          :conditions => { :method => :get }            
-
-    end
-    
     skyline.namespace :browser do |browser|
       browser.resources :images
       browser.resources :links
