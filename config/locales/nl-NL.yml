@@ -322,7 +322,7 @@
     browse: "Bladeren"
     upload: "Uploaden"
     ok: "Ok"
-    delete_media_dir: "Folder verwijderen"
+    delete_media_dir: "Map verwijderen"
     yes_force_edit: "Ja, bewerken forceren"
 
   icons:
