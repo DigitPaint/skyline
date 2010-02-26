@@ -6,8 +6,8 @@
         <dd>
           <%= image_tag(url_for(
                 :action => "show", 
-                :controller => "/skyline/media_files_data", 
-                :media_dir_id => @media_dir,
+                :controller => "/skyline/media/data", 
+                :dir_id => @media_dir,
                 :name => @media_file.name,
                 :size => '100x100'), 
               :alt => "Image") %>

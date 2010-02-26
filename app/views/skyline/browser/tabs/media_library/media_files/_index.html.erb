@@ -5,7 +5,7 @@
   <input value="<%= @media_file.andand.class.andand.name %>" name="browser[referable_type]" id="browser_media_referable_type" type="hidden"/>
   <input value="<%= @media_file.andand.title %>" name="browser[referable_title]" id="browser_media_referable_title" type="hidden"/>
   
-  <% browser_url = @media_dir && @media_file &&  url_for(:action => :show, :controller => '/skyline/media_files_data', :media_dir_id => @media_dir, :name => @media_file.name) %>
+  <% browser_url = @media_dir && @media_file &&  url_for(:action => :show, :controller => '/skyline/media/data', :name => @media_file.name, :dir_id => @media_dir) %>
   <input value="<%= browser_url %>" name="browser[url]" id="skylineReferableLocation" type="hidden">
   
   <% if @media_dir %>
@@ -18,7 +18,7 @@
                 :"data-referable_id" => f.id,
                 :"data-referable_type" => f.class.name,
                 :"data-referable_title" => f.title,
-                :"data-url" => url_for(:action => :show, :controller => '/skyline/media_files_data', :media_dir_id => @media_dir, :name => f.name),
+                :"data-url" => url_for(:action => :show, :controller => '/skyline/media/data', :name => f.name, :dir_id => @media_dir),
                 :"data-image_width" => dimen.andand["width"],
                 :"data-image_height" => dimen.andand["height"]) %>
         </div>
