@@ -20,7 +20,7 @@ Application.LibraryUploader = new Class({
     var options = options || {};
     options.target = this.uploadBrowser.browseEl;
     options.url = this.formEl.action;
-    options.fileClass= Application.UploadFile;
+    options.fileClass = Application.UploadFile;
     
     this.addEvents({
       "load" : this.onInit,
@@ -37,6 +37,9 @@ Application.LibraryUploader = new Class({
   },
   // Events
   onInit : function(){
+    this.uploadBrowser.browseEl.setStyle("visibility","visible");
+    this.uploadBrowser.uploadEl.setStyle("visibility","visible");    
+    this.box.setStyle("visibility","visible");  
     this.uploadBrowser.show();
     this.uploadProgress.hide();
   },
