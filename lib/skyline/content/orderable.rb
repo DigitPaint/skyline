@@ -1,6 +1,5 @@
-#
-# @private
 module Skyline::Content
+  # @private
   module Orderable
     
     def acts_as_orderable(options)
@@ -57,7 +56,8 @@ module Skyline::Content
         end
       end
     end
-              
+    
+    # @private          
     module InstanceMethods
       def set_initial_position
         unless self[self.class.position_column]

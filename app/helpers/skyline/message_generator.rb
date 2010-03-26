@@ -1,3 +1,4 @@
+# @private
 class Skyline::MessageGenerator
   include ActionView::Helpers::JavaScriptHelper
   

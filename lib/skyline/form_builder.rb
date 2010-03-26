@@ -3,9 +3,9 @@
 #
 # Apart from adding new helper methods, this class overwrites the standard *_field 
 # and *_select helpers. If one of the fields has an error, the validation errors for 
-# that method are added just after the field. See {Skyline::FormBuilderWithErrors#wrap_with_error} 
+# that method are added just after the field. See {Skyline::FormBuilder#wrap_with_error} 
 # for more information on what get's added.
-class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
+class Skyline::FormBuilder < ActionView::Helpers::FormBuilder
 
   # Custom InstanceTag class from which we can extract the ID
   # @private
@@ -18,7 +18,10 @@ class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
       name_and_id["id"]
     end
   end
-  ActiveSupport::Dependencies.autoloaded_constants << "Skyline::FormBuilderWithErrors::CustomInstanceTag"
+  
+  unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
+    ActiveSupport::Dependencies.autoloaded_constants << "Skyline::FormBuilder::CustomInstanceTag"
+  end  
   
   # Overwrite all standard helpers with a wrapped version.
   (field_helpers - %w(label fields_for radio_button check_box hidden_field) + %w(select collection_select time_zone_select date_select time_select datetime_select)).each do |selector|
@@ -47,7 +50,7 @@ class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
   
   # Same as label but automatically translates the field name
   # 
-  # @see Skyline::FormBuilderWithErrors#t
+  # @see Skyline::FormBuilder#t
   # 
   # @return [String]
   def label_with_text(method, options = {})
@@ -100,7 +103,7 @@ class Skyline::FormBuilderWithErrors < ActionView::Helpers::FormBuilder
   end
   
   # Wrap an input element with errors, also appends "invalid" to the helpers
-  # class. See {Skyline::FormBuilderWithErrors#fieldset_errors} on how
+  # class. See {Skyline::FormBuilder#fieldset_errors} on how
   # the errors are added. 
   #
   # @param method [Symbol,String] The method/attribuet to check for errors

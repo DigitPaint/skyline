@@ -1,13 +1,14 @@
+# @private
 class Skyline::Sections::RedirectSection < ActiveRecord::Base
-  include Skyline::SectionItem
-  include Skyline::ContentItem
+  include Skyline::Sections::Interface
+  include Skyline::BelongsToReferable
   
-  referable_content :linked
+  belongs_to_referable :linked
   
   validates_numericality_of :delay
 
   def url(request)
-    if self.linked.external? 
+    if self.linked.external? || self.linked.url =~ /:\/\//
       self.linked.url
     else
       request.protocol + request.host_with_port + self.linked.url

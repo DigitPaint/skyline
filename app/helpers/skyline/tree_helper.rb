@@ -1,3 +1,4 @@
+# @private
 module Skyline::TreeHelper
   
   def page_tree(pages, roots, options = {})
@@ -44,7 +45,7 @@ module Skyline::TreeHelper
     node_url = Proc.new{|node| "" }
     node_content = Proc.new{|node| node }
     node_title = Proc.new{|node| "" }
-    options.reverse_merge! :id_prefix => "node", :node_content => node_content, :node_url => node_url, :node_title => node_title, :selected => nil, :open => []
+    options.reverse_merge! :id_prefix => "node", :node_content => node_content, :node_url => node_url, :node_title => node_title, :selected => nil
     tags = []
     nodes ||= []
     
@@ -52,11 +53,11 @@ module Skyline::TreeHelper
       selected = options[:selected].present? ? options[:selected].id == node.id : false
       li = link_to(options[:node_content].call(node), options[:node_url].call(node), :class => (selected ? "selected" : nil), :title => options[:node_title].call(node))
       li << node_tree(node_collection,node_collection[node.id],options) if node_collection.has_key?(node.id)
-      tags << content_tag("li",li , :id => "#{options[:id_prefix]}_#{node.id}", :class => (options[:open].include?(node)))
+      node_class = node.open ? "open" : "closed" if node_collection.has_key?(node.id) && node.respond_to?(:open)
+      tags << content_tag("li",li , :id => "#{options[:id_prefix]}_#{node.id}", :class => node_class)
     end
     
     content_tag("ul",tags.join("\n"));
   end
   
-  # content_tag("span", node.name)
 end

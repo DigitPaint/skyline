@@ -1,3 +1,4 @@
+# @private
 module Skyline::MediaFilesHelper
   def skyline_media_file_path_with_session_information(media_dir)
     session_key = ActionController::Base.session_options[:session_key] || ActionController::Base.session_options[:key]

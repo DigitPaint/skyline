@@ -1,3 +1,5 @@
 .DS_Store
 ydoc/*
 .yardoc
+pkg/*
+skylinecms.gemspec

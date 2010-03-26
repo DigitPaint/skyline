@@ -18,7 +18,7 @@ class Skyline::SectionsController < Skyline::ApplicationController
   
   protected
   def find_renderable_scope
-    @renderable_scope = Skyline::RenderableScopeInterface.unserialize(params[:renderable_scope]) if params[:renderable_scope]
+    @renderable_scope = Skyline::Rendering::Scopes::Interface.unserialize(params[:renderable_scope]) if params[:renderable_scope]
     raise "Can't load renderable_scope from params[:renderable_scope]: '#{params[:renderable_scope]}'" unless @renderable_scope
   end
 end

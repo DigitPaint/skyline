@@ -1,6 +1,6 @@
 # @abstract Implement this interface in classes that can be used
 #   as renderable scopes.
-module Skyline::RenderableScopeInterface
+module Skyline::Rendering::Scopes::Interface
   
   # @abstract
   def renderer(options = {})

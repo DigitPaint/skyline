@@ -1,12 +1,13 @@
+# @private
 class Skyline::LinkSectionLink < ActiveRecord::Base
-  include Skyline::ContentItem
+  include Skyline::BelongsToReferable
   include Skyline::Positionable
   
   set_table_name :skyline_link_section_links
   
   self.positionable_scope = :link_section_id
   
-  referable_content :linked
+  belongs_to_referable :linked
   delegate :url, :external?, :file?, :blank?, :to => :linked
   
   belongs_to :link_section

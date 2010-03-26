@@ -1,3 +1,4 @@
+# @private
 class Skyline::Publication < Skyline::ArticleVersion
   belongs_to :variant, :class_name => "Skyline::Variant"
   

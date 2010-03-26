@@ -1,3 +1,4 @@
+# @private
 class Skyline::Role < ActiveRecord::Base
   set_table_name :skyline_roles
   

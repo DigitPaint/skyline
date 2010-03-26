@@ -34,7 +34,6 @@ class Skyline::Page < Skyline::Article
     end
   end
   
-  include Skyline::SearchableItem
   include Skyline::Positionable
   self.positionable_scope = :parent_id
   
@@ -51,13 +50,6 @@ class Skyline::Page < Skyline::Article
   named_scope :with_default_data, {:include => [:default_variant_data, :default_variant, :published_publication]}
   
   default_scope :order => "position"
-  
-  indexer_option :if => :published_publication_id_changed?
-  
-  searchable_field :title => lambda{|article| article.published_publication_data.title},
-                   :url => :url,
-                   :documentdate => lambda{|article| article.published_publication.updated_at.to_time.utc.iso8601(3)},
-                   :body => lambda{|article| article.published_publication.to_text}
  
   class << self
     extend ActiveSupport::Memoizable
@@ -75,7 +67,8 @@ class Skyline::Page < Skyline::Article
       pages = self.connection.select_all("
         SELECT page.id,
                page.parent_id,
-               IF(ISNULL(data.navigation_title) || data.navigation_title='', data.title, data.navigation_title) AS title,
+               data.navigation_title as navigation_title,
+               data.title as title,
                page.locked,
                page.published_publication_id,
                page.default_variant_id,
@@ -93,11 +86,18 @@ class Skyline::Page < Skyline::Article
         class << o
           def id; self["id"].to_i; end
           def parent_id; self["parent_id"].blank? ? nil : self["parent_id"].to_i; end
-          def title; self["title"].blank? ? "n/a" : self["title"]; end
+          def title
+            if self["navigation_title"].blank?
+              self["title"].blank? ? "n/a" : self["title"]
+            else
+              self["navigation_title"]
+            end
+          end
           def published?; self["published_publication_id"].present?; end
           def identical_to_publication?
             self["published_publication_variant_id"] == self["default_variant_id"] && self["published_publication_version"] == self["default_variant_version"]
           end
+          def open; true; end
         end
 
         out[o.parent_id] ||= []

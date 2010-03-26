@@ -2,49 +2,66 @@
 module Skyline::Rendering
   module Helpers
     module RendererHelper
-      def assign(key, value = nil)
-        return @_template_assigns[key] if value.nil?
-        @_template_assigns[key] = value
+      
+      # Set global renderer assigns. These are accessible throughout all render/render_collection calls. They
+      # are especially usefull in scenarios where you want a sub-item render a piece of the page. You can assign it
+      # to `:content_for_sidebar` and in your page template you can read `assigns(:content_for_sidebar)` and place the content
+      # the content item rendered to the variable `:content_for_sidebar`
+      # 
+      # @param key [Symbol] The key to store or read
+      # @param value [Object] Anything you want to store, if empty and no block given this method just returns the stored value
+      # 
+      # @yield A block to capture, see also the `capture` documentation in Rails
+      # @yieldreturn [String] The result of doing a regular `capture`
+      # 
+      # @return The value stored with the key.
+      def assign(key, value = nil, &block)
+        return @_template_assigns[key] if value.nil? && !block_given?
+        if block_given?
+          @_template_assigns[key] = capture(&block)
+        else
+          @_template_assigns[key] = value
+        end
       end
 
       # Get's the current Renderer instance that is rendering the template we're in.
       # 
-      # @return [Skyline::Renderer] The renderer
+      # @return [Skyline::Rendering::Renderer] The renderer
       def renderer
         @_renderer
       end
 
-      # @see Skyline::Renderer#render
+      # @see Skyline::Rendering::Renderer#render
       def render_object(object, options = {})
         renderer.render(object, options)
       end
 
-      # @see Skyline::Renderer#render_collection
+      # @see Skyline::Rendering::Renderer#render_collection
       def render_collection(objects, options = {},&block)
         renderer.render_collection(objects, options, &block)
       end
 
-      # @see Skyline::Renderer#peek
+      # @see Skyline::Rendering::Renderer#peek
       def peek(n=1, &block)
         renderer.peek(n, &block)
       end
 
-      # @see Skyline::Renderer#peek_until} 
+      # @see Skyline::Rendering::Renderer#peek_until} 
       def peek_until(&block)
         renderer.peek_until(&block)
       end
 
-      # @see Skyline::Renderer#render_until
+      # @see Skyline::Rendering::Renderer#render_until
       def render_until(&block)
         renderer.render_until(&block)
       end    
 
-      # @see Skyline::Renderer#skip!
+      # @see Skyline::Rendering::Renderer#skip!
       def skip!(n=1)
         renderer.skip!(n)
       end
 
-      # @see Skyline::Renderer#skip_until!
+      # @see Skyline::Rendering::Renderer#skip_until!
       def skip_until!(&block)
         renderer.skip_until!(&block)
       end
@@ -120,7 +137,7 @@ module Skyline::Rendering
       # Simple, quick 'n dirty solution so you can use 'acticle_version', 'news_item', .. in all 
       # your templates. So you don't have to use @.... or pass the local to all partials.
       # 
-      # @private
+      # @deprecated Don't use the name of the object anymore,  use `renderer.object` instead.
       def method_missing(method, *params, &block)
         return @_local_object if @_local_object_name == method
         super

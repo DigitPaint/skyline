@@ -1,3 +1,4 @@
+# @private
 class Skyline::ImageRef < Skyline::InlineRef
   
   # Render html for specified RefObject

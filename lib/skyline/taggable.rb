@@ -21,8 +21,7 @@
 
 module Skyline::Taggable 
   def self.included(base)
-    Skyline::Tag.taggable_models ||= []
-    Skyline::Tag.taggable_models << base
+    Skyline::Tag.register_taggable_model(base)
     
     base.extend(ClassMethods)
     base.send :has_many, :associated_tags, :class_name => "Skyline::AssociatedTag", :as => "taggable"
@@ -34,7 +33,7 @@ module Skyline::Taggable
     base.class_eval do
       named_scope :with_tags, lambda {|tags|
         if tags.any?
-          {:conditions => tags.collect{|tag| "#{tag.id} IN (SELECT tag_id FROM skyline_associated_tags WHERE taggable_id=#{self.table_name}.id AND taggable_type='#{self.name}')"}.join(" OR "),
+          {:conditions => ["(SELECT tag_id FROM skyline_associated_tags WHERE taggable_id=#{self.table_name}.id AND taggable_type=? AND tag_id IN (?) LIMIT 1)", self.name, tags],
            :include => :associated_tags}
         else
           {}

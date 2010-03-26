@@ -1,5 +1,5 @@
-# @private
 module Skyline::Content
+  # @private
   module Exportable
     
     # List of possible export formats for this class

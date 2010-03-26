@@ -14,7 +14,9 @@ ActiveSupport::Dependencies.load_once_paths << vendor_path
 
 # Setup public paths
 public_path = Pathname.new(Rails.public_path) + "skyline"
-if !public_path.exist? #&& !public_path.symlink?
+unless public_path.exist? 
+  FileUtils.rm(public_path) if public_path.symlink?
+  
   puts "=> Skyline: Creating assets symlink to '#{public_path}'"
   FileUtils.ln_s((Skyline.root + "public/skyline").relative_path_from(Pathname.new(Rails.public_path)),public_path)
 end
