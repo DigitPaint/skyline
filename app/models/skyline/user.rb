@@ -5,6 +5,7 @@ class Skyline::User < ActiveRecord::Base
   has_many :rights, :class_name => "Skyline::Right", 
     :finder_sql => 'SELECT DISTINCT r.* FROM skyline_rights AS r, skyline_grants AS g JOIN skyline_rights_skyline_roles AS rr ON rr.role_id = g.role_id WHERE g.user_id = #{id} AND r.id = rr.right_id'
   
+  has_many :user_preferences, :class_name => "Skyline::UserPreference"  
     
   # This must be set to change the password (by the user himself)
   attr_accessor :current_password
