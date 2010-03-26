@@ -2,7 +2,7 @@ ENV["RAILS_ENV"] = "test"
 ENV['RAILS_ROOT'] ||= File.dirname(__FILE__) + '/../../../..' 
 require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config/environment.rb'))
 require 'test_help'
-include ActionController::TestProcess
+# include ActionController::TestProcess
 require 'factories'
 
 SILENT_SEED = true
