@@ -107,7 +107,7 @@ class Skyline::Page < Skyline::Article
     end
     
     def root
-      self.find_by_parent_id(nil)
+      self.first(:conditions => "parent_id IS NULL")
     end
     
     # build menu of certain level
@@ -125,6 +125,14 @@ class Skyline::Page < Skyline::Article
       menu
     end
     
+    # Find the page by url_parts and return the page and url_parts left over after we've found
+    # the deepest page.
+    #
+    # @param [Array<String>] url_parts The url_parts to look for
+    # @param [Skyline::Page] root An optional root to search in.
+    # 
+    # @return [Array<Skyline::Page,Array<String>>] First return parameter is the deepest page we found (can be nil), 
+    #   the second return is the url_parts not consumed by the found page.
     def find_by_url(url_parts, root = nil)
       root ||= self.root
       return nil unless root
