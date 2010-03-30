@@ -48,7 +48,6 @@ class TestSectionTest < ActiveSupport::TestCase
         section = Skyline::TestSection.new(:body_a => html)
         assert section.save
         refs_1 = Skyline::InlineRef.all(:conditions => {:refering_id => section.id, :refering_type => section.class.name}).map(&:id)
-
         section.body_a = section.body_a(true).gsub("skyline-referable-id='1'","skyline-referable-id='2'")
         assert section.save
         refs_2 = Skyline::InlineRef.all(:conditions => {:refering_id => section.id, :refering_type => section.class.name}).map(&:id)
@@ -68,6 +67,18 @@ class TestSectionTest < ActiveSupport::TestCase
         assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => section_1.id, :refering_type => section_1.class.name})
         
         assert_not_equal section_1.body_a(true), section_2.body_a(true)
+      end
+      
+      should "make sure that copying a ref from one field to another doesn't break" do
+        html = "abcdefghi <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> bla bla"
+        s1 = Skyline::TestSection.new(:body_a => html)
+        assert s1.save
+        assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
+
+        s1.body_b = s1.body_a(true)
+        assert s1.save
+        assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
+        assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_b"})        
       end
       
     end

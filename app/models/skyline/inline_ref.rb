@@ -42,7 +42,7 @@ class Skyline::InlineRef < Skyline::RefObject
       del = (old_refs - updated_refs)
       unless del.blank?
         self.destroy_all("id IN(#{del.join(',')})") 
-        logger.warn("[InlineRef] Destroying refs for #{refering_object.class.name} id: #{refering_object.id} column: #{refering_column_name}. Ref's destroyed: #{del.inspect}")
+        logger.debug("[InlineRef] Destroying refs for #{refering_object.class.name} id: #{refering_object.id} column: #{refering_column_name}. Ref's destroyed: #{del.inspect}")
       end
                   
       [h.to_html, updated_refs]
@@ -125,7 +125,8 @@ class Skyline::InlineRef < Skyline::RefObject
         result
       end
    
-      new_ref = skyline_class.find_by_id_and_refering_type_and_refering_id(id,refering_object.class.name,refering_object.id) if id
+      new_ref = skyline_class.find_by_id_and_refering_type_and_refering_id_and_refering_column_name(id,refering_object.class.name,refering_object.id,refering_column_name.to_s) if id
+      logger.warn "--> new_ref.id : #{new_ref && new_ref.id}"
       new_ref ||= skyline_class.new
 
       new_ref.previous_referable = new_ref.referable.dup if new_ref.referable
