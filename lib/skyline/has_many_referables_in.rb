@@ -23,7 +23,12 @@ module Skyline::HasManyReferablesIn
   def self.included(base)
     base.extend(ClassMethods)
     base.send(:before_save, :parse_referable_fields)
+    
+    # Attention! We have to call it twice so it won't muck up when you create your own after_create/after_save
+    # callbacks.
+    base.send(:after_create, :update_referable_objects)    
     base.send(:after_save, :update_referable_objects)
+    
     base.send(:cattr_accessor, :referable_fields)
     
     base.send(:has_many, :image_refs, :class_name => "Skyline::ImageRef", :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
@@ -86,7 +91,7 @@ module Skyline::HasManyReferablesIn
   # @todo Shouldn't this be protected?    
   def parse_referable_fields  
     return if self.referable_fields.nil?    
-      
+
     updated_refs = []
     self.referable_fields.each do |col|      
       if new_body = self.referable_field_bodies.delete(col)
@@ -101,8 +106,9 @@ module Skyline::HasManyReferablesIn
   # @private
   # @todo Shouldn't this be protected?  
   def update_referable_objects
-    return if self.referable_fields.nil?
-    Skyline::InlineRef.update_all({:refering_id => self.id}, "id IN(#{@updated_ids})") unless @updated_ids.blank?
+    return if self.referable_fields.nil? || @updated_ids.blank?
+    Skyline::InlineRef.update_all({:refering_id => self.id}, "id IN(#{@updated_ids})")
+    @updated_ids = ""
   end
   
 end
