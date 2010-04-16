@@ -238,18 +238,20 @@ div.splitter div{
 }
 
 .splitter{
-  overflow: hidden;
-  background: #f00;
+  width: 1px;
+  overflow: visible;
 }
 
 /* ========================== */
 /* = Skyline.Panel (header) = */
 /* ========================== */
 
-dl.panel dt{
+dl.panel dt,
+dt.panel{
   background: url(../images/backgrounds/panel-dt.gif) 0 50% repeat-x;
   cursor: pointer;
 }
+
 dl.panel dt.active{
   cursor: default;
 }
@@ -274,13 +276,14 @@ dl.panel dt a.content:active{
   outline: none;
 }
 
-dl.panel dd .content,
+dl.panel > dd,
 .dialog .content{
   padding: 10px;
 }
 
 dl.panel dd.footer,
 .footerPanel{
+  padding: 0;
   background: url(../images/backgrounds/panel-footer.gif) 0 0 #969697 repeat-x;  
 }
 
@@ -332,6 +335,29 @@ dl.panel dt .menubutton dt .toggle{
   line-height: 13px;
 }
 
+dl.panel dt .right, 
+dt.panel .right {
+  float: right;
+}
+
+/* =================== */
+/* = Specific panels = */
+/* =================== */
+
+#leftPanel dd {
+  padding: 0 0 5px;
+/*  padding :0;*/
+}
+#leftPanel dd .content {
+  height: 100%;
+  padding: 5px 5px 0px 5px;
+}
+
+#contentBodyPanel,
+#contentPreviewPanel{
+  padding: 0;
+}
+
 /* ======================= */
 /* = Skyline.TagSelector = */
 /* ======================= */
@@ -376,22 +402,12 @@ dl.tagselector dd.tags li.selected{
 
 .innerpanel{
   border-bottom: 1px solid #999;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #666;
 }
 
 .innerpanel .body,
 .innerpanel .submit,
 .innerpanel .actions{
   padding: 10px;
-}
-
-.innerpanel .panelBody{
-  display: none;
-}
-
-.innerpanel.active .panelBody{
-  display: block;
 }
 
 .innerpanel .head{
@@ -435,6 +451,7 @@ form.upload ul.files{
   padding: 5px;
   background: #fff;
   border: 1px solid #ccc;
+  margin: 5px 0px;
 }
 
 form.upload ul.files li .info{
@@ -1043,6 +1060,7 @@ ul.links li{
   padding: 1px 5px 1px 1px;
 }
 
+table.files .file,
 form.upload ul.files li,
 li.draggableFile .file,
 ul.files .file {
@@ -1053,6 +1071,7 @@ ul.files .file {
   background-image: url(../images/icons/default.gif);  
 }
 
+table.files tbody th a,
 ul.files li a{
   color: #000;  
   padding: 0 2px;
@@ -1069,18 +1088,18 @@ ul.files li.selected a{
   color: #fff;
 }
 
-.excel div.relatesTo span.referable_title, ul.files .excel      .file { background-image: url(../images/icons/excel.gif); }
-.image div.relatesTo span.referable_title, ul.files .image      .file { background-image: url(../images/icons/image.gif); }
-.pdf div.relatesTo span.referable_title, ul.files .pdf        .file { background-image: url(../images/icons/pdf.gif); }
-.text div.relatesTo span.referable_title, ul.files .text       .file { background-image: url(../images/icons/text.gif); }
-.compressed div.relatesTo span.referable_title, ul.files .compressed .file { background-image: url(../images/icons/compressed.gif); }
-.word div.relatesTo span.referable_title, ul.files .word       .file { background-image: url(../images/icons/word.gif); }
-.html div.relatesTo span.referable_title, ul.files .html       .file { background-image: url(../images/icons/html.gif); }
-.powerpoint div.relatesTo span.referable_title, ul.files .powerpoint .file { background-image: url(../images/icons/powerpoint.gif); }
-.executable div.relatesTo span.referable_title, ul.files .executable .file { background-image: url(../images/icons/executable.gif); }
-.audio div.relatesTo span.referable_title, ul.files .audio      .file { background-image: url(../images/icons/audio.gif); }
-.video div.relatesTo span.referable_title, ul.files .video      .file { background-image: url(../images/icons/video.gif); }
-.flash div.relatesTo span.referable_title, ul.files .flash      .file { background-image: url(../images/icons/flash.gif); }
+.excel div.relatesTo span.referable_title,      ul.files .excel      .file, table.files .file.excel { background-image: url(../images/icons/excel.gif); }
+.image div.relatesTo span.referable_title,      ul.files .image      .file, table.files .file.image { background-image: url(../images/icons/image.gif); }
+.pdf div.relatesTo span.referable_title,        ul.files .pdf        .file, table.files .file.pdf { background-image: url(../images/icons/pdf.gif); }
+.text div.relatesTo span.referable_title,       ul.files .text       .file, table.files .file.text { background-image: url(../images/icons/text.gif); }
+.compressed div.relatesTo span.referable_title, ul.files .compressed .file, table.files .file.compressed { background-image: url(../images/icons/compressed.gif); }
+.word div.relatesTo span.referable_title,       ul.files .word       .file, table.files .file.word { background-image: url(../images/icons/word.gif); }
+.html div.relatesTo span.referable_title,       ul.files .html       .file, table.files .file.html { background-image: url(../images/icons/html.gif); }
+.powerpoint div.relatesTo span.referable_title, ul.files .powerpoint .file, table.files .file.powerpoint { background-image: url(../images/icons/powerpoint.gif); }
+.executable div.relatesTo span.referable_title, ul.files .executable .file, table.files .file.executable { background-image: url(../images/icons/executable.gif); }
+.audio div.relatesTo span.referable_title,      ul.files .audio      .file, table.files .file.audio { background-image: url(../images/icons/audio.gif); }
+.video div.relatesTo span.referable_title,      ul.files .video      .file, table.files .file.video { background-image: url(../images/icons/video.gif); }
+.flash div.relatesTo span.referable_title,      ul.files .flash      .file, table.files .file.flash { background-image: url(../images/icons/flash.gif); }
 
 /* ==================== */
 /* = Definition lists = */
@@ -1850,12 +1869,18 @@ table.listing{
 
 table.listing td,
 table.listing th{
-  padding: 2px 5px;
+  padding: 5px;
+}
+
+table.listing tr td:first-child,
+table.listing tr th:first-child{
+  padding-left: 10px;
 }
 
 table.listing thead td,
 table.listing thead th{
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #7e7e7e;
+  background: #dbedf8;
 }
 
 table.listing tbody td,
@@ -1885,6 +1910,10 @@ table.listing td.right{
 
 table.listing td.left{
   text-align: left;
+}
+
+table.listing tbody th{
+  font-weight: normal;
 }
 
 
@@ -2211,9 +2240,15 @@ span.drag{
 
 ul.selectlist li a.active,
 #application .selected,
+tr.selected th,
+tr.selected td,
 .dialog .selected{
-  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x;
+  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x !important;
   color: #fff;
+}
+
+.selected * a{
+  color: #fff !important;
 }
 
 ul.selectlist li a:hover,

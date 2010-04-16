@@ -1,0 +1,101 @@
+<dl class="panel">
+  <dt>
+    <span class="content">
+      <%= @file.name %>
+    </span>
+  </dt>
+  <% if @file.file_type == "image" %>
+    <dd>
+      <%= image_tag(url_for(
+            :action => :show, 
+            :controller => "media/data", 
+            :name => @file.name,
+            :size => '100x100'), 
+            :alt => @file.name) %>
+    </dd>
+  <% end %>
+  <dd>
+    <dl class="flow">
+      <% if @file.file_type == "image" && @file.dimension.present? %>
+        <dt><%= t(:size, :scope => [:media, :files, :edit])%>: </dt>
+        <dd><%= @file.dimension['width'] %>x<%= @file.dimension['height'] %></dd>
+      <%end%>
+      <dt><%= t(:type, :scope => [:media, :files, :edit] )%>: </dt>
+      <dd><%= @file.file_type %></dd>
+      <dt><%= t(:filesize, :scope => [:media, :files, :edit]) %>: </dt>
+      <dd><%= number_to_human_size(@file.size) %></dd>
+    </dl>    
+  </dd>
+  <dd class="last">
+    <div class="button">
+      <%= link_to t(:download, :scope => [:media, :files, :edit]), 
+            url_for(:action => :show, :controller => "media/data", :name => @file.name),
+            :target => "_blank",
+            :class => "button small" %>
+    </div>
+  </dd>
+</dl>
+<% remote_form_for @file, 
+      :url => skyline_media_dir_file_path(@dir, @file), 
+      :method => :put, 
+      :html => {:method=>:put} do |f|%>
+      
+  <dl class="panel">
+    <dt>
+      <span class="content">
+        <%= t(:metadata, :scope => [:media, :files, :edit]) %>
+      </span>
+    </dt>
+    <dd class="">
+      <dl class="line">
+        <dt><%= f.label :name, Skyline::MediaFile.human_attribute_name("name")%></dt>
+        <dd><%= f.text_field :name, :class => "full" %></dd>
+<!--
+        <dt><%= f.label :title, Skyline::MediaFile.human_attribute_name("title")%></dt>
+        <dd><%= f.text_field :title, :class => "full" %></dd>
+
+        <dt><%= f.label :description, Skyline::MediaFile.human_attribute_name("description")%></dt>
+        <dd><%= f.text_area :description, :cols=>20, :rows=>5%></dd>
+
+        <dt><%= f.label :date, Skyline::MediaFile.human_attribute_name("date")%></dt>
+        <dd><%= f.date_select :date, :use_month_numbers => true, :include_blank => true %></dd>
+-->
+      </dl>
+    </dd>
+      <!--    
+    <dd>
+      <dl class="tagselector line">
+        <dt><%= f.label :raw_tags, Skyline::MediaFile.human_attribute_name("file_tags")%></dt>
+        <dd><%= f.text_area :raw_tags, :rows => nil %></dd>
+        <dt class="tags"><%= t(:available_tags, :scope => [:media, :files, :edit])%></dt>
+        <dd class="tags">
+          <%= render :partial => "/skyline/tags/available_tags", :locals => {:tags => Skyline::MediaFile.available_tags}%>
+        </dd>
+      </dl>      
+    </dd>
+      -->    
+    <dd class="last submit">
+      <%= submit_button :save, :class => "small green"%>
+    </dd>
+  </dl>  
+<% end %>
+
+
+<dl class="panel">
+  <dt>
+    <span class="content">
+      <%= t(:actions, :scope => [:media, :files, :edit]) %>
+    </span>
+  </dt>
+  <dd class="last">
+    <div class="button">
+      <%=link_to_remote button_text(:delete), {
+          :url => skyline_media_dir_file_url(@dir,@file),
+          :method=> :delete,
+          :confirm => 'Weet u zeker dat u dit bestand wilt verwijderen?',
+          :href => url_for(:action => "destroy", :id => @file.id) },
+          { :class => "button small red" }
+      %>
+    </div>
+  </dd>
+</dl>

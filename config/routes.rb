@@ -30,20 +30,21 @@ ActionController::Routing::Routes.draw do |map|
     
     skyline.resources :locales, :only => [:show]
 
-    skyline.resources :media_dirs do |media_dir|
-    	# Alert! Routes hard coded in app/views/skyline/media_files/_index.html.erb
-      media_dir.resources :media_files
-            
-      media_dir.connect 'media_files_data/:size/:name.:format',
-          :controller => 'media_files_data',
-          :action => 'show',
-          :conditions => { :method => :get }
-      media_dir.connect 'media_files_data/:name.:format',
-          :controller => 'media_files_data',
-          :action => 'show',
-          :conditions => { :method => :get }            
-
-    end
+    skyline.namespace :media do |media|
+      media.resources :dirs do |dirs|
+      	# Alert! Routes hard coded in app/views/skyline/media_files/_index.html.erb        
+        dirs.resources :files
+        
+        dirs.connect 'data/:size/:name.:format',
+            :controller => 'data',
+            :action => 'show',
+            :conditions => { :method => :get }
+        dirs.connect 'data/:name.:format',
+            :controller => 'data',
+            :action => 'show',
+            :conditions => { :method => :get }        
+      end
+    end    
     
     skyline.namespace :browser do |browser|
       browser.resources :images

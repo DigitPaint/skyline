@@ -1,0 +1,68 @@
+<table class="listing files" id="filelist">
+  <thead>
+    <tr>
+      <th><%= Skyline::MediaFile.human_attribute_name("name") %></th>
+      <th><%= Skyline::MediaFile.human_attribute_name("type") %></th>
+      <th><%= Skyline::MediaFile.human_attribute_name("size") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @dir.files.each do |file| %>
+      <tr class="<%= cycle("odd","even") %> <%= "selected" if file == @file %>" id="file_<%= file.id %>" data-url="<%= skyline_media_dir_file_path(@dir,file) %>">
+        <th>
+          <div class="file <%= file.file_type %>">
+            <%= link_to file.name, edit_skyline_media_dir_file_path(@dir, file), :id => "filelink_#{file.id}" %>
+          </div>
+        </th>
+        <td>
+          <%= file.file_type %>
+        </td>
+        <td>
+          <%= number_to_human_size file.size %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+  (function(){
+    var f = $('filelist');
+    var t = new Skyline.Table(f, {draggable: true, droppables: ".dir"});
+    t.addEvent("selectRow",function(row,event){
+      event.stop();
+      row.addClass("selected");
+      var l = row.getElement("a");
+      (new Request()).get(l.getProperty("href"));
+    });
+          
+    t.addEvent("deselectRow",function(row){
+      row.removeClass("selected");
+    });
+    
+    t.addEvent("dropRow", function(row, target){
+      var id = Application.getId(target.getProperty("id"));
+      target.removeClass("drop");            
+      (new Request()).put(row.getProperty("data-url"), {"skyline_media_file" : {"parent_id" : id}});
+    });
+    
+    t.addEvent("enterDroppable", function(row, target){
+      target.addClass("drop");
+    });    
+    
+    t.addEvent("leaveDroppable", function(row, target){
+      target.removeClass("drop");      
+    });    
+    
+    // Make sure the contentPanel resizes our table!
+    $('contentPanel').addComponentEvent("skyline.layout","resize",function(panel,w,h){
+      $('filelist').retrieve("skyline.table").resize(w, "100%");
+    });
+    
+    var p = $('contentPanel').retrieve("skyline.layout");
+    if(p){
+      p.setup();
+    }
+    
+  })();
+</script>

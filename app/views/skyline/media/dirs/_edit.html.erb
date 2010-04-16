@@ -1,0 +1,42 @@
+<% remote_form_for @dir, :url => skyline_media_dir_path(@dir), :method => :put do |f|%>
+  <%= f.hidden_field :parent_id %>
+  <dl class="panel">
+    <dt>
+      <span class="content">
+        <%= t :edit, :scope => [:media, :dirs, :edit] %>        
+      </span>
+    </dt>
+    <dd>
+      <dl class="line">
+        <dt><%=f.label :name, Skyline::MediaDir.human_attribute_name("name") + ":" %></dt>
+        <dd><%= f.text_field :name, :class => "full" %></dd>
+      </dl>
+    </dd>
+    <dd class="last submit">
+      <%= submit_button :save, :class => "small green" %>
+    </dd>
+  </dl>
+  
+  <dl class="panel">
+    <dt>
+      <span class="content">
+        <%= t :actions, :scope => [:media, :dirs, :edit] %>
+      </span>
+    </dt>
+    <dd class="last">
+      <div class="button">
+        <% if @dir.parent_id.blank? %>
+          <%= link_to_function button_text(:delete_media_dir), "", :class => "button small disabled" %>
+        <% else %>
+          <%= link_to_remote button_text(:delete_media_dir),{
+            :url => skyline_media_dir_url(@dir), 
+            :method => :delete,
+            :confirm => t(:message, :scope => [:media_dir,:destroy]),
+            :href => url_for(:action => "destroy", :id => @dir.id)},
+            { :class =>  "button small red"}
+          %>
+        <% end %>
+      </div>
+    </dd>
+  </dl>
+<% end %>
