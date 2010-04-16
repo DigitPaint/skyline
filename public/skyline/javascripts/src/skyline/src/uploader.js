@@ -19,6 +19,8 @@ Skyline.Uploader = new Class({
     if(!options){options = {};}
     if(!options.fileClass){ options.fileClass = Skyline.Uploader.File; }
 		
+		this.parent(options);
+				
     this.addEvents({
       "complete" : this._onComplete,
       "fileStop" : this._onFileStop,
@@ -28,7 +30,6 @@ Skyline.Uploader = new Class({
       "fail" : this._onFail
     });
     		
-		this.parent(options);
 	},
 	
 	_updateStatus: function(){
