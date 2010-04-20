@@ -311,12 +311,17 @@ dl.panel dd .divided{
 }
 
 dl.panel dd.meta,
+div.leftPanel,
+div.previewPanel,
 #metaPanel,
 #metaPanel dl.panel dd,
 #leftPanel,
 #leftPanel .tree,
 #leftPanel .tree ul,
-#leftPanel .tree ul li.last{
+#leftPanel .tree ul li.last,
+.leftPanel .tree,
+.leftPanel .tree ul,
+.leftPanel .tree ul li.last{
 /*  background-color: #EDEDED;*/
   background-color: #f2f2f2;
 }
@@ -354,10 +359,13 @@ dt.panel .right {
 /* = Specific panels = */
 /* =================== */
 
+.dialog .leftPanel,
 #leftPanel dd {
   padding: 0 0 5px;
 /*  padding :0;*/
 }
+
+.dialog .leftPanel .content,
 #leftPanel dd .content {
   height: 100%;
   padding: 5px 5px 0px 5px;

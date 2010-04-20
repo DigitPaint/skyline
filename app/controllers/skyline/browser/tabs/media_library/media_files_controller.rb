@@ -8,7 +8,7 @@ class Skyline::Browser::Tabs::MediaLibrary::MediaFilesController < Skyline::Appl
       #   p.replace_html("browserUploadPanel", :partial => "new", :locals => {:media_dir => @media_dir})
       # end
     	    	
-    	p.replace("browserFilelist", :partial => "index")
+    	p.replace_html("browserContentPanel", :partial => "index")
     end    
   end
   
