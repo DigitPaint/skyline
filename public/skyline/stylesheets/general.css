@@ -1944,6 +1944,24 @@ table.listing tbody th{
   font-weight: normal;
 }
 
+.tablemarker{
+  background: #000;
+  height: 2px;
+  overflow: hidden;
+}
+
+table.clone,
+table.listing.clone {
+  z-index: 100000;
+  border: 1px solid #ccc !important;
+}
+
+table.clone tr td,
+table.clone tr th{
+  border-bottom: 1px solid #ccc;
+  background: #F1F5FA !important;  
+}
+
 
 /* ==================== */
 /* = Skyline2 Content = */
