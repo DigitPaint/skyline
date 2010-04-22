@@ -2275,7 +2275,8 @@ tr.selected td,
   color: #fff;
 }
 
-.selected * a{
+/* Fix this for IE, it doesn't support :not */
+.selected * a:not(.button){
   color: #fff !important;
 }
 
