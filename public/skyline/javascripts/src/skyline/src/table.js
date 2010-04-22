@@ -8,7 +8,7 @@
   Options:
     selectable - true/false (default=true)
     draggable  - true/false
-    sortable   - true/false
+    sortable   - true/false, make sure you set draggable to true too!
     droppables - A css selector that has to match for an elemen to qualify as a droptarget.
   
   Events:
@@ -240,7 +240,8 @@ Skyline.Table = (function(){
     },
     // Clone this.dragEl into a new Table.
     createClone : function(){
-      var clone = new Element("table");
+      var t = this.table.element.get("class")
+      var clone = new Element("table", { "class" : t + " clone" });
       var tb = new Element("tbody");
       var row = this.dragEl.clone(true);
       var self = this;
