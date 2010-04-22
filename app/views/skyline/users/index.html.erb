@@ -12,7 +12,7 @@
 <dl id="contentPanel" class="panel">
   <dt id="contentHeaderPanel">
     <span class="content">
-      <%= t(:header, :scope => [:user, :index], :count => @users.size) %>
+      <%= t(:header, :scope => [:user, :index], :count => @users.total_entries) %>
     </span>
   </dt>
   <dd id="contentBodyPanel">
@@ -43,7 +43,7 @@
                 <td><%= u.email %></td>
                 <td><%= u.name %></td>
                 <td><%= u.roles.map{|s| t(s.name, :scope => [:user,:roles], :default => s.name) }.to_sentence %></td>
-                <td><%= l(u.created_at, :format => :long) %></td> 
+                <td><%= u.created_at.present? ? l(u.created_at, :format => :long) : "" %></td> 
                 <td class="right">
                   <% if @current_user.allow?(:user_update) %>
                     <%= link_to_remote button_text(:edit), {:url => edit_skyline_user_path(u), :method => :get}, :class => "button small" %>
