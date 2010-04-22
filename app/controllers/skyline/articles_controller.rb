@@ -216,9 +216,9 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     
   def class_from_type(type=params[:type])
     raise "Cannot infer class from #{type.inspect}" if type.blank?
-    klass = type.camelcase.constantize
-    if klass.ancestors.include?(Skyline::Article)
-      return klass 
+    @klass = type.camelcase.constantize
+    if @klass.ancestors.include?(Skyline::Article)
+      return @klass 
     else
       raise "Class #{klass.to_s} is not a subclass of Skyline::Article"
     end
