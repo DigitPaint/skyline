@@ -267,7 +267,7 @@ dl.panel dt .content{
   padding: 5px 10px;
   font-weight: bold;
   word-wrap: break-word; 
-  overflow: hidden;
+/*  overflow: hidden;*/
   min-height: 18px;
 }
 
@@ -282,6 +282,10 @@ dl.panel dt a.content:active{
 dl.panel > dd,
 .dialog .content{
   padding: 10px;
+}
+
+dl.panel > dd.full{
+  padding: 0;
 }
 
 dl.panel dd.footer,
@@ -514,6 +518,7 @@ form.upload ul.files a.remove {
   font-size: 1em;
 }
 
+dt.panel .content:after,
 dl.panel dt .content:after,
 #mainnavigation:after,
 ul.files:after,
@@ -1011,7 +1016,7 @@ div.progressbar .bar{
 }
 
 #messageArea .messages{
-  padding-bottom: 3px;
+  padding-bottom: 0px;
   border-bottom: 0 none;
 }
 
