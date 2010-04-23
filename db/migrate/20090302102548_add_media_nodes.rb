@@ -1,6 +1,6 @@
 class AddMediaNodes < ActiveRecord::Migration
   def self.up
-    create_table :media_nodes do |t|
+    create_table :skyline_media_nodes do |t|
       t.column :parent_id, :integer      
       t.column :type, :string      
       t.column :name, :string
@@ -12,6 +12,6 @@ class AddMediaNodes < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :media_nodes
+    drop_table :skyline_media_nodes    
   end
 end

@@ -1,6 +1,6 @@
 class CreateTestSections < ActiveRecord::Migration
   def self.up
-    create_table :test_sections do |t|
+    create_table :skyline_test_sections do |t|
       t.text :body_a
       t.text :body_b
 
@@ -9,6 +9,6 @@ class CreateTestSections < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :test_sections
+    drop_table :skyline_test_sections
   end
 end

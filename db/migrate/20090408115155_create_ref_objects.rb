@@ -1,6 +1,6 @@
 class CreateRefObjects < ActiveRecord::Migration
   def self.up
-    create_table :ref_objects do |t|
+    create_table :skyline_ref_objects do |t|
       t.integer :id
       t.integer :referable_id
       t.string :referable_type
@@ -14,6 +14,6 @@ class CreateRefObjects < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :ref_objects
+    drop_table :skyline_ref_objects
   end
 end
