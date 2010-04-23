@@ -58,9 +58,9 @@ Application.Layout = (function(){
           this[fn](this[name]);
         }
       }.bind(this));
-
-      this.layout.setup();
-
+    
+      this.layout.setup();          
+       
       this._attachEvents();
       this._initializeUiComponents();
     },
@@ -131,11 +131,6 @@ Application.Layout = (function(){
       $$('dl.advanced').each(function(e){
         new Skyline.Toggle(e.getElement("dt a"),e,{"class": "closed"});
       });
-
-      // TODO: Currently hardcoded, should someday become something like $$('ul.sections')...
-      if($('contentlist')){
-        new Application.Sections("contentlist",{ scrollParent : "contentEditPanel" });
-      }
       
       // TODO: Currently hardcoded
       if($('toggle_page_advanced')){
