@@ -4,11 +4,7 @@
 class Skyline::Presenters::Presenter
   class << self
     def create(presenter,records,fieldset,template,options={})
-      klass = case presenter
-        when :article : Skyline::Presenters::ArticleList
-        else Skyline::Presenters::Table
-      end      
-      klass.new(records,fieldset,template,options)
+      Skyline::Presenters::Table.new(records,fieldset,template,options)
     end
   end
   
@@ -31,14 +27,9 @@ class Skyline::Presenters::Presenter
   def content_tag(*params); @template.content_tag(*params); end # :nodoc:
   
   def output
-    [header,body,footer].join("\n")
+    @template.render :partial => "skyline/content/presenters/table", :locals => {:presenter => self}
   end
-  
-  def header; ""; end
-  def body; ""; end
-  def footer; ""; end
-  
-  protected
+    
   
   def edit_button(record)
 		link_to button_text(:edit),{:action => "edit", :types => stack.url_types(:down => [record.id]), :return_to  => url_for({:filter => params[:filter]})}, :class => "button small"

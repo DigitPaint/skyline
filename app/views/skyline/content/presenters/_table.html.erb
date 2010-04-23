@@ -1,0 +1,45 @@
+<% id = "#{presenter.fieldset.name}Listing" %>
+<table class="listing" id="<%= id %>">
+  <thead>
+    <tr>
+      <% presenter.heading_collection.each do |field| %>
+        <th><%= field.singular_label.capitalize %></th>
+      <% end %>
+      <th></th>      
+    </tr>
+  </thead>
+  <tbody>
+    <% presenter.collection.each do |record| %>
+      <% next if record.new_record? %>
+      <tr class="<%= cycle("odd","even") %>" id="record-<%= record.id %>">
+        <% presenter.heading_collection.each do |field| %>
+          <% content,options = presenter.value(record,field) %>
+          <%= content_tag("td",content,options) %>
+        <% end %>        
+        <td class="right">
+          <%= presenter.edit_button(record) %>
+          <%= presenter.delete_button(record) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+  (function(){
+    var f = $("<%= id %>")
+    var t = new Skyline.Table(f, {<%= "sortable : true, draggable : true" if presenter.fieldset.orderable? %>});
+                                                                                                          
+    <% if presenter.fieldset.orderable? %>
+    t.addEvent("reorder", function(row, adjecentRow, position){
+      (new Request({ url : "<%= url_for :action => "order", :types => stack.url_types %>"})).post({order : Application.getSequence("#<%= id %> tbody tr").join(",")} );
+    });
+    <% end %>
+    
+    
+    // Make sure the contentPanel resizes our table!
+    f.getParent().addComponentEvent("skyline.layout","resize",function(panel,w,h){
+      $('<%= presenter.fieldset.name %>Listing').retrieve("skyline.table").resize(w, "100%");
+    });    
+  })();
+</script>
