@@ -1,63 +1,134 @@
-<ul id="browserFilelist" class="files">
 
   <input value="<%= @media_file.andand.file_type %>" name="browser[file_type]" id="browser_media_file_type" type="hidden"/>    
   <input value="<%= @media_file.andand.id %>" name="browser[referable_id]" id="browser_media_referable_id" type="hidden"/>
   <input value="<%= @media_file.andand.class.andand.name %>" name="browser[referable_type]" id="browser_media_referable_type" type="hidden"/>
   <input value="<%= @media_file.andand.title %>" name="browser[referable_title]" id="browser_media_referable_title" type="hidden"/>
   
-  <% browser_url = @media_dir && @media_file &&  url_for(:action => :show, :controller => '/skyline/media_files_data', :media_dir_id => @media_dir, :name => @media_file.name) %>
+  <% browser_url = @media_dir && @media_file &&  url_for(:action => :show, :controller => '/skyline/media/data', :name => @media_file.name, :dir_id => @media_dir) %>
   <input value="<%= browser_url %>" name="browser[url]" id="skylineReferableLocation" type="hidden">
   
-  <% if @media_dir %>
-    <% @media_dir.files.each do |f|%>
-      <li class="<%= f.file_type %> <%= "selected" if f == @media_file %>">
-        <div class="file">
-          <% dimen = f.dimension %>
-          <%= link_to(f.name, skyline_browser_tabs_media_library_media_dir_media_file_path(@media_dir, f), 
-                :"data-file_type" => f.file_type,
-                :"data-referable_id" => f.id,
-                :"data-referable_type" => f.class.name,
-                :"data-referable_title" => f.title,
-                :"data-url" => url_for(:action => :show, :controller => '/skyline/media_files_data', :media_dir_id => @media_dir, :name => f.name),
-                :"data-image_width" => dimen.andand["width"],
-                :"data-image_height" => dimen.andand["height"]) %>
-        </div>
-      </li>
-    <% end %>
-  <% end %>
-</ul>
+  <table class="listing files" id="browserFilelist">
+    <thead>
+      <tr>
+        <th><%= Skyline::MediaFile.human_attribute_name("name") %></th>
+        <th><%= Skyline::MediaFile.human_attribute_name("type") %></th>
+        <th><%= Skyline::MediaFile.human_attribute_name("size") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @media_dir %>        
+        <% selected_row = nil %>
+        <% @media_dir.files.each do |file| %>
+          <% dimen = file.dimension %>
+          <% selected_row = "file_#{file.id}" if file == @media_file %>
+          <tr class="<%= cycle("odd","even") %> <%= "selected" if file == @media_file %>" id="file_<%= file.id %>" 
+            data-url="<%= url_for(:action => :show, :controller => '/skyline/media/data', :name => file.name, :dir_id => @media_dir) %>"
+            data-file_type = "<%= file.file_type %>"
+            data-referable_id = "<%= file.id %>"
+            data-referable_type = "<%= file.class.name %>"
+            data-referable_title = "<%= file.title %>"
+            data-image_width = "<%= dimen.andand["width"] %>"
+            data-image_height = "<%= dimen.andand["height"] %>">
+            <th>
+              <div class="file <%= file.file_type %>">
+                <%= link_to file.name, skyline_browser_tabs_media_library_media_dir_media_file_path(@media_dir, file), :id => "filelink_#{file.id}" %>
+              </div>
+            
+            </th>
+            <td>
+              <%= file.file_type %>
+            </td>
+            <td>
+              <%= number_to_human_size file.size %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
 <script type="text/javascript" charset="utf-8">
-  var f = function(ul){
-    ul.addEvent("click", function(ev){
-      ev.stop();
-      ev.preventDefault();
+  (function(){
+    // var ul = $('browserFilelist');
+    // ul.addEvent("click", function(ev){
+    //   ev.stop();
+    //   ev.preventDefault();
+    //   
+    //   var t =  $(ev.target);
+    //   var li = (t.get("tag") == "li" ? t : t.getParents("li")[0]);
+    //   if(li){
+    //     var a = li.getElement("a");        
+    //     ul.getElements('li.selected').removeClass('selected'); 
+    //     li.addClass('selected');
+    //     
+    //     $('browser_media_file_type').set("value", a.get("data-file_type"));
+    //     $('browser_media_referable_id').set("value", a.get("data-referable_id"));
+    //     $('browser_media_referable_type').set("value", a.get("data-referable_type"));
+    //     $('browser_media_referable_title').set("value", a.get("data-referable_title"));
+    //     $('skylineReferableLocation').set("value", a.get("data-url"));
+    //     
+    //     if($('browserImageWidth')){
+    //       $('browserImageWidth').set("value", a.get("data-image_width"));
+    //     };
+    //     if($('browserImageHeight')){
+    //       $('browserImageHeight').set("value", a.get("data-image_height"));
+    //     };
+    //     
+    //     new Request({
+    //       url: a.get("href"),
+    //       method: "get"
+    //     }).send();        
+    //   }
+    // })
+    
+    var f = $('browserFilelist');
+    var t = new Skyline.Table(f, {draggable: false});
+    <% if selected_row %>
+      t.selectedRow = $('<%= selected_row %>')
+    <% end %>
+
+    t.addEvent("selectRow",function(row,event){
+      event.stop();
+      row.addClass("selected");
+      $('browser_media_file_type').set("value", row.get("data-file_type"));
+      $('browser_media_referable_id').set("value", row.get("data-referable_id"));
+      $('browser_media_referable_type').set("value", row.get("data-referable_type"));
+      $('browser_media_referable_title').set("value", row.get("data-referable_title"));
+      $('skylineReferableLocation').set("value", row.get("data-url"));
       
-      var t =  $(ev.target);
-      var li = (t.get("tag") == "li" ? t : t.getParents("li")[0]);
-      if(li){
-        var a = li.getElement("a");        
-        ul.getElements('li.selected').removeClass('selected'); 
-        li.addClass('selected');
+      if($('browserImageWidth')){
+        $('browserImageWidth').set("value", row.get("data-image_width"));
+      };
+      if($('browserImageHeight')){
+        $('browserImageHeight').set("value", row.get("data-image_height"));
+      };      
+      
+      var l = row.getElement("a");
+      (new Request()).get(l.getProperty("href"));
+    });
+          
+    t.addEvent("deselectRow",function(row){
+      row.removeClass("selected");
+    });
+    
+    var bc = $('browserContentPanel');
+ 
+    var l = bc.retrieve("skyline.layout");
+
+    if(l){
+      // Cleanup old events
+      l.removeEvents("resize");      
+    }
         
-        $('browser_media_file_type').set("value", a.get("data-file_type"));
-        $('browser_media_referable_id').set("value", a.get("data-referable_id"));
-        $('browser_media_referable_type').set("value", a.get("data-referable_type"));
-        $('browser_media_referable_title').set("value", a.get("data-referable_title"));
-        $('skylineReferableLocation').set("value", a.get("data-url"));
-        
-        if($('browserImageWidth')){
-          $('browserImageWidth').set("value", a.get("data-image_width"));
-        };
-        if($('browserImageHeight')){
-          $('browserImageHeight').set("value", a.get("data-image_height"));
-        };
-        
-        new Request({
-          url: a.get("href"),
-          method: "get"
-        }).send();        
-      }
-    })
-  };
-  f($('browserFilelist'));
+    // Make sure the contentPanel resizes our table!
+    bc.addComponentEvent("skyline.layout","resize",function(panel,w,h){
+      $('browserFilelist').retrieve("skyline.table").resize(w, "100%");
+    });    
+    
+    if(l){
+      $('browserFilelist').retrieve("skyline.table").resize(l.width - l.offsets.width, "100%");
+    }
+    
+    
+  })();
 </script>

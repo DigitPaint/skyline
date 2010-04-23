@@ -19,7 +19,7 @@ body{
 
 #mainnavigation{
   position: relative;
-  border-bottom: 5px solid #fff;  
+  border-bottom: 1px solid #fff;  
   padding-top: 3px;
   background: url(../images/backgrounds/mainnavigation.gif) 0 0 repeat-x;
 }
@@ -222,11 +222,9 @@ body.login .subfooter{
 div.splitter div{
   z-index: 2;
   height: 100%;
-  width: 2px;  
-  border-left: 1px solid #e7e7e7;
-  border-right: 1px solid #9c9c9c;
-  background:  #bfbfbf 50% 50% no-repeat;
-  cursor: move;
+  width: 1px;  
+  background: #000;
+  cursor: col-resize;
 }
 
 .splitter.vertical div{
@@ -235,21 +233,24 @@ div.splitter div{
   border-bottom: 1px solid #000;              
   height: 2px;
   width: 100%;
+  cursor: row-resize;
 }
 
 .splitter{
-  overflow: hidden;
-  background: #f00;
+  width: 1px;
+  overflow: visible;
 }
 
 /* ========================== */
 /* = Skyline.Panel (header) = */
 /* ========================== */
 
-dl.panel dt{
+dl.panel dt,
+dt.panel{
   background: url(../images/backgrounds/panel-dt.gif) 0 50% repeat-x;
   cursor: pointer;
 }
+
 dl.panel dt.active{
   cursor: default;
 }
@@ -258,12 +259,16 @@ dl.panel dl dt{
   background :none;
 }
 
+dt.panel .content,
 dl.panel dt .content{
   display: block; 
-  border-top: 1px solid #bfbfbf;  
+  border-top: 1px solid #c6c6c6;  
   border-bottom: 1px solid #999;
   padding: 5px 10px;
   font-weight: bold;
+  word-wrap: break-word; 
+/*  overflow: hidden;*/
+  min-height: 18px;
 }
 
 dl.panel dt a.content {
@@ -274,13 +279,18 @@ dl.panel dt a.content:active{
   outline: none;
 }
 
-dl.panel dd .content,
+dl.panel > dd,
 .dialog .content{
   padding: 10px;
 }
 
+dl.panel > dd.full{
+  padding: 0;
+}
+
 dl.panel dd.footer,
 .footerPanel{
+  padding: 0;
   background: url(../images/backgrounds/panel-footer.gif) 0 0 #969697 repeat-x;  
 }
 
@@ -304,8 +314,20 @@ dl.panel dd .divided{
   border-bottom: 1px solid #bbb;
 }
 
-dl.panel dd.meta{
-  background: #EDEDED;
+dl.panel dd.meta,
+div.leftPanel,
+div.previewPanel,
+#metaPanel,
+#metaPanel dl.panel dd,
+#leftPanel,
+#leftPanel .tree,
+#leftPanel .tree ul,
+#leftPanel .tree ul li.last,
+.leftPanel .tree,
+.leftPanel .tree ul,
+.leftPanel .tree ul li.last{
+/*  background-color: #EDEDED;*/
+  background-color: #f2f2f2;
 }
 
 dl.panel dt .content.file,
@@ -330,6 +352,32 @@ dl.panel dt .menubutton{
 dl.panel dt .menubutton dt .label,
 dl.panel dt .menubutton dt .toggle{
   line-height: 13px;
+}
+
+dl.panel dt .right, 
+dt.panel .right {
+  float: right;
+}
+
+/* =================== */
+/* = Specific panels = */
+/* =================== */
+
+.dialog .leftPanel,
+#leftPanel dd {
+  padding: 0 0 5px;
+/*  padding :0;*/
+}
+
+.dialog .leftPanel .content,
+#leftPanel dd .content {
+  height: 100%;
+  padding: 5px 5px 0px 5px;
+}
+
+#contentBodyPanel,
+#contentPreviewPanel{
+  padding: 0;
 }
 
 /* ======================= */
@@ -376,22 +424,12 @@ dl.tagselector dd.tags li.selected{
 
 .innerpanel{
   border-bottom: 1px solid #999;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #666;
 }
 
 .innerpanel .body,
 .innerpanel .submit,
 .innerpanel .actions{
   padding: 10px;
-}
-
-.innerpanel .panelBody{
-  display: none;
-}
-
-.innerpanel.active .panelBody{
-  display: block;
 }
 
 .innerpanel .head{
@@ -435,6 +473,7 @@ form.upload ul.files{
   padding: 5px;
   background: #fff;
   border: 1px solid #ccc;
+  margin: 5px 0px;
 }
 
 form.upload ul.files li .info{
@@ -453,7 +492,16 @@ form.upload .status{
 form.upload ul.files li.success { background-image: url(../images/icons/file-success.gif);   }
 form.upload ul.files li.failed  { background-image: url(../images/icons/file-failed.gif); }
 
-
+form.upload ul.files a.remove {
+  margin-left: 10px;
+  overflow: hidden;
+  text-indent: -1000px;
+  width: 14px;
+  height: 14px;
+  background: url(../images/buttons/section-delete.gif) 0 50% no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+}
 
 /* ================ */
 /* = Skyline.Tree = */
@@ -466,6 +514,11 @@ form.upload ul.files li.failed  { background-image: url(../images/icons/file-fai
   padding: 3px;
 }
 
+.content .tree{
+  font-size: 1em;
+}
+
+dt.panel .content:after,
 dl.panel dt .content:after,
 #mainnavigation:after,
 ul.files:after,
@@ -508,12 +561,8 @@ ul.toptabs:after,
   margin-left: 0;
 }
 
-.tree ul li.droppable.inside a{
+.tree ul li.drop > a{
   background-color: #d0d0d0;
-}
-
-.tree ul li.droppable.inside li a{
-  background-color: #fff;
 }
 
 .tree ul li a{
@@ -536,6 +585,7 @@ ul.toptabs:after,
   background-repeat: no-repeat;
   background-position: 2px 0px;
 }
+
 
 /* Pages tree*/
 .pages.tree ul li a span{
@@ -966,7 +1016,7 @@ div.progressbar .bar{
 }
 
 #messageArea .messages{
-  padding-bottom: 3px;
+  padding-bottom: 0px;
   border-bottom: 0 none;
 }
 
@@ -1043,6 +1093,7 @@ ul.links li{
   padding: 1px 5px 1px 1px;
 }
 
+table.files .file,
 form.upload ul.files li,
 li.draggableFile .file,
 ul.files .file {
@@ -1053,6 +1104,7 @@ ul.files .file {
   background-image: url(../images/icons/default.gif);  
 }
 
+table.files tbody th a,
 ul.files li a{
   color: #000;  
   padding: 0 2px;
@@ -1069,18 +1121,18 @@ ul.files li.selected a{
   color: #fff;
 }
 
-.excel div.relatesTo span.referable_title, ul.files .excel      .file { background-image: url(../images/icons/excel.gif); }
-.image div.relatesTo span.referable_title, ul.files .image      .file { background-image: url(../images/icons/image.gif); }
-.pdf div.relatesTo span.referable_title, ul.files .pdf        .file { background-image: url(../images/icons/pdf.gif); }
-.text div.relatesTo span.referable_title, ul.files .text       .file { background-image: url(../images/icons/text.gif); }
-.compressed div.relatesTo span.referable_title, ul.files .compressed .file { background-image: url(../images/icons/compressed.gif); }
-.word div.relatesTo span.referable_title, ul.files .word       .file { background-image: url(../images/icons/word.gif); }
-.html div.relatesTo span.referable_title, ul.files .html       .file { background-image: url(../images/icons/html.gif); }
-.powerpoint div.relatesTo span.referable_title, ul.files .powerpoint .file { background-image: url(../images/icons/powerpoint.gif); }
-.executable div.relatesTo span.referable_title, ul.files .executable .file { background-image: url(../images/icons/executable.gif); }
-.audio div.relatesTo span.referable_title, ul.files .audio      .file { background-image: url(../images/icons/audio.gif); }
-.video div.relatesTo span.referable_title, ul.files .video      .file { background-image: url(../images/icons/video.gif); }
-.flash div.relatesTo span.referable_title, ul.files .flash      .file { background-image: url(../images/icons/flash.gif); }
+.excel div.relatesTo span.referable_title,      ul.files .excel      .file, table.files .file.excel { background-image: url(../images/icons/excel.gif); }
+.image div.relatesTo span.referable_title,      ul.files .image      .file, table.files .file.image { background-image: url(../images/icons/image.gif); }
+.pdf div.relatesTo span.referable_title,        ul.files .pdf        .file, table.files .file.pdf { background-image: url(../images/icons/pdf.gif); }
+.text div.relatesTo span.referable_title,       ul.files .text       .file, table.files .file.text { background-image: url(../images/icons/text.gif); }
+.compressed div.relatesTo span.referable_title, ul.files .compressed .file, table.files .file.compressed { background-image: url(../images/icons/compressed.gif); }
+.word div.relatesTo span.referable_title,       ul.files .word       .file, table.files .file.word { background-image: url(../images/icons/word.gif); }
+.html div.relatesTo span.referable_title,       ul.files .html       .file, table.files .file.html { background-image: url(../images/icons/html.gif); }
+.powerpoint div.relatesTo span.referable_title, ul.files .powerpoint .file, table.files .file.powerpoint { background-image: url(../images/icons/powerpoint.gif); }
+.executable div.relatesTo span.referable_title, ul.files .executable .file, table.files .file.executable { background-image: url(../images/icons/executable.gif); }
+.audio div.relatesTo span.referable_title,      ul.files .audio      .file, table.files .file.audio { background-image: url(../images/icons/audio.gif); }
+.video div.relatesTo span.referable_title,      ul.files .video      .file, table.files .file.video { background-image: url(../images/icons/video.gif); }
+.flash div.relatesTo span.referable_title,      ul.files .flash      .file, table.files .file.flash { background-image: url(../images/icons/flash.gif); }
 
 /* ==================== */
 /* = Definition lists = */
@@ -1850,12 +1902,18 @@ table.listing{
 
 table.listing td,
 table.listing th{
-  padding: 2px 5px;
+  padding: 5px;
+}
+
+table.listing tr td:first-child,
+table.listing tr th:first-child{
+  padding-left: 10px;
 }
 
 table.listing thead td,
 table.listing thead th{
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #7e7e7e;
+  background: #dbedf8;
 }
 
 table.listing tbody td,
@@ -1868,7 +1926,7 @@ table.listing tbody th{
 .editable-list li.odd,
 table.listing tbody tr.odd td,
 table.listing tbody tr.odd th{
-  background-color: #dbedf8;  
+  background-color: #f1f5fa;  
 }
 
 .article-list li.even,
@@ -1885,6 +1943,28 @@ table.listing td.right{
 
 table.listing td.left{
   text-align: left;
+}
+
+table.listing tbody th{
+  font-weight: normal;
+}
+
+.tablemarker{
+  background: #000;
+  height: 2px;
+  overflow: hidden;
+}
+
+table.clone,
+table.listing.clone {
+  z-index: 100000;
+  border: 1px solid #ccc !important;
+}
+
+table.clone tr td,
+table.clone tr th{
+  border-bottom: 1px solid #ccc;
+  background: #F1F5FA !important;  
 }
 
 
@@ -2211,9 +2291,16 @@ span.drag{
 
 ul.selectlist li a.active,
 #application .selected,
+tr.selected th,
+tr.selected td,
 .dialog .selected{
-  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x;
+  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x !important;
   color: #fff;
+}
+
+/* Fix this for IE, it doesn't support :not */
+.selected * a:not(.button){
+  color: #fff !important;
 }
 
 ul.selectlist li a:hover,

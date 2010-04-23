@@ -1,0 +1,35 @@
+<% use_js_layout :media %>
+
+<dl id="leftPanel" class="panel">
+  <dt>
+    <span class="content">
+      <%= link_to_remote button_text(:add), {
+            :url => skyline_media_dirs_path, 
+            :method => :post,
+            :data => "'parent_id=' + Application.getId($('dirtree').retrieve('skyline.tree').selectedNode.getParent('li').get('id'))"
+          },{
+            :class => "button small right"
+          }
+      %>
+      <%= t(:directories, :scope => [:media, :dirs, :index]) %>
+    </span>
+  </dt>
+  <dd class="last">
+    <div class="content scrollable">
+      <%= render :partial => "skyline/media/dirs/index" %>
+    </div>
+  </dd>
+</dl>
+
+<dl id="contentPanel">
+  <%= render :partial => "skyline/media/dirs/show" %>
+</dl>
+
+<div id="metaPanel" class="scrollable">
+  <% if @file %>
+    <%= render :partial => "skyline/media/files/edit" %>
+  <% end %>
+  <% if @dir %>
+    <%= render :partial => "skyline/media/dirs/edit" %>
+  <% end %>
+</div>

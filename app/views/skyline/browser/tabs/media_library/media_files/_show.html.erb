@@ -2,12 +2,12 @@
   <% if @media_file %>
     <% if @media_file.file_type == "image" %>
       <dl class="advanced">
-        <dt><%=t(:preview, :scope => [:media_file, :edit])%></dt>
+        <dt><%=t(:preview, :scope => [:media, :files, :edit])%></dt>
         <dd>
           <%= image_tag(url_for(
                 :action => "show", 
-                :controller => "/skyline/media_files_data", 
-                :media_dir_id => @media_dir,
+                :controller => "/skyline/media/data", 
+                :dir_id => @media_dir,
                 :name => @media_file.name,
                 :size => '100x100'), 
               :alt => "Image") %>
@@ -16,17 +16,17 @@
     <%end%>
     
     <dl class="advanced">
-      <dt><%= t(:meta_data, :scope => [:media_file,:edit]) %></dt>
+      <dt><%= t(:metadata, :scope => [:media, :files,:edit]) %></dt>
       <dd>
         <dl class="details">
           <% if @media_file.file_type ==  "image" && @media_file.dimension.present? %>
-            <dt><%=t(:size, :scope => [:media_file, :edit])%>: </dt>
+            <dt><%=t(:size, :scope => [:media, :files, :edit])%>: </dt>
             <dd><%=@media_file.dimension['width'] %>x<%=@media_file.dimension['height'] %></dd>
           <%end%>
-          <dt><%=t(:type, :scope => [:media_file, :edit])%>: </dt>
+          <dt><%=t(:type, :scope => [:media, :files, :edit])%>: </dt>
           <dd><%=@media_file.file_type %></dd>
       
-          <dt><%=t(:filesize, :scope => [:media_file, :edit])%>: </dt>
+          <dt><%=t(:filesize, :scope => [:media, :files, :edit])%>: </dt>
           <dd><%= number_to_human_size @media_file.size %></dd>
       
           <dt><%= Skyline::MediaFile.human_attribute_name("name") %></dt>

@@ -1,0 +1,34 @@
+<dt id="contentHeaderPanel" class="panel">
+  <span class="content">
+    <%= link_to button_text(:upload), "#", :id => "toggleUploadPanel", :class => "button small right" %>    
+    <%= t(:files_in, :directory => @dir.name, :scope => [:media, :dirs, :show]) %>
+  </span>
+</dt>
+<dd id="contentBodyPanel">
+  <div id="contentInfoPanel" data-panel-hidden="true">
+    <%= render :partial => "skyline/media/files/new" %>
+  </div>
+  <div id="contentEditPanel">
+    <%= render :partial => "skyline/media/files/index" %>
+  </div>
+</dd>
+<script type="text/javascript" charset="utf-8">
+  (function(){
+    var panel = $('contentPanel').retrieve("skyline.layout");
+    if(panel){ panel.restore(); panel.setup(); }
+    
+    var tree = $('dirtree').retrieve("skyline.tree");
+    if(tree && tree.selectedNode && tree.selectedNode.getParent().get("id") != "dirItem_<%= @dir.id %>"){
+      tree.selectNode(null, $('dirItem_<%= @dir.id %>').getChildren("a")[0]);
+    } 
+    
+   	$("toggleUploadPanel").addEvent("click",function(){ 
+   	  var l = $('contentInfoPanel').retrieve('skyline.layout');
+   	  if(l.hidden){
+     	  l.show();
+     	} else {
+     	  l.hide();
+     	}
+    }.bind(this));
+  })();
+</script>

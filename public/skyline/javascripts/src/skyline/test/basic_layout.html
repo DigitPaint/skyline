@@ -9,8 +9,8 @@
 	<title>Skyline v3</title>
 
 	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
-  	<script src="../vendor/mootools/mootools-1.2.1-core.js" type="text/javascript" charset="utf-8"></script>
-  	<script src="../vendor/mootools/mootools-1.2-more.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8"></script>
   	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
   	<script src="../src/layout.js" type="text/javascript" charset="utf-8"></script>  	
     <style type="text/css" media="screen">
@@ -39,29 +39,75 @@
       .content{
         padding: 10px
       }
+      
+      #menu:after{
+      	content: ".";
+      	visibility:  hidden;
+      	clear: both;
+      	display: block;
+      	height: 0px;
+      }
+      
     </style>	
   </head>
 <body>
   
   <div id="windowContainer">
     <div id="topPanel">
-      This is my header
+      <div>This is my header</div>
+      <div style="background:#aaa;">
+        <div id="menu" style="padding: 5px">
+          <span style="float: left; background: #f00">Hey guys!</span>
+          <span style="float: left; background: #ff0; margin-left: 10px">Hey girls!</span>
+          <span style="float: left; background: #f0f; margin-left: 10px">Hey kids!</span>                    
+        </div>
+      </div>      
     </div>
     <div id="messagePanel">
-      <div style="background:#eee">Hey guy's!</div>
     </div>
     <div id="bodyPanel">
       <div id="leftPanel" style="background: #faa">
         <div id="leftTopPanel" style="color: #fff; background: #000">
           Top top top
         </div>
-        <div id="leftBottomPanel">
-          Bot bot bot
+        <div id="leftBottomPanel" style="padding: 10px; background: #f0f; margin: 5px">
+          I have 10px padding and margin of 5!
         </div>
       </div>
-      <div id="middlePanel" style="background: #eee; overflow: auto">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <a href="#" onclick="b.replacePanel('middlePanel','otherMiddlePanel'); b.setup();">Replace this panel!</a>
+      <div id="middlePanel" style="background: #eee;">
+        <div id="innerMiddlePanel" style="background: #ddd; padding: 20px; overflow: auto;">
+          <strong>20px padding</strong>.<br/>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <a href="#" onclick="b.replacePanel('middlePanel','otherMiddlePanel'); b.setup();">Replace this panel!</a>          
+          
+          <p>And some more filler text</p>
+          
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.            
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.            
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.            
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.            
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.            
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.            
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.            
+          </p>
+          
+        </div>
+        <div id="innerMiddleFooter" style="padding: 5px">
+          Footer
+        </div>
       </div>
       <div id="otherMiddlePanel" style="background: #ddd; overflow: auto">
         <div id="topOtherMiddlePanel">
@@ -99,13 +145,16 @@
   
   var lp = b.addPanel("leftPanel", {layout: "vertical", width: 100, minWidth: 50});
   b.addSplitter();
-  var mp = b.addPanel("middlePanel");
+  var mp = b.addPanel("middlePanel", {layout: "vertical"});
   b.addSplitter();  
   var r = b.addPanel("rightPanel", {width: 100, layout: "vertical"});
   
   lp.addPanel("leftTopPanel", {height: "content"});
   lp.addSplitter();
   lp.addPanel("leftBottomPanel");  
+  
+  mp.addPanel("innerMiddlePanel", {});
+  mp.addPanel("innerMiddleFooter", {height: "content"});  
   
   var omp = new Skyline.VerticalLayout("otherMiddlePanel");
   omp.addPanel("topOtherMiddlePanel", {height: "content"});
@@ -136,6 +185,6 @@
   }
   
   </script>
-
 </body>
 </html>
+

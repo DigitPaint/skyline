@@ -5,7 +5,6 @@
   default behaviour.
   
   Events:
-  
   updateStatus    - Some status needs to be updated (removal of file or selection)
   completeSuccess - Triggered if all files were successfully uploaded.
   completeFailure - Triggered if some files did not complete successfully (stopped not included)
@@ -20,6 +19,8 @@ Skyline.Uploader = new Class({
     if(!options){options = {};}
     if(!options.fileClass){ options.fileClass = Skyline.Uploader.File; }
 		
+		this.parent(options);
+				
     this.addEvents({
       "complete" : this._onComplete,
       "fileStop" : this._onFileStop,
@@ -29,7 +30,6 @@ Skyline.Uploader = new Class({
       "fail" : this._onFail
     });
     		
-		this.parent(options);
 	},
 	
 	_updateStatus: function(){

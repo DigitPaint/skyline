@@ -101,9 +101,9 @@ class Skyline::MediaFile < Skyline::MediaNode
 
   def url(prefix=nil)
     if prefix
-      "/media_dirs/#{self.parent_id}/media_files_data/#{prefix}/#{self.name}"
+      "/media/dirs/#{self.parent_id}/data/#{prefix}/#{self.name}"
     else
-      "/media_dirs/#{self.parent_id}/media_files_data/#{self.name}"
+      "/media/dirs/#{self.parent_id}/data/#{self.name}"
     end
   end
   

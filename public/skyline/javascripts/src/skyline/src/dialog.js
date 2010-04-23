@@ -1,3 +1,6 @@
+/*
+  Class: Skyline.Dialog
+*/
 Skyline.Dialog = new Class({
   Implements: [Options,Events],
   options : {
@@ -6,6 +9,9 @@ Skyline.Dialog = new Class({
     blocker : Skyline.Blocker,
     blockerOpacity : 0.5
   },
+  /*
+    Constructor: initialize
+  */
   initialize: function(options){
     this.setOptions({blocker : Skyline.Blocker}); // Doesn't work in the options above 'cause of load order
     this.setOptions(options);

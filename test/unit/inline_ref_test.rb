@@ -96,9 +96,99 @@ class TestSectionTest < ActiveSupport::TestCase
         assert_equal 2,refs.keys.size
       end
       
+    end
+    
+    context "with external links" do 
+      
+      setup do
+        @html = "<a href=\"http://www.google.com\" skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a> <a href=\"http://www.digitpaint.nl\" skyline-referable-type=\"Skyline::ReferableUri\">link2</a>"
+        
+      end
+      
+      should "create a ReferableUri object for each external link" do 
+        s1 = Skyline::TestSection.new(:body_a => @html)
+        assert s1.save
+        
+        refs = Skyline::InlineRef.all(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
+        assert_equal 2, refs.size
+        referable_uris = refs.map(&:referable)
+        uris = referable_uris.map(&:uri)
+        
+        assert_equal 2,referable_uris.select{|r| r.kind_of?(Skyline::ReferableUri) }.size
+        assert_equal ["http://www.google.com", "http://www.digitpaint.nl"], uris
+      end
+      
+      should "not break when recovering from a validation" do
+        s1 = Skyline::TestSection.new(:body_a => @html)
+        s1.fail_validation = true
+        
+        assert !s1.save
+        assert_equal 0,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
+        
+        s2 = Skyline::TestSection.new(:body_a => s1.body_a(true), :id => '')
+        s2.fail_validation = false
+        
+        assert s2.save
+        refs = Skyline::InlineRef.all(:conditions => {:refering_id => s2.id, :refering_type => s2.class.name, :refering_column_name => "body_a"})        
+        assert_equal 2,refs.size
+        
+        referable_uris = refs.map(&:referable)
+        uris = referable_uris.map(&:uri)
+        
+        assert_equal 2,referable_uris.select{|r| r.kind_of?(Skyline::ReferableUri) }.size
+        assert_equal ["http://www.google.com", "http://www.digitpaint.nl"], uris
+        
+      end
       
     end
     
+    
+    context "on an object with callbacks" do
+      
+      should "not fail when after_create does another save" do
+        class TS1 < Skyline::TestSection
+          attr_accessor :skip_extra_save
+          after_create :after_creating
+          def after_creating
+            return if self.skip_extra_save
+            self.skip_extra_save = true            
+            self.save
+          end          
+        end
+        s1 = TS1.new(:body_a => "<a href=\"http://www.google.com\" skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a>")
+        
+        assert s1.save
+        assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
+        assert_nothing_raised{ s1.body_a(true) }
+        
+        s1.reload
+        assert s1.save
+        assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
+        assert_nothing_raised{ s1.body_a(true) }                
+      end
+
+      should "not fail when after_save does another save" do
+        class TS2 < Skyline::TestSection
+          attr_accessor :skip_extra_save
+          after_save :after_saving
+          def after_saving
+            return if self.skip_extra_save
+            self.skip_extra_save = true            
+            self.save
+          end          
+        end
+        s1 = TS2.new(:body_a => "<a href=\"http://www.google.com\" skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a>")
+        
+        assert s1.save
+        
+        s1.reload
+        assert s1.save
+        assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
+        assert_nothing_raised{ s1.body_a(true) }                      
+      end
+
+      
+    end
     
   end
   

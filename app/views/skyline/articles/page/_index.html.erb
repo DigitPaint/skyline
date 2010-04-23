@@ -13,16 +13,18 @@
     <%= Skyline::Page.human_name(:count => 2) %>
   </span>
 </dt>
-<dd  id="leftPageContentPanel" class="scrollable">
-  <div id="pagetree" class="pages tree">
-    <% nodes = Skyline::Page.group_by_parent_id %>
-    <%= page_tree(nodes, nodes[nil], :selected => @article) %>
-    <% if @article.andand.kind_of?(Skyline::Page) %>
-      <script type="text/javascript" charset="utf-8">
-        window.addEvent("domready",function(){
-          var myFx = new Fx.Scroll("leftPageContentPanel",{duration: 0}).toElement('article_<%= @article.id %>');
-        });
-      </script>
-    <% end %>
+<dd  id="leftPageContentPanel">
+  <div class="content scrollable">
+    <div id="pagetree" class="pages tree">
+      <% nodes = Skyline::Page.group_by_parent_id %>
+      <%= page_tree(nodes, nodes[nil], :selected => @article) %>
+      <% if @article.andand.kind_of?(Skyline::Page) %>
+        <script type="text/javascript" charset="utf-8">
+          window.addEvent("domready",function(){
+            var myFx = new Fx.Scroll("leftPageContentPanel",{duration: 0}).toElement('article_<%= @article.id %>');
+          });
+        </script>
+      <% end %>
+    </div>
   </div>
 </dd>
