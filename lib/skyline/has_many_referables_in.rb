@@ -26,8 +26,8 @@ module Skyline::HasManyReferablesIn
     base.send(:after_save, :update_referable_objects)
     base.send(:cattr_accessor, :referable_fields)
     
-    base.send(:has_many, :image_refs, :class_name => "Skyline::ImageRef", :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
-    base.send(:has_many, :link_refs, :class_name => "Skyline::LinkRef", :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
+    base.send(:has_many, :image_refs, :class_name => "Skyline::ImageRef", :conditions => {:refering_type => base.name}, :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
+    base.send(:has_many, :link_refs, :class_name => "Skyline::LinkRef", :conditions => {:refering_type => base.name}, :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
     
     base.send :alias_method_chain, :clone, :referables    
   end
