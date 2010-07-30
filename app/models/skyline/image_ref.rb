@@ -15,11 +15,15 @@ class Skyline::ImageRef < Skyline::InlineRef
     src = "broken.jpg"
     
     if self.referable_id.present? && image = self.referable_type.constantize.find_by_id(self.referable_id)
-      if html_options["width"].blank? || html_options["height"].blank?
-        dimen = image.dimension
-        html_options.reverse_merge! dimen
+      if (html_options["width"].blank? || html_options["height"].blank?) && image.dimension
+        html_options.reverse_merge! image.dimension
       end
-      src = image.url("#{html_options["width"]}x#{html_options["height"]}")
+      
+      if html_options["width"].present? && html_options["height"].present?
+        src = image.url("#{html_options["width"]}x#{html_options["height"]}")        
+      else
+        src = image.url
+      end
     end
     
     skyline_ref_id = options[:nullify] ? "" : self.id
