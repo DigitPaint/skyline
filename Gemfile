@@ -12,8 +12,8 @@
 
 source "http://gems.github.com"
 
-gem "rails", "2.3.5"
-gem "rack", "1.0.1"
+gem "rails", "2.3.8"
+gem "rack", "1.1.0"
 gem "mysql", "2.8.1"
 
 # When changing these, make sure you also change:
