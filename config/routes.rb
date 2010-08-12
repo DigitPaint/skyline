@@ -53,8 +53,24 @@ ActionController::Routing::Routes.draw do |map|
     skyline.connect 'content/:action/*types', :controller => "content"
     
     skyline.resources :settings, :except => [:create, :destroy]
+  
+    skyline.namespace :media do |media|
+      media.resources :dirs do |dirs|
+        dirs.resources :files
+
+        dirs.connect 'data/:size/:name.:format',
+            :controller => 'data',
+            :action => 'show',
+            :conditions => { :method => :get }
+        dirs.connect 'data/:name.:format',
+            :controller => 'data',
+            :action => 'show',
+            :conditions => { :method => :get }        
+      end
+    end  
     
   end
+  
 
   # ========================
   # = Implementation url's =
