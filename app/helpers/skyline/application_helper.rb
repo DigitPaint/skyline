@@ -1,11 +1,8 @@
 module Skyline::ApplicationHelper  
   # Place a tick or a cross depending on the value of bool
   #
-  # ==== Parameters
-  # bool<Boolean>:: The value of the tick/cross
-  # options<Hash>:: Options will be passed to the image_tag method
-  # 
-  # --
+  # @param [Boolean] bool The value of the tick/cross
+  # @param [Hash] options ({}) Options will be passed to the image_tag method
   def tick_image(bool,options={})
     name = bool ? "true" : "false"
     src = "/skyline/images/icons/#{name}.gif"
@@ -18,12 +15,9 @@ module Skyline::ApplicationHelper
   # You can use this method to place a message directly in your view. This also
   # works directly from a render(:update) or an update_page block. 
   # 
-  # ==== Parameters
-  # type<Symbol>:: The type of the message (:error,:notification,:success)
-  # message<String>:: The message to show
-  # optiosn<Hash>:: Options to be passed to the MessageGenerator (javascript)
-  #
-  # --
+  # @param [Symbol] type The type of the message (:error,:notification,:success)
+  # @param [String] message The message to show
+  # @param [Hash] options ({}) Options to be passed to the MessageGenerator (javascript)
   def message(type,message,options={})
     Skyline::MessageGenerator.new(type,message,options)
   end
@@ -31,20 +25,23 @@ module Skyline::ApplicationHelper
   # You can use this method to place a notification directly in your view. This also
   # works directly from a render(:update) or an update_page block. 
   # 
-  # ==== Parameters
-  # type<Symbol>:: The type of the message (:error,:notification,:success)
-  # message<String>:: The message to show
-  # optiosn<Hash>:: Options to be passed to the MessageGenerator (javascript)
-  #
-  # --  
+  # @param [Symbol] type The type of the message (:error,:notification,:success)
+  # @param [String] message The message to show
+  # @param [Hash] options ({}) Options to be passed to the MessageGenerator (javascript)
   def notification(type,message,options={})
     Skyline::NotificationGenerator.new(type,message,options)    
   end
   
+  # Actually render the messages on screen.
+  # 
+  # @option options [Class] :generator (Skyline::MessageGenerator) The generator to use to render the messages.
   def render_messages(options={})
     _render_volatiles(self.messages,options)
   end
   
+  # Actually render the notifications on screen.
+  #
+  # @option options [Class] :generator (Skyline::NotificationGenerator) The generator to use to render the messages.
   def render_notifications(options={})
     options.reverse_merge! :generator => Skyline::NotificationGenerator
     _render_volatiles(self.notifications,options)
