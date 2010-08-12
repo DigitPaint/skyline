@@ -7,8 +7,12 @@ namespace :skyline do
       ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
       ActiveRecord::Migrator.migrate(Skyline.root + "db/migrate/", ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
       
-      Skyline::PluginsManager.migration_paths.each do |dir|
-        ActiveRecord::Migrator.migrate(dir, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+      # Also seed plugins
+      Skyline::PluginsManager.plugins.each do |path, plugin|
+        next unless plugin.migration_path
+        
+        puts "\n\n[PLUGIN] [#{plugin.name}] ============================="
+        ActiveRecord::Migrator.migrate(plugin.migration_path, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
       end      
       
       Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby      
@@ -58,6 +62,14 @@ namespace :skyline do
     task :seed => :environment do
       Dir[Skyline.root + "db/fixtures/*.rb"].each do |f|
         load f
+      end
+      
+      # Also seed plugins
+      Skyline::PluginsManager.plugins.each do |path, plugin|
+        puts "\n\n[PLUGIN] [#{plugin.name}] ============================="
+        Dir[plugin.seed_path + "*.rb"].each do |f|
+          load f
+        end
       end
     end
     

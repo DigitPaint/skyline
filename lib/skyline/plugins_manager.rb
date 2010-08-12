@@ -42,15 +42,7 @@ class Skyline::PluginsManager
     def public_path
       Pathname.new(Rails.public_path) + "skyline_plugins"
     end
-    
-    
-    # All paths of migrations for plugins
-    #
-    # @return [Array[String]] All paths that contain plugin migrations
-    def migration_paths
-      Dir[self.plugin_path + "*/db/migrate"]
-    end
-        
+
     # All known plugins
     #
     # @param [Boolean] force_reload (false) Forcefully reload the plugin directories
@@ -76,19 +68,25 @@ class Skyline::PluginsManager
     end
   end
   
-  attr_reader :name, :path, :init_file, :load_file
+  attr_reader :name, :path, :init_file, :load_file, :migration_path, :seed_path
   
   def initialize(path)
     @path = Pathname.new(path)
     @name = @path.basename.to_s
     
-    @init_file = @path + "skyline/init.rb"
-    @init_file = nil unless @init_file.exist?
+    files = { 
+      :init_file => "skyline/init.rb",
+      :load_file => "skyline/load.rb",
+      :migration_path => "db/migrate",
+      :seed_path => "db/fixtures" 
+    }
     
-    @load_file = @path + "skyline/load.rb"
-    @load_file = nil unless @load_file.exist?
+    files.each do |key, path|
+      
+      f = @path + path
+      instance_variable_set("@#{key}",f) if f.exist?
+    end
   end
-  
   
   # Initialize the plugin, this is usually done just once when the server starts
   def init!
@@ -106,7 +104,7 @@ class Skyline::PluginsManager
   def load!
     load(@load_file) if @load_file
   end
-  
+    
   protected
   
   def add_routes!
