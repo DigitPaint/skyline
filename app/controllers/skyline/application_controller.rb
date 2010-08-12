@@ -6,8 +6,10 @@ class Skyline::ApplicationController < ApplicationController
   
   around_filter Skyline::ArticleVersionObserver.instance
   
-  class_inheritable_accessor :default_menu_item
-  protected :default_menu_item, :default_menu_item=
+  class_inheritable_accessor :default_menu
+  attr_accessor :current_menu
+  hide_action :default_menu, :default_menu=, :current_menu, :current_menu=, :menu
+  
 
   # Load all helpers
   Dir[Skyline.root + "app/helpers/**/*_helper.rb"].each do |helper|
@@ -64,7 +66,31 @@ class Skyline::ApplicationController < ApplicationController
       end
       self.filter_chain.send(:update_filter_chain,filters, :before,pos+1, &block)
     end
+    
+    def menu(*levels)
+      self.default_menu = levels
+    end
+        
   end
+  
+  # @option options [true,false] force  If force => true, the default_menu will be overriden
+  def menu(*levels)
+    m = (@current_menu || [])
+    options = levels.extract_options!
+    options.reverse_merge!(m.extract_options!)
+    self.current_menu = m + levels + [options]
+  end
+  
+  def current_menu
+    menu = Array(@current_menu).dup
+    options = menu.extract_options!
+    if options[:force]
+      menu      
+    else
+      (self.class.default_menu && self.class.default_menu.dup || []) + menu
+    end
+  end
+  helper_method :current_menu  
 
   protected
   
