@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
       variant.map "current_editor", :controller => "variant_current_editor", :action => "poll"
     end
 
-#    skyline.resource :authentication
+    skyline.resource :authentication
     skyline.resources :users
     
     skyline.resources :sections
