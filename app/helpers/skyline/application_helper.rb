@@ -49,23 +49,7 @@ module Skyline::ApplicationHelper
     options.reverse_merge! :generator => Skyline::NotificationGenerator
     _render_volatiles(self.notifications,options)
   end
-  
-  def plugin_hook(name)
-    template = caller.first[/app\/views\/([^:]*):/,1]
-    raise "Cannot determine template from caller: #{caller}" unless template
-    plugin_template = template.sub(".html.erb", "_#{name}.html.erb")
     
-    logger.debug "Looking for template #{plugin_template} in plugins..."
-    Dir[Rails.root + "vendor/skyline_plugins/*/app/views/#{plugin_template}"].each do |file|      
-      if RAILS_ENV == "development"
-        concat render(:inline => File.read(file), :layout => nil)
-      else
-        # render :file caches the file somehow, so only use it in production mode
-        concat render(:file => file, :layout => nil)
-      end
-    end    
-  end
-  
   protected
   
   def _render_volatiles(messages_hash, options={})
