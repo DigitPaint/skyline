@@ -12,7 +12,14 @@ class Skyline::ApplicationController < ApplicationController
   # Load all helpers
   Dir[Skyline.root + "app/helpers/**/*_helper.rb"].each do |helper|
     helper helper.sub(Skyline.root + "app/helpers/","").sub(/_helper\.rb$/,"")
-  end  
+  end
+  
+  # Load all plugin helpers so they can override stuff.
+  puts Dir[Skyline::PluginsManager.plugin_path + "*/app/helpers/**/*_helper.rb"].inspect
+  Dir[Skyline::PluginsManager.plugin_path + "*/app/helpers/**/*_helper.rb"].each do |helper|
+    helper helper.sub(/^#{Regexp.escape(Skyline::PluginsManager.plugin_path.to_s)}\/?.+?\/app\/helpers\//,"").sub(/_helper\.rb$/,"")
+  end
+  
   
   class << self
         
