@@ -12,6 +12,28 @@ module Skyline::ApplicationHelper
     image_tag(src,options)
   end
   
+  # Set the Skyline JS layout to use. Used in templates so the layout can initialize the correct layout.
+  #
+  # @param [Symbol] name The name of the js layout to use @see #render_js_layout
+  def use_js_layout(name)
+    @_js_layout = name
+  end
+  
+  # Does this template have  a Skyline JS Layout set?
+  #
+  # @return [Boolean]
+  def has_js_layout?
+    @_js_layout.present?
+  end  
+  
+  # Actually render the JS code to initialize the previously set Skyline JS Layout.
+  # 
+  # @todo Currently only implemented in EntopicEditor plugin
+  def render_js_layout
+    return unless @_js_layout
+    raise "TO BE IMPLEMENTED"
+  end  
+  
   # You can use this method to place a message directly in your view. This also
   # works directly from a render(:update) or an update_page block. 
   # 
