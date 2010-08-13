@@ -333,7 +333,7 @@ class Skyline::Rendering::Renderer
     template_paths = []
     @template_paths.each do |root|
       Dir.chdir(root) do
-        template_paths = template_paths | Dir.glob("#{path}/*").select{|d| File.directory?(d)  }.map{|d| File.basename(d)}
+        template_paths = template_paths | Dir.glob("#{path}/*/index.*").map{|d| File.dirname(d) }.select{|d| File.directory?(d)  }.map{|d| File.basename(d)}
       end
     end
     template_paths
