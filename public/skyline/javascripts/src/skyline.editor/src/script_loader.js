@@ -1,96 +1,177 @@
+/*
+  We overwrite the ScriptLoader for Skyline because we don't want it to load any external 
+  scripts
+*/
+
+/**
+ * ScriptLoader.js
+ *
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
+ */
+
 (function(tinymce) {
-	var each = tinymce.each, Event = tinymce.dom.Event;
-
-	/**#@+
-	 * @class This class handles asynchronous/synchronous loading of JavaScript files it will execute callbacks when
-	 * various items gets loaded. This class is useful to 
-	 * @member tinymce.dom.ScriptLoader
-	 */
-	tinymce.create('Skyline.Editor.ScriptLoader:tinymce.dom.ScriptLoader', {
-
-		/**
-		 * Adds a specific script to the load queue of the script loader.
-		 *
-		 * @param {String} u Absolute URL to script to add.
-		 * @param {function} cb Optional callback function to execute ones this script gets loaded.
-		 * @param {Object} s Optional scope to execute callback in.
-		 * @param {bool} pr Optional state to add to top or bottom of load queue. Defaults to bottom.
-		 * @return {object} Load queue object contains, state, url and callback.
-		 */
-		add : function(u, cb, s, pr) {
-			var t = this, lo = t.lookup, o;
-
-			if (o = lo[u]) {
-				// Is loaded fire callback
-				if (cb && o.state == 2)
-					cb.call(s || this);
-
-				return o;
-			}
-
-			o = {state : 2, url : u, func : cb, scope : s || this};
-
-			if (pr)
-				t.queue.unshift(o);
-			else
-				t.queue.push(o);
-
-			lo[u] = o;
-
-
-			return o;
-		},
+	 var ScriptLoader = function(settings) {
+		var QUEUED = 0,
+			LOADING = 1,
+			LOADED = 2,
+			states = {},
+			queue = [],
+			scriptLoadedCallbacks = {},
+			queueLoadedCallbacks = [],
+			loading = 0,
+			undefined;
 
 		/**
 		 * Loads a specific script directly without adding it to the load queue.
 		 *
-		 * @param {String} u Absolute URL to script to add.
-		 * @param {function} cb Optional callback function to execute ones this script gets loaded.
-		 * @param {Object} s Optional scope to execute callback in.
+		 * @method load
+		 * @param {String} url Absolute URL to script to add.
+		 * @param {function} callback Optional callback function to execute ones this script gets loaded.
+		 * @param {Object} scope Optional scope to execute callback in.
 		 */
-		load : function(u, cb, s) {
-			if (o = t.lookup[u]) {
-				// Is loaded fire callback
-				if (cb && o.state == 2)
-					cb.call(s || t);
+		function loadScript(url, callback) {
+      if(callback){
+        callback();
+      }
+		};
 
-				return o;
-			}		  
-		},
+		/**
+		 * Returns true/false if a script has been loaded or not.
+		 *
+		 * @method isDone
+		 * @param {String} url URL to check for.
+		 * @return [Boolean} true/false if the URL is loaded.
+		 */
+		this.isDone = function(url) {
+			return states[url] == LOADED;
+		};
 
-		// Static methods
-		'static' : {
-			_addOnLoad : function(f) {
-				var t = this;
+		/**
+		 * Marks a specific script to be loaded. This can be useful if a script got loaded outside
+		 * the script loader or to skip it from loading some script.
+		 *
+		 * @method markDone
+		 * @param {string} u Absolute URL to the script to mark as loaded.
+		 */
+		this.markDone = function(url) {
+			states[url] = LOADED;
+		};
 
-				t._funcs = t._funcs || [];
-				t._funcs.push(f);
+		/**
+		 * Adds a specific script to the load queue of the script loader.
+		 *
+		 * @method add
+		 * @param {String} url Absolute URL to script to add.
+		 * @param {function} callback Optional callback function to execute ones this script gets loaded.
+		 * @param {Object} scope Optional scope to execute callback in.
+		 */
+		this.add = this.load = function(url, callback, scope) {
+			var item, state = states[url];
 
-				return t._funcs.length - 1;
-			},
-
-			_onLoad : function(e, u, ix) {
-				if (!tinymce.isIE || e.readyState == 'complete')
-					this._funcs[ix].call(this);
-			},
-
-			/**
-			 * Loads the specified script without adding it to any load queue.
-			 *
-			 * @param {string} u URL to dynamically load.
-			 * @param {function} cb Callback function to executed on load.
-			 */
-			loadScript : function(u, cb) {
-				if (cb) {
-					cb.call(document, u);
-					cb = 0;
-				}
+			// Add url to load queue
+			if (state == undefined) {
+				queue.push(url);
+				states[url] = QUEUED;
 			}
-		}
 
-		/**#@-*/
-	});
+			if (callback) {
+				// Store away callback for later execution
+				if (!scriptLoadedCallbacks[url])
+					scriptLoadedCallbacks[url] = [];
+
+				scriptLoadedCallbacks[url].push({
+					func : callback,
+					scope : scope || this
+				});
+			}
+		};
+
+		/**
+		 * Starts the loading of the queue.
+		 *
+		 * @method loadQueue
+		 * @param {function} callback Optional callback to execute when all queued items are loaded.
+		 * @param {Object} scope Optional scope to execute the callback in.
+		 */
+		this.loadQueue = function(callback, scope) {
+			this.loadScripts(queue, callback, scope);
+		};
+
+		/**
+		 * Loads the specified queue of files and executes the callback ones they are loaded.
+		 * This method is generally not used outside this class but it might be useful in some scenarios. 
+		 *
+		 * @method loadScripts
+		 * @param {Array} scripts Array of queue items to load.
+		 * @param {function} callback Optional callback to execute ones all items are loaded.
+		 * @param {Object} scope Optional scope to execute callback in.
+		 */
+		this.loadScripts = function(scripts, callback, scope) {
+			var loadScripts;
+
+			function execScriptLoadedCallbacks(url) {
+				// Execute URL callback functions
+				tinymce.each(scriptLoadedCallbacks[url], function(callback) {
+					callback.func.call(callback.scope);
+				});
+
+				scriptLoadedCallbacks[url] = undefined;
+			};
+
+			queueLoadedCallbacks.push({
+				func : callback,
+				scope : scope || this
+			});
+
+			loadScripts = function() {
+				var loadingScripts = tinymce.grep(scripts);
+
+				// Current scripts has been handled
+				scripts.length = 0;
+
+				// Load scripts that needs to be loaded
+				tinymce.each(loadingScripts, function(url) {
+					// Script is already loaded then execute script callbacks directly
+					if (states[url] == LOADED) {
+						execScriptLoadedCallbacks(url);
+						return;
+					}
+
+					// Is script not loading then start loading it
+					if (states[url] != LOADING) {
+						states[url] = LOADING;
+						loading++;
+
+						loadScript(url, function() {
+							states[url] = LOADED;
+							loading--;
+
+							execScriptLoadedCallbacks(url);
+
+							// Load more scripts if they where added by the recently loaded script
+							loadScripts();
+						});
+					}
+				});
+
+				// No scripts are currently loading then execute all pending queue loaded callbacks
+				if (!loading) {
+					tinymce.each(queueLoadedCallbacks, function(callback) {
+						callback.func.call(callback.scope);
+					});
+
+					queueLoadedCallbacks.length = 0;
+				}
+			};
+
+			loadScripts();
+		};
+	};
 
 	// Global script loader
-	tinymce.ScriptLoader = new Skyline.Editor.ScriptLoader();
+	tinymce.ScriptLoader = new ScriptLoader();
 })(tinymce);
