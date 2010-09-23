@@ -51,8 +51,10 @@ Skyline.Editor = new Class({
   render : function(){
     var o,ed,oed;
     
-    // We need to manually disable the activeEditor, otherwise Event dispatching breaks!?
-    if ((oed = tinymce.EditorManager.activeEditor) !== null){
+    // We need to manually disable the activeEditor,
+    // because otherwise we'd get multiple toolbars when adding new editors.
+    oed = tinymce.EditorManager.activeEditor
+    if (oed !== null && typeof oed !== "undefined"){
      oed.onDeactivate.dispatch(oed);
     }
     
