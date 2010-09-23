@@ -12,15 +12,17 @@
 	<link href="../assets/ui.css?1195729478" media="screen" rel="stylesheet" type="text/css" />	
   <link href="/javascripts/skyline/assets/dialog/dialog.css?1195729478" media="screen" rel="stylesheet" type="text/css" /> 	
   <script src="../../skyline/vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>  
+  
   <script src="../../skyline/src/skyline.js" type="text/javascript" charset="utf-8"></script>
   <script src="../../skyline/src/utils.js" type="text/javascript" charset="utf-8"></script>  
+  <script src="../../skyline/src/dialog.js" type="text/javascript" charset="utf-8"></script>    
   
-  <script src="../vendor/tinymce/jscripts/tiny_mce/tiny_mce_src.js" type="text/javascript" charset="utf-8"></script>  
+  <script src="../vendor/tinymce/jscripts/tiny_mce/tiny_mce_src.js?debug=1" type="text/javascript" charset="utf-8"></script>  
+  <script src="../vendor/tinymce/jscripts/tiny_mce/plugins/paste/editor_plugin.js" type="text/javascript" charset="utf-8"></script>  
   <script src="../src/script_loader.js" type="text/javascript" charset="utf-8"></script>
   
   <script src="../src/skyline.editor.js" type="text/javascript" charset="utf-8"></script>
   
-
   <script src="../src/theme.js" type="text/javascript" charset="utf-8"></script>
   <script src="../src/ui/separator.js" type="text/javascript" charset="utf-8"></script>
   <script src="../src/ui/toolbar.js" type="text/javascript" charset="utf-8"></script>
@@ -28,6 +30,12 @@
   <script src="../src/plugins/skylinewindows/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
   <script src="../src/plugins/skylineimage/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
   <script src="../src/plugins/skylineimage/dialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinelink/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinelink/dialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinecode/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinecode/dialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinecontextmenu/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinetable/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
   
   
 </head>
@@ -56,10 +64,7 @@
 
   
 <script type="text/javascript" charset="utf-8">
-  e1 = new Skyline.Editor("area1");
-  var x = 22;
-
-
+  e1 = new Skyline.Editor("area1", {language : "en"});
   e2 = new Skyline.Editor("area2");
   e3 = new Skyline.Editor("area3");
   
