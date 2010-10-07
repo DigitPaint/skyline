@@ -76,11 +76,12 @@ ActionController::Routing::Routes.draw do |map|
   # = Implementation url's =
   # ========================
   #Media files data route
-  map.connect 'media_dirs/:media_dir_id/media_files_data/:size/:name.:format',
+  
+  map.connect 'media/dirs/:media_dir_id/data/:size/:name.:format',
       :controller => 'skyline/site/media_files_data',
       :action => 'show',
       :conditions => { :method => :get }
-  map.connect 'media_dirs/:media_dir_id/media_files_data/:name.:format',
+  map.connect 'media/dirs/:media_dir_id/data/:name.:format',
       :controller => 'skyline/site/media_files_data',
       :action => 'show',
       :conditions => { :method => :get }
