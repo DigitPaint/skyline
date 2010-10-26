@@ -82,17 +82,6 @@ class Skyline::ArticleVersion < ActiveRecord::Base
       super
     end
   end
-    
-  def save_with_skip_version(*args)
-    @_skip_version = true
-    v = self.save_without_skip_version(*args)
-  ensure
-    @_skip_version = false
-    v
-  end
-  
-  alias_method_chain :save, :skip_version
-  
   
   protected
   
@@ -102,7 +91,6 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   end
   
   def increase_version
-    return if @_skip_version
     self.version += 1
   end
 end
