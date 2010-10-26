@@ -15,7 +15,7 @@ namespace :skyline do
   
   namespace :test do
     Rake::TestTask.new(:units => [:environment,"db:test:prepare"]) do |t|
-      base = File.join(File.dirname(__FILE__), "..")
+      base = File.join(File.dirname(__FILE__), "../..")
       t.libs << (base + "/test")
       t.pattern =  base + '/test/unit/**/*_test.rb'
       t.verbose = true
@@ -23,7 +23,7 @@ namespace :skyline do
     Rake::Task['test:units'].comment = "Run the unit tests in test/unit"
 
     Rake::TestTask.new(:functionals => "db:test:prepare") do |t|
-      base = File.join(File.dirname(__FILE__), "..")      
+      base = File.join(File.dirname(__FILE__), "../..")      
       t.libs << (base + "/test")
       t.pattern =  base + '/test/functional/**/*_test.rb'
       t.verbose = true
@@ -31,7 +31,7 @@ namespace :skyline do
     Rake::Task['test:functionals'].comment = "Run the functional tests in test/functional"
 
     Rake::TestTask.new(:integration => "db:test:prepare") do |t|
-      base = File.join(File.dirname(__FILE__), "..")      
+      base = File.join(File.dirname(__FILE__), "../..")      
       t.libs << (base + "/test")
       t.pattern =  base + '/test/integration/**/*_test.rb'
       t.verbose = true
