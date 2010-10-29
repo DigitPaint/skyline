@@ -55,6 +55,7 @@ module Skyline::HasManyReferablesIn
         
         self.class_eval <<-END
           def #{f}=(body)
+            self.send("#{f}_will_change!")
             self.referable_field_bodies[:#{f}] = body            
           end
           def #{f}_before_typecast
