@@ -89,13 +89,14 @@ class Skyline::ContentController < Skyline::Skyline2Controller
     if request.xhr? && stack.klass.orderable? && params[:order]
       ids = params[:order].split(",").collect{|s| s.to_i}
       if ids.size > 1 && stack.klass.reorder(ids)
-        render(:update){|p| p.call "Application.addOddEven", "list"}
+        render(:update){|p| p.call "Application.addOddEven", "#{stack.klass.name}Listing", "tbody tr"}
       elsif ids.size <= 1
         render :nothing => true        
       else
         list_elements!
         render :update do |p|
-          p.replace "list-wrapper", presenter_for(@elements,stack.klass)
+          p.replace_html "contentEditPanel", presenter_for(@elements,stack.klass)
+          p << "$('contentEditPanel').retrieve('skyline.layout').setup()";
         end
       end
     end  

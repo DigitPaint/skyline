@@ -1,0 +1,14 @@
+<div id="dirtree" class="tree">
+  <% if @dirs %>
+    <%= media_dir_tree(@dirs,@dirs[nil],
+          :selected => @dir,
+          :id_prefix => "dirItem",
+          :node_url => lambda{ |node| skyline_media_dir_path(node) },
+          :class => "dir"
+        ) %>
+  <% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  Application.Layout.Media.initializeTree("dirtree");
+</script>

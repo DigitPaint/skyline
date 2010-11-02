@@ -1,3 +1,6 @@
+/*
+  Class: Skyline.Menu
+*/
 Skyline.Menu = new Class({
   initialize : function(el){
     this.listEl = $(el);

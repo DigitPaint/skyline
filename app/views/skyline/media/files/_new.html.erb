@@ -1,0 +1,45 @@
+<div class="upload innerpanel" id="libraryuploader">
+	<div id="uploadarea" class="panelBody">
+    <form id="libraryuploaderform" class="upload innerpanel" action="<%= skyline_media_dir_files_path_with_session_information(@dir) %>">
+      <div class="upload-files">
+        <div class="body">
+          <div class="messages"></div>
+          <ul class="files" style="height: 100px">
+            <li class="blank"><%=t(:no_files, :scope => [:media, :files ,:new]) %></li>
+          </ul>
+          <div class="status" id="uploadstatus">
+            <span class="total-files">0</span> <%=t(:files, :scope => [:media, :files ,:new]) %>
+            <span class="total-size">0 kB</span>                    
+          </div>
+          <a href="#" class="button small browse" id="adduploadfiles"><%=t(:add_files, :scope => [:buttons]) %></a>
+        </div>
+        <div id="submit-buttons" class="submit">
+          <a id="cancelselect" href="#" class="cancel"><%=t(:cancel, :scope => [:media, :files ,:new]) %></a>
+          <%= submit_button :upload, :class => "small green upload", :id => "uploadbutton" %>
+          
+          <%= submit_button :ok, :class => "small green upload", :id => "finishedbutton" %>
+        </div>
+      </div>
+      <div class="upload-progress hide">
+        <div class="body">
+          <%=t(:file_progress, :scope => [:media, :files , :new]) %>
+          <div class="progressbar">
+            <div class="bar" style="width: 20%">&nbsp;</div>
+          </div>
+          <div class="progress-text">
+            <%=t(:percentage_progress, :scope => [:media, :files , :new]) %>
+          </div>
+        </div>
+        <div class="submit">
+          <a href="#" class="cancel button small red"><%=t(:cancel, :scope => [:media, :files ,:new]) %></a>
+        </div>
+      </div>
+    </form>
+
+	</div>	
+</div>
+<script type="text/javascript" charset="utf-8">
+  window.addEvent("domready", function(){
+    Application.Layout.Media.initializeUploadPanel("<%= skyline_media_dir_files_path(@dir) %>");
+  });
+</script>  

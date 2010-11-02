@@ -1,3 +1,9 @@
+/*
+  Class: Skyline.Drag
+  
+  Extends: 
+  Drag.Move
+*/
 Skyline.Drag = new Class({
   Extends : Drag.Move,
 	actualDrag: function(event){

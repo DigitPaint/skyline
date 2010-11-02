@@ -1,15 +1,37 @@
+/*
+  Class: Skyline.Layout
+  Provides layout management.
+  
+  Element data always overrides options.
+  
+  Element Data options:
+  data-panel-hidden - "true","false"
+  data-panel-height -
+  data-panel-width  -
+  
+  Events:
+  afterSetup - Fires after the layout has been set up.
+  resize - Fires after the panel has been resized.
+  
+*/
 Skyline.Layout  = new Class({
   Implements: [Options,Events],
   options: {
     width: null,
     height: null,
-    minWidth: 0,
-    minHeight: 0,
-    hidden: false,
-    zIndex: null
+    minWidth: 0,          // Absolute minimum width, can't be resized smaller than this.
+    minHeight: 0,         // Absolute minimum height
+    autoWidth: true,      // Will the width automatically be set on resize (only applicable to outmost layout that's a child of the BODY tag)
+    autoHeight: true,     // Set height automatically?
+    hidden: false,        // Is this panel hidden?
+    zIndex: null,         // The z-Index to apply to this panel
+    position : "absolute" // The positioning to use for this layout, only set this to relative on the outmost layout.
   },
   initialize : function(element){
     this.element = $(element);
+    if(this.element.collectComponentEvents){
+      this.element.collectComponentEvents("skyline.layout",this);
+    }
     this.domId = this.element.get("id");
     
     this.panels = [];
@@ -17,8 +39,12 @@ Skyline.Layout  = new Class({
     this.hidden = false;
     this.addSplitterBeforeNext = false;
     
-    var o = arguments[1];
-    if(this.element.parentNode.tagName == 'BODY' && !(o && (o.width || o.height))){
+    var o = arguments[1] || {};
+    
+    if(o.width){ o.autoWidth = false; } else { o.autoWidth = true; }
+    if(o.height){ o.autoHeight = false; }  else { o.autoHeight = true; }
+    
+    if(this.element.parentNode.tagName == 'BODY' && (o.autoHeight || o.autoWidth)){
       this.attachWindowEvents();
     }
     
@@ -30,19 +56,23 @@ Skyline.Layout  = new Class({
     }
     
     this.setOptions(o);
-    
-    if(this.options.hidden){
-      this.hide(true);
-    } else {
-      this.show(true);
-    }
-        
-    this.element.setStyles({
-      position: "absolute",
-      "z-index": this.options.zIndex
-    });
-    this.element.store("skyline.layout",this);
+    this.initializeElement();
+    this.cacheOffsets();    
   },
+  
+  setElementDataOptions : function(){
+    var optionKeys = ["hidden", "width", "height"];
+    var options = {};
+    var el = this.element;
+    
+    optionKeys.each(function(k){ 
+      var prop = el.getProperty("data-panel-" + k);
+      if(prop){ options[k] = prop }
+    });
+    
+    this.setOptions(options);
+  },
+  
   /*
     Function: addPanel(element)
     Add a new panel to this layout (a panel is just another layout)
@@ -146,7 +176,7 @@ Skyline.Layout  = new Class({
   */
   placePanels : function(){
     if(this.panels.length === 0){ return; }
-    var pos = 0;
+    var pos = this.getStartPos();
     this.panels.each(function(panel){
       if(panel.hidden){ return; }      
       pos = this.placePanelAt(panel,pos);
@@ -167,6 +197,90 @@ Skyline.Layout  = new Class({
       this.options.height = this.height;     
     }
   },
+  /*
+    Function: getOffset()
+    Get the inner offset of this panel, currently amounts to padding + border. Do not try to
+    do this with % paddings or value border sizes like medium/thin/etc. It currently ONLY works with px.
+  */
+  getOffset : function(position, force){
+    if(!["left", "right","top","bottom"].contains(position)){ return 0; }
+    if(!force && this._Offsets && this._Offsets[position]){
+      return this._Offsets[position];
+    }
+    
+    var element = arguments[2] || this.element;
+    var sizes = (new Hash(element.getStyles("padding-" + position, "border-" + position + "-width", "margin-" + position)));
+    var margin = sizes["margin-" + position];
+    var border = sizes["border-" + position + "-width"];    
+    sizes = sizes.getValues();
+    var out = 0;
+    
+    var convert_to_int = function(v){
+      if(/px$/.test(v)){
+        return parseInt(v);
+      } else {
+        return 0;
+      }
+    }
+    
+    sizes.each(function(v){ out += convert_to_int(v); });
+    
+    if(!this._Offsets){ this._Offsets = {}; }
+    this._Offsets[position] = [out,convert_to_int(margin) + convert_to_int(border)];
+    
+    return this._Offsets[position];
+  },
+  
+  cacheOffsets : function(){
+    this.offsets = {
+      width: 0,
+      height: 0,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
+    };
+    
+    ["left", "right","top","bottom"].each(function(f){
+      var off = this.getOffset(f,true);
+      this.offsets[f] = off[0];
+      this.offsets["margin-" + f] = off[1];
+    }.bind(this))
+    
+    this.offsets.width = this.offsets.left + this.offsets.right;
+    this.offsets.height = this.offsets.top + this.offsets.bottom;    
+  },
+  /* 
+    Function: restore
+    Restore the elements for this panel
+  */
+  restore : function(){
+    if(this.element){
+      this.element.eliminate("skyline.layout"); // Cleanup
+    }
+    this.element = $(this.domId);
+    this.initializeElement();
+    this.panels.each(function(p){ p.restore(); });
+  },
+  // Setup the attached element.
+  initializeElement : function(){
+    this.setElementDataOptions();
+    
+    if(this.options.hidden){
+      this.hide(true);
+    } else {
+      this.show(true);
+    }
+        
+    this.element.setStyles({
+      position: this.options.position,
+      "z-index": this.options.zIndex
+    });
+    this.element.store("skyline.layout",this);    
+  },  
+  /* 
+    Function: setup 
+  */
   setup : function(){
     if(!this.parent){
       this.width = this.options.width;
@@ -176,6 +290,7 @@ Skyline.Layout  = new Class({
     this.setupWidths();
     this.setupHeights();
     this.placePanels();
+    this.fireEvent("afterSetup",[this]);
   },
   
   attachWindowEvents : function(){
@@ -189,7 +304,10 @@ Skyline.Layout  = new Class({
       this.resizeTimer = null;
     }
     
-    var options = {width: window.getWidth(), height: window.getHeight()};   
+    var options = {width: this.options.width, height: this.options.height };
+    if(this.options.autoWidth){ options.width = window.getWidth(); }
+    if(this.options.autoHeight){ options.height = window.getHeight(); }
+    
     if(this.options.width != options.width || this.options.height != options.height){
       this.setOptions(options);
       this.setup();      
@@ -199,7 +317,8 @@ Skyline.Layout  = new Class({
   
   // Implement in subclass
   placePanelAt: $empty,
-  setPanelSize : $empty,
+  getStartPos: function(){ return 0; },
+  setPanelSize: $empty,
   setupWidths: $empty,
   setupHeights: $empty  
 });
@@ -209,7 +328,7 @@ Skyline.HorizontalLayout = new Class({
   orientation: "horizontal",
   placePanelAt : function(panel,pos){
     panel.position = pos;    
-    panel.element.setStyles({"top":0, "left" : pos});    
+    panel.element.setStyles({"top": this.offsets.top - this.offsets["margin-top"], "left" : pos});    
     return pos + panel.width;
   },
   setPanelSize : function(panel,size){
@@ -218,8 +337,11 @@ Skyline.HorizontalLayout = new Class({
     panel.element.setStyle("width", size);
   },  
   setupWidths : function(){
-    this.element.setStyle("width",this.width);
-    var rest = this.width;
+    var width = this.width - this.offsets.width;
+    if(width < 0) { width = 0; }
+        
+    this.element.setStyle("width",width);
+    var rest = width;
     var variablePanel = null;
     this.panels.each(function(panel){
       if(panel.hidden){ return; }
@@ -244,13 +366,22 @@ Skyline.HorizontalLayout = new Class({
   },
   
   setupHeights : function(){
-    this.element.setStyle("height",this.height);
+    var height = this.height - this.offsets.height;
+    if(height < 0){ height = 0; }
+        
+    this.element.setStyle("height",height);
     this.panels.each(function(panel){
       if(panel.hidden){ return; }      
-      panel.height = this.height;
+      panel.height = height;
       panel.setupHeights();
     }.bind(this));
     
+    // setupHeights fires last so we add fireResize here.
+    this.fireEvent("resize", [this, this.width - this.offsets.width, height]);
+  },
+  
+  getStartPos : function(){
+    return this.offsets.left - this.offsets["margin-left"];
   }
 });
 
@@ -259,7 +390,7 @@ Skyline.VerticalLayout = new Class({
   orientation: "vertical",
   placePanelAt : function(panel,pos){
     panel.position = pos;    
-    panel.element.setStyles({"left" : 0, "top" : pos});
+    panel.element.setStyles({"left" : this.offsets.left - this.offsets["margin-left"] , "top" : pos});
     return pos + panel.height;
   },
   
@@ -270,17 +401,22 @@ Skyline.VerticalLayout = new Class({
   },
 
   setupWidths : function(){
-    this.element.setStyle("width",this.width);
+    var width = this.width - this.offsets.width;
+    if(width < 0) { width = 0; }
+    
+    this.element.setStyle("width", width);
     this.panels.each(function(panel){
       if(panel.hidden){ return; }      
-      panel.width = this.width;
+      panel.width = width;
       panel.setupWidths();
     }.bind(this));    
   },
   
   setupHeights : function(){
-    this.element.setStyle("height",this.height);
-    var rest = this.height;
+    var height = this.height - this.offsets.height;
+    if(height < 0){ height = 0; }
+    this.element.setStyle("height",height);
+    var rest = height;
     
     if(this.panels.length > 0){
       var variablePanel = null;
@@ -304,7 +440,13 @@ Skyline.VerticalLayout = new Class({
       this.setPanelSize(variablePanel,rest);      
       variablePanel.setupHeights();
     }
-  }
+    // setupHeights fires last so we add fire Resize here.
+    this.fireEvent("resize", [this, this.width - this.offsets.width, height]);
+  },
+  
+  getStartPos : function(){
+    return this.offsets.top - this.offsets["margin-top"];
+  }  
   
 });
 

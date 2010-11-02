@@ -31,7 +31,7 @@ Application.Layout = (function(){
       
       this.layout = new Skyline.VerticalLayout("application");
       this.layout.addPanel("headerArea", {height: "content"});
-      this.messageArea = this.layout.addPanel("messageArea", { layout: "horizontal", height: "content"});    
+      this.messageArea = this.layout.addPanel("messageArea", { layout: "horizontal", height: "content"});
       this.contentArea = this.layout.addPanel("contentArea", { layout: "horizontal"});
       
       var initStack = $A([]);
@@ -58,9 +58,9 @@ Application.Layout = (function(){
           this[fn](this[name]);
         }
       }.bind(this));
-
-      this.layout.setup();
-
+    
+      this.layout.setup();          
+       
       this._attachEvents();
       this._initializeUiComponents();
     },
@@ -101,11 +101,11 @@ Application.Layout = (function(){
       // Add all DD elements as panels and hide them (except the first)
       // We add the dd.contentFooterPanel manually later.
       var hidden = false;
-      var tabPanels = [];
       panel.element.getChildren("dd").each(function(dd){
-        if(dd.get("id") == "contentFooterPanel"){ return; }
-        var p = this[dd.get("id")] = panel.addPanel(dd, {layout: "vertical", hidden: hidden});
-        tabPanels.push(p);
+        var id = dd.get("id");
+        if(id == "contentFooterPanel"){ return; }
+        var p = this[id] = panel.addPanel(dd, {layout: "vertical", hidden: hidden});
+        if(this.initializeContentPanelTab){ this.initializeContentPanelTab(p,id); }
         hidden = true;
       }.bind(this));
       
@@ -118,8 +118,12 @@ Application.Layout = (function(){
     },
     
     initializeMetaPanel : function(panel){
-      panel.addPanel("metaHeaderPanel", {height:"content"});
-      panel.addPanel("metaBodyPanel");      
+      if($('metaHeaderPanel')){
+        panel.addPanel("metaHeaderPanel", {height:"content"});
+      }
+      if($('metaBodyPanel')){
+        panel.addPanel("metaBodyPanel");      
+      }
     },
     
     _initializeUiComponents : function(){
@@ -127,11 +131,6 @@ Application.Layout = (function(){
       $$('dl.advanced').each(function(e){
         new Skyline.Toggle(e.getElement("dt a"),e,{"class": "closed"});
       });
-
-      // TODO: Currently hardcoded, should someday become something like $$('ul.sections')...
-      if($('contentlist')){
-        new Application.Sections("contentlist",{ scrollParent : "contentEditPanel" });
-      }
       
       // TODO: Currently hardcoded
       if($('toggle_page_advanced')){
@@ -186,127 +185,105 @@ Application.Layout = (function(){
     }
   });
   
-  // =========================
-  // = Layout for Media view =
-  // =========================
   Layout.Media = new Class({
-    Extends : Layout,
-
-    initialize : function(){
-      this.parent(arguments);
-      this.initializeDirTree("dirtree");
-      $('newDir').addEvent("click", this.createDir.bind(this));
-    },
-
-    initializeDirTree : function(id){
-      if(this.tree){
-        this.tree.reload();
-        //Fire select event to open the active node
-        this.tree.selectNode(null, this.tree.selectedNode);
-        return;
-      };
-
-      var self = this;
-
-      this.tree = new Skyline.Tree(id,{
-  	    offsetParent: $(id).getOffsetParent(),      
-        draggable: true,
-        orderable: false,
-        dragMarker: false,
-        fixedRootNodes: true
-      });
-
-      this.tree.addEvent("select", function(event,link){
-        if(event){ event.stop(); }
-
-        new Request({ 
-          evalScripts: true, 
-          url: link.getProperty("href")
-        }).get();
-        return false;
-      });
-
-      /*Add move listener to send ajax request when a node is dropped*/
-      this.tree.addEvent("move", function(branchEl,newParentEl,newPosition){
-        var newParentId = Application.getId(newParentEl.get('id'));
-        var id = Application.getId(branchEl.get('id'));
-        new Request({ 
-          evalScripts:true, 
-          url: self.skylineMediaDirsPath + "/"+ id,
-          data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&skyline_media_dir[parent_id]=' + newParentId,
-          method: 'put'
-        }).send();
-        return false;
-      });
-
-      //Fire select event to open the active node
-      this.tree.selectNode(null, this.tree.selectedNode);
-    },
-
-    initializeUploadPanel : function(dirPath){
-   	  $('finishedbutton').setStyle('display','none');
-      var innerPanel = new Skyline.Toggle($("libraryuploader").getElement(".head"),$("libraryuploader"));
-     	innerPanel.addEvent("toggle",function(){ 
-        this.uploadPanel.parent.setup();
-      }.bind(this));
-
-       // Setup the uploadPanel.
-       this.uploadPanel.parent.setup();
-
-   		var upl = new Application.LibraryUploader("libraryuploaderform",I18n.LibraryUploader);
-
-   	  upl.addEvent("complete",function(){
-   	    $('uploadstatus').destroy();
-   	    $('cancelselect').destroy();
-   	    $('uploadbutton').destroy();
-   	    $('finishedbutton').setStyle('display','');
-   	    $('finishedbutton').addEvent("click",function() {
-   	      new Request({ 
-   	          evalScripts:true, 
-   	          url: dirPath,
-   	          method: 'get'
-   	   	  }).send();
-   	   	  return false;
-   	    });
-   	    new Request({ 
-   	       evalScripts:true, 
-   	       url: dirPath,
-   	       data: "listonly=true",
-   	       method: 'get'
-   	   	}).send();
-   	  });
-
-   	  $('cancelselect').addEvent('click', function() {
-    		upl.remove(); // remove all files
-    		innerPanel.toggle();
-    		return false;
-  		});
-   	},
-
-    createDir : function(){
-      target_id = Application.getId(this.tree.selectedNode.getParent("li").get("id"));
-
-      new Request({ 
-        evalScripts: true,
-        data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&parent_id='+target_id,
-        url: this.skylineMediaDirsPath,
-      	method: 'post'
-      }).send();
-    },
-
-    initializeContentPanel : function(panel){
-      this.parent(panel);
-
-      this.uploadPanel = this.contentBodyPanel.addPanel("uploadPanel", {height: "content"});
-      this.contentBodyPanel.addPanel("fileListPanel");    
-    }
-  });  
+    Extends : Layout
+  });
   
   Layout.current = null;
   
   return Layout;
 })();
 
+Application.Layout.Media.initializeTree = function(id){
+  var element = $(id);
+  var tree;
+  if(tree = element.retrieve("skyline.tree")){
+    tree.reload();
+    //Fire select event to open the active node
+    tree.selectNode(null, tree.selectedNode);
+    return;
+  };
+
+  tree = new Skyline.Tree(id,{
+    offsetParent: $(id).getOffsetParent(),      
+    draggable: true,
+    orderable: false,
+    dragMarker: false,
+    fixedRootNodes: true
+  });
+
+  tree.addEvent("select", function(event,link){
+    if(!event){ return; }
+    
+    event.stop(); 
+
+    new Request({ 
+      evalScripts: true, 
+      url: link.getProperty("href")
+    }).get();
+    return false;
+  });
+
+  /*Add move listener to send ajax request when a node is dropped*/
+  tree.addEvent("move", function(branchEl,newParentEl,newPosition){
+    var newParentId = Application.getId(newParentEl.get('id'));
+    var id = Application.getId(branchEl.get('id'));
+    new Request({ 
+      evalScripts:true, 
+      url: self.skylineMediaDirsPath + "/"+ id,
+      data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&skyline_media_dir[parent_id]=' + newParentId,
+      method: 'put'
+    }).send();
+    return false;
+  });
+
+};
+  
+Application.Layout.Media.initializeUploadPanel = function(dirPath){
+  var uPanel = $('contentInfoPanel')
+  var fB = $('finishedbutton');
+  fB.setStyle('display','none');
+
+  var upl = new Application.LibraryUploader("libraryuploaderform",I18n.LibraryUploader);
+
+  fB.addEvent("click",function(e) {
+    e.preventDefault();
+    upl.reset();
+    $('uploadstatus').setStyle("display","");
+    $('cancelselect').setStyle("display","");
+    $('uploadbutton').setStyle("display","");
+    $('finishedbutton').setStyle("display","none");
+    
+    uPanel.retrieve("skyline.layout").hide();
+  });  
+
+  upl.addEvent("complete",function(){
+    $('uploadstatus').setStyle("display","none");
+    $('cancelselect').setStyle("display","none");
+    $('uploadbutton').setStyle("display","none");
+    
+    $('finishedbutton').setStyle('display','');
+    
+    uPanel.retrieve("skyline.layout").parent.setup();
+    
+    // Get new File list.
+    new Request({
+       evalScripts: true, 
+       url: $('libraryuploaderform').getProperty("action"),
+       method: 'get'
+     }).send();
+  });
+  
+  upl.addEvent("start",function(){
+    uPanel.retrieve("skyline.layout").parent.setup();
+  })
+
+  $('cancelselect').addEvent('click', function() {
+   upl.reset(); // remove all files
+   uPanel.retrieve("skyline.layout").hide();
+   return false;
+ })
+};
 
 /*
   Class: Application.PanelTabs
