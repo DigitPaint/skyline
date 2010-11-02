@@ -94,34 +94,34 @@
       half_a_minute: "half a minute"
       less_than_x_seconds:
         one:   "less than one second"
-        other: "less than {{count}} seconds"
+        other: "less than %{count} seconds"
       x_seconds:
         one:   "one second"
-        other: "{{count}} seconds"
+        other: "%{count} seconds"
       less_than_x_minutes:
         one:   "less than one minute"
-        other: "less than {{count}} minutes"
+        other: "less than %{count} minutes"
       x_minutes:
         one:   "one minute"
-        other: "{{count}} minutes"
+        other: "%{count} minutes"
       about_x_hours:
         one:   "about one hour"
-        other: "about {{count}} hours"
+        other: "about %{count} hours"
       x_days:
         one:   "one day"
-        other: "{{count}} days"
+        other: "%{count} days"
       about_x_months:
         one:   "about one month"
-        other: "about {{count}} months"
+        other: "about %{count} months"
       x_months:
         one:   "one month"
-        other: "{{count}} months"
+        other: "%{count} months"
       about_x_years:
         one:   "about one year"
-        other: "about {{count}} years"
+        other: "about %{count} years"
       over_x_years:
         one:   "more than one year"
-        other: "more than {{count}} years"
+        other: "more than %{count} years"
     prompts:
       year:   "Year"
       month:  "Month"
@@ -135,8 +135,8 @@
     errors:
       template:
         header:
-          one:    "{{model}} could not be saved because of an error in the form."
-          other:  "{{count}} errors in the form prevented {{model}} to be saved."
+          one:    "%{model} could not be saved because of an error in the form."
+          other:  "%{count} errors in the form prevented %{model} to be saved."
         # The variable :count is also available
         body: "The following problems have occured:"
         
@@ -151,16 +151,16 @@
         accepted: "has to be accepted"
         empty: "may not be empty"
         blank: "may not be left blank"
-        too_long: "is too long (maximal {{count}} characters)"
-        too_short: "is too short (minimal {{count}} characters)"
-        wrong_length: "has the wrong length (has to be {{count}} characters)"
+        too_long: "is too long (maximal %{count} characters)"
+        too_short: "is too short (minimal %{count} characters)"
+        wrong_length: "has the wrong length (has to be %{count} characters)"
         taken: "is already taken"
         not_a_number: "is not a number"
-        greater_than: "has to be bigger than {{count}}"
-        greater_than_or_equal_to: "has to be bigger than or equal to {{count}}"
-        equal_to: "has to be equal to {{count}}"
-        less_than: "has to be less than {{count}}"
-        less_than_or_equal_to: "has to be less than or equal to {{count}}"
+        greater_than: "has to be bigger than %{count}"
+        greater_than_or_equal_to: "has to be bigger than or equal to %{count}"
+        equal_to: "has to be equal to %{count}"
+        less_than: "has to be less than %{count}"
+        less_than_or_equal_to: "has to be less than or equal to %{count}"
         odd: "has to be odd"
         even: "has to be even"
         duplicate: "is already been taken"
@@ -184,7 +184,7 @@
       # For example,
       #   models:
       #     user:
-      #       blank: "This is a custom blank message for {{model}}: {{attribute}}"
+      #       blank: "This is a custom blank message for %{model}: %{attribute}"
       #       attributes:
       #         login:
       #           blank: "This is a custom blank message for User login"
@@ -366,7 +366,7 @@
       users: "Usermanagement"
   authentication:
     logout: "Log out"
-    logged_in_as: "Logged in as <strong>{{user}}</strong>"
+    logged_in_as: "Logged in as <strong>%{user}</strong>"
     new:
       log_in: "Log in"
       email: "E-mailadres"
@@ -379,10 +379,10 @@
       super: "Super admin"      
     index:
       left_header: "Users"
-      header: "There are {{count}} users"
-      confirm_destroy: "Are you sure you want to delete the user {{display_name}}?"
+      header: "There are %{count} users"
+      confirm_destroy: "Are you sure you want to delete the user %{display_name}?"
     edit:
-      dialog_title: "Editing user {{display_name}}"
+      dialog_title: "Editing user %{display_name}"
       current_password_info: "Your password should be supplied when editing your own user."
       password_info: "Leave blank to keep current password."
       cannot_change_role: "It isn't possible to change your own role."
@@ -412,7 +412,7 @@
         success: "File succesfully saved."
         failed: "File could not be saved, please check your input and try again."
     index:
-      files_in: "Files in {{directory}}"
+      files_in: "Files in %{directory}"
     new:
       header: "Upload files in"
       no_files: "No files selected"
@@ -435,7 +435,7 @@
   variant_current_editor:
     takeover:
       dialog_title: "Editing has been taken over"
-      message: "{{user}} has forcefully taken over editing of this page."
+      message: "%{user} has forcefully taken over editing of this page."
       action_to_take: "What do you want to do with your changes?"
       ignore_changes: "Discard my changed."
       save_as_new_variant: "Save my changes to a new variant."
@@ -476,13 +476,13 @@
       identical_published_variant: "Identical to publication:"
       last_published: "Last publication:"
       published_variant: "Gepublished variant:"
-      number_of_publications: "This page has been published <strong>{{count}} times</strong>."
+      number_of_publications: "This page has been published <strong>%{count} times</strong>."
       publication_history: "Publication history:"
       publication_history_link: "View previous publications"
       confirm_delete_variant: "Are you sure you want to remove this variant?"
       confirm_delete: "Are you sure you want do remove the whole article with it's publication history?"
-      currently_editing_since: "{{user}} has started editing {{duration}} ago ({{since}})."
-      currently_editing_by: "This article is currently being modified by {{user}}."
+      currently_editing_since: "%{user} has started editing %{duration} ago (%{since})."
+      currently_editing_by: "This article is currently being modified by %{user}."
       force_editing: "Would you like to edit this article regardless?"
     update:
       flashes:
@@ -501,16 +501,16 @@
         error_page_has_children: "Article could not be deleted because it still contains articles."
     create:
       flashes:
-        error: "Error while creating a new article {{errors}}"
+        error: "Error while creating a new article %{errors}"
   page:
     buttons:
       delete_image: "delete_page"
       delete_alt: "Delete page"    
     edit:
       add_page_in: "In page"
-      number_of_publications: "This page has been published <strong>{{count}} times</strong>."
+      number_of_publications: "This page has been published <strong>%{count} times</strong>."
       confirm_delete: "Are you sure you would like to remove the whole page including its publication history?"
-      currently_editing_by: "This article is currently being modified by {{user}}"
+      currently_editing_by: "This article is currently being modified by %{user}"
       force_editing: "Do you still want to edit this page?"
     update:
       flashes:
@@ -529,16 +529,16 @@
         error_page_has_children: "The page could not be deleted because the page includes other pages."
     create:
       flashes:
-        error: "Error while creating page {{errors}}"  
+        error: "Error while creating page %{errors}"  
   section:
     form:
-      will_be_destroyed: "{{section}} will be deleted when saving."
+      will_be_destroyed: "%{section} will be deleted when saving."
       delete: "X"
       no_sectionable: "Help, I don't have a Sectionable"
       messages: "messages"
   link_section:
     form:
-      will_be_destroyed: "Link {{link}} will be deleted when saving"
+      will_be_destroyed: "Link %{link} will be deleted when saving"
       delete: "X"
   redirect_section:
     form:
@@ -595,7 +595,7 @@
         error: "The variant could not be deleted."
         error_variant_published: "The variant could not be deleted because it is still published."
   settings:
-    title: "{{class}} settings"
+    title: "%{class} settings"
     group_title: Settings 
     update:      
       flashes:
@@ -612,15 +612,15 @@
       url: "URL"
     file:
       dialog_title: "Choose file"
-      links_to: "{{referable_title}}"
+      links_to: "%{referable_title}"
       nothing_selected: "No file has been selected"      
     page:
       dialog_title: "Choose page"
-      links_to: "{{referable_title}}"
+      links_to: "%{referable_title}"
       nothing_selected: "No page has been selected"      
     link:
       dialog_title: "Choose link"
-      links_to: "Links to: {{referable_title}}"
+      links_to: "Links to: %{referable_title}"
       nothing_selected: "No link has been selected"
       title: "Tooltip"
       target: "Open in"
@@ -629,7 +629,7 @@
         "-" : "Same window"
     image:
       dialog_title: "Choose image"
-      links_to: "{{referable_title}}"
+      links_to: "%{referable_title}"
       nothing_selected: "No image has been selected"      
       alt: "Alt"
       dimensions: "Size (WxH)"
@@ -647,49 +647,49 @@
     menu: Content elements
     default_group: Content elements
     breadcrumb_prefix: "Breadcrumb:"
-    add_a_new: Add {{class}}
-    add_more: Add more {{class}}
+    add_a_new: Add %{class}
+    add_more: Add more %{class}
     pagination:
-      number_of: "Nubmer of {{class}}:"
+      number_of: "Nubmer of %{class}:"
       pages: "Pages:"
       next: "Next &raquo;"
       previous: "Previous &raquo;"
     editors:
       checkable_list:
-        blank: "There are no {{class}}."
+        blank: "There are no %{class}."
       file:
         no_file_selected: No file selected
         cancel_selection: Cancel file selection
       display:
         empty: Empty
       joinable_list:
-        adding: "{{class}} beeing added..."
-        add_to: "add to {{class}}"
+        adding: "%{class} beeing added..."
+        add_to: "add to %{class}"
     flashes:
       invalid_record: Not good - ActiveRecord::RecordInvalid
-      successfully_saved: The {{class}} is saved
-      validation_error: The {{class}} could not be saved. Check your input and try again.
-      successfully_deleted: The {{class}} has been deleted.
-      fail_deleted: The {{class}} could not be deleted
+      successfully_saved: The %{class} is saved
+      validation_error: The %{class} could not be saved. Check your input and try again.
+      successfully_deleted: The %{class} has been deleted.
+      fail_deleted: The %{class} could not be deleted
       version_conflict: >
-        <strong>Alert!</strong> This version ({{your_version}}) could not be saved. A newer version ({{current_version}})
-        creaded by <em>{{current_author}}</em> is available. Compare your version with the current version
-        before saving. {{show_link}}
+        <strong>Alert!</strong> This version (%{your_version}) could not be saved. A newer version (%{current_version})
+        creaded by <em>%{current_author}</em> is available. Compare your version with the current version
+        before saving. %{show_link}
       successfully_imported: The import was successful
       no_import_file_selected: Import was not successful, the XML file was not uploaded.
       import_failed: Import was not successful, check the XML file.
     index:
-      title: "{{value}} &mdash; Content"
+      title: "%{value} &mdash; Content"
       intro: On the left side you can see all the possible content-types. Choose one of the content-types to view, edit or delete.
     list:
       info: "Details"
-      confirm_deletion: Are you sure you want to delete {{class}}?
+      confirm_deletion: Are you sure you want to delete %{class}?
       up_one_level: ".. move up"    
-      blank_slate: "there are no {{class}}"    
+      blank_slate: "there are no %{class}"    
       export: "Export &raquo;"
       import: "Import &raquo;"
-      title: Content list &mdash; {{class}}
-      title_sublisting: Content list &mdash; {{group}} for {{title}}
+      title: Content list &mdash; %{class}
+      title_sublisting: Content list &mdash; %{group} for %{title}
       filter: Filter
       filter_none: "-- no filter --"    
       filter_apply: Apply filter
@@ -697,9 +697,9 @@
       dialog_title: "Import"
       choose_file: "Choose file to be imported (XML)"
     create:
-      title: Create {{class}}
+      title: Create %{class}
     edit:
-      title: "Edit {{class}}: {{title}}"
+      title: "Edit %{class}: %{title}"
       meta_information: Meta details
       available_tags: "Available tags:"
       available_tags_info: "(click on a tag to select or deselect the tag)"
@@ -708,16 +708,16 @@
       publish: Publish
       published: Published
       publish_automatically_at: "Publiceren automaticaly on:"
-      add_a_to_b: "add {{a}} to {{b}}"    
+      add_a_to_b: "add %{a} to %{b}"    
       add_multiple: Add multiple (avoids closing this window)
-      version_conflict: <strong>Attention</strong> Saving will override the changes made by {{current_author}}
-      see_changes_by: Click here to view the changes of {{current_author}}.
+      version_conflict: <strong>Attention</strong> Saving will override the changes made by %{current_author}
+      see_changes_by: Click here to view the changes of %{current_author}.
       discard_changes: Discard my changes
     show:
-      title: "View {{class}}: {{title}}"
+      title: "View %{class}: %{title}"
       currently_viewing: >
-        <strong>Shown version </strong> versie {{current_version}}
-        by <em>{{current_author}}</em>.
+        <strong>Shown version </strong> versie %{current_version}
+        by <em>%{current_author}</em>.
     error:
       title: this content-type does not exist.
       intro:       
