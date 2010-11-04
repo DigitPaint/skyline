@@ -1,3 +1,23 @@
+*Stable
+
+* Update test code
+* Update tinyMCE to 3.3.9
+* Fix generator methods to use notifications.
+* Add support for disappearing flashes.
+* Fix bugs regarding ref_objects
+* Fix number of users display and don't break if created_at is not set.
+* Fix updating of number of files in uploader.
+* Changed icons in presenter for content elements
+* Remove all of Solr search, it will be put in a plugin.
+* Refactor Renderer and RenderableScope* to the Rendering module.
+* Added deprecation for Skyline::Renderer.
+* Deprecate Skyline::FormBuilderWithErrors in favour of Skyline::FormBuilder
+* Deprecate SectionItem in favour of Sections::Interface.
+* Deprecate Referable in favour of HasManyReferablesIn.
+* Deprecate ContentItem in favour of BelongsToReferable.
+* Added proportional dimension calculation to MediaFile and use it in MediaSection.
+* Add (optional) link to Skyline::Sections::MediaSection.
+
 *3.0.8 (December 18, 2009)*
 
 * Added support for SQLite3
