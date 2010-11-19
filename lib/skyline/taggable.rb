@@ -61,9 +61,9 @@ module Skyline::Taggable
   end
   
   def clone_with_associated_tags
-    returning clone_without_associated_tags do |clone|      
+    clone_without_associated_tags.tap{|clone|      
       clone.associated_tags = self.associated_tags.collect{|at| at.clone }
-    end
+    }
   end  
   
   protected
