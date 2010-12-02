@@ -250,6 +250,17 @@ dl.panel dt{
   background: url(../images/backgrounds/panel-dt.gif) 0 50% repeat-x;
   cursor: pointer;
 }
+
+dl.panel dt .button,
+dl.panel dt .menubutton{
+  visibility: hidden;
+}
+
+dl.panel dt.active .button,
+dl.panel dt.active .menubutton{
+  visibility: inherit;
+}
+
 dl.panel dt.active{
   cursor: default;
 }
