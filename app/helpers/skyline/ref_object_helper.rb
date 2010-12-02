@@ -76,7 +76,7 @@ module Skyline::RefObjectHelper
         l << browse_button
       end
       
-      c = content_tag("div", c.join, :class => "relatesTo #{"linked" if linked_form.object.andand.referable && !linked_form.object.andand.marked_for_destruction?}")
+      c = content_tag("div", c.join, :class => "relatesTo #{"linked" if linked_form.object.present? && !linked_form.object.andand.marked_for_destruction?}")
     end
 
     content_tag("div", c, :id => form_builder.dom_id(field), :class => css_class) + form_builder.fieldset_errors(field).to_s
