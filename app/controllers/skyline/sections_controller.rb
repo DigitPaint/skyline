@@ -8,11 +8,18 @@ class Skyline::SectionsController < Skyline::ApplicationController
       section.sectionable = params[:sectionable_type].constantize.new
       section_guid = Guid.new
       
-      fields_for params[:object_name] do |variant_form|
-        page.insert_html(:bottom, "contentlist", :partial => "form", :locals => {:variant_form => variant_form, :section => section, :guid => section_guid})
+      if params[:after_section]
+        pos, id = :after, params[:after_section]          
+      else
+        pos, id = :bottom, "contentlist"
       end
+            
+      fields_for params[:object_name] do |variant_form|
+        page.insert_html(pos, id, :partial => "form", :locals => {:variant_form => variant_form, :section => section, :guid => section_guid})
+      end
+      
       page << "$('contentlist').retrieve('application.sections').addSection('section_#{section_guid}');"
-      page << "var myFx = new Fx.Scroll(\"contentEditPanel\").toBottom();"
+      page << "var myFx = new Fx.Scroll(\"contentEditPanel\").toElement('#{id}');"
     end
   end
   
