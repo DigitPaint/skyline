@@ -30,7 +30,7 @@
                 <% menu_button t(:add_section, :scope => [:article, :edit]), :id => "add_section_button" do %>
                   <ul>
                     <% Skyline::Rendering::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
-                      <li><%= link_to_remote(section.human_name, :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), :method => :get) %></li>
+                      <li><%= link_to_remote(section.human_name, :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), :method => :get, :data => "'after_section=' + $('contentlist').retrieve('application.sections').getCurrentActiveId()") %></li>
                     <% end %>
                   </ul>              
                 <% end %>
