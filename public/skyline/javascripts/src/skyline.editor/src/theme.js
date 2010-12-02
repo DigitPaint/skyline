@@ -90,6 +90,10 @@
 				readonly : ed.settings.readonly
 			}, ed.settings);
 
+      if(!ed.onFocus){
+        ed.onFocus = new tinymce.util.Dispatcher(ed);
+      }
+
 			// Init editor
 			ed.onInit.add(function() {
 				ed.onNodeChange.add(t._nodeChanged, t);
@@ -102,7 +106,9 @@
         if(ifr.contentDocument){
           ifr = ifr.contentDocument;
         }
+        
         Event.add(ifr,"focus",function(){
+          ed.onFocus.dispatch(ed);
           t._onFocus();
         });
         
@@ -113,6 +119,8 @@
         ed.controlManager.setControlType("separator", Skyline.Editor.Separator);
         ed.controlManager.setControlType("toolbar", Skyline.Editor.Toolbar);        
       });
+			
+			
 			
       ed.onActivate.add(t._onActivate,t);
       ed.onDeactivate.add(t._onDeactivate,t);
