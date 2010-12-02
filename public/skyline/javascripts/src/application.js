@@ -164,10 +164,6 @@ Application.Layout = (function(){
         this.contentPreviewPanel.addPanel("contentPreview");
       }
 
-      if($("contentlist")){
-        new Application.Sections("contentlist",{ scrollParent : "contentEditPanel" });
-      }
-
       // Editor / Preview tabs
       if(this.contentFooterPanel){
         var tabEl = this.contentFooterPanel.element.getElement("ul.bottomtabs");
