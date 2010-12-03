@@ -18,9 +18,12 @@
             <div class="innerpanel">
               <% begin %>
                 <% content = capture do  %>
-                  <div class="body">
-                    <%= render :partial => "skyline/articles/#{a.object.class.name.demodulize.underscore}/header", :locals => {:a => a, :v => v, :vd => vd} %>
-                  </div>                  
+                  <% partial_content = render(:partial => "skyline/articles/#{a.object.class.name.demodulize.underscore}/header", :locals => {:a => a, :v => v, :vd => vd}) %>
+                  <% if partial_content.present?  %>
+                    <div class="body">
+                      <%= partial_content %>
+                    </div>                  
+                  <% end %>
                 <% end %>
               <% rescue ActionView::MissingTemplate %>
                 <% content = "" %>
