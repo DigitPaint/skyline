@@ -1,6 +1,7 @@
 class Skyline::ApplicationController < ApplicationController
   include Skyline::TranslationHelper
   
+  before_filter :set_locale
   before_filter :authenticate_user, :identifier => :authentication
   before_filter :authorize_user_for_action, :identifier => :authorization
   
@@ -57,9 +58,15 @@ class Skyline::ApplicationController < ApplicationController
       end
       self.filter_chain.send(:update_filter_chain,filters, :before,pos+1, &block)
     end
+    
   end
 
   protected
+
+  # Sets locale according to the configuration on every request
+  def set_locale
+    I18n.locale = Skyline::Configuration.locale.present? ? Skyline::Configuration.locale : "en-US"
+  end
   
   def default_url_options(options=nil)
     return if options.nil?

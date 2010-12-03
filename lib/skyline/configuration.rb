@@ -33,6 +33,8 @@ class Skyline::Configuration < Configure
     config.skyline_logo = "/skyline/images/logo.png"
     config.branding_name = ""
     
+    config.locale = "en-US"
+    
     # ie: [{:path => "/stylesheets/skyline.css", :if => "lte IE 7"}]
     config.custom_stylesheets = []
     
