@@ -19,7 +19,7 @@ class Skyline::SectionsController < Skyline::ApplicationController
       end
       
       page << "$('contentlist').retrieve('application.sections').addSection('section_#{section_guid}');"
-      page << "var myFx = new Fx.Scroll(\"contentEditPanel\").toElement('#{id}');"
+      page << "$('contentEditPanel').scrollTo(0, $('contentEditPanel').getScroll().y + $('section_#{section_guid}').getPosition(\"contentEditPanel\").y)"
     end
   end
   
