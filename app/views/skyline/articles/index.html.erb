@@ -17,38 +17,11 @@
       <div class="content">
 
         <% if @articles.any? %>
-          <ul id="list" class="article-list">
-            <li class="header">
-              <div class="edit">&nbsp;</div>
-              <div class="draggable">
-                <div class="content">
-                  &nbsp;
-                </div>
-              </div>
-              <div class="clear">
-                &nbsp;
-              </div>
-            </li>
-          
-            <% @articles.each do |article| %>
-              <li class="<%= cycle("odd","even") %> element">
-                <div class="edit">
-                  <%= link_to button_text(:edit), edit_skyline_article_path(article), :class => "button small" %>
-                </div>
-                <div class="draggable">
-                  <div class="content">
-                    <h3>
-                      <%= article.title.blank? ? "&nbsp;" : article.title %>
-                    </h3>
-                  </div>
-                </div>
-                <div class="clear">
-                  &nbsp;
-                </div>
-              </li>
-            <% end %>
-          </ul>
-
+          <% begin %>
+            <%= render :partial => "skyline/articles/#{controller.class_from_type.name.demodulize.underscore}/list" %>          
+          <% rescue ActionView::MissingTemplate %>
+            <%= render :partial => "list" %>          
+          <% end %>
         <% else %>
           <em>Nog geen <%= controller.class_from_type.human_name(:count => 2) %> aanwezig.</em>
         <% end %>

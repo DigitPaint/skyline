@@ -1,0 +1,32 @@
+<ul id="list" class="article-list">
+  <li class="header">
+    <div class="edit">&nbsp;</div>
+    <div class="draggable">
+      <div class="content">
+        &nbsp;
+      </div>
+    </div>
+    <div class="clear">
+      &nbsp;
+    </div>
+  </li>
+
+
+  <% @articles.each do |article| %>
+    <li class="<%= cycle("odd","even") %> element">
+      <div class="edit">
+        <%= link_to button_text(:edit), edit_skyline_article_path(article), :class => "button small" %>
+      </div>
+      <div class="draggable">
+        <div class="content">
+          <h3>
+            <%= article.title.blank? ? "&nbsp;" : article.title %>
+          </h3>
+        </div>
+      </div>
+      <div class="clear">
+        &nbsp;
+      </div>
+    </li>
+  <% end %>
+</ul>
