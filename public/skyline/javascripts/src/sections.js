@@ -29,8 +29,10 @@ Application.Sections = new Class({
   },
   
   getCurrentActiveId : function(){
-    if(this.currentActive){
+    if($type(this.currentActive)){
       return this.currentActive.get("id");
+    } else {
+      return null;
     }
   },
   
