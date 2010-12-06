@@ -254,13 +254,22 @@ module ActionView
           module GeneratorMethods
             
             def to_s #:nodoc:
-              returning javascript = @lines * $/ do
+              (@lines * $/).tap{|javascript| 
                 if ActionView::Base.debug_rjs
                   source = javascript.dup
                   javascript.replace "try {\n#{source}\n} catch (e) "
                   javascript << "{ alert('RJS error:\\n\\n' + e.toString()); alert('#{source.gsub('\\','\0\0').gsub(/\r\n|\n|\r/, "\\n").gsub(/["']/) { |m| "\\#{m}" }}'); throw e }"
                 end
-              end
+              }
+              
+              # 
+              # returning javascript = @lines * $/ do
+              #   if ActionView::Base.debug_rjs
+              #     source = javascript.dup
+              #     javascript.replace "try {\n#{source}\n} catch (e) "
+              #     javascript << "{ alert('RJS error:\\n\\n' + e.toString()); alert('#{source.gsub('\\','\0\0').gsub(/\r\n|\n|\r/, "\\n").gsub(/["']/) { |m| "\\#{m}" }}'); throw e }"
+              #   end
+              # end
             end
             
             # Insert an element (before, after) an other
@@ -354,9 +363,9 @@ module ActionView
               end
               
               def record(line)
-                returning line = "#{line.to_s.chomp.gsub(/\;\z/, '')};" do
+                "#{line.to_s.chomp.gsub(/\;\z/, '')};".tap{|line|
                   self << line
-                end
+                }
               end
             
               def page

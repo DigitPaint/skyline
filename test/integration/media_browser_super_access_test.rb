@@ -1,5 +1,5 @@
 require 'test_helper'
-#require File.dirname(__FILE__) + '/../../db/fixtures/roles_and_rights.rb' 
+require File.dirname(__FILE__) + '/../../db/fixtures/roles_and_rights.rb' 
 require 'user_access_helper'
 
 class MediaBrowserSuperAccessTest < ActionController::IntegrationTest
@@ -8,7 +8,7 @@ class MediaBrowserSuperAccessTest < ActionController::IntegrationTest
   context "A Super user" do
     setup do            
       #TODO: figure out why it doesn't work if seed file is included at the top
-      load File.dirname(__FILE__) + '/../../db/fixtures/roles_and_rights.rb' 
+      # load File.dirname(__FILE__) + '/../../db/fixtures/roles_and_rights.rb' 
       build_complete_environment            
                   
       @role = Skyline::Role.find_by_name("super")

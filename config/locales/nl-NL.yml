@@ -94,34 +94,34 @@
       half_a_minute: "een halve minuut"
       less_than_x_seconds:
         one:   "minder dan een seconde"
-        other: "minder dan {{count}} seconden"
+        other: "minder dan %{count} seconden"
       x_seconds:
         one:   "een seconde"
-        other: "{{count}} seconden"
+        other: "%{count} seconden"
       less_than_x_minutes:
         one:   "minder dan een minuut"
-        other: "minder dan {{count}} minuten"
+        other: "minder dan %{count} minuten"
       x_minutes:
         one:   "een minuut"
-        other: "{{count}} minuten"
+        other: "%{count} minuten"
       about_x_hours:
         one:   "ongeveer een uur"
-        other: "ongeveer {{count}} uur"
+        other: "ongeveer %{count} uur"
       x_days:
         one:   "een dag"
-        other: "{{count}} dagen"
+        other: "%{count} dagen"
       about_x_months:
         one:   "ongeveer een maand"
-        other: "ongeveer {{count}} maanden"
+        other: "ongeveer %{count} maanden"
       x_months:
         one:   "1 maand"
-        other: "{{count}} maanden"
+        other: "%{count} maanden"
       about_x_years:
         one:   "ongeveer een jaar"
-        other: "ongeveer {{count}} jaar"
+        other: "ongeveer %{count} jaar"
       over_x_years:
         one:   "meer dan een jaar"
-        other: "meer dan {{count}} jaar"
+        other: "meer dan %{count} jaar"
     prompts:
       year:   "Jaar"
       month:  "Maand"
@@ -135,8 +135,8 @@
     errors:
       template:
         header:
-          one:    "Door een fout in het invulformulier kon {{model}} niet opgeslagen worden."
-          other:  "Door {{count}} fouten in het invulformulier kon {{model}} niet opgeslagen worden."
+          one:    "Door een fout in het invulformulier kon %{model} niet opgeslagen worden."
+          other:  "Door %{count} fouten in het invulformulier kon %{model} niet opgeslagen worden."
         # The variable :count is also available
         body: "De volgende problemen traden op:"
         
@@ -151,16 +151,16 @@
         accepted: "moet geaccepteerd worden"
         empty: "mag niet leeg zijn"
         blank: "moet ingevuld worden"
-        too_long: "is te lang (maximaal {{count}} tekens)"
-        too_short: "is te kort (minimaal {{count}} tekens)"
-        wrong_length: "heeft een verkeerde lengte (het moet {{count}} tekens lang zijn)"
+        too_long: "is te lang (maximaal %{count} tekens)"
+        too_short: "is te kort (minimaal %{count} tekens)"
+        wrong_length: "heeft een verkeerde lengte (het moet %{count} tekens lang zijn)"
         taken: "is al bezet"
         not_a_number: "is geen getal"
-        greater_than: "moet groter zijn dan {{count}}"
-        greater_than_or_equal_to: "moet groter zijn dan of gelijk zijn aan {{count}}"
-        equal_to: "moet gelijk zijn aan {{count}}"
-        less_than: "moet minder zijn dan {{count}}"
-        less_than_or_equal_to: "moet minder zijn dan of gelijk zijn aan {{count}}"
+        greater_than: "moet groter zijn dan %{count}"
+        greater_than_or_equal_to: "moet groter zijn dan of gelijk zijn aan %{count}"
+        equal_to: "moet gelijk zijn aan %{count}"
+        less_than: "moet minder zijn dan %{count}"
+        less_than_or_equal_to: "moet minder zijn dan of gelijk zijn aan %{count}"
         odd: "moet oneven zijn"
         even: "moet even zijn"
         duplicate: "is reeds in gebruik"
@@ -184,7 +184,7 @@
       # For example,
       #   models:
       #     user:
-      #       blank: "This is a custom blank message for {{model}}: {{attribute}}"
+      #       blank: "This is a custom blank message for %{model}: %{attribute}"
       #       attributes:
       #         login:
       #           blank: "This is a custom blank message for User login"
@@ -366,7 +366,7 @@
       users: "Gebruikersbeheer"
   authentication:
     logout: "Uitloggen"
-    logged_in_as: "Ingelogd als <strong>{{user}}</strong>"
+    logged_in_as: "Ingelogd als <strong>%{user}</strong>"
     new:
       log_in: "Inloggen"
       email: "E-mailadres"
@@ -379,10 +379,10 @@
       super: "Superbeheerder"
     index:
       left_header: "Gebruikers"
-      header: "Er zijn {{count}} gebruikers"
-      confirm_destroy: "Weet u zeker dat u gebruiker {{display_name}} wilt verwijderen?"
+      header: "Er zijn %{count} gebruikers"
+      confirm_destroy: "Weet u zeker dat u gebruiker %{display_name} wilt verwijderen?"
     edit:
-      dialog_title: "Bewerken van gebruiker {{display_name}}"
+      dialog_title: "Bewerken van gebruiker %{display_name}"
       current_password_info: "Bij het bewerken van uw eigen gebruiker dient u uw huidige wachtwoord in te voeren."
       password_info: "Leeglaten indien het wachtwoord niet gewijzigd hoeft te worden."
       cannot_change_role: "Het is niet mogelijk uw eigen rol te wijzigen."
@@ -412,7 +412,7 @@
         success: "Bestand succesvol opgeslagen."
         failed: "Bestand kon niet worden opgeslagen, controleer uw invoer en probeer het opnieuw."
     index:
-      files_in: "Bestanden in {{directory}}"
+      files_in: "Bestanden in %{directory}"
     new:
       header: "Bestanden uploaden in"
       no_files: "Nog geen bestanden gekozen"
@@ -435,7 +435,7 @@
   variant_current_editor:
     takeover:
       dialog_title: "Bewerken overgenomen"
-      message: "{{user}} heeft het bewerken van dit artikel geforceerd overgenomen."
+      message: "%{user} heeft het bewerken van dit artikel geforceerd overgenomen."
       action_to_take: "Wat wilt u doen met uw wijzigingen?"
       ignore_changes: "Mijn wijzigingen verwerpen."
       save_as_new_variant: "Mijn wijzigingen opslaan in een nieuwe variant."
@@ -476,13 +476,13 @@
       identical_published_variant: "Identiek aan publicatie:"
       last_published: "Laatste publicatie:"
       published_variant: "Gepubliceerde variant:"
-      number_of_publications: "Dit artikel is <strong>{{count}} keer</strong> gepubliceerd."
+      number_of_publications: "Dit artikel is <strong>%{count} keer</strong> gepubliceerd."
       publication_history: "Publicatiegeschiedenis:"
       publication_history_link: "Bekijk oudere publicaties"
       confirm_delete_variant: "Weet u zeker dat u deze variant wilt verwijderen?"
       confirm_delete: "Weet u zeker dat u dit hele artikel inclusief de publicatiegeschiedenis wilt verwijderen?"
-      currently_editing_since: "{{user}} is {{duration}} geleden ({{since}}) begonnen met bewerken."
-      currently_editing_by: "Dit artikel wordt momenteel door {{user}} bewerkt."
+      currently_editing_since: "%{user} is %{duration} geleden (%{since}) begonnen met bewerken."
+      currently_editing_by: "Dit artikel wordt momenteel door %{user} bewerkt."
       force_editing: "Wilt u dit artikel alsnog bewerken?"
     update:
       flashes:
@@ -501,16 +501,16 @@
         error_page_has_children: "Het artikel kan niet verwijderd worden, omdat het artikel nog artikelen onder zich bevat."
     create:
       flashes:
-        error: "Fout bij aanmaken van het nieuwe artikel {{errors}}"
+        error: "Fout bij aanmaken van het nieuwe artikel %{errors}"
   page:    
     buttons:
       delete_image: "delete_page"
       delete_alt: "Verwijder pagina"    
     edit:
       add_page_in: "Onder pagina"
-      number_of_publications: "Deze pagina is <strong>{{count}} keer</strong> gepubliceerd."
+      number_of_publications: "Deze pagina is <strong>%{count} keer</strong> gepubliceerd."
       confirm_delete: "Weet u zeker dat u deze hele pagina inclusief de publicatiegeschiedenis wilt verwijderen?"
-      currently_editing_by: "Deze pagina wordt momenteel door {{user}} bewerkt."
+      currently_editing_by: "Deze pagina wordt momenteel door %{user} bewerkt."
       force_editing: "Wilt u deze pagina alsnog bewerken?"
     update:
       flashes:
@@ -529,16 +529,16 @@
         error_page_has_children: "De pagina kan niet verwijderd worden, omdat de pagina nog pagina's onder zich bevat."
     create:
       flashes:
-        error: "Fout bij aanmaken van de nieuwe pagina {{errors}}"    
+        error: "Fout bij aanmaken van de nieuwe pagina %{errors}"    
   section:
     form:
-      will_be_destroyed: "{{section}} wordt verwijderd bij opslaan."
+      will_be_destroyed: "%{section} wordt verwijderd bij opslaan."
       delete: "X"
       no_sectionable: "Help, ik heb geen Sectionable"
       messages: "berichten"
   link_section:
     form:
-      will_be_destroyed: "Link {{link}} wordt verwijderd bij opslaan"
+      will_be_destroyed: "Link %{link} wordt verwijderd bij opslaan"
       delete: "X"
   redirect_section:
     form:
@@ -595,7 +595,7 @@
         error: "De variant kon niet verwijderd worden."
         error_variant_published: "De variant kan niet verwijderd worden omdat deze nog gepubliceerd is."
   settings:
-    title: "{{class}} instellingen"
+    title: "%{class} instellingen"
     group_title: Instellingen 
     update:      
       flashes:
@@ -612,15 +612,15 @@
       url: "URL"
     file:
       dialog_title: "Kies bestand"
-      links_to: "{{referable_title}}"
+      links_to: "%{referable_title}"
       nothing_selected: "Nog geen bestand gekozen"
     page:
       dialog_title: "Kies pagina"
-      links_to: "{{referable_title}}"
+      links_to: "%{referable_title}"
       nothing_selected: "Nog geen pagina gekozen"
     link:
       dialog_title: "Kies link"
-      links_to: "Linkt naar: {{referable_title}}"
+      links_to: "Linkt naar: %{referable_title}"
       nothing_selected: "Nog geen link gekozen"      
       title: "Tooltip"
       target: "Openen in"
@@ -629,7 +629,7 @@
         "-" : "Zelfde venster"
     image:
       dialog_title: "Kies afbeelding"
-      links_to: "Linkt naar: {{referable_title}}"
+      links_to: "Linkt naar: %{referable_title}"
       nothing_selected: "Nog geen afbeelding gekozen"      
       alt: "Alt"
       dimensions: "Afmetingen (BxH)"
@@ -647,49 +647,49 @@
     menu: Contentelementen
     default_group: Contentelementen
     breadcrumb_prefix: "Kruimelpad:"
-    add_a_new: Voeg {{class}} toe
-    add_more: Voeg meer {{class}} toe
+    add_a_new: Voeg %{class} toe
+    add_more: Voeg meer %{class} toe
     pagination:
-      number_of: "Aantal {{class}}:"
+      number_of: "Aantal %{class}:"
       pages: "Pagina's:"
       next: "Volgende &raquo;"
       previous: "Vorige &raquo;"
     editors:
       checkable_list:
-        blank: "Er zijn nog geen {{class}}."
+        blank: "Er zijn nog geen %{class}."
       file:
         no_file_selected: Geen bestand geselecteerd
         cancel_selection: Bestand selecteren afbreken
       display:
         empty: Leeg
       joinable_list:
-        adding: "{{class}} wordt toegevoegd..."
-        add_to: "toevoegen aan {{class}}"
+        adding: "%{class} wordt toegevoegd..."
+        add_to: "toevoegen aan %{class}"
     flashes:
       invalid_record: Not good - ActiveRecord::RecordInvalid
-      successfully_saved: De/het {{class}} is opgeslagen
-      validation_error: De/het {{class}} kon niet worden opgeslagen. Controleer uw invoer hieronder en probeer het opnieuw.
-      successfully_deleted: De/het {{class}} is verwijderd
-      fail_deleted: De/het {{class}} kon niet worden verwijderd
+      successfully_saved: De/het %{class} is opgeslagen
+      validation_error: De/het %{class} kon niet worden opgeslagen. Controleer uw invoer hieronder en probeer het opnieuw.
+      successfully_deleted: De/het %{class} is verwijderd
+      fail_deleted: De/het %{class} kon niet worden verwijderd
       version_conflict: >
-        <strong>Let op!</strong> Deze versie ({{your_version}}) kon niet worden opgeslagen. Een nieuwere versie ({{current_version}})
-        gemaakt door <em>{{current_author}}</em> is beschikbaar. Vergelijk uw versie met de huidige versie
-        alvorens deze op te slaan. {{show_link}}
+        <strong>Let op!</strong> Deze versie (%{your_version}) kon niet worden opgeslagen. Een nieuwere versie (%{current_version})
+        gemaakt door <em>%{current_author}</em> is beschikbaar. Vergelijk uw versie met de huidige versie
+        alvorens deze op te slaan. %{show_link}
       successfully_imported: De import is succesvol verlopen
       no_import_file_selected: Import is niet succesvol verlopen, er is geen XML bestand geupload
-      import_failed: "Import is niet succesvol verlopen, controleer het invoer XML bestand op: {{errors}}"
+      import_failed: "Import is niet succesvol verlopen, controleer het invoer XML bestand op: %{errors}"
     index:
-      title: "{{value}} &mdash; Content"
+      title: "%{value} &mdash; Content"
       intro: Aan de linkerkant vindt u alle mogelijke content-types. Kies een van de content-types om deze te bekijken, te bewerken of te verwijderen. 
     list:
       info: "Gegevens"
-      confirm_deletion: Weet u zeker dat u deze {{class}} wilt verwijderen?
+      confirm_deletion: Weet u zeker dat u deze %{class} wilt verwijderen?
       up_one_level: ".. één niveau omhoog"    
-      blank_slate: "Er zijn op het moment nog geen {{class}}"    
+      blank_slate: "Er zijn op het moment nog geen %{class}"    
       export: "Export &raquo;"
       import: "Import &raquo;"
-      title: Content lijst &mdash; {{class}}
-      title_sublisting: Content lijst &mdash; {{group}} voor {{title}}
+      title: Content lijst &mdash; %{class}
+      title_sublisting: Content lijst &mdash; %{group} voor %{title}
       filter: Filter
       filter_none: "-- geen filter --"    
       filter_apply: Filter toepassen
@@ -697,9 +697,9 @@
       dialog_title: "Importeren"
       choose_file: "Kies te importeren bestand (XML)"
     create:
-      title: Aanmaken van {{class}}
+      title: Aanmaken van %{class}
     edit:
-      title: "Bewerken van {{class}}: {{title}}"
+      title: "Bewerken van %{class}: %{title}"
       meta_information: Meta informatie
       available_tags: "Beschikbare tags:"
       available_tags_info: "(klik op een tag om deze te selecteren of deselecteren)"
@@ -708,16 +708,16 @@
       publish: Publiceren
       published: Gepubliceerd
       publish_automatically_at: "Automatisch publiceren op:"
-      add_a_to_b: "{{a}} toevoegen aan {{b}}"    
+      add_a_to_b: "%{a} toevoegen aan %{b}"    
       add_multiple: Meerdere toevoegen (voorkomt sluiten van dit venster)
-      version_conflict: <strong>Attentie</strong> Opslaan overschrijft de wijzigingen gemaakt door {{current_author}}
-      see_changes_by: Klik hier om de wijzigingen van {{current_author}} te bekijken.
+      version_conflict: <strong>Attentie</strong> Opslaan overschrijft de wijzigingen gemaakt door %{current_author}
+      see_changes_by: Klik hier om de wijzigingen van %{current_author} te bekijken.
       discard_changes: Mijn wijzigingen verwerpen
     show:
-      title: "Tonen van {{class}}: {{title}}"
+      title: "Tonen van %{class}: %{title}"
       currently_viewing: >
-        <strong>Gentoond wordt </strong> versie {{current_version}}
-        door <em>{{current_author}}</em>.
+        <strong>Gentoond wordt </strong> versie %{current_version}
+        door <em>%{current_author}</em>.
     error:
       title: Dit content-type bestaat niet.
       intro:       
