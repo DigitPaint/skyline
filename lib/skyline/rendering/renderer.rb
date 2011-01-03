@@ -222,7 +222,7 @@ class Skyline::Rendering::Renderer
     return [] if @_current_collection.blank?
     items = @_current_collection[@_current_collection_index + @_collection_skip + 1 .. -1]
     return [] unless items
-    item.each do |i|
+    items.each do |i|
       return if yield i
       skip!    
     end

@@ -18,9 +18,12 @@
             <div class="innerpanel">
               <% begin %>
                 <% content = capture do  %>
-                  <div class="body">
-                    <%= render :partial => "skyline/articles/#{a.object.class.name.demodulize.underscore}/header", :locals => {:a => a, :v => v, :vd => vd} %>
-                  </div>                  
+                  <% partial_content = render(:partial => "skyline/articles/#{a.object.class.name.demodulize.underscore}/header", :locals => {:a => a, :v => v, :vd => vd}) %>
+                  <% if partial_content.present?  %>
+                    <div class="body">
+                      <%= partial_content %>
+                    </div>                  
+                  <% end %>
                 <% end %>
               <% rescue ActionView::MissingTemplate %>
                 <% content = "" %>
@@ -30,7 +33,11 @@
                 <% menu_button t(:add_section, :scope => [:article, :edit]), :id => "add_section_button" do %>
                   <ul>
                     <% Skyline::Rendering::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
-                      <li><%= link_to_remote(section.human_name, :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), :method => :get) %></li>
+                      <li>
+                        <%= link_to_remote(section.human_name, 
+                              :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), 
+                              :method => :get, 
+                              :data => "(new Hash({'after_section' : $('contentlist').retrieve('application.sections').getCurrentActiveId()})).toQueryString()") %></li>
                     <% end %>
                   </ul>              
                 <% end %>

@@ -9,7 +9,7 @@ tinyMCEPreInit.query = "";
 var __FILE__ = Skyline.Utils.getJsLocation("skyline.editor.js");
 
 Skyline.Editor = new Class({
-  Implements : [Options],
+  Implements : [Options, Events],
   options : {
     language : "en-EN",
     imageDialogUrl : "",
@@ -59,7 +59,14 @@ Skyline.Editor = new Class({
     }
     
     o = this.optionsForTinyMce();
-    ed = this.editor = new tinymce.Editor(this.elementId,o);      
+    ed = this.editor = new tinymce.Editor(this.elementId,o);     
+    
+    // We have to add this from an external
+    ed.onFocus = new tinymce.util.Dispatcher(ed);
+    
+    ed.onActivate.add(function(ed){this.fireEvent("focus");}, this);     
+    ed.onFocus.add(function(ed){this.fireEvent("focus");}, this);         
+
     this.editor.render();  
   },
   optionsForTinyMce : function(){
@@ -94,6 +101,7 @@ Skyline.Editor = new Class({
       ed.theme._onFocus();      
       ed.focus(); 
     }
+    this.fireEvent("focus");
   },
   pastePreProcess : function(pl,o){
 		var ed = this.editor, h = o.content;

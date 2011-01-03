@@ -91,6 +91,11 @@ module Skyline::Rendering
       def flash
         @_controller.send(:flash)
       end
+      
+      # The controller
+      def controller
+        @_controller
+      end
 
       # The site that's currently in scope for this template
       #

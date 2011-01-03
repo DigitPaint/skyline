@@ -1712,7 +1712,7 @@ div.section{
 }
 
 li.active .section{
-  border: 1px solid #bbb;
+  border: 1px solid #000;
 }
 
 .section .head{

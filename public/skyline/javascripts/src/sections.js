@@ -20,12 +20,35 @@ Application.Sections = new Class({
     this._initSortable();
   },
   
+  activate : function(section){
+    if(this.currentActive){
+      this.currentActive.removeClass("active");
+    }
+    this.currentActive = section;
+    this.currentActive.addClass("active");
+  },
+  
+  getCurrentActiveId : function(){
+    if($type(this.currentActive)){
+      return this.currentActive.get("id");
+    } else {
+      return null;
+    }
+  },
+  
   addSection : function(section){
+    var section = $(section);
     this.sortable.addItem(section);
+    this._initSection(section);
+    
+    // New sections should always be active
+    this.activate(section);
   },
   
   // Privates methods
   _initSortable : function(){
+    this.element.getChildren("li").each(function(el){this._initSection(el); }.bind(this));
+    
     this.sortable = new Skyline.Sortable(this.element,{handle: "span.dragSection", clone: this._fakeSection, revert: true});
     this.contentScroller = new Scroller(this.options.scrollParent);
     this.sortable.addEvents({
@@ -61,6 +84,17 @@ Application.Sections = new Class({
       }
     });    
   },
+  
+  _initSection : function(section){
+    var activate = (function(){this.activate(section)}).bind(this)
+    section.addEvent("click", activate);
+    section.getElements("input, select, textarea").addEvent("focus", activate);   
+    
+    if(section.retrieve("skyline.editor")){
+      section.retrieve("skyline.editor").addEvent("focus", activate);
+    } 
+  },
+  
   _fakeSection : function(event,element,parent){
     var section = element.getElement("div.section"), sectionSize, clone, tools;
     sectionSize = section.getSize();

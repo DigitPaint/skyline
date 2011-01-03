@@ -9,50 +9,11 @@
   <dd id="contentBodyPanel">    
     <div id="contentEditPanel" class="panel scrollable">
         <% if @articles.any? %>
-          <table class="listing" id="articleListing">
-            <thead>
-              <tr>
-                <th><%= @klass.human_attribute_name(:title) %></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @articles.each do |article| %>
-                <tr class="<%= cycle("odd", "even") %>">
-                  <td>
-                    <%= article.title.blank? ? "&nbsp;" : article.title %>
-                  </td>
-                  <td class="right">
-                    <%= link_to button_text(:edit), edit_skyline_article_path(article), :class => "edit button small" %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-          
-          <script type="text/javascript" charset="utf-8">
-          (function(){
-            var t = new Skyline.Table("articleListing", {draggable: false});
-            // Make sure the contentPanel resizes our table!
-            $('contentEditPanel').addComponentEvent("skyline.layout","resize",function(panel,w,h){
-              $('articleListing').retrieve("skyline.table").resize(w, "100%");
-            });
-            
-            t.addEvent("selectRow",function(row,event){
-              event.stop();
-              row.addClass("selected");
-              var l = row.getElement("a.edit");
-              if(l){
-                window.location = l.getProperty("href");
-              }
-            });
-            
-            t.addEvent("deselectRow",function(row){
-              row.removeClass("selected");
-            });                        
-          })();            
-          </script>
-
+          <% begin %>
+            <%= render :partial => "skyline/articles/#{controller.class_from_type.name.demodulize.underscore}/list" %>          
+          <% rescue ActionView::MissingTemplate %>
+            <%= render :partial => "list" %>          
+          <% end %>
         <% else %>
           <em>Nog geen <%= controller.class_from_type.human_name(:count => 2) %> aanwezig.</em>
         <% end %>
