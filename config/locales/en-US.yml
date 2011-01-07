@@ -324,7 +324,6 @@
     ok: "Ok"
     delete_media_dir: "Delete folder"
     yes_force_edit: "Yes, enforce editing"
-    add_files: "+ Add files"
     
   icons:
     "true" : "true"
@@ -730,37 +729,6 @@
       cancel: Cancel,
       close_window: Close window  
       loading: Please wait...        
-
-  media:
-    dirs:
-      index:
-        directories: "Folders"
-      show:
-        files_in: "Files in {{directory}}"
-      edit:
-        actions: "Actions"
-        edit: "Edit"
-    files:
-      new:
-        files: "files"
-        no_files: "No files selected"
-        file_progress:  "Uploading file <span class=\"current-file\">1</span> of <span class=\"total-files\">2</span>"
-        percentage_progress: "<span class=\"current-percentage\">20%</span> done (<span class=\"current-size\">20 kB</span> of <span class=\"total-size\">100 kB</span>)"              
-        all_uploaded_message: "The following files where uploaded:"   
-        some_uploaded_message: "Not all files could be uploaded:"        
-        cancel: "Cancel"
-      edit:
-        actions: "Actions"
-        preview: "Preview"
-        download: "Download"
-        size: "Size (wxh)"
-        type: "Type"
-        filesize: "Filesize"
-        available_tags: "Existing tags:"
-        metadata: "Details"
-        destroy: "Delete"
-        confirm_destroy: "Are your sure you want to delete {{name}}?"
-  
           
   tinymce:
     skyline_table: {

@@ -42,9 +42,6 @@ Skyline.Tree = new Class({
     this.containerId = $(elementId).get('id');
     this.setOptions(arguments[1]);
     this.reload();
-    
-    // Register ourselves with the container
-    this.containerEl.store("skyline.tree",this);        
   },
   /*
     Function: reload

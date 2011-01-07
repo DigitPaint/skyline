@@ -1,15 +1,14 @@
-/*
-  Class: Skyline.FieldReplicator
-  Replicates values of the source field on the keyup and change event
-  
-  If the target is a form field it will only set it
-  if the target doesn't have an own value set (determined by the "keyup" event)
-
-  Options:
-  events      - The events on the source that will trigger replication ["keyup","change"]
-  translator  - Function to send the value to before replicating [function(value){return value;}]
-  stopOnTargetChange - Stop if the target is changed [true]  
-*/
+// Replicates values of the source
+// field on the keyup and change event
+//
+// If the target is a form field it will only set it
+// if the target doesn't have an own value set (determined by the "keyup" event)
+//
+// == Options
+// events:: The events on the source that will trigger replication ["keyup","change"]
+// translator:: Function to send the value to before replicating [function(value){return value;}]
+// stopOnTargetChange:: Stop if the target is changed [true]
+//--
 Skyline.FieldReplicator = new Class({
   Implements : [Options],
   options : {

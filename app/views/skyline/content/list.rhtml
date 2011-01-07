@@ -6,7 +6,9 @@
   <% end %>
 <% end %>
 
-<%= Skyline::Presenters::Table.new(@elements,stack.klass,self).output %>
+<div class="content">
+  <%= presenter_for(@elements,stack.klass) %>
+</div>
 
 <% content_for :meta do %>
   <%= render :partial => "add", :locals => {:klass => stack.klass, :record => stack.current, :return_to => url_for({})} %>	

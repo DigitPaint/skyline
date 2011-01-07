@@ -1,6 +1,3 @@
-/*
-  Structure: Skyline.Utils
-*/
 Skyline.Utils = {
   /*
     Function: getJsLocation(filename)

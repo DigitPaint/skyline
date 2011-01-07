@@ -3,4 +3,3 @@ ydoc/*
 .yardoc
 pkg/*
 skylinecms.gemspec
-public/skyline/javascripts/doc/

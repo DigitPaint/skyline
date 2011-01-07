@@ -1,6 +1,3 @@
-/*
-  Class: Skyline.MenuButton
-*/
 Skyline.MenuButton = new Class({
   Implements : [Options,Events],
   options : {

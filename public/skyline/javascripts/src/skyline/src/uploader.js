@@ -5,6 +5,7 @@
   default behaviour.
   
   Events:
+  
   updateStatus    - Some status needs to be updated (removal of file or selection)
   completeSuccess - Triggered if all files were successfully uploaded.
   completeFailure - Triggered if some files did not complete successfully (stopped not included)

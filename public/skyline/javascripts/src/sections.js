@@ -55,31 +55,15 @@ Application.Sections = new Class({
       "start" : function(){ this.contentScroller.start(); }.bind(this),
       "stop" : function(){ this.contentScroller.stop(); this.contentScroller.detach(); }.bind(this),
       "beforeDrop" : function(el){
-        var ed;
         if(ed = el.retrieve("skyline.editor")){
-          var fn = function(ed){
-            ed.element.setStyles({height: ed.editor.skyline_editor_height - 1, visibility: "hidden"});
-            ed.clear();            
-          }
-          if($type(ed) == "array"){ 
-            $A(ed).each(fn);
-          } else {
-            fn(ed);
-          }
+          ed.element.setStyles({height: ed.editor.skyline_editor_height - 1, visibility: "hidden"});
+          ed.clear();
         }              
       },
       "afterDrop" : function(el){
-        var ed;
         if(ed = el.retrieve("skyline.editor")){
-          var fn = function(ed){
-            ed.element.setStyles({height: 5, visibility: "visible"});
-            ed.render();            
-          }
-          if($type(ed) == "array"){ 
-            $A(ed).each(fn);
-          } else {
-            fn(ed);
-          }
+          ed.element.setStyles({height: 5, visibility: "visible"});
+          ed.render();
         }                            
       }
     });    
@@ -102,10 +86,9 @@ Application.Sections = new Class({
     clone = new Element("li",{"class" : "clone"}).setStyles({
       margin: '0px',
       position: 'absolute',
-      visibility: 'hidden',
-      opacity: 0.5
+      visibility: 'hidden'
     });
-    var es = clone.adopt(new Element("div",{"class" : "section"}).setStyles({"width": sectionSize.x, "height": sectionSize.y}));
+    var es = clone.adopt(new Element("div",{"class" : "section"}).setStyles({"width": sectionSize.x, "height": sectionSize.y, opacity: 0.5}));
     
     if(tools = element.getElement("ul.sectiontools")){
       clone.adopt(tools.clone(true));

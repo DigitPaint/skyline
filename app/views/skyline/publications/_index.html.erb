@@ -2,7 +2,7 @@
   <div class="topPanel">
     <dl class="selectionPanel panel">
       <dt><span class="content"><%= t(:publications, :scope => [:publication,:index]) %></span></dt>
-      <dd class="scrollable full">
+      <dd class="scrollable">
     		<ul class="selectlist">
     			<% @article.publications.each do |publication| %>
       	  	<li>
@@ -17,7 +17,7 @@
     </dl>
     <dl class="previewPanel panel">
       <dt><span class="content"><%= t(:preview, :scope => [:publication,:index]) %></span></dt>
-      <dd class="full">
+      <dd>
         <iframe class="previewFrame preview" src="#" frameborder="0"></iframe>    
       </dd>
     </dl>
