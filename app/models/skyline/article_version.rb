@@ -25,7 +25,7 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   end
   
   def clone
-    returning super do |clone|
+    super.tap do |clone|
       clone.created_at = nil
       clone.updated_at = nil
       clone.sections = self.sections.collect{|section| section.clone}

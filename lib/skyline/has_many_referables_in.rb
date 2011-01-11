@@ -73,7 +73,7 @@ module Skyline::HasManyReferablesIn
   # Implementation of the clone interface
   # @private
   def clone_with_referables
-    returning clone_without_referables do |clone|      
+    clone_without_referables.tap do |clone|      
       if !self.referable_fields.nil?
         self.referable_fields.each do |field|         
           clone.send("#{field}=".to_sym, self.send(field,true,{:nullify => true}))

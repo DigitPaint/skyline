@@ -20,7 +20,7 @@ class Skyline::Section < ActiveRecord::Base
   end
   
   def clone
-    returning super do |clone|
+    super.tap do |clone|
       clone.sectionable = self.sectionable.clone
     end
   end  
