@@ -1,0 +1,521 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3 - Table</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+  <!-- <link href="../assets/tree/tree.css?1195729478" media="screen" rel="stylesheet" type="text/css" />  -->
+	
+	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../src/skyline.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../src/events.js" type="text/javascript" charset="utf-8">
+	</script>	
+	<script src="../src/layout.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../src/drag.js" type="text/javascript" charset="utf-8">
+	</script>
+	<script src="../src/table.js" type="text/javascript" charset="utf-8">
+	</script>
+		
+  <style type="text/css" media="screen">
+  
+    table{
+      border-collapse: collapse;
+      background: #fff;
+    }
+  
+    table thead tr td,
+    table thead tr th{
+      background: #000;
+      color: #fff;
+    }
+  
+    table td,
+    table th{
+      text-align: left;
+      vertical-align: top;
+      padding: 2px 5px;
+      border-bottom: 1px solid #aaa;
+      border-right: 1px solid #ddd;
+    }
+    
+    table tr.even td,
+    table tr.even th{
+      background-color: #f2f2f2;
+    }    
+
+    table tr.selected td,
+    table tr.selected th{
+      background-color: #faa;
+    }
+
+    .controls{
+      margin-top: 1em;
+      padding: 10px;
+      background: #ddd;
+    }
+
+    .content{
+      margin: 10px 10px 30px 10px;
+      padding: 10px;
+      background: #f2f2f2;
+    }
+    
+    h1{
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .tablemarker{
+      background: #000;
+      height: 2px;
+      overflow: hidden;
+    }
+    
+    .splitter div{
+      cursor: move;
+      background: #f00;
+      width: 2px;
+      height: 100%;
+      border-left: 1px solid #000;
+      border-right: 1px solid #000;      
+    }    
+    
+  </style>	
+</head>
+<body>
+  
+  <div class="content">
+    <h2>Empty table</h2>
+    <table id="t6" class="grid" style="width: 800px">
+      <thead>
+        <tr>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <script type="text/javascript" charset="utf-8">
+      var t6 = new Skyline.Table("t6");
+    </script>    
+  </div>
+  
+  <div class="content">
+    <h2>Table width droptargets</h2>
+    <table id="t5" class="grid" style="width: 800px">
+      <thead>
+        <tr>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr class="even">
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>          
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>        
+      </tbody>
+    </table>
+        
+    <div class="target" style="margin: 5px; background: #f00; border: 1px solid #000; width: 50px; height: 50px; float: left">
+      <span style="background: #fff; width: 30px; height: 30px; float: left; margin: 5px; padding: 5px">T1</span>
+    </div>
+
+    <div class="target" style="margin: 5px; background: #f00; border: 1px solid #000; width: 50px; height: 50px; float: left">
+      T1
+    </div>
+
+    
+    <div style="clear: both"></div>
+    <script type="text/javascript" charset="utf-8">
+      var t5 = new Skyline.Table("t5", {draggable: true, droppables : ".target" });
+      
+      t5.addEvent("enterDroppable", function(row,target){
+        target.setStyle("background", "#fff");
+      });
+
+      t5.addEvent("leaveDroppable", function(row,target){
+        target.setStyle("background", "#f00");        
+      });
+      
+      t5.addEvent("dropRow", function(row,target){
+        target.setStyle("background", "#ff0");
+      });
+      
+    </script>
+    
+  </div>  
+  
+  <div class="content">
+    <h2>[FAILS] Table that's too small</h2>
+    <table id="t4" class="grid" style="width: 150px">
+      <thead>
+        <tr>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr class="even">
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>          
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>        
+      </tbody>
+    </table>
+    
+    <script type="text/javascript" charset="utf-8">
+      var t4 = new Skyline.Table("t4")
+    </script>
+    
+  </div>
+  
+  <div class="content">
+    <h2>Table in a Skyline.Layout</h2>
+    <div style="width: 800px; height: 400px; border: 5px solid #aaa">
+      <div id="wrapperPanel">
+        <div id="tablePanel">
+          <table id="t3" class="grid" style="height: 100%">
+            <thead>
+              <tr>
+                <th>Head 1</th>
+                <th>Head 2</th>
+                <th>Head 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                </td>
+                <td>
+                  sed do eiusmod tempor incididunt ut 
+                </td>
+                <td>
+                  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                </td>          
+              </tr>
+              <tr class="even">
+                <td>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                </td>
+                <td>
+                  sed do eiusmod tempor incididunt ut 
+                </td>
+                <td>
+                  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                </td>          
+              </tr>
+              <tr>
+                <td>
+                  sed do eiusmod tempor incididunt ut 
+                </td>
+                <td>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                </td>          
+                <td>
+                  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                </td>          
+              </tr>        
+            </tbody>
+          </table>
+        </div>
+        <div id="rightPanel" style="background: #ddd; overflow: auto">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      var wP = new Skyline.HorizontalLayout("wrapperPanel", {height: 400, width: 800});
+      var tP = wP.addPanel("tablePanel");
+      wP.addSplitter();
+      var rP = wP.addPanel("rightPanel", {width: 200});
+      
+      
+      var t3 = new Skyline.Table("t3");
+      tP.addEvent("resize", function(panel){
+        // console.count("setup");
+        t3.resize(panel.width, panel.height);
+      });  
+      
+      wP.setup();
+    </script>
+  </div>
+  
+  <div class="content">
+    <h1>Table (selectable, fixed width, fixed height, draggable)</h1>
+    
+    <div style="">
+    <table id="t2" class="grid" style="width: 800px; border: 1px solid #000; height: 200px">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="t2_1">
+          <th>1</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_2" class="even">
+          <th>2</th><td>Lorem  elit</td><td>sed do bla</td><td>labore et  veniam, quis nostrud</td>
+        </tr>
+        <tr id="t2_3">
+          <th>3</th><td>sed do eiu ut </td><td>Lorem ipsu elit</td><td>enim ad minim veniam, quis nostrud</td>          
+        </tr>  
+        <tr id="t2_4" class="even">
+          <th>4</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_5">
+          <th>5</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_6" class="even">
+          <th>6</th><td>Lorem  elit</td><td>sed do bla</td><td>labore et  veniam, quis nostrud</td>
+        </tr>
+        <tr id="t2_7">
+          <th>7</th><td>sed do eiu ut </td><td>Lorem ipsu elit</td><td>enim ad minim veniam, quis nostrud</td>          
+        </tr>
+        <tr id="t2_8" class="even">
+          <th>8</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_9">
+          <th>9</th><td>Lorem ipsum dolor sit </td><td>sed do eiusmod tempor incididunt ut </td><td>labore et dolore magna</td>          
+        </tr>
+        <tr id="t2_10" class="even">
+          <th>10</th><td>Lorem  elit</td><td>sed do bla</td><td>labore et  veniam, quis nostrud</td>
+        </tr>
+        <tr id="t2_11">
+          <th>11</th><td>sed do eiu ut </td><td>Lorem ipsu elit</td><td>enim ad minim veniam, quis nostrud</td>          
+        </tr>                      
+      </tbody>
+    </table>
+    </div>
+  </div>  
+  <script type="text/javascript" charset="utf-8">
+    var t2 = new Skyline.Table("t2", {draggable : true, sortable : true});
+  </script>
+
+  <div class="content">
+    <h1>Table (scroll, fixed width, fixed height)</h1>
+    
+    <table id="t0" class="grid" style="width: 800px; height: 100px; border: 1px solid #000">
+      <thead>
+        <tr>
+          <th>Head 1</th>
+          <th>Head 2</th>
+          <th>Head 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr class="even">
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>
+        <tr>
+          <td>
+            sed do eiusmod tempor incididunt ut 
+          </td>
+          <td>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit
+          </td>          
+          <td>
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          </td>          
+        </tr>        
+      </tbody>
+    </table>
+    
+    <div class="controls">
+      <button id="resize_500_t0">Resize to 500!</button>
+      <button id="resize_800_t0">Resize to 800!</button>
+    </div>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    // alert("0");
+    // alert($('t0'));
+    
+    $('resize_500_t0').addEvent("click", function(){
+      $('t0').setStyles({"width" : 500});
+      $('t0').retrieve("skyline.table").resize();
+    });
+    
+    $('resize_800_t0').addEvent("click", function(){
+      $('t0').setStyles({"width" : 800});
+      $('t0').retrieve("skyline.table").resize();
+    });
+    
+    
+    window.addEvent("domready", function(){ 
+      // alert("!!"); 
+      var t = new Skyline.Table("t0"); 
+      t.addEvents({
+        selectRow : function(tr){
+          tr.addClass("selected");
+        },
+        deselectRow : function(tr){
+          tr.removeClass("selected");
+        }
+      });
+    });
+  </script>  
+
+  <div class="content">
+    <h1>Table (scroll, fixed width)</h1>
+
+    <div style="background: #f00; float: left;">
+      <table id="t1" class="grid" style="width: 500px">
+        <thead>
+          <tr>
+            <th>Head 1</th>
+            <th>Head 2</th>
+            <th>Head 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            </td>
+            <td>
+              sed do eiusmod tempor incididunt ut 
+            </td>
+            <td>
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            </td>          
+          </tr>
+          <tr class="even">
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            </td>
+            <td>
+              sed do eiusmod tempor incididunt ut 
+            </td>
+            <td>
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            </td>          
+          </tr>
+          <tr>
+            <td>
+              sed do eiusmod tempor incididunt ut 
+            </td>
+            <td>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            </td>          
+            <td>
+              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            </td>          
+          </tr>        
+        </tbody>
+      </table>
+    </div>
+      <div style="clear: both">&nbsp;</div>    
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    // alert("0");
+    // alert($('t0'));
+    window.addEvent("domready", function(){ 
+      // alert("!!"); 
+      new Skyline.Table("t1"); 
+    });
+  </script>
+
+
+
+</body>
+</html>

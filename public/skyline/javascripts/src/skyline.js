@@ -1,6 +1,7 @@
 //= require <skyline>
 // 
 //= require <utils>
+//= require <events>
 //= require <drag>
 //= require <layout>
 //= require <tree>
@@ -14,3 +15,4 @@
 //= require <hover_select>
 //= require <field_replicator>
 //= require <menu>
+//= require <table>

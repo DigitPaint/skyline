@@ -1,21 +1,13 @@
 <dl id="contentPanel" class="panel">    
   <dt id="contentHeaderPanel">    
     <span class="content">
+      <%= link_to button_text(:add), skyline_articles_path(:type => params[:type]), :method => :post, :class => "add button small" %>      
       <%= controller.class_from_type.human_name(:count => 2) %>
     </span>
   </dt>
     
-  <dd id="contentBodyPanel">
-    <div id="contentInfoPanel">
-      <div class="innerpanel">
-        <div class="actions">
-        </div>
-      </div>
-    </div>
-    
+  <dd id="contentBodyPanel">    
     <div id="contentEditPanel" class="panel scrollable">
-      <div class="content">
-
         <% if @articles.any? %>
           <% begin %>
             <%= render :partial => "skyline/articles/#{controller.class_from_type.name.demodulize.underscore}/list" %>          
@@ -25,19 +17,6 @@
         <% else %>
           <em>Nog geen <%= controller.class_from_type.human_name(:count => 2) %> aanwezig.</em>
         <% end %>
-
-      </div>
     </div>
   </dd>    
-</dl>
-
-<dl id="metaPanel" class="panel">
-  <dt id="metaHeaderPanel"><span class="content"><%= t(:actions, :scope => [:article, :headers]) %></span></dt>
-  <dd id="metaBodyPanel" class="scrollable meta">
-    <div class="content">
-      <div class="button">
-        <%= link_to button_text(:new), skyline_articles_path(:type => params[:type]), :method => :post, :class => "add button medium green" %>
-      </div>      
-    </div>
-  </dd>
 </dl>
