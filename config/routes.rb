@@ -3,15 +3,15 @@ ActionController::Routing::Routes.draw do |map|
   # =================
   # = Skyline url's =
   # =================
-  map.namespace :skyline do |skyline|
+  map.namespace :skyline, :path_prefix => "/skyline" do |skyline|
     
-    skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
+#    skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
     
     skyline.resources :articles, :collection => {:reorder => :put} do |page|
       page.resources :article_versions
       page.resources :variants, :member => {:force_edit => :put}
       page.resources :publications, :member => {:rollback => :post}
-      page.resource :published_publication
+#      page.resource :published_publication
     end
     
     # These are currently just used for polling
@@ -69,14 +69,30 @@ ActionController::Routing::Routes.draw do |map|
     skyline.connect 'content/:action/*types', :controller => "content"
     
     skyline.resources :settings, :except => [:create, :destroy]
+  
+    skyline.namespace :media do |media|
+      media.resources :dirs do |dirs|
+        dirs.resources :files
+
+        dirs.connect 'data/:size/:name.:format',
+            :controller => 'data',
+            :action => 'show',
+            :conditions => { :method => :get }
+        dirs.connect 'data/:name.:format',
+            :controller => 'data',
+            :action => 'show',
+            :conditions => { :method => :get }        
+      end
+    end  
     
   end
+  
 
   # ========================
   # = Implementation url's =
   # ========================
   #Media files data route
-  
+
   map.connect 'media/dirs/:media_dir_id/data/:size/:name.:format',
       :controller => 'skyline/site/media_files_data',
       :action => 'show',

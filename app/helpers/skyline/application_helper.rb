@@ -1,11 +1,8 @@
 module Skyline::ApplicationHelper  
   # Place a tick or a cross depending on the value of bool
   #
-  # ==== Parameters
-  # bool<Boolean>:: The value of the tick/cross
-  # options<Hash>:: Options will be passed to the image_tag method
-  # 
-  # --
+  # @param [Boolean] bool The value of the tick/cross
+  # @param [Hash] options ({}) Options will be passed to the image_tag method
   def tick_image(bool,options={})
     name = bool ? "true" : "false"
     src = "/skyline/images/icons/#{name}.gif"
@@ -15,15 +12,34 @@ module Skyline::ApplicationHelper
     image_tag(src,options)
   end
   
+  # Set the Skyline JS layout to use. Used in templates so the layout can initialize the correct layout.
+  #
+  # @param [Symbol] name The name of the js layout to use @see #render_js_layout
+  def use_js_layout(name)
+    @_js_layout = name
+  end
+  
+  # Does this template have  a Skyline JS Layout set?
+  #
+  # @return [Boolean]
+  def has_js_layout?
+    @_js_layout.present?
+  end  
+  
+  # Actually render the JS code to initialize the previously set Skyline JS Layout.
+  # 
+  # @todo Currently only implemented in EntopicEditor plugin
+  def render_js_layout
+    return unless @_js_layout
+    raise "TO BE IMPLEMENTED"
+  end  
+  
   # You can use this method to place a message directly in your view. This also
   # works directly from a render(:update) or an update_page block. 
   # 
-  # ==== Parameters
-  # type<Symbol>:: The type of the message (:error,:notification,:success)
-  # message<String>:: The message to show
-  # optiosn<Hash>:: Options to be passed to the MessageGenerator (javascript)
-  #
-  # --
+  # @param [Symbol] type The type of the message (:error,:notification,:success)
+  # @param [String] message The message to show
+  # @param [Hash] options ({}) Options to be passed to the MessageGenerator (javascript)
   def message(type,message,options={})
     Skyline::MessageGenerator.new(type,message,options)
   end
@@ -31,41 +47,28 @@ module Skyline::ApplicationHelper
   # You can use this method to place a notification directly in your view. This also
   # works directly from a render(:update) or an update_page block. 
   # 
-  # ==== Parameters
-  # type<Symbol>:: The type of the message (:error,:notification,:success)
-  # message<String>:: The message to show
-  # optiosn<Hash>:: Options to be passed to the MessageGenerator (javascript)
-  #
-  # --  
+  # @param [Symbol] type The type of the message (:error,:notification,:success)
+  # @param [String] message The message to show
+  # @param [Hash] options ({}) Options to be passed to the MessageGenerator (javascript)
   def notification(type,message,options={})
     Skyline::NotificationGenerator.new(type,message,options)    
   end
   
+  # Actually render the messages on screen.
+  # 
+  # @option options [Class] :generator (Skyline::MessageGenerator) The generator to use to render the messages.
   def render_messages(options={})
     _render_volatiles(self.messages,options)
   end
   
+  # Actually render the notifications on screen.
+  #
+  # @option options [Class] :generator (Skyline::NotificationGenerator) The generator to use to render the messages.
   def render_notifications(options={})
     options.reverse_merge! :generator => Skyline::NotificationGenerator
     _render_volatiles(self.notifications,options)
   end
-  
-  def plugin_hook(name)
-    template = caller.first[/app\/views\/([^:]*):/,1]
-    raise "Cannot determine template from caller: #{caller}" unless template
-    plugin_template = template.sub(".html.erb", "_#{name}.html.erb")
     
-    logger.debug "Looking for template #{plugin_template} in plugins..."
-    Dir[Rails.root + "vendor/skyline_plugins/*/app/views/#{plugin_template}"].each do |file|      
-      if RAILS_ENV == "development"
-        concat render(:inline => File.read(file), :layout => nil)
-      else
-        # render :file caches the file somehow, so only use it in production mode
-        concat render(:file => file, :layout => nil)
-      end
-    end    
-  end
-  
   protected
   
   def _render_volatiles(messages_hash, options={})

@@ -1,7 +1,7 @@
 class Skyline::Media::DirsController < Skyline::ApplicationController
   
   layout "skyline/layouts/media"
-  # menu :main, :media
+  menu :main, :media
 
   self.default_menu_item = :media_library
   
