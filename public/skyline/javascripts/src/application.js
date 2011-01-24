@@ -132,6 +132,11 @@ Application.Layout = (function(){
         new Skyline.Toggle(e.getElement("dt a"),e,{"class": "closed"});
       });
       
+      // TODO: Currently hardcoded, should someday become something like $$('ul.sections')...
+      if($('contentlist')){
+        new Application.Sections("contentlist",{ scrollParent : "contentEditPanel" });
+      }
+      
       // TODO: Currently hardcoded
       if($('toggle_page_advanced')){
         $('toggle_page_advanced').retrieve('skyline.toggle').addEvent("toggle",function(){
