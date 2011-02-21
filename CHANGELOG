@@ -1,5 +1,22 @@
 *Stable*
 
+* Update gemfile to use Rails 2.3.10 and rack 1.1.0
+* Add support for custom lists for articles
+* Add config.locale configuration, it set's the default skyline interface locale. Skyline sets this on every request.
+* Expose the controller within the renderer
+* Beautify interface if the "head" partial of an article is empty
+* Add support for section focus
+* Add support for adding section after another section through "after_section"
+* Fix duplicate call of sectionlist initialization
+* Add onFocus event to skyline.editor
+* Don't show buttons in inactive panel headers (it's confusing)
+* Remove the fieldset error from the template because it's now built into the helper
+* Use present? method instead of checking the existence of ref object in the helper
+* Show fieldset_errors after image and link browsers
+* Replace returning with tap (support for 1.9.x)
+* Update locale files to new format ({{}} to %{})
+* Correctly mark referable_field as changed
+* Moved tasks to lib/tasks because of deprecation
 * Update test code
 * Update tinyMCE to 3.3.9
 * Fix generator methods to use notifications.
