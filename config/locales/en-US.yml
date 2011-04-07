@@ -736,7 +736,7 @@
       index:
         directories: "Folders"
       show:
-        files_in: "Files in {{directory}}"
+        files_in: "Files in %{directory}"
       edit:
         actions: "Actions"
         edit: "Edit"
@@ -759,7 +759,7 @@
         available_tags: "Existing tags:"
         metadata: "Details"
         destroy: "Delete"
-        confirm_destroy: "Are your sure you want to delete {{name}}?"
+        confirm_destroy: "Are your sure you want to delete %{name}?"
   
           
   tinymce:
