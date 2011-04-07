@@ -213,7 +213,7 @@ $extend(Application.Browser,{
 
 Application.ImageBrowser = new Class({
   Extends : Application.Browser,
-  url : "/admin/browser/images",
+  url : "/skyline/browser/images",
   initialize : function(params){
     this.addEvent("select", function(values){
       if (values.url) {
@@ -226,7 +226,7 @@ Application.ImageBrowser = new Class({
 
 Application.LinkBrowser = new Class({
   Extends : Application.Browser,
-  url : "/admin/browser/links",
+  url : "/skyline/browser/links",
   initialize : function(params){
     
     if(params.common && params["new"]){
@@ -258,10 +258,10 @@ Application.LinkBrowser = new Class({
 
 Application.PageBrowser = new Class({
   Extends : Application.Browser,
-  url : "/admin/browser/pages"
+  url : "/skyline/browser/pages"
 });
 
 Application.FileBrowser = new Class({
   Extends : Application.Browser,
-  url : "/admin/browser/files"
+  url : "/skyline/browser/files"
 });
