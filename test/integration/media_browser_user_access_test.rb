@@ -34,15 +34,15 @@ class MediaBrowserUserAccessTest < ActionController::IntegrationTest
     end 
      
      should "not be able to create a MediaFile" do
-       @u.deny(:post, skyline_media_dir_media_files_path(@media_dir),{:Filename => "/files/test.gif", :mediafile => fixture_file_upload("../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
+       @u.deny(:post, skyline_media_dir_files_path(@media_dir),{:Filename => "/files/test.gif", :mediafile => fixture_file_upload("/../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
      end
       
     should "not be able to edit a MediaFile" do
-     @u.deny(:put,  skyline_media_dir_media_file_path(@media_dir,@media_file), {:Filename => "/files/test.gif", :mediafile => fixture_file_upload("../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
+     @u.deny(:put,  skyline_media_dir_file_path(@media_dir,@media_file), {:Filename => "/files/test.gif", :mediafile => fixture_file_upload("/../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
     end
       
     should "not be able to delete a MediaFile" do
-     @u.deny(:delete, skyline_media_dir_media_file_path(@media_dir,@media_file))
+     @u.deny(:delete, skyline_media_dir_file_path(@media_dir,@media_file))
     end
     
   end  

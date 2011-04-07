@@ -25,27 +25,27 @@ class MediaBrowserSuperAccessTest < ActionController::IntegrationTest
     end
     
     should "be able to create a MediaDir" do
-      @u.allow(:post, skyline_media_dirs_path)      
+      @u.allow(:post, skyline_media_dirs_path, {:parent_id => @media_dir.id, :name => "create_test"})
     end
      
     should "be able to edit a MediaDir" do
       @u.allow(:put, skyline_media_dir_path(@media_dir))      
     end    
      
-    should "not be able to delete a MediaDir" do
-      @u.allow(:delete, skyline_media_dir_path(@media_dir))      
+    should "be able to delete a MediaDir" do
+      @u.allow(:delete, skyline_media_dir_path(@media_sub_dir))      
     end 
      
     should "be able to create a MediaFile" do
-      @u.allow(:post, skyline_media_dir_media_files_path(@media_dir),{:Filename => "/files/test.gif", :Filedata => fixture_file_upload("../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
+      @u.allow(:post, skyline_media_dir_files_path(@media_dir),{:Filename => "/files/test.gif", :Filedata => fixture_file_upload("/../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
     end
       
     should "be able to edit a MediaFile" do
-      @u.allow(:put,  skyline_media_dir_media_file_path(@media_dir,@media_file), {:Filename => "/files/test.gif", :mediafile => fixture_file_upload("../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
+      @u.allow(:put,  skyline_media_dir_file_path(@media_dir,@media_file), {:Filename => "/files/test.gif", :mediafile => fixture_file_upload("/../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
     end    
       
     should "be able to delete a MediaFile" do
-      @u.allow(:delete, skyline_media_dir_media_file_path(@media_dir,@media_file))
+      @u.allow(:delete, skyline_media_dir_file_path(@media_dir,@media_file))
     end 
   end
   

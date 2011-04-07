@@ -23,6 +23,9 @@ module UserAccessHelper
     @media_dir = Factory(:media_dir, :type => "Skyline::MediaDir")
     assert !@media_dir.new_record?
     
+    @media_sub_dir = Factory(:media_dir, :type => "Skyline::MediaDir", :directory => @media_dir)
+    assert !@media_sub_dir.new_record?
+    
     @media_file = Factory(:media_file, :parent_id => @media_dir.id, :type => "Skyline::MediaFile")
     assert !@media_file.new_record?
     
