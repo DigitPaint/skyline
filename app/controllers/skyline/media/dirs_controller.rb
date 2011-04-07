@@ -3,7 +3,11 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
   layout "skyline/layouts/media"
   menu :main, :media
 
-  self.default_menu_item = :media_library
+  self.default_menu = :media_library
+  
+  authorize :create, :by => "media_dir_create"
+  authorize :edit, :update, :by => "media_dir_update"
+  authorize :destroy, :by => "media_dir_delete"
   
   def index
     @dirs = Skyline::MediaDir.group_by_parent_id
@@ -31,7 +35,7 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
       @dir = Skyline::MediaDir.new
     end
     @dir.save
-
+    
     @dirs = Skyline::MediaDir.group_by_parent_id    
     render :update do |p|
       p.replace "dirtree", :partial => "index"

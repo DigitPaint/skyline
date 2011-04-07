@@ -4,7 +4,7 @@ class Skyline::ContentController < Skyline::Skyline2Controller
   
   layout "skyline/layouts/content"
     
-  self.default_menu_item = :content_library   
+  self.default_menu = :content_library   
     
   def index
     if request.xhr?

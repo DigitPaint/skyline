@@ -1,7 +1,7 @@
 class Skyline::UsersController < Skyline::ApplicationController
   layout "skyline/layouts/settings"
   
-  self.default_menu_item = :admin
+  self.default_menu = :admin
   
   authorize :index, :by => "user_show"
   authorize :new,:create, :by => "user_create"

@@ -2,7 +2,11 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
   
   before_filter :find_dir
 
-  self.default_menu_item = :media_library
+  self.default_menu = :media_library
+  
+  authorize :create, :by => "media_file_create"
+  authorize :edit, :update, :by => "media_file_update"
+  authorize :destroy, :by => "media_file_delete"
   
   def index
     render :update do |p|
@@ -37,11 +41,7 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
         p.notification :success, t(:success, :scope => [:media, :files ,:update,:flashes])
       	p.replace_html "contentPanel", :partial => "skyline/media/dirs/show"
       else
-<<<<<<< HEAD
         p.message :error, t(:failed, :scope => [:media_file,:update,:flashes])
-=======
-        p.message :failed, t(:failed, :scope => [:media_file,:update,:flashes])
->>>>>>> entopiceditor
       end      
       
       p.replace_html "metaPanel", :partial => "edit"
@@ -51,11 +51,8 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
   
   def create
     @file = @dir.files.build(:name => params[:Filename], :data => params[:Filedata])
-    
-<<<<<<< HEAD
     sleep 5
-=======
->>>>>>> entopiceditor
+
     if @file.save
       render :json => {:result => "success"}
     else

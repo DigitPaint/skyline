@@ -2,7 +2,7 @@ class Skyline::SettingsController < Skyline::Skyline2Controller
   
   layout "skyline/layouts/settings"
   
-  self.default_menu_item = :admin
+  self.default_menu = :admin
   
   authorize :index, :edit, :update, :by => :settings_update
   

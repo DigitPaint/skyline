@@ -188,7 +188,7 @@ class Skyline::ApplicationController < ApplicationController
     @_menuitem = menuitem    
   end
   def current_menu_item
-    @_menuitem || self.class.default_menu_item
+    @_menuitem || self.class.default_menu
   end
   helper_method :current_menu_item
   

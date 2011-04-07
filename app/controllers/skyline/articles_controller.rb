@@ -10,7 +10,7 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     
   layout :determine_layout
   
-  self.default_menu_item = :content_library
+  self.default_menu = :content_library
 
   def index
     case params[:type] 
