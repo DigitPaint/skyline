@@ -29,7 +29,7 @@ class Skyline::ImageRef < Skyline::InlineRef
     skyline_ref_id = options[:nullify] ? "" : self.id
     
     if skyline_attr
-      skyline_prefix = "/admin"    
+      skyline_prefix = "/skyline"    
       html_options.update "skyline-ref-id" => skyline_ref_id, "skyline-referable-id" => self.referable_id, "skyline-referable-type" => self.referable_type
     end
     option_str = html_options.collect{|k,v| "#{k}=\"#{v}\""}.join(" ")
