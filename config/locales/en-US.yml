@@ -733,6 +733,9 @@
 
   media:
     dirs:
+      update:
+        flashes:
+          success: "Wijzigingen opgeslagen"
       index:
         directories: "Folders"
       show:

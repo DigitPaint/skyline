@@ -195,7 +195,7 @@ Application.Layout = (function(){
   return Layout;
 })();
 
-Application.Layout.Media.initializeTree = function(id){
+Application.Layout.Media.initializeTree = function(id, url){
   var element = $(id);
   var tree;
   if(tree = element.retrieve("skyline.tree")){
@@ -212,7 +212,9 @@ Application.Layout.Media.initializeTree = function(id){
     dragMarker: false,
     fixedRootNodes: true
   });
-
+  
+  tree.skylineMediaDirsPath = url;
+  
   tree.addEvent("select", function(event,link){
     if(!event){ return; }
     
@@ -231,7 +233,7 @@ Application.Layout.Media.initializeTree = function(id){
     var id = Application.getId(branchEl.get('id'));
     new Request({ 
       evalScripts:true, 
-      url: self.skylineMediaDirsPath + "/"+ id,
+      url: this.skylineMediaDirsPath + "/"+ id,
       data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&skyline_media_dir[parent_id]=' + newParentId,
       method: 'put'
     }).send();

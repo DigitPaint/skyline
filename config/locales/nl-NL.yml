@@ -732,6 +732,9 @@
       loading: Een ogenblik geduld aub...        
   media:
     dirs:
+      update:
+        flashes:
+          success: "Wijzigingen opgeslagen"
       index:
         directories: "Mappen"
       show:
