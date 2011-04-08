@@ -76,7 +76,7 @@ class Skyline::ApplicationController < ApplicationController
   
   # @option options [true,false] force  If force => true, the default_menu will be overriden
   def menu(*levels)
-    m = (Array(@current_menu) || [])
+    m = (@current_menu || [])
     options = levels.extract_options!
     options.reverse_merge!(m.extract_options!)
     self.current_menu = m + levels + [options]
