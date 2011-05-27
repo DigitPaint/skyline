@@ -30,7 +30,7 @@ gem "mime-types", "1.16",                   :require => "mime/types"
 gem "rmagick", "2.9.1",                     :require => "RMagick"
 gem "hpricot", "0.8.2",                     :require => "hpricot"
 gem "guid", "0.1.1"
-gem "will_paginate", "~>2.3.11"
+gem "will_paginate", "~>2.3.15"
 gem "seed-fu", "~>1.2.0"
 
 # If you want to use the (outdated) rsolr interface, please 
