@@ -21,6 +21,10 @@ class Skyline::Sections::RssSection < ActiveRecord::Base
 
   def title
     self.rss_feed ? self.rss_feed[:title] : ""
+  end
+  
+  def link
+    self.rss_feed ? self.rss_feed[:link] : ""
   end      
 
   def items
@@ -43,6 +47,7 @@ class Skyline::Sections::RssSection < ActiveRecord::Base
         feed = {
           :title => channel.title,
           :description => channel.description, 
+          :link => channel.link,
           :copyright => channel.copyright,
           :category => channel.category.andand.content,
           :date => channel.date,
