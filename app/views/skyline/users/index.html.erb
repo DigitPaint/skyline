@@ -13,7 +13,7 @@
   <dt id="contentHeaderPanel">
     <span class="content">
       <% if @current_user.allow?(:user_create) %>
-        <%= link_to_remote button_text(:add), {:url => new_skyline_user_path, :method => :get}, :class => "button small right", :style => "margin-top: 3px" %>
+        <%= link_to_remote button_text(:add), {:url => new_skyline_user_path, :method => :get}, :class => "button small right", :style => "margin-top: 3px; visibility:visible;" %>
       <% end %>
       
       <%= t(:header, :scope => [:user, :index], :count => @users.total_entries) %>
