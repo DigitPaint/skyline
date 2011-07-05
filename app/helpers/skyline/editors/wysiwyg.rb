@@ -2,7 +2,7 @@ class Skyline::Editors::Wysiwyg < Skyline::Editors::Editor
   def output_without_errors
     out = content_tag("div",text_area_tag(
       input_name(self.attribute_names), 
-      record.send(field.name,true), 
+      record.send(field.name), 
       :class => "wysiwyg", 
       :rows => 15,
       :cols => 90,
