@@ -250,7 +250,7 @@ Swiff.Uploader = new Class({
 		// update coordinates, manual or automatically
 		coords = coords || (this.target && this.target.offsetHeight)
 			? this.target.getCoordinates(this.box.getOffsetParent())
-			: {top: window.getScrollTop(), left: 0, width: 40, height: 40}
+			: {top: window.getScrollTop(), left: 0, width: 1, height: 1}
 		this.box.setStyles(coords);
 		this.fireEvent('reposition', [coords, this.box, this.target]);
 	},
