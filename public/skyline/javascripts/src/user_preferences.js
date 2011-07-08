@@ -9,38 +9,41 @@
 */
 Application.UserPreferences = {  
   url : "",
-  user_preferences : $H({"_delete" : []}),
+  userPreferences : $H({"_delete" : []}),
     
   set: function(key, value){
     if (value == "_delete") {
-      this.user_preferences.erase(key);
-      this.user_preferences["_delete"].include(key);
+      this.userPreferences.erase(key);
+      this.userPreferences["_delete"].include(key);
     } else {
-      this.user_preferences[key] = value;
-      this.user_preferences["_delete"].erase(key);
+      this.userPreferences[key] = value;
+      this.userPreferences["_delete"].erase(key);
     }
       
-    var cookie_value = JSON.encode(this.user_preferences);
+    var cookie_value = JSON.encode(this.userPreferences);
     
     if (cookie_value.length > 4096) {
       if (value == "_delete") {
-        this.user_preferences["_delete"].erase(key);
+        this.userPreferences["_delete"].erase(key);
       } else {
-        this.user_preferences.erase(key);
+        this.userPreferences.erase(key);
       }
       
-      Cookie.write("skyline_up", JSON.encode(this.user_preferences), {path: "/"});
+      Cookie.write("skyline_up", JSON.encode(this.userPreferences), {path: "/"});
       
       var new_preference = new Hash();
       new_preference[key] = value;
       var cookieRequest = new Request.JSON({
                             url: this.Url,
                             onSuccess: function(up){
-                              this.user_preferences.empty();
+                              this.userPreferences.empty();
                             }.bind(this)
                           }).post({'skyline_up': JSON.encode(new_preference)});
     } else {
       Cookie.write("skyline_up", cookie_value, {path: "/"});
     }
+  },
+  remove : function(key){
+    this.set(key, "_delete");
   }
 };
