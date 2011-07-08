@@ -1,6 +1,8 @@
 class Skyline::VariantCurrentEditorController < Skyline::ApplicationController
   layout false
   
+  skip_before_filter :handle_user_preferences
+  
   def poll
     return render(:nothing => true) if session[:user_id].blank?
     
