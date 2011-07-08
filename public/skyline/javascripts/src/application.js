@@ -13,6 +13,8 @@ var Application = {};
 //= require "browser"
 //= require "sections"
 //= require "poller"
+//= require "user_preferences"
+
 
 Application.LayoutSettings = {
   focusElement : null // The element to focus on domReady
