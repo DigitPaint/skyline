@@ -15,7 +15,6 @@ source "http://rubygems.org"
 
 gem "rails", "2.3.10"
 gem "rack", "1.1.0"
-gem "mysql", "2.8.1"
 
 # When changing these, make sure you also change:
 #
