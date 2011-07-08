@@ -1,32 +1,34 @@
-<ul id="list" class="article-list">
-  <li class="header">
-    <div class="edit">&nbsp;</div>
-    <div class="draggable">
-      <div class="content">
-        <%= @articles.first.class.human_attribute_name(:title) %>
-      </div>
-    </div>
-    <div class="clear">
-      &nbsp;
-    </div>
-  </li>
+<table class="listing" id="article_index">
+  <thead>
+    <tr>
+      <th class="icon"></th>
+      <th><%= @articles.first.class.human_attribute_name(:title) %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @articles.each do |article| %>
+      <tr class="<%= cycle("odd","even") %>">
+        <td class="icon center"><%= tick_image(article.published?) %></td>
+        <th>
+          <%= article.title.blank? ? "&nbsp;" : article.title %>
+        </th>
+        <td class="right">
+          <%= link_to button_text(:edit), edit_skyline_article_path(article), :class => "button small" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-
-  <% @articles.each do |article| %>
-    <li class="<%= cycle("odd","even") %> element">
-      <div class="edit">
-        <%= link_to button_text(:edit), edit_skyline_article_path(article), :class => "button small" %>
-      </div>
-      <div class="draggable">
-        <div class="content">
-          <h3>
-            <%= article.title.blank? ? "&nbsp;" : article.title %>
-          </h3>
-        </div>
-      </div>
-      <div class="clear">
-        &nbsp;
-      </div>
-    </li>
-  <% end %>
-</ul>
+<script type="text/javascript" charset="utf-8">
+  (function(){
+    var f = $("article_index")
+    var t = new Skyline.Table(f);
+                                                                                                          
+    // Make sure the contentPanel resizes our table!
+    f.getParent().addComponentEvent("skyline.layout","resize",function(panel,w,h){
+      $('article_index').retrieve("skyline.table").resize(w, "100%");
+    });    
+  })();
+</script>

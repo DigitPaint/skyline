@@ -13,18 +13,16 @@
       </div>
     </div>
      
-    <div id="contentEditPanel" class="panel scrollable">
-      <div class="content">
-        <% if @articles.any? %>
-          <% begin %>
-            <%= render :partial => "skyline/articles/#{controller.class_from_type.name.demodulize.underscore}/list" %>          
-          <% rescue ActionView::MissingTemplate %>
-            <%= render :partial => "list" %>          
-          <% end %>
-        <% else %>
-          <em>Nog geen <%= controller.class_from_type.human_name(:count => 2) %> aanwezig.</em>
+    <div id="contentEditPanel" class="panel scrollable content">
+      <% if @articles.any? %>
+        <% begin %>
+          <%= render :partial => "skyline/articles/#{controller.class_from_type.name.demodulize.underscore}/list" %>          
+        <% rescue ActionView::MissingTemplate %>
+          <%= render :partial => "list" %>          
         <% end %>
-      </div>
+      <% else %>
+        <em>Nog geen <%= controller.class_from_type.human_name(:count => 2) %> aanwezig.</em>
+      <% end %>
     </div>
   </dd>    
 </dl>
