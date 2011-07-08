@@ -190,103 +190,104 @@ Application.Layout = (function(){
     Extends : Layout
   });
   
+  Layout.Media.initializeTree = function(id, url){
+    var element = $(id);
+    var tree;
+    if(tree = element.retrieve("skyline.tree")){
+      tree.reload();
+      //Fire select event to open the active node
+      tree.selectNode(null, tree.selectedNode);
+      return;
+    };
+
+    tree = new Skyline.Tree(id,{
+      offsetParent: $(id).getOffsetParent(),      
+      draggable: true,
+      orderable: false,
+      dragMarker: false,
+      fixedRootNodes: true
+    });
+
+    tree.skylineMediaDirsPath = url;
+
+    tree.addEvent("select", function(event,link){
+      if(!event){ return; }
+
+      event.stop(); 
+
+      new Request({ 
+        evalScripts: true, 
+        url: link.getProperty("href")
+      }).get();
+      return false;
+    });
+
+    /*Add move listener to send ajax request when a node is dropped*/
+    tree.addEvent("move", function(branchEl,newParentEl,newPosition){
+      var newParentId = Application.getId(newParentEl.get('id'));
+      var id = Application.getId(branchEl.get('id'));
+      new Request({ 
+        evalScripts:true, 
+        url: this.skylineMediaDirsPath + "/"+ id,
+        data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&skyline_media_dir[parent_id]=' + newParentId,
+        method: 'put'
+      }).send();
+      return false;
+    });
+
+  };  
+  
+  Layout.Media.initializeUploadPanel = function(dirPath){
+    var uPanel = $('contentInfoPanel')
+    var fB = $('finishedbutton');
+    fB.setStyle('display','none');
+
+    var upl = new Application.LibraryUploader("libraryuploaderform",I18n.LibraryUploader);
+
+    fB.addEvent("click",function(e) {
+      e.preventDefault();
+      upl.reset();
+      $('uploadstatus').setStyle("display","");
+      $('cancelselect').setStyle("display","");
+      $('uploadbutton').setStyle("display","");
+      $('finishedbutton').setStyle("display","none");
+
+      uPanel.retrieve("skyline.layout").hide();
+    });  
+
+    upl.addEvent("complete",function(){
+      $('uploadstatus').setStyle("display","none");
+      $('cancelselect').setStyle("display","none");
+      $('uploadbutton').setStyle("display","none");
+
+      $('finishedbutton').setStyle('display','');
+
+      uPanel.retrieve("skyline.layout").parent.setup();
+
+      // Get new File list.
+      new Request({
+         evalScripts: true, 
+         url: $('libraryuploaderform').getProperty("action"),
+         method: 'get'
+       }).send();
+    });
+
+    upl.addEvent("start",function(){
+      uPanel.retrieve("skyline.layout").parent.setup();
+    })
+
+    $('cancelselect').addEvent('click', function() {
+     upl.reset(); // remove all files
+     uPanel.retrieve("skyline.layout").hide();
+     return false;
+   })
+  };
+  
+  
   Layout.current = null;
   
   return Layout;
 })();
-
-Application.Layout.Media.initializeTree = function(id, url){
-  var element = $(id);
-  var tree;
-  if(tree = element.retrieve("skyline.tree")){
-    tree.reload();
-    //Fire select event to open the active node
-    tree.selectNode(null, tree.selectedNode);
-    return;
-  };
-
-  tree = new Skyline.Tree(id,{
-    offsetParent: $(id).getOffsetParent(),      
-    draggable: true,
-    orderable: false,
-    dragMarker: false,
-    fixedRootNodes: true
-  });
-  
-  tree.skylineMediaDirsPath = url;
-  
-  tree.addEvent("select", function(event,link){
-    if(!event){ return; }
-    
-    event.stop(); 
-
-    new Request({ 
-      evalScripts: true, 
-      url: link.getProperty("href")
-    }).get();
-    return false;
-  });
-
-  /*Add move listener to send ajax request when a node is dropped*/
-  tree.addEvent("move", function(branchEl,newParentEl,newPosition){
-    var newParentId = Application.getId(newParentEl.get('id'));
-    var id = Application.getId(branchEl.get('id'));
-    new Request({ 
-      evalScripts:true, 
-      url: this.skylineMediaDirsPath + "/"+ id,
-      data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&skyline_media_dir[parent_id]=' + newParentId,
-      method: 'put'
-    }).send();
-    return false;
-  });
-
-};
-  
-Application.Layout.Media.initializeUploadPanel = function(dirPath){
-  var uPanel = $('contentInfoPanel')
-  var fB = $('finishedbutton');
-  fB.setStyle('display','none');
-
-  var upl = new Application.LibraryUploader("libraryuploaderform",I18n.LibraryUploader);
-
-  fB.addEvent("click",function(e) {
-    e.preventDefault();
-    upl.reset();
-    $('uploadstatus').setStyle("display","");
-    $('cancelselect').setStyle("display","");
-    $('uploadbutton').setStyle("display","");
-    $('finishedbutton').setStyle("display","none");
-    
-    uPanel.retrieve("skyline.layout").hide();
-  });  
-
-  upl.addEvent("complete",function(){
-    $('uploadstatus').setStyle("display","none");
-    $('cancelselect').setStyle("display","none");
-    $('uploadbutton').setStyle("display","none");
-    
-    $('finishedbutton').setStyle('display','');
-    
-    uPanel.retrieve("skyline.layout").parent.setup();
-    
-    // Get new File list.
-    new Request({
-       evalScripts: true, 
-       url: $('libraryuploaderform').getProperty("action"),
-       method: 'get'
-     }).send();
-  });
-  
-  upl.addEvent("start",function(){
-    uPanel.retrieve("skyline.layout").parent.setup();
-  })
-
-  $('cancelselect').addEvent('click', function() {
-   upl.reset(); // remove all files
-   uPanel.retrieve("skyline.layout").hide();
-   return false;
- })
-};
 
 /*
   Class: Application.PanelTabs
