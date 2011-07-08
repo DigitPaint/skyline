@@ -147,7 +147,7 @@ Swiff.Uploader = new Class({
 			this.addEvents({
 				buttonEnter: this.targetRelay.bind(this, ['mouseenter']),
 				buttonLeave: this.targetRelay.bind(this, ['mouseleave']),
-				buttonDown: this.targetRelay.bind(this, ['mousedown']),
+        // buttonDown: this.targetRelay.bind(this, ['mousedown']),
 				buttonDisable: this.targetRelay.bind(this, ['disable'])
 			});
 			
