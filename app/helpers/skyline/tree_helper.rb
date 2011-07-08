@@ -20,7 +20,13 @@ module Skyline::TreeHelper
       edit_skyline_article_path(page["id"])
     end
     
-    options.reverse_merge! :id_prefix => "article", :node_content => node_content, :node_url => node_url, :node_title => node_title
+    options.reverse_merge!(
+      :id_prefix => "article", 
+      :node_content => node_content, 
+      :node_url => node_url, 
+      :node_title => node_title,
+      :open_nodes => preferred_open_nodes("pages.tree.nodes.open", options[:selected])
+    )
     node_tree(pages,roots,options)
   end
   
@@ -55,9 +61,20 @@ module Skyline::TreeHelper
     node_url = Proc.new{|node| "" }
     node_content = Proc.new{|node| node }
     node_title = Proc.new{|node| "" }
-    options.reverse_merge! :id_prefix => "node", :node_content => node_content, :node_url => node_url, :node_title => node_title, :selected => nil
+    options.reverse_merge!(
+      :id_prefix => "node", 
+      :node_content => node_content, 
+      :node_url => node_url, 
+      :node_title => node_title, 
+      :selected => nil,
+      :open_nodes => []
+    )
+    
     tags = []
     nodes ||= []
+    open_nodes = options[:open_nodes] || []
+    
+    logger.warn("ON #{open_nodes.inspect}");
     
     nodes.each do |node|
       selected = options[:selected].present? ? options[:selected].id == node.id : false
@@ -65,13 +82,45 @@ module Skyline::TreeHelper
       li << node_tree(node_collection,node_collection[node.id],options) if node_collection.has_key?(node.id)
       
       node_class = []
-      node_class << node.open ? "open" : "closed" if node_collection.has_key?(node.id) && node.respond_to?(:open)
+      # node_class << node.open ? "open" : "closed" if node_collection.has_key?(node.id) && node.respond_to?(:open)
+      logger.warn "---> #{node_collection.has_key?(node.id)}"
+      node_class << (open_nodes.include?("#{node.id}") ? "open" : "closed") if node_collection.has_key?(node.id) 
       node_class << options[:class] if options[:class]
       
       tags << content_tag("li",li , :id => "#{options[:id_prefix]}_#{node.id}", :class => (node_class.any? ? node_class.join(" ") : nil))
     end
     
     content_tag("ul",tags.join("\n"));
+  end
+  
+  # Get's the current user preferred open nodes
+  #
+  # @param String up_key The User preferences key to use ("a.b.c")
+  # @param ~id selected The currently selected node
+  #
+  def preferred_open_nodes(up_key, selected = nil)
+    open_nodes = []
+    if user_preferences = current_user.user_preferences.get(up_key)
+      open_nodes = user_preferences.inject([]) do |result, (k,v)|
+        if v
+          id = k
+          result << id
+        end
+      end
+    end
+    
+    # Make sure parents are open.
+    if selected.present?
+      if selected.respond_to?("nesting")
+        selected.nesting.each do |p|
+          open_nodes << p.id.to_s
+        end
+      else
+        open_nodes << selected.parent_id.to_s
+      end
+    end
+    
+    open_nodes    
   end
   
 end
