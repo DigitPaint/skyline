@@ -21,7 +21,7 @@
           <%= render :partial => "list" %>          
         <% end %>
       <% else %>
-        <em>Nog geen <%= controller.class_from_type.human_name(:count => 2) %> aanwezig.</em>
+        <em><%= t(:blank, :scope => [:article, :index], :name => controller.class_from_type.human_name(:count => 2).downcase) %></em>
       <% end %>
     </div>
   </dd>    

@@ -452,6 +452,8 @@
       variants: "Varianten"
       security: "Beveiliging"
       page_fragments: "Fragmenten"
+    index:
+      blank: "Er zijn nog geen %{name} aanwezig."
     tabs:
       editor: "editor"
       preview: "preview"

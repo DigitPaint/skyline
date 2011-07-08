@@ -457,6 +457,8 @@
       preview: "preview"
     buttons:
       delete: "Delete article" 
+    index:
+      blank: "There are currently no %{name}."      
     new:
       new_page: "New"
       below: "Below"
