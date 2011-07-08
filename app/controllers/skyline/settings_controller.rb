@@ -7,7 +7,9 @@ class Skyline::SettingsController < Skyline::Skyline2Controller
   authorize :index, :edit, :update, :by => :settings_update
   
   def index
-    redirect_to edit_skyline_setting_path(@implementation.settings.page_names.first)
+    if @implementation.has_settings?
+      redirect_to edit_skyline_setting_path(@implementation.settings.page_names.first)
+    end
   end
   
   def edit

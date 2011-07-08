@@ -600,6 +600,10 @@
   settings:
     title: "%{class} settings"
     group_title: Settings 
+    index:
+      blank:
+        title: "No settings"
+        content: "Settings have not been defined in this implementation."
     update:      
       flashes:
         success: Settings where successfully saved.

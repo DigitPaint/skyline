@@ -600,6 +600,10 @@
   settings:
     title: "%{class} instellingen"
     group_title: Instellingen 
+    index:
+      blank:
+        title: "Geen instellingen"
+        content: "In deze implementatie zijn geen instellingen gedefiniëeerd."
     update:      
       flashes:
         success: De instellingen zijn opgeslagen.

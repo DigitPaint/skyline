@@ -29,7 +29,7 @@
         <li class="has-children">
           <span <%= 'class="active"' if current_menu_item == :admin %>><%= t(:admin, :scope => [:navigation,:mainnavigation]) %></span>
           <ul>
-            <% if @current_user.allow?(:settings_update) %>
+            <% if @current_user.allow?(:settings_update) && Skyline::Content::Implementation.instance.has_settings? %>
               <li><%= link_to t(:settings, :scope => [:navigation,:mainnavigation]), skyline_settings_path %></li>
             <% end %>
             <% if @current_user.allow?(:user_show) %>            
