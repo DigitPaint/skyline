@@ -23,3 +23,6 @@ end
 
 Factory.define :rss_section, :class => Skyline::Sections::RssSection do |u|
 end
+
+Factory.define :user_preference, :class => Skyline::UserPreference do |u|
+end

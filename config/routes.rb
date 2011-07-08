@@ -21,6 +21,8 @@ ActionController::Routing::Routes.draw do |map|
  
     skyline.resource :authentication
     skyline.resources :users
+    skyline.resources :user_preferences
+    
      
     skyline.resources :sections
     skyline.resources :content_sections

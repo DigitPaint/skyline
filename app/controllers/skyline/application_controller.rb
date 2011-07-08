@@ -3,6 +3,7 @@ class Skyline::ApplicationController < ApplicationController
   
   before_filter :set_locale
   before_filter :authenticate_user, :identifier => :authentication
+  before_filter :handle_user_preferences, :identifier => :preferences
   before_filter :authorize_user_for_action, :identifier => :authorization
   
   around_filter Skyline::ArticleVersionObserver.instance
@@ -128,6 +129,26 @@ class Skyline::ApplicationController < ApplicationController
         return redirect_to(new_skyline_authentication_path)
       end
     end
+  end
+  
+  # Handle the user preferences
+  # --
+  def handle_user_preferences
+    if cookies["skyline_up"].present?
+      up = ActiveSupport::JSON.decode(cookies["skyline_up"])
+      
+      up.each do |k,v|
+        if k == "_delete"
+          v.each do |delete_id|
+            current_user.user_preferences.remove(delete_id)
+          end
+        else
+          current_user.user_preferences.set(k,v)
+        end
+      end
+      
+      cookies.delete("skyline_up")
+    end 
   end
   
   # The authorization callback

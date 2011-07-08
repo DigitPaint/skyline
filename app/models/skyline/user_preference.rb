@@ -7,7 +7,7 @@ class Skyline::UserPreference < ActiveRecord::Base
     def set(key, value)
       raise ArgumentError.new("Cannot put hash into a value") if !parent_is_hash?(key)
       prefs = flatten_preferences({key => value})
-
+      
       prefs.each do |k, v|
         joined_key = "#{k.join('.')}."
         self.delete_all("`#{self.table_name}`.`key` LIKE '#{joined_key}%'")
@@ -31,6 +31,7 @@ class Skyline::UserPreference < ActiveRecord::Base
     end
         
     private
+    
     def flatten_preferences(rest, cur_key = [])
       rest.inject({}) do |acc, (k, v)|
         if v.kind_of?(Hash)
@@ -44,8 +45,8 @@ class Skyline::UserPreference < ActiveRecord::Base
       end
     end
     
-    def expand_preferences(preferences, query_key)    
-      preferences.inject({}) do |acc, p|
+    def expand_preferences(preferences, query_key)   
+      e = preferences.inject({}) do |acc, p|
         acc.merge!(p.key.sub(/#{query_key}./,"").split(".").reverse.inject(p.value) { |mem, var| {var => mem} })
         acc
       end
@@ -54,6 +55,7 @@ class Skyline::UserPreference < ActiveRecord::Base
     def parent_is_hash?(key)
       key_array = key.split(".")
       key_array.pop
+      
       return true if key_array.empty?
       
       !self.exists?(["`#{self.table_name}`.`key` LIKE ?", "#{key_array.join('.')}."])
