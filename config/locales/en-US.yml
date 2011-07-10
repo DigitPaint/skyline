@@ -741,7 +741,7 @@
     dirs:
       update:
         flashes:
-          success: "Wijzigingen opgeslagen"
+          success: "Your changes have been saved"
       index:
         directories: "Folders"
       show:
