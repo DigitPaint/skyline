@@ -237,6 +237,17 @@ Application.Layout = (function(){
       return false;
     });
 
+    tree.addEvent("expand", function(event,target){
+      var node = target;
+      Application.UserPreferences.set('media.dirs.tree.nodes.open.'+Application.getId(node.id), true);return false;
+    });
+    
+    tree.addEvent("collapse", function(event,target){
+      var node = target;
+      Application.UserPreferences.remove('media.dirs.tree.nodes.open.'+Application.getId(node.id));return false;
+    });      
+
+
   };  
   
   Layout.Media.initializeUploadPanel = function(dirPath){

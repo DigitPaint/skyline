@@ -42,7 +42,13 @@ module Skyline::TreeHelper
     node_url = Proc.new do |node|
       skyline_media_dir_media_files_path(node)
     end
-    options.reverse_merge! :id_prefix => "media", :node_content => node_content, :node_url => node_url, :node_title => node_title
+    options.reverse_merge!(
+      :id_prefix => "media", 
+      :node_content => node_content, 
+      :node_url => node_url, 
+      :node_title => node_title,
+      :open_nodes => preferred_open_nodes("media.dirs.tree.nodes.open", options[:selected])
+      )
     node_tree(dirs,roots,options)    
   end
   
