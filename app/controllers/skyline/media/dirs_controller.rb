@@ -2,8 +2,6 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
   
   layout "skyline/layouts/media"
   self.default_menu = :media_library
-  menu :main, :media
-  
   
   authorize :create, :by => "media_dir_create"
   authorize :edit, :update, :by => "media_dir_update"

@@ -68,30 +68,7 @@ class Skyline::ApplicationController < ApplicationController
       self.filter_chain.send(:update_filter_chain,filters, :before,pos+1, &block)
     end
     
-    def menu(*levels)
-      self.default_menu = levels
-    end
-        
   end
-  
-  # @option options [true,false] force  If force => true, the default_menu will be overriden
-  def menu(*levels)
-    m = (@current_menu || [])
-    options = levels.extract_options!
-    options.reverse_merge!(m.extract_options!)
-    self.current_menu = m + levels + [options]
-  end
-  
-  def current_menu
-    menu = Array(@current_menu).dup
-    options = menu.extract_options!
-    if options[:force]
-      menu      
-    else
-      (self.class.default_menu && self.class.default_menu.dup || []) + menu
-    end
-  end
-  helper_method :current_menu  
 
   protected
 
