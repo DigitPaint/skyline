@@ -1,24 +1,122 @@
-*Stable*
+# Changelog for Skyline #
 
-* Update test code
-* Update tinyMCE to 3.3.9
-* Fix generator methods to use notifications.
-* Add support for disappearing flashes.
-* Fix bugs regarding ref_objects
-* Fix number of users display and don't break if created_at is not set.
-* Fix updating of number of files in uploader.
-* Changed icons in presenter for content elements
-* Remove all of Solr search, it will be put in a plugin.
-* Refactor Renderer and RenderableScope* to the Rendering module.
-* Added deprecation for Skyline::Renderer.
-* Deprecate Skyline::FormBuilderWithErrors in favour of Skyline::FormBuilder
-* Deprecate SectionItem in favour of Sections::Interface.
-* Deprecate Referable in favour of HasManyReferablesIn.
-* Deprecate ContentItem in favour of BelongsToReferable.
-* Added proportional dimension calculation to MediaFile and use it in MediaSection.
-* Add (optional) link to Skyline::Sections::MediaSection.
+## 3.1.0 ##
 
-*3.0.8 (December 18, 2009)*
+### Core ###
+* [Core] Update gemfile to work with bundler 1.0.7
+* [Core] Update gemfile to use Rails 2.3.10 and rack 1.1.0
+* [Core] Change migrations so there are no more references to tables without the skyline_* prefix.
+* [Core] Removed routes that are overwritten in the implementation
+* [Core] Remove mysql as a dependency
+* [Core] Update gemfile to use willpaginate ~>2.3.15
+* [Core] Fix Rails deprecation errors regarding returning
+* [Core] Change load_paths to autoload_path
+* [Core] Replace returning with tap
+* [Core] Moved tasks to lib/tasks because of deprecation
+* [Core] Multiple language file and translation fixes in english translations
+* [Core] Change {{}} to %{} in locale files
+
+
+### Deprecations ###
+**Important** : Some functionality has been deprecated in Skyline 3.1 you can still use the deprecation-layer if you are updating from an older version.
+
+* [Deprecations] Deprecations for 3.0.8 aren't loaded automatically anymore: require skyline/lib/deprecated/version3_0_8 manually to enable them.
+* [Deprecations] Removed all of Solr search, it will be put in a plugin.
+* [Deprecations] Refactor Renderer and RenderableScope* to the Rendering module.
+* [Deprecations] Deprecate Skyline::Renderer in favour of Skyline::Rendering::Renderer 
+* [Deprecations] Deprecate Skyline::UrlValidation in favour of vendored UrlValidation
+* [Deprecations] Deprecate Skyline::Renderer::SettingsHelper#get and Skyline::Renderer::SettingsHelper#get_page
+* [Deprecations] Deprecate Skyline::FormBuilderWithErrors in favour of Skyline::FormBuilder
+* [Deprecations] Deprecate SectionItem in favour of Sections::Interface.
+* [Deprecations] Deprecate Referable in favour of HasManyReferablesIn.
+* [Deprecations] Deprecate ContentItem in favour of BelongsToReferable.
+
+### User interface (core) ###
+* [UI] Update tinyMCE to 3.3.9
+* [UI] Upgrade mootools to 1.2.5 for IE9 compatibility
+* [UI] Fix generator methods to use notifications.
+* [UI] Add support for disappearing flashes.
+* [UI] Refactored Skyline.Layout javascript classes
+* [UI] Refactored Skyline.Tree javascript classes
+* [UI] Added Skyline.Table for scrollable and draggable tables
+* [UI] Add event delay/delegation for Skyline JS components.
+* [UI] Add support for multiple wysiwygs in sections collections.
+* [UI] Use HTML5 data-* attributes to store data on element nodes
+* [UI] Add support for disappearing flashes
+* [UI] Don't show buttons in inactive panel headers (it's confusing)
+* [UI] Add onFocus event to skyline.editor
+* [UI] Add support for section focus
+* [UI] New sections are now added after the currentActive section
+* [UI] Add config.locale configuration, it set's the default skyline interface locale. Skyline sets this on every request.
+* [UI] Add UserPrefernces for all kinds of user specific data
+* [UI] Minimize initial click target of flash upload shim to 1x1 px
+* [UI] Remove targetRelay for Swiff.Uploader.js to fix double-click bug in FireFox 4+
+* [UI] Refactored javascript layout classes
+* [UI] Show fieldset_errors after image and link browsers
+
+### Plugin management (core) ###
+* [Plugins] Refactor plugin manager to do more stuff for each plugin. (see also: b20f527)
+* [Plugins] Seed plugin seeds too. Refactor pluginsmanager a bit.
+* [Plugins] Load plugin helpers inside of Skyline::ApplicationController, makes it easier to override methods.
+* [Plugins] Put plugin hooking and other plugin specific stuff in plugin_helper
+
+### Referables (core) ###
+* [Referables] Use present? method instead of checking the existence of ref object in the helper
+* [Referables] Correctly mark referable_field as changed
+* [Referables] Bugfix: don't set refering type and id when object_ref is being destroyed
+* [Referables] Fix copying from one field with referables to another within the same object.
+* [Referables] Fix after_create callbacks when you are using HasManyReferablesIn and try to resave on after_create.
+* [Referables] Changed uri to text in skyline_referable_uri to allow for longer links
+* [Referables] Fix bug where a ID conflict could result in broken ref_id's.
+* [Referables] Don't break if you try to add a non-image file as an image into a inline ref
+
+### Media Library ###
+* [MediaLibrary] Refactored interface and controllers
+* [MediaLibrary] The URL for all files have been changed, this should not be a problem as long as there are no hardcoded references.
+* [MediaLibrary] Fix display of "add" button in media library
+* [MediaLibrary] Implement user preferences for media tree
+* [MediaLibrary] Fixed popup for link browser
+* [MediaLibrary] Fix updating of number of files in uploader.
+* [MediaLibrary] Added proportional dimension calculation to MediaFile and use it in MediaSection.
+
+### Articles, pages & rendering ###
+* [Articles] Add option to ArticleVersion to save it without increasing version numer
+* [Articles] Don't validate simple update of internal variables of Article.
+* [Articles] Improve the default view of article lists
+* [Articles] Add sensible default heading to article list
+* [Articles] Beautify interface if the "head" partial of an article is empty
+* [Articles] Fix duplicate call of sectionlist initialization
+* [Articles] Remove an unused index from article table.
+* [Articles] Add support for custom lists for articles
+
+* [Pages] Added documentation for Page#find_by_url
+* [Pages] Implement user preferences for Page tree collapsing/expanding
+
+* [Renderer] Skip template directories without an index.html.erb file.
+* [Renderer] Expose the controller within the renderer
+* [Renderer] Remove RenderableScope, it should be in a plugin.
+
+### Sections (builtin) ###
+* [Sections] Redirect section - Don't prepend url with protocol, host and port if the url already has one.
+* [Sections] RSS section - Add link to rss section
+* [Sections] Media section - Add (optional) link to Skyline::Sections::MediaSection.
+
+* [Tagging] Added index to associated tags table
+* [Tagging] Optimized generated query in with_tags scope
+
+### Content elements ###
+* [ContentElements] Changed icons in presenter for content elements
+* [ContentElements] Fixed boolean helper for content elements
+* [ContentElements] Remove article-list presenter for content elements. First part of content element refactoring. You can still use it but it will just display the table variant.
+
+### Settings and users ###
+* [Settings] Don't fail if we have no settings
+
+* [Users] Updated usermanagement to adher to new style
+* [Users] Fix number of users display and don't break if created_at is not set.
+
+
+## 3.0.8 (December 18, 2009) ##
 
 * Added support for SQLite3
 * Always make the last saved variant the default variant
@@ -30,7 +128,7 @@
 * Deprecate the settings helper in favour of Settings#get and Settings#get_page
 * Deprecate page_sections_per_column in favour of sections_per_column
 
-*3.0.7 (December 8, 2009)*
+## 3.0.7 (December 8, 2009) ##
 
 * Minor optimalisation to make (auto)loading work better
 * Added the skylincms binary to bootstrap new implementation
@@ -76,20 +174,20 @@
 * Ready for open source release
 * Define all offsetparents for tree elements
 
-*3.0.6 (October 2, 2009)*
+## 3.0.6 (October 2, 2009) ##
 
 * Fix drag of tree elements when there was scroll. (#67) Minor improvements on visual drag-cues.
 
-*3.0.5 (September 10, 2009)*
+## 3.0.5 (September 10, 2009) ##
 
 * Fix issue with IE6 and external links. (resolves #13)
 * Removed memoize from page.rb
 
-*3.0.4 (August 28, 2009)*
+## 3.0.4 (August 28, 2009) ##
 
 * Import functions of content model can now return error messages
 
-*3.0.3 (August 6, 2009)*
+## 3.0.3 (August 6, 2009) ##
 
 * Add better page locking, as long as someone is editing a variant it can't be edited by someone else.
 * Add support for edit "takeover" so you can take over editing even if someone else is editing a variant.
@@ -112,14 +210,14 @@
 * Cleanup functionality added to delete unuused tags
 * Moved selection of content items (for ContentItemSection) to model and ContentItem module
 
-*3.0.2.1 (July 23, 2009)*
+## 3.0.2.1 (July 23, 2009) ##
 Bugfix release, mainly for monitoring deletions of InlineRefs.
 
 * Add version number to login screen.
 * Add logger statement when InlineRef's are deleted, watch for [InlineRef].
 * Nullify RefObject#refering_id on all links when a page is deleted
 
-*3.0.2 (July 23, 2009)*
+## 3.0.2 (July 23, 2009) ##
 
 * Added localization for TinyMCE through skyline localization file
 * Automatically select target="_blank" if selecting a file or external link 
@@ -131,13 +229,13 @@ Bugfix release, mainly for monitoring deletions of InlineRefs.
 * Added TinyMCE Skyline Contextmenu plugin
 * Added TinyMCE Skyline Table plugin (edit simple tables)
 
-*3.0.1 (July 21, 2009)*
+## 3.0.1 (July 21, 2009) ##
 
 * Load helpers with Skyline.root as base
 * The browser controllers are now descendants of Skyline::ApplicationController  
 * Update TinyMCE to 3.2.5 
 * Bug: LinkSectionLink isn't in module Skyline::Sections
 
-*3.0.0 (July 20, 2009)*
+## 3.0.0 (July 20, 2009) ##
 
 * Initial Skyline 3.0.0 version released as a Rails plugin.
