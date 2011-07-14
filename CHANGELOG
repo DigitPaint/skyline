@@ -33,6 +33,7 @@
 
 ### Configuration (core) ###
 * [Config] Make the url_prefix for the admin screens (default = "/skyline") configurable. This does not change the url of the assets!
+* [Config] Add an option to disable pages in the CMS. This only removes them from the template/browsers. You have to change the skyline.root route yourself!
 
 ### User interface (core) ###
 * [UI] Update tinyMCE to 3.3.9

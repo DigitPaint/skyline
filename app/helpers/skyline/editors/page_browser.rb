@@ -1,5 +1,7 @@
 class Skyline::Editors::PageBrowser < Skyline::Editors::Editor
   def output_without_errors
+    return "" unless Skyline::Configuration.enable_pages
+    
     attr_names = self.attribute_names.dup
     attr_names[-1] = attr_names[-1].to_s.gsub(/_id$/, "_attributes")
     input_name_prefix = input_name(attr_names)                    # ie: element[image_attributes]

@@ -59,6 +59,7 @@ class Skyline::Configuration < Configure
     config.url_prefix = "/skyline"
     
     # enable/disable 'modules'
+    config.enable_pages = true
     config.enable_multiple_variants = true
     config.enable_locking = true
     config.enable_enforce_only_one_user_editing = true

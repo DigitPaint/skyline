@@ -3,14 +3,16 @@
     <div class="tabs">
       <div class="chrome">
         <ul class="toptabs">
-          <% ["Skyline::Page","Skyline::MediaFile","Skyline::ReferableUri"].each do |tab| %>
+          <% tabs = ["Skyline::MediaFile","Skyline::ReferableUri"] %>
+          <% tabs.unshift "Skyline::Page" if Skyline::Configuration.enable_pages %>
+          <% tabs.each do |tab| %>
             <li class="<%= "active" if @active_tab == tab %>"><a href="#"><%= t(tab, :scope => [:browser,:tabs]) %></a></li>          
           <% end %>
         </ul>
       </div>
     </div>
   </div>
-  <%= render :partial => "skyline/browser/tabs/pages/index" %>  
+  <%= render :partial => "skyline/browser/tabs/pages/index" if Skyline::Configuration.enable_pages %>  
   <%= render :partial => "skyline/browser/tabs/media_library/index" %>
   <%= render :partial => "skyline/browser/tabs/external_link/index" %>
   <% if params[:common] %>

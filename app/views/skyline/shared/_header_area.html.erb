@@ -14,9 +14,11 @@
   	  <img src="/skyline/images/logo.png" alt="powered by Skyline"  style="position: absolute; right: 10px; top: 5px"/>
   	<% end %>
     <ul>
-      <li>
-        <%= link_to t(:pages, :scope => [:navigation,:mainnavigation]), skyline_articles_path(:type => Skyline::Page), :class => (current_menu_item == :pages ? "active" : nil) %>
-      </li>
+      <% if Skyline::Configuration.enable_pages %>
+        <li>
+          <%= link_to t(:pages, :scope => [:navigation,:mainnavigation]), skyline_articles_path(:type => Skyline::Page), :class => (current_menu_item == :pages ? "active" : nil) %>
+        </li>
+      <% end %>
       <% if (Skyline::Configuration.articles + Skyline::Configuration.content_classes).any? %>
         <li>
           <%= link_to t(:content_library, :scope => [:navigation,:mainnavigation]), {:controller => "/skyline/content", :action => "index"}, :class => (current_menu_item == :content_library ? "active" : nil) %>
