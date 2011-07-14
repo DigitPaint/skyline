@@ -2,7 +2,6 @@ Skyline CMS
 ===========
 
 **Homepage**:  [http://www.skylinecms.nl](http://www.skylinecms.nl)   
-**IRC**:       Join us on IRC in #skylinecms on irc.freenode.net!  
 **Twitter**:   Follow [skylinecms](http://www.twitter.com/skylinecms) on twitter  
 **Git**:       [http://github.com/digitpaint/skyline](http://github.com/digitpaint/skyline)   
 **Author**:    DigitPaint  
@@ -42,5 +41,5 @@ If you're running into problems, don't hesitate to contact us!
 Copyright
 ---------
 
-Skyline CMS &copy; 2009 by [DigitPaint](mailto:info@digitpaint.nl). Licensed under the LGPL
+Skyline CMS &copy; 2011 by [DigitPaint](mailto:info@digitpaint.nl). Licensed under the LGPL
 license. Please see the {file:COPYING} and {file:COPYING.LESSER} for more information.
