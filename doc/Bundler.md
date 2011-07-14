@@ -1,22 +1,21 @@
-Setting up Bundler for a Rails 2.3 application
+Setting up Bundler 1.x for a Rails 2.3 application
 ==============================================
 
 Requirements
 ------------
 
-* Ruby >= 1.8.6
-* Rubygems >= 1.3.5
-* Rails >= 2.3.4
-* Bundler 0.7.0
+* Ruby >= 1.8.7
+* Rubygems >= 1.3.7
+* Rails >= 2.3.10
+* Bundler >= 1.0.0
 
 Setup bundler to provide all necessary gems
 -------------------------------------------
 
 Create the file `Gemfile` in your RAILS\_ROOT and add the following lines:
 
-    bundle_path "vendor/bundler_gems"
-    gem "rails"
-    disable_system_gems
+  source :rubygems
+  gem "rails"
     
 ### Including extra Gemfiles?
 
@@ -31,28 +30,43 @@ Create initializer for Bundler
 
 Create file called `config/preinitializer.rb` and add the follwoing line:
 
-    require "#{File.dirname(__FILE__)}/../vendor/bundler_gems/environment"
+    begin
+      require "rubygems"
+      require "bundler"
+    rescue LoadError
+      raise "Could not load the bundler gem. Install it with `gem install bundler`."
+    end
+
+    if Gem::Version.new(Bundler::VERSION) <= Gem::Version.new("0.9.24")
+      raise RuntimeError, "Your bundler version is too old for Rails 2.3." +
+       "Run `gem install bundler` to upgrade."
+    end
+
+    begin
+      # Set up load paths for all bundled gems
+      ENV["BUNDLE_GEMFILE"] = File.expand_path("../../Gemfile", __FILE__)
+      Bundler.setup
+    rescue Bundler::GemNotFound
+      raise RuntimeError, "Bundler couldn't find some gems." +
+        "Did you run `bundle install`?"
+    end
 
 Initialize Bundler before Rails boots
 -------------------------------------
 
 Add the following to `config/boot.rb`, just before the `Rails.boot!` statement.
 
-    # for bundler
     class Rails::Boot
       def run
         load_initializer
-        extend_environment
-        Rails::Initializer.run(:set_load_path)
-      end
-      def extend_environment
+
         Rails::Initializer.class_eval do
-          old_load = instance_method(:load_environment)
-          define_method(:load_environment) do
-            Bundler.require_env RAILS_ENV
-            old_load.bind(self).call
+          def load_gems
+            @bundler_loaded ||= Bundler.require :default, Rails.env
           end
         end
+
+        Rails::Initializer.run(:set_load_path)
       end
     end
 
@@ -60,12 +74,3 @@ Bundle your gems
 ----------------
 
     gem bundle
-
-Using git?
-----------
-If you're using git we advise you to put the following lines in your .gitignore
-
-    vendor/bundler_gems/doc
-    vendor/bundler_gems/environment.rb
-    vendor/bundler_gems/gems
-    vendor/bundler_gems/specifications

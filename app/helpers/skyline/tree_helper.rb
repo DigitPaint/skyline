@@ -89,7 +89,6 @@ module Skyline::TreeHelper
       
       node_class = []
       # node_class << node.open ? "open" : "closed" if node_collection.has_key?(node.id) && node.respond_to?(:open)
-      logger.warn "---> #{node_collection.has_key?(node.id)}"
       node_class << (open_nodes.include?("#{node.id}") ? "open" : "closed") if node_collection.has_key?(node.id) 
       node_class << options[:class] if options[:class]
       

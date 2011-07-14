@@ -1,6 +1,6 @@
 # Changelog for Skyline #
 
-## 3.1.0 ##
+## 3.1.0 (Juli 14, 2011) ##
 
 ### Core ###
 * [Core] Update gemfile to work with bundler 1.0.7
