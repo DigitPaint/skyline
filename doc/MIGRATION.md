@@ -12,6 +12,54 @@ After every Skyline update make sure that:
 * **Plugin users only!** The assets (`RAILS_ROOT/public/skyline`) are from the new version. If they are symlinked, Skyline will 
   take care of them for you.
 
+Version 3.0.8 -> Version 3.1.0
+------------------------------
+
+**Important**: Read the changelog for Skyline 3.1.0!!
+
+The main change in Skyline 3.1.0 is that we switched to Bundler 1.x. This means that you have to change some of the initialization files.
+
+### Files to change ###
+
+**Gemfile**
+
+Remove the lines:
+
+    bundle_path "vendor/bundler_gems"
+    disable_system_gems
+
+**config/environment.rb**
+
+Update the Rails version:
+
+    RAILS_GEM_VERSION = '2.3.10' unless defined? RAILS_GEM_VERSION
+    
+**config/boot.rb**
+See the Bundler docuemntation (/doc/Bundler.md)
+
+**config/preinitializer.rb**
+See the Bundler docuemntation (/doc/Bundler.md)
+
+
+### Deprecations ###
+
+A couple of classes and methods have been deprecated/removed in Skyline 3.1. This is by no means a complete overview of things that changed
+so YMMV. No specific functionality has been removed, but the interfaces have changed a bit. See below for a list of deprecations.
+
+**Important** : Some functionality has been deprecated in Skyline 3.1 you can still use the deprecation-layer if you are updating from an older version.
+
+* [Deprecations] Deprecations for 3.0.8 aren't loaded automatically anymore: require skyline/lib/deprecated/version3_0_8 manually to enable them.
+* [Deprecations] Removed all of Solr search, it will be put in a plugin.
+* [Deprecations] Refactor Renderer and RenderableScope* to the Rendering module.
+* [Deprecations] Deprecate Skyline::Renderer in favour of Skyline::Rendering::Renderer 
+* [Deprecations] Deprecate Skyline::UrlValidation in favour of vendored UrlValidation
+* [Deprecations] Deprecate Skyline::Renderer::SettingsHelper#get and Skyline::Renderer::SettingsHelper#get_page
+* [Deprecations] Deprecate Skyline::FormBuilderWithErrors in favour of Skyline::FormBuilder
+* [Deprecations] Deprecate SectionItem in favour of Sections::Interface.
+* [Deprecations] Deprecate Referable in favour of HasManyReferablesIn.
+* [Deprecations] Deprecate ContentItem in favour of BelongsToReferable.
+
+
 Version 3.0.7 -> Version 3.0.8
 ------------------------------
 
