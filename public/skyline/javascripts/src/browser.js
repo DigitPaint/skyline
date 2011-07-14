@@ -213,8 +213,11 @@ $extend(Application.Browser,{
 
 Application.ImageBrowser = new Class({
   Extends : Application.Browser,
-  url : "/skyline/browser/images",
+  url : "",
   initialize : function(params){
+    // We have to set the URL here, because the Application.urlPrefix is not available at
+    // load time.
+    this.url = "/" + Application.urlPrefix + "/browser/images";
     this.addEvent("select", function(values){
       if (values.url) {
         values.url = Application.sanitizeUrl(values.url);
@@ -226,8 +229,11 @@ Application.ImageBrowser = new Class({
 
 Application.LinkBrowser = new Class({
   Extends : Application.Browser,
-  url : "/skyline/browser/links",
+  url : "",
   initialize : function(params){
+    // We have to set the URL here, because the Application.urlPrefix is not available at
+    // load time.
+    this.url = "/" + Application.urlPrefix + "/browser/links";
     
     if(params.common && params["new"]){
       this.addEvent("addTab",function(tab){
@@ -258,10 +264,22 @@ Application.LinkBrowser = new Class({
 
 Application.PageBrowser = new Class({
   Extends : Application.Browser,
-  url : "/skyline/browser/pages"
+  url : "",
+  initialize : function(params){
+    // We have to set the URL here, because the Application.urlPrefix is not available at
+    // load time.
+    this.url = "/" + Application.urlPrefix + "/browser/pages";    
+    this.parent(params);
+  }
 });
 
 Application.FileBrowser = new Class({
   Extends : Application.Browser,
-  url : "/skyline/browser/files"
+  url : "",
+  initialize : function(params){
+    // We have to set the URL here, because the Application.urlPrefix is not available at
+    // load time.
+    this.url = "/" + Application.urlPrefix + "/browser/files";    
+    this.parent(params);
+  }
 });

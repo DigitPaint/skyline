@@ -24,6 +24,7 @@
 <script type="text/javascript" charset="utf-8">
   Application.formAuthenticityToken = "<%=form_authenticity_token%>";  
   Application.locale = "<%= I18n.locale %>";
+  Application.urlPrefix = "<%= Skyline::Configuration.url_prefix %>";
   Application.UserPreferences.Url = "<%= skyline_user_preferences_path  %>";
 </script>
 

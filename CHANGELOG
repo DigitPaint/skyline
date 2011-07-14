@@ -31,6 +31,9 @@
 * [Deprecations] Deprecate Referable in favour of HasManyReferablesIn.
 * [Deprecations] Deprecate ContentItem in favour of BelongsToReferable.
 
+### Configuration (core) ###
+* [Config] Make the url_prefix for the admin screens (default = "/skyline") configurable. This does not change the url of the assets!
+
 ### User interface (core) ###
 * [UI] Update tinyMCE to 3.3.9
 * [UI] Upgrade mootools to 1.2.5 for IE9 compatibility

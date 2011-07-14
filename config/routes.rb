@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   # =================
   # = Skyline url's =
   # =================
-  map.namespace :skyline do |skyline|
+  map.namespace :skyline, :path_prefix => ("/#{Skyline::Configuration.url_prefix}" || "/skyline")  do |skyline|
      
     skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
      

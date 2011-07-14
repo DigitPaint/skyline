@@ -1,8 +1,8 @@
 # Contains the default skyline configuration. Currently this is also
 # the place to look for available configuration options.
 #
-# @todo This configuration class will soon change as it's not flexible enough
-#   for out purposes.
+# @todo This configuration class will someday change as it's not flexible enough
+#   for our purposes.
 class Skyline::Configuration < Configure
   
   defaults do |config|
@@ -55,6 +55,9 @@ class Skyline::Configuration < Configure
       end    
     end
     
+    # Default URL admin prefix (default = /skyline/...)
+    config.url_prefix = "/skyline"
+    
     # enable/disable 'modules'
     config.enable_multiple_variants = true
     config.enable_locking = true
@@ -82,6 +85,10 @@ class Skyline::Configuration < Configure
   
   def content_classes
     self["content_classes"].map(&:constantize)
+  end
+  
+  def url_prefix
+    self["url_prefix"].gsub(/\A\//, "")
   end
   
   protected
