@@ -127,7 +127,6 @@ class Skyline::InlineRef < Skyline::RefObject
       end
    
       new_ref = skyline_class.find_by_id_and_refering_type_and_refering_id_and_refering_column_name(id,refering_object.class.name,refering_object.id,refering_column_name.to_s) if id
-      logger.warn "--> new_ref.id : #{new_ref && new_ref.id}"
       new_ref ||= skyline_class.new
 
       new_ref.previous_referable = new_ref.referable.dup if new_ref.referable
