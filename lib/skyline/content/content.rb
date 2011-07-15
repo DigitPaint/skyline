@@ -241,7 +241,8 @@ module Skyline::Content
      
      def process_habtm_related_objects(field,values,assoc)
        target_order = values.delete("_order") # This is discarded, a HABTM relationship cannot have a positionfield
-       target_ids = values.map{|k,v| v["_target_id"].to_i }
+       # We have to filter oud the "-" value which we need to make this field come through.
+       target_ids = values.map{|k,v| v["_target_id"] == "-" ? nil : v["_target_id"].to_i }.compact
        current_ids = self.send("#{field.name.to_s.singularize}_ids")
        if target_ids.sort != current_ids.sort
          objects = assoc.klass.find(target_ids).inject({}){|mem,o|mem[o.id] = o; mem}
