@@ -6,8 +6,8 @@
 
 source :rubygems
 
-gem "rails", "2.3.10"
-gem "rack", "1.1.0"
+gem "rails", "3.0.9"
+# gem "rack", "1.1.0"
 
 # When changing these, make sure you also change:
 #
@@ -16,7 +16,7 @@ gem "rack", "1.1.0"
 #
 # Otherwise the gem will not work!
 
-gem "polyglot", "0.2.6"
+gem "polyglot"
 gem "sprockets", "1.0.2"
 gem "mime-types", "1.16",                   :require => "mime/types"
 gem "rmagick", "2.9.1",                     :require => "RMagick"
