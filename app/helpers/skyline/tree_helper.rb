@@ -80,8 +80,6 @@ module Skyline::TreeHelper
     nodes ||= []
     open_nodes = options[:open_nodes] || []
     
-    logger.warn("ON #{open_nodes.inspect}");
-    
     nodes.each do |node|
       selected = options[:selected].present? ? options[:selected].id == node.id : false
       li = link_to(options[:node_content].call(node), options[:node_url].call(node), :class => (selected ? "selected" : nil), :title => options[:node_title].call(node))
@@ -95,7 +93,7 @@ module Skyline::TreeHelper
       tags << content_tag("li",li , :id => "#{options[:id_prefix]}_#{node.id}", :class => (node_class.any? ? node_class.join(" ") : nil))
     end
     
-    content_tag("ul",tags.join("\n"));
+    content_tag("ul",tags.join("\n").html_safe);
   end
   
   # Get's the current user preferred open nodes

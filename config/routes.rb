@@ -1,93 +1,75 @@
-ActionController::Routing::Routes.draw do |map|
- 
-  # =================
-  # = Skyline url's =
-  # =================
-  map.namespace :skyline, :path_prefix => ("/#{Skyline::Configuration.url_prefix}" || "/skyline")  do |skyline|
-     
-    skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
-     
-    skyline.resources :articles, :collection => {:reorder => :put} do |page|
-      page.resources :article_versions
-      page.resources :variants, :member => {:force_edit => :put}
-      page.resources :publications, :member => {:rollback => :post}
-      page.resource :published_publication
-    end
-     
-    # These are currently just used for polling
-    skyline.resources :variants do |variant|
-      variant.map "current_editor", :controller => "variant_current_editor", :action => "poll"
-    end
- 
-    skyline.resource :authentication
-    skyline.resources :users
-    skyline.resources :user_preferences
+Rails.application.routes.draw do
+  namespace :skyline do
+    root :to => "articles#index", :type => "skyline/page"
     
-     
-    skyline.resources :sections
-    skyline.resources :content_sections
-    skyline.resources :content_items
-    skyline.resources :link_section_links
-    skyline.resources :redirects, :only => [:new]
-     
-    skyline.resources :locales, :only => [:show]
- 
-    skyline.namespace :media do |media|
-      media.resources :dirs do |dirs|
+    resources :articles do
+      collection do
+        put :reorder
+      end
+      resources :article_versions
+      resources :variants do
+        member do
+          put :force_edit
+        end
+      end
+      resources :publications do
+        member do
+          post :rollback
+        end
+      end
+      resources :published_publication
+    end
+    
+    resources :variants do
+      match "current_editor" => "variant_current_editor#poll"
+    end
+    
+    resource :authentication
+    resources :users
+    resources :user_preferences
+    
+    resources :sections
+    resources :content_sections
+    resources :content_items
+    resources :link_section_links
+    resources :redirects, :only => [:new]    
+    
+    resources :locales, :only => [:show]
+    
+    
+    namespace :media do
+      resources :dirs do
         # Alert! Routes hard coded in app/views/skyline/media_files/_index.html.erb        
-        dirs.resources :files
+        resources :files
          
-        dirs.connect 'data/:size/:name.:format',
-            :controller => 'data',
-            :action => 'show',
-            :conditions => { :method => :get }
-        dirs.connect 'data/:name.:format',
-            :controller => 'data',
-            :action => 'show',
-            :conditions => { :method => :get }        
+        match 'data/:size/:name.:format' => "data#show", :via => :get
+        match 'data/:name.:format' => "data#show", :via => :get        
       end
     end   
      
-    skyline.namespace :browser do |browser|
-      browser.resources :images
-      browser.resources :links
-      browser.resources :pages
-      browser.resources :files
-      browser.namespace :tabs do |tabs|
-        tabs.namespace :media_library do |media_library|
-          media_library.resources :media_dirs do |media_dir|
-            media_dir.resources :media_files
+    namespace :browser do
+      resources :images
+      resources :links
+      resources :pages
+      resources :files
+      namespace :tabs do
+        namespace :media_library do
+          resources :media_dirs do
+            resources :media_files
           end
         end
       end         
     end
      
-    skyline.namespace :content do |content|
-      content.namespace :editors do |editors|
-        editors.connect 'editable_list/:action/:id', :controller => "editable_list"
-        editors.connect 'joinable_list/:action/:id', :controller => "joinable_list"
+    namespace :content do
+      namespace :editors do
+        match 'editable_list/(:action(/:id))', :to => "editable_list"
+        match 'joinable_list/(:action(/:id))', :to => "joinable_list"
       end
     end
-    skyline.connect 'content/:action/*types', :controller => "content"
+    
+    match 'content/(:action/(*types))', :to => "content"
      
-    skyline.resources :settings, :except => [:create, :destroy]
-     
+    resources :settings, :except => [:create, :destroy]    
   end
- 
-  # ========================
-  # = Implementation url's =
-  # ========================
-  #Media files data route
-   
-  map.connect 'media/dirs/:media_dir_id/data/:size/:name.:format',
-      :controller => 'skyline/site/media_files_data',
-      :action => 'show',
-      :conditions => { :method => :get }
-  map.connect 'media/dirs/:media_dir_id/data/:name.:format',
-      :controller => 'skyline/site/media_files_data',
-      :action => 'show',
-      :conditions => { :method => :get }
-             
-  # Default pages renderer.
-  # map.connect '*url', :controller => "skyline/site/pages", :action => "show"
 end

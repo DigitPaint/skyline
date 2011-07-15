@@ -1,5 +1,6 @@
 class Skyline::VariantsController < Skyline::ApplicationController
-  insert_before_filter_after :authentication, :find_article
+  # insert_before_filter_after :authentication, :find_article
+  set_callback :authenticate, :after, :find_article
 
   authorize :create, :by => Proc.new{|user,controller,action| user.allow?(controller.article, :variant_create)  }
   authorize :destroy, :by => Proc.new{|user,controller,action| user.allow?(controller.article, :variant_delete)  }

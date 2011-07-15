@@ -5,7 +5,7 @@ module Skyline::ButtonHelper
     
     contents = capture(&block)
     
-    concat <<-EOS
+    txt = <<-EOS
     <dl class="menubutton" id="#{options[:id]}">
       <dt>
         <span class="label">#{title}</span>
@@ -19,12 +19,14 @@ module Skyline::ButtonHelper
       new Skyline.MenuButton('#{options[:id]}')
     </script>
     EOS
+    
+    txt.html_safe
   end
   
   # Translates the key if it's a symbol otherwise just places key
   # --
   def button_text(key)
-    key.kind_of?(Symbol) ? t(key, :scope => :buttons) : key
+    (key.kind_of?(Symbol) ? t(key, :scope => :buttons) : key).html_safe
   end
   
   # Places a <button type="submit">..</button> tag
@@ -70,8 +72,8 @@ module Skyline::ButtonHelper
     
     html_options.reverse_merge! :type => "submit"
     
-    "<form method=\"#{form_method}\" action=\"#{escape_once url}\" class=\"button-to\"><div>" +
-      method_tag + content_tag("button", button_text(label) ,html_options) + request_token_tag + "</div></form>"    
+    ("<form method=\"#{form_method}\" action=\"#{escape_once url}\" class=\"button-to\"><div>" +
+      method_tag + content_tag("button", button_text(label) ,html_options) + request_token_tag + "</div></form>").html_safe    
   end
   
 end

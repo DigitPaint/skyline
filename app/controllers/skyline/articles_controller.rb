@@ -1,6 +1,7 @@
 class Skyline::ArticlesController < Skyline::ApplicationController
   
-  insert_before_filter_after :authentication, :find_article, :only => [:edit, :update, :destroy]
+  # insert_before_filter_after :authentication, :find_article, :only => [:edit, :update, :destroy]
+  set_callback :authenticate, :after, :find_article, :if => lambda{|c| %w{edit update destroy}.include?(c.action_name)  }
   
   authorize :index, :by => Proc.new{|user,controller,action| user.allow?(controller.article || controller.class_from_type, :index)  }
   authorize :create, :by => Proc.new{|user,controller,action| user.allow?(controller.article || controller.class_from_type, :create)  }  

@@ -1,7 +1,7 @@
 <dt id="leftPageHeaderPanel" class="<%= local_assigns[:active] ? "active" : "" %>">
   <span class="content">
     <% if @article.andand.kind_of?(Skyline::Page) %>
-      <% menu_button t(:add_page, :scope => [:article, :edit]), :id => "add_page_button" do %>
+      <%= menu_button t(:add_page, :scope => [:article, :edit]), :id => "add_page_button" do %>
         <ul>
           <% possible_positions = @article.root? ? %w{in} : %w{in below} %>
           <% possible_positions.each do |pos| %>

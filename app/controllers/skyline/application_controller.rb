@@ -23,6 +23,8 @@ class Skyline::ApplicationController < ApplicationController
     helper helper.sub(/^#{Regexp.escape(Skyline::PluginsManager.plugin_path.to_s)}\/?.+?\/app\/helpers\//,"").sub(/_helper\.rb$/,"")
   end
   
+  define_callbacks :authenticate
+  
   
   class << self
         
@@ -57,17 +59,6 @@ class Skyline::ApplicationController < ApplicationController
       read_inheritable_attribute(:authorizations) || {}
     end
     
-    def insert_before_filter_after(identifier,*filters,&block)      
-      pos = 0
-      filter_chain.each_with_index do |f,i|
-        if f.identifier == identifier
-          pos = i
-          break
-        end
-      end
-      self.filter_chain.send(:update_filter_chain,filters, :before,pos+1, &block)
-    end
-    
   end
 
   protected
@@ -77,8 +68,8 @@ class Skyline::ApplicationController < ApplicationController
     I18n.locale = Skyline::Configuration.locale.present? ? Skyline::Configuration.locale : "en-US"
   end
   
-  def default_url_options(options=nil)
-    return if options.nil?
+  def default_url_options(options={})
+    return {} if options.blank?
     if options[:id].andand.kind_of?(Skyline::Article)
       {:type => options[:id].class}
     elsif options[:article_id].andand.kind_of?(Skyline::Article)
@@ -100,10 +91,12 @@ class Skyline::ApplicationController < ApplicationController
   # Authenticate the user
   def authenticate_user
     if self.protect? 
-      unless session[:user_id] && @current_user = Skyline::User.find_by_id(session[:user_id])
-        # Store location to go back to in session...
-        session[:before_login_url] = request.request_uri
-        return redirect_to(new_skyline_authentication_path)
+      run_callbacks :authenticate do
+        unless session[:user_id] && @current_user = Skyline::User.find_by_id(session[:user_id])
+          # Store location to go back to in session...
+          session[:before_login_url] = request.request_uri
+          return redirect_to(new_skyline_authentication_path)
+        end
       end
     end
   end
@@ -195,7 +188,7 @@ class Skyline::ApplicationController < ApplicationController
   #--
   def messages
     unless defined? @_messages
-      @_messages = session["_messages"] ||= ActionController::Flash::FlashHash.new
+      @_messages = session["_messages"] ||= ActionDispatch::Flash::FlashHash.new
       @_messages.sweep
     end
     @_messages
@@ -212,7 +205,7 @@ class Skyline::ApplicationController < ApplicationController
   #--
   def notifications
     unless defined? @_notifications
-      @_notifications = session["_notifications"] ||= ActionController::Flash::FlashHash.new
+      @_notifications = session["_notifications"] ||= ActionDispatch::Flash::FlashHash.new
       @_notifications.sweep
     end
     @_notifications

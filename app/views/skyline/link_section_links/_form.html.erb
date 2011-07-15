@@ -2,7 +2,7 @@
 
 <li id="link_section_<%= link_guid %>" class="<%= ref_object_css_class(linked_object.andand.referable) %>">
   <div class="file">
-    <% sectionable_form.fields_for "links_attributes", link, :index => link_guid do |l| %>
+    <%= sectionable_form.fields_for "links_attributes", link, :index => link_guid do |l| %>
       <%= l.hidden_field :id unless link.new_record? %>
       <%= l.hidden_field :_destroy, :class => "delete" %>
       <%= l.positioning_field %>

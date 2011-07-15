@@ -1,7 +1,7 @@
 <% form_for :article, @article, :url => skyline_article_path(@article), :html => {:method => :put, :id => "page_form"} do |a| %>
   <dl id="contentPanel" class="panel">    
-    <% a.fields_for :variants_attributes, @variant, :index => 1 do |v| %>
-      <% v.fields_for :data_attributes, v.object.data do |vd| %>
+    <%= a.fields_for :variants_attributes, @variant, :index => 1 do |v| %>
+      <%= v.fields_for :data_attributes, v.object.data do |vd| %>
         <dt id="contentHeaderPanel">    
           <%= hidden_field_tag :clone_variant, "0" %>
           <%= v.hidden_field :id %>
@@ -30,7 +30,7 @@
               <% end %>
               <%= content %>
               <div class="actions">
-                <% menu_button t(:add_section, :scope => [:article, :edit]), :id => "add_section_button" do %>
+                <%= menu_button t(:add_section, :scope => [:article, :edit]), :id => "add_section_button" do %>
                   <ul>
                     <% Skyline::Rendering::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
                       <li>

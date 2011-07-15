@@ -3,7 +3,7 @@
 } -%>
 <% @locale.each do |key,value| %>
   tinyMCE.addI18n("<%= I18n.locale %>.<%= key %>",
-    <%= value.update(@options).to_json %>
+    <%= value.update(@options).to_json.html_safe %>
   );
 <% end %>
 

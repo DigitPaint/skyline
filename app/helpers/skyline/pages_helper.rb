@@ -28,7 +28,7 @@ module Skyline::PagesHelper
       out << ": "
     end
     out << form.select(:template, templates_for_select(object) )
-    out.join
+    out.join.html_safe
   end
   
   def templates_for_select(object)

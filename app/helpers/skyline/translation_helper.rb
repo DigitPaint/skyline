@@ -21,7 +21,7 @@ module Skyline::TranslationHelper
     klass_index = options[:scope].index(klass)
     options[:raise] = true
     
-    klass.self_and_descendants_from_active_record.map do |superklass|
+    klass.lookup_ancestors.map do |superklass|
       begin
         o = options.dup
         o[:scope][klass_index] = superklass.name.underscore.sub(/^skyline\//, "")

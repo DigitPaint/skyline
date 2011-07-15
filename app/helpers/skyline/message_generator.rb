@@ -11,11 +11,11 @@ class Skyline::MessageGenerator
     options = @options.dup
     options.each do |k,v|
       options[k] = case v
-        when Hash : self.options_for_javascript(v)
+        when Hash : v.to_json
         else v
       end
     end    
-    "new #{self.js_object}('#{self.escape_javascript(@message)}',#{self.options_for_javascript(options)})"
+    "new #{self.js_object}('#{self.escape_javascript(@message)}',#{self.to_json(options)})"
   end
   
   def to_str
