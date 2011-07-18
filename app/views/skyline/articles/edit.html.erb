@@ -30,16 +30,18 @@
               <% end %>
               <%= content %>
               <div class="actions">
-                <%= menu_button t(:add_section, :scope => [:article, :edit]), :id => "add_section_button" do %>
-                  <ul>
-                    <% Skyline::Rendering::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
-                      <li>
-                        <%= link_to_remote(section.model_name.human, 
-                              :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), 
-                              :method => :get, 
-                              :data => "(new Hash({'after_section' : $('contentlist').retrieve('application.sections').getCurrentActiveId()})).toQueryString()") %></li>
-                    <% end %>
-                  </ul>              
+                <% if Skyline::Rendering::Renderer.renderables(:sections, a.object.class).present? %>
+                  <%= menu_button t(:add_section, :scope => [:article, :edit]), :id => "add_section_button" do %>
+                    <ul>
+                      <% Skyline::Rendering::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
+                        <li>
+                          <%= link_to_remote(section.model_name.human, 
+                                :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), 
+                                :method => :get, 
+                                :data => "(new Hash({'after_section' : $('contentlist').retrieve('application.sections').getCurrentActiveId()})).toQueryString()") %></li>
+                      <% end %>
+                    </ul>                           
+                  <% end %>
                 <% end %>
                 <div id="mceToolbarContainer" class="tinymce"></div>
               </div>
