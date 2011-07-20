@@ -5,7 +5,8 @@ ActionController::Routing::Routes.draw do |map|
   # =================
   map.namespace :skyline, :path_prefix => ("/#{Skyline::Configuration.url_prefix}" || "/skyline")  do |skyline|
      
-    skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
+    # skyline.root :controller => "articles", :action => "index", :type => "skyline/page"
+    skyline.root Skyline::Configuration.default_route
      
     skyline.resources :articles, :collection => {:reorder => :put} do |page|
       page.resources :article_versions

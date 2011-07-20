@@ -58,6 +58,11 @@ class Skyline::Configuration < Configure
     # Default URL admin prefix (default = /skyline/...)
     config.url_prefix = "/skyline"
     
+    # The skyline_root default route.
+    # Most unfortunately we have to set it like this because we cannot override a specific route from the plugin
+    # in the implementation.
+    config.default_route = {:controller => "articles", :action => "index", :type => "skyline/page"}
+    
     # enable/disable 'modules'
     config.enable_pages = true
     config.enable_multiple_variants = true

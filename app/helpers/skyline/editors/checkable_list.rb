@@ -23,7 +23,8 @@ class Skyline::Editors::CheckableList < Skyline::Editors::Editor
   def render_records
     collection = @target_class.all
     if collection.any?
-      collection.collect{|record| render_record(record)}.join("\n")
+      out = hidden_field_tag(input_name(self.attribute_names + [random_prefix(0), "_target_id"]), "-")
+      out << collection.collect{|record| render_record(record)}.join("\n")
     else
       t(:blank, :scope => [:content,:editors, :checkable_list], :class => @target_class.plural_name.downcase)
     end
@@ -39,7 +40,8 @@ class Skyline::Editors::CheckableList < Skyline::Editors::Editor
   end
   
   def random_prefix(row)
-    "n_" + row.id.to_s + "_n" + Time.now.to_i.to_s + Time.now.usec.to_s 
+    id = row.respond_to?(:id) ? row.id : row
+    "n_" + id.to_s + "_n" + Time.now.to_i.to_s + Time.now.usec.to_s 
   end
   
   def row_id(id)

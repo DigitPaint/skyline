@@ -9,7 +9,7 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
     if user = Skyline::User.authenticate(params[:email], params[:password])      
       reset_session      
       session[:user_id] = user.id
-      redirect_to skyline_articles_path(:type => Skyline::Page)
+      redirect_to skyline_root_path
     else
       messages.now[:error] = t(:error, :scope => [:authentication,:create,:flashes])
       render :action => :new
