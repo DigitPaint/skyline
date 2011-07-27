@@ -67,7 +67,7 @@
 			
 			var delayedResize = function(){
 			  var nr = resize();
-			  dab = $(ed.getBody()).getStyle("background-color");        
+			  dab = tinymce.DOM.toHex(tinymce.DOM.getStyle(ed.getBody(), "backgroundColor", true));
 			  if(dab != "#fffffe"){
           setTimeout(delayedResize, 50);
 			  }
