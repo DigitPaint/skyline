@@ -50,30 +50,22 @@ module Skyline::ButtonHelper
     html_options = html_options.stringify_keys
     disabled = html_options[:disabled]
     convert_boolean_attributes!(html_options, %w( disabled ))
-    
-    method_tag = ''
-    if (method = html_options.delete('method')) && %w{put delete}.include?(method.to_s)
-      method_tag = tag('input', :type => 'hidden', :name => '_method', :value => method.to_s)
-    end
-    
-    form_method = method.to_s == 'get' ? 'get' : 'post'
-    
-    request_token_tag = ''
-    if form_method == 'post' && protect_against_forgery?
-      request_token_tag = tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token)
+
+    if method = html_options.delete('method')
+      html_options["data-method"] = method
+    else
+      html_options["data-method"] = "post"
     end
     
     if confirm = html_options.delete("confirm")
-      html_options["onclick"] = "return #{confirm_javascript_function(confirm)};"
+      html_options["data-confirm"] = confirm
     end
     
-    url = options.is_a?(String) ? options : self.url_for(options)
-    name ||= url
+    html_options["data-url"] = options.is_a?(String) ? options : self.url_for(options)
     
     html_options.reverse_merge! :type => "submit"
     
-    ("<form method=\"#{form_method}\" action=\"#{escape_once url}\" class=\"button-to\"><div>" +
-      method_tag + content_tag("button", button_text(label) ,html_options) + request_token_tag + "</div></form>").html_safe    
+    content_tag("button", button_text(label) ,html_options)
   end
   
 end

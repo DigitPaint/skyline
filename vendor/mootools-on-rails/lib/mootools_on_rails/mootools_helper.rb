@@ -183,9 +183,9 @@ module ActionView
          args.unshift object
        end
 
-       concat(form_remote_tag(options))
-       fields_for(object_name, *(args << options), &proc)
-       concat('</form>')
+       form_remote_tag(options) do
+         fields_for(object_name, *(args << options), &proc)
+       end
      end
      alias_method :form_remote_for, :remote_form_for
                        

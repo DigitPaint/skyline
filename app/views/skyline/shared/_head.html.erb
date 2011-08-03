@@ -28,4 +28,7 @@
   Application.UserPreferences.Url = "<%= skyline_user_preferences_path  %>";
 </script>
 
+<meta name="csrf-token" id="csrf-token" content="<%= form_authenticity_token %>" />
+<meta name="csrf-param" id="csrf-param" content="authenticity_token" />
+
 <% plugin_hook :footer %>
