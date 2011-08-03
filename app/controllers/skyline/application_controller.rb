@@ -94,7 +94,7 @@ class Skyline::ApplicationController < ApplicationController
       run_callbacks :authenticate do
         unless session[:user_id] && @current_user = Skyline::User.find_by_id(session[:user_id])
           # Store location to go back to in session...
-          session[:before_login_url] = request.request_uri
+          session[:before_login_url] = request.fullpath
           return redirect_to(new_skyline_authentication_path)
         end
       end
