@@ -104,7 +104,7 @@
       };      
       
       var l = row.getElement("a");
-      (new Request()).get(l.getProperty("href"));
+      (new Request({url : l.getProperty("href")})).get();
     });
           
     t.addEvent("deselectRow",function(row){
