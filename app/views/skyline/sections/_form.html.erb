@@ -11,7 +11,7 @@
 
       <div class="undestroy">
         <%= link_to_function button_text(:undo), "PageHelper.unDestroy('section_#{guid}')", :class => "undo button small" %>
-        <%= t(:will_be_destroyed, :section => section.sectionable.class.human_name, :scope => [:section, :form]) %>
+        <%= t(:will_be_destroyed, :section => section.sectionable.class.model_name.human, :scope => [:section, :form]) %>
       </div>  
       <div class="section">   	        
         <% if section.sectionable.default_interface %>
@@ -19,7 +19,7 @@
         		<div class="tools">
         		  <%= renderable_templates_select(section.sectionable, section_form) %>
         		</div>
-        		<%= section.sectionable.class.human_name %>
+        		<%= section.sectionable.class.model_name.human %>
         	</div>
         	<div class="body">
             <%= render :partial => "skyline/sections/#{sectionable_type}", :locals => {:section_form => section_form, :sectionable_form => sectionable_form, :guid => guid} %>

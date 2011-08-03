@@ -1,6 +1,6 @@
 <dl id="contentPanel" class="panel">    
   <dt id="contentHeaderPanel">    
-    <span class="content"><%= @article.class.human_name %>: <%= @variant.data.title %></span>
+    <span class="content"><%= @article.class.model_name.human %>: <%= @variant.data.title %></span>
   </dt>
   <dd id="contentPreviewPanel">
     <iframe id="contentPreview" src="<%= @article.previewable? ? skyline_article_article_version_url(@article, @variant) : "" %>" <%= @article.previewable? ? "data-url-\"#{skyline_article_article_version_url(@article, @variant)}\"" : '' %>class="preview" frameborder="0"></iframe>

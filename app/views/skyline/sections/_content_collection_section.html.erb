@@ -1,7 +1,7 @@
 <table class="fields">
   <tr>
     <th><%= sectionable_form.label :content_type, Skyline::Sections::ContentCollectionSection.human_attribute_name("content_type")%></th>
-    <td><%= sectionable_form.select :content_type, [["",""]] + Skyline::Tag.taggable_content_models.collect{|klass| [klass.human_name(:count => 2), klass.to_s]}%></td>
+    <td><%= sectionable_form.select :content_type, [["",""]] + Skyline::Tag.taggable_content_models.collect{|klass| [klass.model_name.human(:count => 2), klass.to_s]}%></td>
   </tr>     
   <tr>      
     <th><%= sectionable_form.label :number, Skyline::Sections::ContentCollectionSection.human_attribute_name("number")%></th>

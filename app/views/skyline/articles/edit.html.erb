@@ -9,7 +9,7 @@
           <%= vd.hidden_field :id %>
           <%= vd.hidden_field :class, :value => a.object.data_class.name if vd.object.new_record? %>
           <span class="content">
-            <%= a.object.class.human_name %>: <%= vd.object.title %>
+            <%= a.object.class.model_name.human %>: <%= vd.object.title %>
           </span>
         </dt>
       
@@ -34,7 +34,7 @@
                   <ul>
                     <% Skyline::Rendering::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
                       <li>
-                        <%= link_to_remote(section.human_name, 
+                        <%= link_to_remote(section.model_name.human, 
                               :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), 
                               :method => :get, 
                               :data => "(new Hash({'after_section' : $('contentlist').retrieve('application.sections').getCurrentActiveId()})).toQueryString()") %></li>

@@ -18,7 +18,7 @@
 			      end
   			  %>
   				<li>
-  					 <%= link_to klass.human_name(:count => 2), link, :class => (active ? "active" : nil) %>
+  					 <%= link_to klass.model_name.human(:count => 2), link, :class => (active ? "active" : nil) %>
   				</li>
   			<% end %>
   		</ul>    

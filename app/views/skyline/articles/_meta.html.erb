@@ -44,7 +44,7 @@
           <table class="details">
             <tbody>
               <tr>
-                <th><%= @article.class.human_name %></th>
+                <th><%= @article.class.model_name.human %></th>
                 <td class="center"><%= tick_image(@article.published?) %></td>
               </tr>
               <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
