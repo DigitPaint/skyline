@@ -3,7 +3,7 @@ class Skyline::User < ActiveRecord::Base
   has_many :grants, :class_name => "Skyline::Grant", :dependent => :delete_all
   has_many :roles, :class_name => "Skyline::Role", :through => :grants
   has_many :rights, :class_name => "Skyline::Right", 
-    :finder_sql => 'SELECT DISTINCT r.* FROM skyline_rights AS r, skyline_grants AS g JOIN skyline_rights_skyline_roles AS rr ON rr.role_id = g.role_id WHERE g.user_id = #{id} AND r.id = rr.right_id'
+    :finder_sql => proc{ "SELECT DISTINCT r.* FROM skyline_rights AS r, skyline_grants AS g JOIN skyline_rights_skyline_roles AS rr ON rr.role_id = g.role_id WHERE g.user_id = #{id} AND r.id = rr.right_id" }
   
   has_many :user_preferences, :class_name => "Skyline::UserPreference"  
     
