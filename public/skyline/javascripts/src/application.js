@@ -252,7 +252,7 @@ Application.Layout = (function(){
   };  
   
   Layout.Media.initializeUploadPanel = function(dirPath){
-    var uPanel = $('contentInfoPanel')
+    var uPanel = $('contentInfoPanel');
     var fB = $('finishedbutton');
     fB.setStyle('display','none');
 
@@ -288,13 +288,13 @@ Application.Layout = (function(){
 
     upl.addEvent("start",function(){
       uPanel.retrieve("skyline.layout").parent.setup();
-    })
+    });
 
     $('cancelselect').addEvent('click', function() {
      upl.reset(); // remove all files
      uPanel.retrieve("skyline.layout").hide();
      return false;
-   })
+   });
   };
   
   
