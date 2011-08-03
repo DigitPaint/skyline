@@ -1,4 +1,4 @@
-<% form_remote_tag :url => force_edit_skyline_article_variant_path(@article, @variant), :method => :put do %>
+<%= form_remote_tag :url => force_edit_skyline_article_variant_path(@article, @variant), :method => :put do %>
   <% if current_user.allow?(:variant_force_edit) %>
     <span class="button">
       <%= t(:force_editing, :scope => [@article.class, :edit]) %>

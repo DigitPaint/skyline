@@ -1,4 +1,4 @@
-<% form_tag "#", :onsubmit => "Application.Poller.current.handleTakeOverAction(); return false", :id => "takeoverActionDialog" do %>
+<%= form_tag "#", :onsubmit => "Application.Poller.current.handleTakeOverAction(); return false", :id => "takeoverActionDialog" do %>
   <div class="topPanel">
     <div class="messages">
       <p class="message error"><%= t(:message, :user => current_editor.display_name, :scope => [:variant_current_editor, :takeover]) %></p>

@@ -7,7 +7,7 @@
       <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
         <dt><%= t(:current_variant, :scope => [:article, :edit]) %></dt>
         <dd>
-          <% form_tag edit_skyline_article_path(@article), {:method => :get, :id => "change_variant_form"} do %>
+          <%= form_tag edit_skyline_article_path(@article), {:method => :get, :id => "change_variant_form"} do %>
             <%= select_tag "variant_id", 
                   options_for_select(
                       @article.variants.map{|v| ["#{v.name}#{" (#{t(:published, :scope => [:article, :edit])})" if v.published_variant?}",v.id] }, 
