@@ -47,9 +47,9 @@ class Skyline::Page < Skyline::Article
   
   validate :only_one_root
   
-  named_scope :root_nodes, {:conditions => {:parent_id => nil}}
-  named_scope :in_navigation, {:conditions => {:skyline_page_data => {:in_navigation => true}}, :include => [:published_publication_data]}
-  named_scope :with_default_data, {:include => [:default_variant_data, :default_variant, :published_publication]}
+  scope :root_nodes, {:conditions => {:parent_id => nil}}
+  scope :in_navigation, {:conditions => {:skyline_page_data => {:in_navigation => true}}, :include => [:published_publication_data]}
+  scope :with_default_data, {:include => [:default_variant_data, :default_variant, :published_publication]}
   
   default_scope :order => "position"
  

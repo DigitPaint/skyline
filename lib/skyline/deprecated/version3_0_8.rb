@@ -9,9 +9,9 @@ module Skyline
       base.send(:include, Skyline::BelongsToReferable)
       
       base.class_eval do
-        named_scope(:published, {}) unless method_defined?(:published)
+        scope(:published, {}) unless method_defined?(:published)
         
-        named_scope(:with_site, {}) unless method_defined?(:with_site)
+        scope(:with_site, {}) unless method_defined?(:with_site)
       end
       
       class << base 

@@ -23,7 +23,7 @@ class Skyline::Article < ActiveRecord::Base
       subclass.class_eval do
         has_one :article, :foreign_key => "published_publication_data_id", :class_name => parentclass.name
         
-        named_scope :published, {
+        scope :published, {
           :include => [:article],
           :conditions => "skyline_articles.published_publication_data_id = #{self.table_name}.id"
         }
@@ -55,7 +55,7 @@ class Skyline::Article < ActiveRecord::Base
   belongs_to :default_variant, :class_name => "Skyline::Variant"
 
   # Scopes
-  named_scope :published, {:conditions => "published_publication_id IS NOT NULL"}  
+  scope :published, {:conditions => "published_publication_id IS NOT NULL"}  
 
   # Callbacks
   after_initialize :build_variant_with_data  

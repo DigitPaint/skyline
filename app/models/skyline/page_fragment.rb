@@ -12,5 +12,5 @@ class Skyline::PageFragment < Skyline::Article
     "page_fragment"
   end
   
-  named_scope :ordered_by_title, :include => :default_variant_data, :order => "#{Data.table_name}.title"
+  scope :ordered_by_title, :include => :default_variant_data, :order => "#{Data.table_name}.title"
 end

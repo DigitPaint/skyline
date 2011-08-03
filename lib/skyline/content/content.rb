@@ -8,7 +8,7 @@ module Skyline::Content
          obj.class_eval do 
            after_save :process_after_save
            
-           named_scope :published, lambda {
+           scope :published, lambda {
              if obj.publishable?
                {:conditions => {:published => true}}
              else
@@ -16,7 +16,7 @@ module Skyline::Content
              end
            }
 
-           named_scope :with_site, {}
+           scope :with_site, {}
          end         
        end
      end 
