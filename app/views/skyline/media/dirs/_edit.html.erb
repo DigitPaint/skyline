@@ -1,4 +1,4 @@
-<% remote_form_for @dir, :url => skyline_media_dir_path(@dir), :method => :put do |f|%>
+<%= remote_form_for @dir, :url => skyline_media_dir_path(@dir), :method => :put do |f|%>
   <%= f.hidden_field :parent_id %>
   <dl class="panel">
     <dt>

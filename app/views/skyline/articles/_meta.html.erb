@@ -21,13 +21,19 @@
       <dt><%= t(:created_at, :scope => [:article, :edit]) %></dt>
       <dd>
         <%= l(@variant.created_at, :format => :short) %>
-        <%= "<br/>#{@variant.creator.display_name}" if @variant.creator %>
+        <% if @variant.creator %>
+          <br/>
+          <%= @variant.creator.display_name %>
+        <% end %>
       </dd>
     
       <dt><%= t(:updated_at, :scope => [:article, :edit]) %></dt>
       <dd>
         <%= l(@variant.updated_at, :format => :short) %>
-        <%= "<br/>#{@variant.last_updated_by.display_name}" if @variant.last_updated_by %>              
+        <% if @variant.last_updated_by %>
+          <br/>
+          <%= @variant.last_updated_by.display_name %>              
+        <% end %>
       </dd>
     </dl>
   </dd>
@@ -77,12 +83,15 @@
           <dt><%= t(:last_published, :scope => [:article, :edit]) %></dt>
           <dd>
             <%= l(@article.publications.first.created_at, :format => :short) %>
-            <%= "<br/>#{@article.publications.first.last_updated_by.display_name}" if @article.publications.first.last_updated_by %>
+            <% if @article.publications.first.last_updated_by %>
+              <br/>
+              <%= @article.publications.first.last_updated_by.display_name  %>
+            <% end %>
           </dd>
           <% if @article.keep_history? %>
             <dt><%= t(:publication_history, :scope => [:article, :edit]) %></dt>
             <dd>
-              <%= t(:number_of_publications, :count => @article.publications.size, :scope => [@article.class, :edit]) %>
+              <%= t(:number_of_publications, :count => @article.publications.size, :scope => [@article.class, :edit]).html_safe %>
             </dd>
             <dd>
               <%= link_to_remote t(:publication_history_link, :scope => [:article, :edit]), :url => skyline_article_publications_path(@article), :method => :get %>
