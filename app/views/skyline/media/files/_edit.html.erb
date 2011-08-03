@@ -6,9 +6,8 @@
   </dt>
   <% if @file.file_type == "image" %>
     <dd>
-      <%= image_tag(url_for(
-            :action => :show, 
-            :controller => "media/data", 
+      <%= image_tag(skyline_media_dir_data_with_size_path(
+            :dir_id => @file.parent_id,
             :name => @file.name,
             :size => '100x100'), 
             :alt => @file.name) %>
@@ -29,7 +28,7 @@
   <dd class="last">
     <div class="button">
       <%= link_to t(:download, :scope => [:media, :files, :edit]), 
-            url_for(:action => :show, :controller => "media/data", :name => @file.name),
+            skyline_media_dir_data_path(:name => @file.name, :dir_id => @file.parent_id),
             :target => "_blank",
             :class => "button small" %>
     </div>

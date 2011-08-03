@@ -14,9 +14,7 @@ class Skyline::Media::DataController < Skyline::ApplicationController
   def show
     @skip_caching = false
 
-    filename = "#{params[:name]}.#{params[:format]}"
-    
-    @file = Skyline::MediaFile.first(:conditions => {:parent_id => params[:dir_id], :name => filename})
+    @file = Skyline::MediaFile.first(:conditions => {:parent_id => params[:dir_id], :name => params[:name]})
     
     cached_file = File.join(self.page_cache_directory,request.path)    
     

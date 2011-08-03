@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   namespace :skyline do
     root :to => "articles#index", :type => "skyline/page"
     
@@ -36,17 +37,16 @@ Rails.application.routes.draw do
     
     resources :locales, :only => [:show]
     
-    
     namespace :media do
       resources :dirs do
         # Alert! Routes hard coded in app/views/skyline/media_files/_index.html.erb        
-        resources :files
-         
-        match 'data/:size/:name.:format' => "data#show", :via => :get
-        match 'data/:name.:format' => "data#show", :via => :get        
-      end
+        resources :files      
+        
+        match 'data/:size/:name', :to => "data#show", :via => :get, :name => /[^\/]+/, :as => :data_with_size
+        match 'data/:name', :to => "data#show", :via => :get, :name => /[^\/]+/, :as => :data
+      end      
     end   
-     
+  
     namespace :browser do
       resources :images
       resources :links
@@ -72,4 +72,5 @@ Rails.application.routes.draw do
      
     resources :settings, :except => [:create, :destroy]    
   end
+     
 end
