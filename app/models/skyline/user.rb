@@ -19,7 +19,7 @@ class Skyline::User < ActiveRecord::Base
     
   
   # Validations
-  validate_on_update :valid_current_password, :if => :editing_myself
+  validate :valid_current_password, :if => :editing_myself, :on => :update
 
   validates_presence_of :password, :if => :password_changed?
   validates_presence_of :password_confirmation, :message => :confirmation, :if => :password_changed?, :on => :update
@@ -33,7 +33,7 @@ class Skyline::User < ActiveRecord::Base
 
   validate :grants_didnt_change, :if => :editing_myself
 
-  before_validation_on_update :reset_password_on_empty_current_password
+  before_validation :reset_password_on_empty_current_password, :on => :update
   before_save :set_forced_password,:encrypt_password
   
   default_scope :order => "email ASC"
