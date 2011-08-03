@@ -1,8 +1,10 @@
 class Skyline::PageFragment < Skyline::Article
   class Data < Skyline::Article::Data
+    after_initialize :set_defaults
+    
     protected
     
-    def after_initialize
+    def set_defaults
       self.title ||= I18n.t(:default_title, :scope => [:page_fragment])    
     end    
   end  

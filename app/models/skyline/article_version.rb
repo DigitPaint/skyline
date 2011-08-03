@@ -9,6 +9,8 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   has_many :sections, :class_name => "Skyline::Section", :dependent => :destroy
   
   validates_presence_of :name
+  
+  after_initialize :set_defaults  
   before_update :increase_version
   
   accepts_nested_attributes_for :data
@@ -83,7 +85,7 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   
   protected
   
-  def after_initialize
+  def set_defaults
     self.name = I18n.t(:default_name, :scope => [:page_version]) if self.name.blank?
     self.version ||= 1
   end

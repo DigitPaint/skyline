@@ -58,6 +58,7 @@ class Skyline::Article < ActiveRecord::Base
   named_scope :published, {:conditions => "published_publication_id IS NOT NULL"}  
 
   # Callbacks
+  after_initialize :build_variant_with_data  
   before_destroy :confirm_destroyability
   after_destroy :reset_ref_object
   after_destroy :destroy_variants
@@ -245,7 +246,7 @@ class Skyline::Article < ActiveRecord::Base
   
   protected
   
-  def after_initialize
+  def build_variant_with_data
     if self.new_record?
       v = self.variants.build(:article => self)
       self.default_variant_data = v.data

@@ -1,6 +1,8 @@
 class Skyline::Page < Skyline::Article
   class Data < Skyline::Article::Data
+    after_initialize :set_defaults    
     before_validation :sanitize_url_part
+    
     validate :validate_url_part, :if => :to_be_published  
     validates_presence_of :title  
 
@@ -14,7 +16,7 @@ class Skyline::Page < Skyline::Article
 
     protected
 
-    def after_initialize
+    def set_defaults
       self.title ||= I18n.t(:default_title, :scope => [:page_version])    
     end
 
