@@ -1,7 +1,5 @@
 # @private
-class Skyline::MediaFile < Skyline::MediaNode    
-  has_and_belongs_to_many :tags, :class_name => "Skyline::Tag", :join_table => "skyline_media_files_skyline_tags"
-	  
+class Skyline::MediaFile < Skyline::MediaNode      
   include Skyline::Taggable
 
   after_create :store_data
