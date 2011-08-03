@@ -1524,22 +1524,29 @@ dl.fields dd{
 }
 
 div.fake-textfield{
-  float: left;
   padding: 0 2px;
+  width: 100%;
 }
 
 div.fake-textfield span{
   vertical-align: middle;
-  float: left;
   color: #999;
+  display: table-cell;
+  width: 100%;
 }
 
-div.fake-textfield input{
+div.fake-textfield span:first-child{
+  width: auto;
+}
+
+div.fake-textfield input{  
   vertical-align: middle;  
-  width: 400px;
+  width: 100%;
   border: none;
   padding: 0;
   margin: 0;
+  display: block;
+  -webkit-appearance: none;
 }
 
 ul.checkboxes{
