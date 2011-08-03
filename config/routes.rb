@@ -17,7 +17,7 @@ Rails.application.routes.draw do
           post :rollback
         end
       end
-      resources :published_publication
+      resource :published_publication
     end
     
     resources :variants do
