@@ -63,11 +63,11 @@ Skyline.Editor.plugins.SkylineImage.Dialog = new Class({
   },
 
   // Get attributes from IMG tag for passing to dialog
-  _getParameters : function(el){
+  _getParameters : function(el){  
     if(!this.edit){ return {"new": true}; }
-    var attr = {"new": false}, el = $(el);
+    var ed = this.editor, attr = {"new": false};
     $H(this.validAttributes).each(function(v,k){
-      attr[v] = el.getProperty(k);
+      attr[v] = ed.dom.getAttrib(el,k);
     });
     return attr
   },

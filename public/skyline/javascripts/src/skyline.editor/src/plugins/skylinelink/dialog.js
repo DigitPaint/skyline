@@ -74,12 +74,12 @@ Skyline.Editor.plugins.SkylineLink.Dialog = new Class({
 		ed.selection.moveToBookmark(i);
 		ed.execCommand("mceEndUndoLevel");
   },
-  // Get attributes from Element for passing to dialog
-  _getParameters : function(el){
+  // Get attributes from IMG tag for passing to dialog
+  _getParameters : function(el){  
     if(!this.edit){ return {"new": true}; }
-    var attr = {"new": false}, el = $(el);
+    var ed = this.editor, attr = {"new": false};
     $H(this.validAttributes).each(function(v,k){
-      attr[v] = el.getProperty(k);
+      attr[v] = ed.dom.getAttrib(el,k);
     });
     return attr
   },
