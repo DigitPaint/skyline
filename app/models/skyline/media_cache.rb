@@ -26,7 +26,7 @@ class Skyline::MediaCache < ActiveRecord::Base
   def expire_cache
     # It'd be better to call expire_page here, except it's a
     # controller method and we can't get to it.
-    path = self.class.cache_path + "#{self.url}"
+    path = self.class.cache_path.to_s + "#{self.url}"
 
     logger.info "Sweeping #{path}"
     delete_file(path)

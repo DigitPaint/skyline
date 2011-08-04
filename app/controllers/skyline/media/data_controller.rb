@@ -53,7 +53,8 @@ class Skyline::Media::DataController < Skyline::ApplicationController
       return if @skip_caching
       ActiveRecord::Base.transaction do
         Skyline::MediaCache.create(:url => request.path, :object_type => "MediaFile", :object_id => @file.id)
-        self.class.cache_page(response.body, request.path)
+        relative_cache_path = request.path.to_s.sub(/^\//, "")
+        self.class.cache_page(response.body, relative_cache_path)
       end
     end
   
