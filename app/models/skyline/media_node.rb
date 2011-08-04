@@ -42,7 +42,7 @@ class Skyline::MediaNode < ActiveRecord::Base
   def name=(name)
     name = sanitize_filename(name)
     @renamed = true if name != self.name
-    self.write_attribute(:name, name)
+    write_attribute(:name, name)
   end
 
   # write the path of the node
@@ -51,7 +51,7 @@ class Skyline::MediaNode < ActiveRecord::Base
   # name<String>:: original nodename
   def path=(name)
     @renamed = true if name != self.name
-    self.write_attribute(:path, name)
+    write_attribute(:path, name)
   end  
   
   # check if node has been renamed after sanitizing the name
