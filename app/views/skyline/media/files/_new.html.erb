@@ -22,12 +22,12 @@
       </div>
       <div class="upload-progress hide">
         <div class="body">
-          <%=t(:file_progress, :scope => [:media, :files , :new]) %>
+          <%=t(:file_progress, :scope => [:media, :files , :new]).html_safe %>
           <div class="progressbar">
             <div class="bar" style="width: 20%">&nbsp;</div>
           </div>
           <div class="progress-text">
-            <%=t(:percentage_progress, :scope => [:media, :files , :new]) %>
+            <%=t(:percentage_progress, :scope => [:media, :files , :new]).html_safe %>
           </div>
         </div>
         <div class="submit">
