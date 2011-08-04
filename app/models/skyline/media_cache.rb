@@ -10,7 +10,7 @@ class Skyline::MediaCache < ActiveRecord::Base
     def delete_file(path)
       if File.file?(path)
         File.delete(path)
-        dir = File.basename(path)
+        dir = File.dirname(path)
         if File.directory?(dir) && Dir.entries(dir).size == 2
           Dir.delete(dir) rescue nil
         end
