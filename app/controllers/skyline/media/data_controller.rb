@@ -16,7 +16,7 @@ class Skyline::Media::DataController < Skyline::ApplicationController
 
     @file = Skyline::MediaFile.first(:conditions => {:parent_id => params[:dir_id], :name => params[:name]})
     
-    cached_file = File.join(self.page_cache_directory,request.path)    
+    cached_file = File.join(self.page_cache_directory.to_s,CGI::unescape(request.path))    
     
     if File.exist?(cached_file)                      
       response.etag = File.mtime(cached_file)
@@ -53,7 +53,7 @@ class Skyline::Media::DataController < Skyline::ApplicationController
       return if @skip_caching
       ActiveRecord::Base.transaction do
         Skyline::MediaCache.create(:url => request.path, :object_type => "MediaFile", :object_id => @file.id)
-        relative_cache_path = request.path.to_s.sub(/^\//, "")
+        relative_cache_path = CGI::unescape(request.path.to_s).sub(/^\//, "")
         self.class.cache_page(response.body, relative_cache_path)
       end
     end
