@@ -108,10 +108,6 @@ module Skyline::Settings
     
     protected
     
-    def page_cache
-       @_page_cache ||= {}
-    end
-    
     def create_proxy_method(name)
       (class << self; self; end).send(:define_method,name){ self[name] }
     end    
