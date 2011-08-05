@@ -119,7 +119,7 @@ module Skyline::Settings
   
   # Set the data for this page, this works the same as .attributes= on 
   # regular ActiveRecord objects.
-  def data=data
+  def data=(data)
     data = HashWithIndifferentAccess.new(data)
     multi_parameter_attributes = [] 
     data.each do |k,v|
@@ -158,8 +158,14 @@ module Skyline::Settings
   
   # Analogue to method_missing
   def respond_to?(meth, include_private=false)
+    s = super
+    return s if s
+    
+    # Failsafe for stack level errors of calling _page from within AR read_attribute
+    return false if meth == "_page"
+    
     base_method = meth.to_s.gsub(/(_before_type_cast)|(=)$/,"").to_sym
-    self[:page] && self.page && self.page.field_names.include?(base_method) || super
+    self[:page] && self.page && self.page.field_names.include?(base_method)
   end
 
   # The fields hash of the current settings-page
