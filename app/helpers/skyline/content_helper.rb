@@ -105,7 +105,7 @@ module Skyline::ContentHelper
   end  
   
   def content_field(fieldset,record_name,field, record)
-    e = Skyline::Editors::Editor.create(field,[record_name],record,@template)
+    e = Skyline::Editors::Editor.create(field,[record_name],record,self)
     if e.postpone?
       postponed_editors << e
       ""
@@ -117,7 +117,7 @@ module Skyline::ContentHelper
   # Outputs an object list with the right presenter
   # defaults to Table currently.
   def presenter_for(records,fieldset)
-    Skyline::Presenters::Presenter.create(fieldset.settings.presenter,records,fieldset,@template).output
+    Skyline::Presenters::Presenter.create(fieldset.settings.presenter,records,fieldset,self).output
   end
   
   # Postponed editors are editors like inline_list that should not be in the form but provide their own form/list
