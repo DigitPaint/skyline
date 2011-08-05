@@ -2,7 +2,7 @@
 class Skyline::ObjectRef < Skyline::RefObject	
   after_destroy :destroy_referable
   
-	def respond_to?(m)
+	def respond_to?(m, include_private = false)
 		return true if super
 		if self.referable
 			self.referable.respond_to?(m)

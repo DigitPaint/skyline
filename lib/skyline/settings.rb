@@ -157,7 +157,7 @@ module Skyline::Settings
   end
   
   # Analogue to method_missing
-  def respond_to?(meth)
+  def respond_to?(meth, include_private=false)
     base_method = meth.to_s.gsub(/(_before_type_cast)|(=)$/,"").to_sym
     self[:page] && self.page && self.page.field_names.include?(base_method) || super
   end

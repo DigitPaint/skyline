@@ -67,7 +67,7 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   end
   alias_method_chain :data, :build
 
-  def respond_to?(method, include_priv = false)
+  def respond_to?(method, include_private = false)
     s = super
     return s if s
     method.to_s == self.article.class.name.demodulize.underscore
