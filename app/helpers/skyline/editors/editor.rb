@@ -49,9 +49,9 @@ module Skyline::Editors
     def output
       out = heading
       if self.respond_to? :output_without_errors
-        out << field_with_errors([field_prefix,output_without_errors,field_suffix].join)
+        out << field_with_errors([field_prefix, output_without_errors, field_suffix].join.html_safe)
       end
-      content_tag("div",out, :id  => "field_#{input_id(field_names)}", :class => "editor #{"invalid" if record.errors.on(field.attribute_name)}")
+      content_tag("div",out.html_safe, :id  => "field_#{input_id(field_names)}", :class => "editor #{"invalid" if record.errors.on(field.attribute_name)}")
     end
   
     def errors
@@ -64,14 +64,14 @@ module Skyline::Editors
     end
   
     def heading
-      out = content_tag("h3",content_tag("label",field.singular_title + " " + errors.to_s, :for => input_id(attribute_names)))
-      out << content_tag("p",field.description,:class => "description") unless field.description.blank?
+      out = content_tag("h3",content_tag("label",(field.singular_title + " " + errors.to_s).html_safe, :for => input_id(attribute_names)))
+      out << content_tag("p",field.description.html_safe ,:class => "description") unless field.description.blank?
       out
     end
   
     def field_with_errors(content)
       if self.record.errors.on(self.field.attribute_name) 
-        content_tag("div", content, :class => "fieldWithErrors")
+        content_tag("div", content.html_safe, :class => "fieldWithErrors")
       else
         content
       end
@@ -79,12 +79,12 @@ module Skyline::Editors
   
     def field_prefix
       value = field_text(field.prefix)
-      @template.content_tag("span",value, :class => "prefix") if value.any?
+      @template.content_tag("span",value.html_safe, :class => "prefix") if value.any?
     end
   
     def field_suffix
       value = field_text(field.suffix)    
-      @template.content_tag("span",value, :class => "suffix") if value.any?
+      @template.content_tag("span",value.html_safe, :class => "suffix") if value.any?
     end
   
     def field_text(att)

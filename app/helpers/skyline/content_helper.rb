@@ -64,7 +64,7 @@ module Skyline::ContentHelper
     url_options = url_options_for_record(record, {:action => options[:action]})
     
     contents = ''
-    contents << content_fields(record.class,record_name, record)
+    contents << content_fields(record.class, record_name, record)
     
     contents << capture(&block) if block_given?
 		            
@@ -73,10 +73,10 @@ module Skyline::ContentHelper
 #      contents << hidden_field(record_name, :id) unless record.new_record?
       contents << hidden_field_tag(:version,record.current_version)
       
-      output = content_tag('form', contents, :id => "contentform", :action => object_url(record,url_options), :method => 'post', :enctype => options[:multipart] ? 'multipart/form-data': nil)
+      output = content_tag('form', contents.html_safe, :id => "contentform", :action => object_url(record,url_options), :method => 'post', :enctype => options[:multipart] ? 'multipart/form-data': nil)
                
     else
-      output = content_tag('div', contents, :id => "contentform")
+      output = content_tag('div', contents.html_safe, :id => "contentform")
     end
     
 
@@ -87,9 +87,9 @@ module Skyline::ContentHelper
     concat output
   end  
 
-  def content_fields(fieldset,record_name, record)
+  def content_fields(fieldset, record_name, record)
     out = ""
-
+    
     fieldset.each_field do |field|
       next if (field.hidden_in(:edit) && !record.new_record?) || 
               (field.hidden_in(:create) && record.new_record?)
@@ -101,7 +101,7 @@ module Skyline::ContentHelper
           out <<  render(:partial => "skyline/content/group", :locals => {:title => field.singular_title, :content => content_fields(field, record_name, record)})
       end
     end
-    out
+    out.html_safe
   end  
   
   def content_field(fieldset,record_name,field, record)
@@ -136,7 +136,7 @@ module Skyline::ContentHelper
   
   def record_with_errors(content, record, field)
     if record.errors.on(field.attribute_name) 
-      content_tag("div", content, :class => "fieldWithErrors")
+      content_tag("div", content.html_safe, :class => "fieldWithErrors")
     else
       content
     end
