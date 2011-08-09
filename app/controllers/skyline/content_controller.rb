@@ -195,7 +195,7 @@ class Skyline::ContentController < Skyline::Skyline2Controller
       @elements = stack.parent && stack.parent_collection.find_for_cms(:all, :filter => params[:filter])
     else
       @count = stack.last.class.count_for_cms(:all,:self_referential => false, :filter => params[:filter])
-      @elements = stack.last.class.paginate_for_cms :all, :page => params[:page], :per_page => 30, :self_referential => false, :filter => params[:filter]
+      @elements = stack.last.class.paginate_for_cms(:page => params[:page], :per_page => 30, :self_referential => false, :filter => params[:filter]).all
     end    
   end  
 

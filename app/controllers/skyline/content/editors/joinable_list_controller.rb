@@ -5,7 +5,7 @@ class Skyline::Content::Editors::JoinableListController < Skyline::Skyline2Contr
   
   def index
     @filter = filter_from_params_or_default
-    @elements = @target_klass.paginate_for_cms(:all,:page => params[:page], :per_page => 10, :self_referential => false, :filter => @filter)
+    @elements = @target_klass.paginate_for_cms(:page => params[:page], :per_page => 10, :self_referential => false, :filter => @filter).all
     @title_field = @target_klass.fields[@target_klass.settings.title_field]
     render :update do |p|
       p.replace_html "element_#{params[:association]}_browser", :partial => "list"
