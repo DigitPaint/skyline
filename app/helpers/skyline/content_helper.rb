@@ -84,7 +84,7 @@ module Skyline::ContentHelper
     # functionality.
     output << postponed_editors.map(&:output).join("\n") if postponed_editors.any?
     
-    concat output
+    output
   end  
 
   def content_fields(fieldset, record_name, record)

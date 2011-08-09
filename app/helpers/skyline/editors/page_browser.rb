@@ -8,6 +8,7 @@ class Skyline::Editors::PageBrowser < Skyline::Editors::Editor
     input_id_prefix = input_id(attr_names)                        # ie: element_image_attributes
     
     association = field.name.to_s.gsub(/_id$/, "")                # ie: image
+    
     location = nil
     if record.respond_to?(association)
       location = :model

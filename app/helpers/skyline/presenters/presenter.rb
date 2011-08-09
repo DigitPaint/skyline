@@ -108,7 +108,7 @@ class Skyline::Presenters::Presenter
         else
           truncate(simple_format(strip_tags(content.gsub("<br />", "<br />\n").gsub("</p>", "</p>\n"))),150)
         end
-      when String : truncate(content,150)
+      when String : truncate(content,:length => 150)
       when TrueClass,FalseClass : [(content ? image_tag("/skyline/images/icons/true.gif") : image_tag("/skyline/images/icons/false.gif")),{:class => "center"}]
       when Date,Time : l(content, :format => :long)
       else content.to_s
