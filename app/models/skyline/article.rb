@@ -196,7 +196,7 @@ class Skyline::Article < ActiveRecord::Base
   def set_default_variant!(variant)
     return if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
     self.attributes = {:default_variant_id => variant.id, :default_variant_data_id => variant.data_id}
-    self.save(false)
+    self.save(:validate => false)
   end
   
   def set_default_variant(variant)
