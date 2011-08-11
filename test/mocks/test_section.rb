@@ -14,7 +14,7 @@ class Skyline::TestSection < ActiveRecord::Base
   protected
   
   def validate_fail_validation
-    self.errors.add_to_base("FAILED!!") if self.fail_validation == true
+    self.errors.add(:base, "FAILED!!") if self.fail_validation == true
   end
   
     

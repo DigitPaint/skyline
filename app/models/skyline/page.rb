@@ -251,9 +251,9 @@ class Skyline::Page < Skyline::Article
   def only_one_root
     if !self.parent && self.site
       if self.new_record?
-        self.errors.add_to_base "cannot be another root node." if self.site.root
+        self.errors.add(:base, "cannot be another root node.") if self.site.root
       else
-        self.errors.add_to_base "cannot be another root node" if self.site.root && self.site.root.id != self.id
+        self.errors.add(:base, "cannot be another root node.") if self.site.root && self.site.root.id != self.id
       end
     end
   end
