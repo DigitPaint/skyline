@@ -22,7 +22,7 @@ class TestSectionTest < ActiveSupport::TestCase
         assert_equal 2, ids.size
         assert_equal 2,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})
         
-        assert_equal ids,Skyline::InlineRef.all(ids).map(&:id)
+        assert_equal ids,Skyline::InlineRef.find(ids).map(&:id)
         ids.each do |id|
           assert parsed_html =~ /\[REF:#{id}\]/
         end
@@ -33,14 +33,14 @@ class TestSectionTest < ActiveSupport::TestCase
         parsed_html, ids = Skyline::InlineRef.parse_html(html,@section,:body)
         assert_equal 2, ids.size
         assert_equal 2,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})        
-        assert_equal ids,Skyline::InlineRef.all(ids).map(&:id)        
 
         new_html = "abcdefghi <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' />"
+        assert_equal ids,Skyline::InlineRef.find(ids).map(&:id)        
         new_parsed_html, new_ids = Skyline::InlineRef.parse_html(new_html,@section,:body)        
         assert_equal 1, new_ids.size
         assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})        
-        assert_equal new_ids,Skyline::InlineRef.all(new_ids).map(&:id)
-        assert_equal new_ids,Skyline::InlineRef.all(ids).map(&:id)
+        assert_equal new_ids,Skyline::InlineRef.find(new_ids).map(&:id)
+        assert_equal new_ids,Skyline::InlineRef.find(:all, :conditions => ["id IN (?)",ids]).map(&:id), "We were looking for #{ids.inspect} and expected to find #{new_ids.inspect}"
       end
       
       should "update existing refs" do
