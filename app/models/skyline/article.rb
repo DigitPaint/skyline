@@ -254,7 +254,7 @@ class Skyline::Article < ActiveRecord::Base
   end
   
   def has_at_least_one_variant
-    self.errors.add "must have at least one Variant" if self.variants.empty?
+    self.errors.add :variants, "must have at least one Variant" if self.variants.empty?
   end  
 
   
