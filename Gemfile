@@ -26,6 +26,6 @@ gem "will_paginate", "~> 3.0.pre4"
 gem "seed-fu", "~>1.2.0"
 
 group :test do
-  gem "factory_girl", "1.2.0",   :require => "factory_girl"
+  gem "factory_girl_rails", "1.1.0"
   gem "shoulda", "2.9.1",        :require => "shoulda"
 end
