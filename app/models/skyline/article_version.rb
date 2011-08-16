@@ -83,6 +83,14 @@ class Skyline::ArticleVersion < ActiveRecord::Base
     end
   end
   
+  def save_with_skip_version(*args)
+    @_skip_version = true
+    v = self.save(*args)
+  ensure
+    @_skip_version = false
+    v
+  end
+  
   protected
   
   def after_initialize
@@ -91,6 +99,8 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   end
   
   def increase_version
+    return if @_skip_version    
     self.version += 1
   end
+  
 end
