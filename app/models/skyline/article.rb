@@ -193,14 +193,15 @@ class Skyline::Article < ActiveRecord::Base
 
   
   def set_default_variant!(variant)
-    return if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
-    self.attributes = {:default_variant_id => variant.id, :default_variant_data_id => variant.data_id}
-    self.save(false)
+    if set_default_variant(variant)
+      self.save(false)
+    end
   end
   
   def set_default_variant(variant)
-    return if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
+    return false if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
     self.attributes = {:default_variant_id => variant.id, :default_variant_data_id => variant.data_id}
+    true
   end  
 
   # The class that provides our custom data fields.
