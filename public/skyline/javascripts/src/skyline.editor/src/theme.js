@@ -103,8 +103,8 @@
 				}
 				
         var ifr = DOM.get(ed.id + '_ifr');
-        if(ifr.contentDocument){
-          ifr = ifr.contentDocument;
+        if(ifr.contentWindow){
+          ifr = ifr.contentWindow;
         }
         
         Event.add(ifr,"focus",function(){
