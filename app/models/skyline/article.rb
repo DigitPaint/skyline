@@ -48,9 +48,9 @@ class Skyline::Article < ActiveRecord::Base
   set_table_name :skyline_articles
   
   # Associations
-  has_many :versions, :class_name => "Skyline::ArticleVersion"
+  has_many :versions, :class_name => "Skyline::ArticleVersion", :dependent => :destroy
   has_many :variants, :class_name => "Skyline::Variant"
-  has_many :publications, :class_name => "Skyline::Publication", :dependent => :destroy
+  has_many :publications, :class_name => "Skyline::Publication"
   belongs_to :published_publication, :class_name => "Skyline::Publication"
   belongs_to :default_variant, :class_name => "Skyline::Variant"
 
