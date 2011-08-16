@@ -1,5 +1,9 @@
 # Changelog for Skyline #
 
+## Edge ##
+
+* [Articles] Added support for `save_with_skip_version` so you can save an ArticleVersion without updating the version counter
+
 ## 3.1.0 (July 14, 2011) ##
 
 ### Core ###
