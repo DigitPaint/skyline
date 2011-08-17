@@ -144,7 +144,7 @@ module Skyline::Rendering
       # 
       # @deprecated Don't use the name of the object anymore,  use `renderer.object` instead.
       def method_missing(method, *params, &block)
-        return @_local_object if @_local_object_name == method
+        return @_local_object if @_local_object_name.to_s == method.to_s
         super
       end
     end

@@ -114,20 +114,20 @@ class Skyline::Rendering::Renderer
 
       av = ActionView::Base.new(load_paths.map(&:to_s))
 
-      self.assigns.merge(options[:assigns]).each do |k, v|
-        av.assigns[k.to_sym] = v
-      end
-
-      av.assigns[:_template_assigns] = @template_assigns
-      av.assigns[:_renderer] = self
-      av.assigns[:_local_object_name] = object_config[:class_name].demodulize.underscore.to_sym
-      av.assigns[:_local_object] = object
+      assigns = (options[:assigns] || {}).merge(self.assigns)
+      assigns[:_template_assigns] = @template_assigns
+      assigns[:_renderer] = self
+      assigns[:_local_object_name] = object_config[:class_name].demodulize.underscore.to_sym
+      assigns[:_local_object] = object
+      
+      av.assign(assigns)
+      
       @_local_object = object   # for object function
       
       av.extend Skyline::Rendering::Helpers::RendererHelper
       av.extend Helpers
       
-      av.render(:file => "index", :locals => options[:locals])
+      av.render(:file => "index", :locals => options[:locals]).html_safe
     end
   end
   
