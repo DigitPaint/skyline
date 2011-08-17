@@ -5,6 +5,9 @@
 ### Core ###
 * [Core] Skyline now works with Rails 3.0.x
 
+### Configuration (core) ###
+* [Config] Make the default skyline root route configurable (Configuration.default_route)
+
 ### Articles ###
 * [Articles] Added support for `save_with_skip_version` so you can save an ArticleVersion without updating the version counter
 * [Articles] Added support for cloning

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   namespace :skyline do
-    root :to => "articles#index", :type => "skyline/page"
+    root Skyline::Configuration.default_route
     
     resources :articles do
       collection do
