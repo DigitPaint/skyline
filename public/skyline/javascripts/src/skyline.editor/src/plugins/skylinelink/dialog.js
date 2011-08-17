@@ -1,8 +1,8 @@
 Skyline.Editor.plugins.SkylineLink.Dialog = new Class({
   validAttributes : {
-    "skyline-ref-id": "ref_id",
-    "skyline-referable-id" : "referable_id",
-    "skyline-referable-type" : "referable_type",
+    "data-skyline-ref-id": "ref_id",
+    "data-skyline-referable-id" : "referable_id",
+    "data-skyline-referable-type" : "referable_type",
     "title" : "title",
     "href" : "url",
     "target" : "target"

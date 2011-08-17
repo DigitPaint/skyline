@@ -17,7 +17,7 @@ class Skyline::LinkRef < Skyline::InlineRef
       href = linked_file.url unless linked_file.blank?
     end
     skyline_ref_id = options[:nullify] ? "" : self.id
-    skyline_attrs = "skyline-ref-id=\"#{skyline_ref_id}\" skyline-referable-id=\"#{self.referable_id}\" skyline-referable-type=\"#{self.referable_type}\"" if skyline_attr    
+    skyline_attrs = "data-skyline-ref-id=\"#{skyline_ref_id}\" data-skyline-referable-id=\"#{self.referable_id}\" data-skyline-referable-type=\"#{self.referable_type}\"" if skyline_attr    
     options = self.options.collect{|k,v| "#{k}=\"#{v}\""}.join(" ")
         
     html_str = "<a href=\"#{href}\" #{options} #{skyline_attrs}>"

@@ -30,7 +30,7 @@ class Skyline::ImageRef < Skyline::InlineRef
     
     if skyline_attr
       skyline_prefix = "/#{Skyline::Configuration.url_prefix}"
-      html_options.update "skyline-ref-id" => skyline_ref_id, "skyline-referable-id" => self.referable_id, "skyline-referable-type" => self.referable_type
+      html_options.update "data-skyline-ref-id" => skyline_ref_id, "data-skyline-referable-id" => self.referable_id, "data-skyline-referable-type" => self.referable_type
     end
     option_str = html_options.collect{|k,v| "#{k}=\"#{v}\""}.join(" ")
     

@@ -17,7 +17,7 @@ class TestSectionTest < ActiveSupport::TestCase
     context "parsing html" do
             
       should "create new refs" do
-        html = "abcdefghi <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' />"
+        html = "abcdefghi <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' /> <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' />"
         parsed_html, ids = Skyline::InlineRef.parse_html(html,@section,:body)
         assert_equal 2, ids.size
         assert_equal 2,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})
@@ -29,13 +29,13 @@ class TestSectionTest < ActiveSupport::TestCase
       end
       
       should "delete unused refs" do
-        html = "abcdefghi <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' />"
+        html = "abcdefghi <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' /> <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' />"
         parsed_html, ids = Skyline::InlineRef.parse_html(html,@section,:body)
         assert_equal 2, ids.size
         assert_equal 2,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})        
         assert_equal ids,Skyline::InlineRef.find(ids).map(&:id)        
         
-        new_html = "abcdefghi <img src='' skyline-ref-id='#{ids.first}' skyline-referable-id='1' skyline-referable-type='Skyline::Page' />"
+        new_html = "abcdefghi <img src='' data-skyline-ref-id='#{ids.first}' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' />"
         new_parsed_html, new_ids = Skyline::InlineRef.parse_html(new_html,@section,:body)        
         assert_equal 1, new_ids.size
         assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})        
@@ -44,11 +44,11 @@ class TestSectionTest < ActiveSupport::TestCase
       end
       
       should "update existing refs" do
-        html = "abcdefghi <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> bla bla"
+        html = "abcdefghi <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' /> bla bla"
         section = Skyline::TestSection.new(:body_a => html)
         assert section.save
         refs_1 = Skyline::InlineRef.all(:conditions => {:refering_id => section.id, :refering_type => section.class.name}).map(&:id)
-        section.body_a = section.body_a(true).gsub("skyline-referable-id='1'","skyline-referable-id='2'")
+        section.body_a = section.body_a(true).gsub("data-skyline-referable-id='1'","data-skyline-referable-id='2'")
         assert section.save
         refs_2 = Skyline::InlineRef.all(:conditions => {:refering_id => section.id, :refering_type => section.class.name}).map(&:id)
 
@@ -56,7 +56,7 @@ class TestSectionTest < ActiveSupport::TestCase
       end
       
       should "only update it's own refs and replace 'foreign' refs" do
-        html = "abcdefghi <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> bla bla"
+        html = "abcdefghi <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' /> bla bla"
         section_1 = Skyline::TestSection.new(:body_a => html)
         assert section_1.save
         assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => section_1.id, :refering_type => section_1.class.name})
@@ -70,7 +70,7 @@ class TestSectionTest < ActiveSupport::TestCase
       end
       
       should "make sure that copying a ref from one field to another doesn't break" do
-        html = "abcdefghi <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> bla bla"
+        html = "abcdefghi <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' /> bla bla"
         s1 = Skyline::TestSection.new(:body_a => html)
         assert s1.save
         assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
@@ -83,10 +83,32 @@ class TestSectionTest < ActiveSupport::TestCase
       
     end
     
+    context "parsing old-style refs" do
+      setup do
+        @html = "a <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> <a href='' skyline-referable-id='2' skyline-referable-type='Skyline::Page'>test</a>"
+      end
+      
+      should "result in correctly parsed refs" do
+        @parsed_html, @ref_ids = Skyline::InlineRef.parse_html(@html,@section,:body)
+        assert_equal 2,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})                        
+      end
+      
+      should "compile back to HTML5 data-* refs" do
+        @parsed_html, @ref_ids = Skyline::InlineRef.parse_html(@html,@section,:body)
+        assert_equal 2,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})                
+
+        html = Skyline::InlineRef.compile_html(@parsed_html, @section, :body, true)
+        assert html.include?("data-skyline-referable-id")
+        
+      end
+      
+    end
+    
+    
     context "converting REFS to html" do
       
       setup do
-        @html = "a <img src='' skyline-referable-id='1' skyline-referable-type='Skyline::Page' /> <a href='' skyline-referable-id='2' skyline-referable-type='Skyline::Page'>test</a>"
+        @html = "a <img src='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::Page' /> <a href='' data-skyline-referable-id='2' data-skyline-referable-type='Skyline::Page'>test</a>"
         @parsed_html, @ref_ids = Skyline::InlineRef.parse_html(@html,@section,:body)
         assert_equal 2,Skyline::InlineRef.count(:conditions => {:refering_id => @section.id, :refering_type => @section.class.name})                
       end
@@ -101,7 +123,7 @@ class TestSectionTest < ActiveSupport::TestCase
     context "with external links" do 
       
       setup do
-        @html = "<a href=\"http://www.google.com\" skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a> <a href=\"http://www.digitpaint.nl\" skyline-referable-type=\"Skyline::ReferableUri\">link2</a>"
+        @html = "<a href=\"http://www.google.com\" data-skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a> <a href=\"http://www.digitpaint.nl\" data-skyline-referable-type=\"Skyline::ReferableUri\">link2</a>"
         
       end
       
@@ -155,7 +177,7 @@ class TestSectionTest < ActiveSupport::TestCase
             self.save
           end          
         end
-        s1 = TS1.new(:body_a => "<a href=\"http://www.google.com\" skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a>")
+        s1 = TS1.new(:body_a => "<a href=\"http://www.google.com\" data-skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a>")
         
         assert s1.save
         assert_equal 1,Skyline::InlineRef.count(:conditions => {:refering_id => s1.id, :refering_type => s1.class.name, :refering_column_name => "body_a"})
@@ -177,7 +199,7 @@ class TestSectionTest < ActiveSupport::TestCase
             self.save
           end          
         end
-        s1 = TS2.new(:body_a => "<a href=\"http://www.google.com\" skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a>")
+        s1 = TS2.new(:body_a => "<a href=\"http://www.google.com\" data-skyline-referable-type=\"Skyline::ReferableUri\">Link1</a>link1</a>")
         
         assert s1.save
         

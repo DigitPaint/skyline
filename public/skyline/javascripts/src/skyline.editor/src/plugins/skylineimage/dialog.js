@@ -1,8 +1,8 @@
 Skyline.Editor.plugins.SkylineImage.Dialog = new Class({
   validAttributes : {
-    "skyline-ref-id": "ref_id",
-    "skyline-referable-id" : "referable_id",
-    "skyline-referable-type" : "referable_type",
+    "data-skyline-ref-id": "ref_id",
+    "data-skyline-referable-id" : "referable_id",
+    "data-skyline-referable-type" : "referable_type",
     "alt" : "alt",
     "class" : "class",
     "src" : "url",
@@ -51,15 +51,16 @@ Skyline.Editor.plugins.SkylineImage.Dialog = new Class({
 			ed.dom.setAttribs(el, attr);
 		} else {
 			ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo : 1});
-			el = ed.dom.get('__mce_tmp');
-			ed.dom.setAttribs(el, attr);
-			ed.dom.setAttrib(el, 'id', '');
+			ed.dom.setAttribs('__mce_tmp', attr);
+      ed.dom.setAttrib('__mce_tmp', 'id', '');
 			ed.undoManager.add();
 		}
-		
+
+
     // Force a resize so we should not have resize artifacts.
-		ed.execCommand('mceAutoResize',false);		
-		ed.getWin().focus();
+		ed.execCommand('mceAutoResize',false);
+	  ed.execCommand('mceRepaint');				
+		ed.focus();
   },
 
   // Get attributes from IMG tag for passing to dialog
