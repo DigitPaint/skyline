@@ -146,13 +146,13 @@ class Skyline::FormBuilder < ActionView::Helpers::FormBuilder
   def fieldset_errors(attribute)
     return unless @object.errors[attribute].present?
     out = []
-    if errs = @object.errors[attribute].present?
+    if (errs = @object.errors[attribute]).present?
       errs = [errs] if self.single_error_message?(errs)
       out = errs.map do |err|        
         @template.content_tag("div",err,:class => "error")
       end
     end
-    out.join("\n")
+    out.join("\n").html_safe
   end
   
   # The ID that a field for a certain field would get.
