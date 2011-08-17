@@ -184,10 +184,6 @@ class Skyline::Article < ActiveRecord::Base
     self.class.lockable?
   end
   
-  def rollbackable?
-    true
-  end
-  
   def keep_history?
     false
   end
