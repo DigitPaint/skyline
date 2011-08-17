@@ -362,7 +362,7 @@ class Skyline::Rendering::Renderer
     end    
     @_current_colection = nil
     
-    output.join("\n")
+    output.join("\n").html_safe
   end  
   
     
