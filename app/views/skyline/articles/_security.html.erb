@@ -1,4 +1,4 @@
-<% if Skyline::Configuration.enable_locking && @article.enable_locking? %>
+<% if Skyline::Configuration.enable_locking && @article.lockable? %>
   <dl class="advanced" id="article_security">
     <dt><a href="#"><span><%= t(:security, :scope => [:article, :headers]) %></span></a></dt>
     <dd>
