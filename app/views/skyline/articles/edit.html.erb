@@ -66,7 +66,7 @@
       
         <% if a.object.previewable? %>
           <dd id="contentPreviewPanel">
-            <iframe id="contentPreview" src="#" class="preview" frameborder="0" data-url="<%= skyline_article_article_version_url(@article, @variant) %>"></iframe>
+            <iframe id="contentPreview" src="javascript:''" class="preview" frameborder="0" data-url="<%= skyline_article_article_version_url(@article, @variant) %>"></iframe>
           </dd>
         <% end %>
       
