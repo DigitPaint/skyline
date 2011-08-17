@@ -2,6 +2,10 @@
 
 ## Edge ##
 
+### Core ###
+* [Core] Skyline now works with Rails 3.0.x
+
+### Articles ###
 * [Articles] Added support for `save_with_skip_version` so you can save an ArticleVersion without updating the version counter
 * [Articles] Added support for cloning
 * [Articles] Remove Article#enable_publishing? in favour of the documented Article.publishable?
