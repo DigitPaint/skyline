@@ -100,7 +100,7 @@ module Skyline::Content
       # Same as find_for_cms, but works with the will_paginate plugin
       #--
       def paginate_for_cms(*args)
-        skyline_options,options = extract_all_options!(args)        
+        skyline_options, options = extract_all_options!(args)        
         with_skyline_scope(skyline_options) do
          options.update(:order => self.default_order_by_statement)
          paginate(*(args << options))
