@@ -21,7 +21,7 @@ module Skyline::ContentHelper
     
     links << "<span>#{label_for(last)}</span>" if last
     
-    content_tag("div","#{t(:breadcrumb_prefix, :scope => :content)} " + links.join(" &raquo; "),:id => "breadcrumb")    
+    content_tag("div",("#{t(:breadcrumb_prefix, :scope => :content)} " + links.join(" &raquo; ")).html_safe ,:id => "breadcrumb")    
   end
   
   def label_for(type)
