@@ -113,7 +113,7 @@ module Skyline::BelongsToReferable
   
   # @private
   def clone_with_referable_content
-    returning clone_without_referable_content do |clone|      
+    clone_without_referable_content.tap do |clone|      
       if self.referable_contents.any?
         self.referable_contents.each do |field|
           if self.send(field).present?

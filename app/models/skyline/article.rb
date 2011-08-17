@@ -48,7 +48,8 @@ class Skyline::Article < ActiveRecord::Base
   set_table_name :skyline_articles
   
   # Associations
-  has_many :versions, :class_name => "Skyline::ArticleVersion"
+  has_many :versions, :class_name => "Skyline::ArticleVersion" 
+  # Variants well be destroyed in the after_destroy!! (Don't try to destro the versions!)
   has_many :variants, :class_name => "Skyline::Variant"
   has_many :publications, :class_name => "Skyline::Publication", :dependent => :destroy
   belongs_to :published_publication, :class_name => "Skyline::Publication"
@@ -58,6 +59,7 @@ class Skyline::Article < ActiveRecord::Base
   named_scope :published, {:conditions => "published_publication_id IS NOT NULL"}  
 
   # Callbacks
+  after_save :set_default_variant_after_save
   before_destroy :confirm_destroyability
   after_destroy :reset_ref_object
   after_destroy :destroy_variants
@@ -68,6 +70,9 @@ class Skyline::Article < ActiveRecord::Base
   accepts_nested_attributes_for :variants
 
   attr_protected :locked unless Skyline::Configuration.enable_locking
+  
+  # Stores a variant that will become the default variant AFTER save
+  attr_accessor :becomes_default_variant_after_save
 
   class << self
     def to_param
@@ -86,10 +91,27 @@ class Skyline::Article < ActiveRecord::Base
     # Is this type of article publishable?
     # 
     # @return [true,false] Wether or not this article type can be published
-    # @abstract Implement in subclass if needed, true is a sensible default.
+    # @abstract Implement in subclass if needed, true is the default.
     def publishable?
       true
     end
+    
+    # Can this type of article be locked?
+    #
+    # @return [true,false] Wether or not this article type can be locked
+    # @abstract Implement in subclass if needed, true is the default
+    def lockable?
+      true
+    end
+    
+    # Can this type of article have multiple variants?
+    #
+    # @return [true,false]
+    # @abstract Implement in subclass if needed, true is the default
+    def can_have_multiple_variants?
+      true
+    end
+    
   end
 
   # Has this article been puslished?
@@ -160,24 +182,52 @@ class Skyline::Article < ActiveRecord::Base
   end
   
   
-  def rollbackable?
-    true
+  # Can this article instance be locked? 
+  # 
+  # Defaults to the Article.lockable?
+  #
+  # @see Article.lockable?
+  def lockable?
+    self.class.lockable?
   end
   
+  # Can this article instance have multiple variants?
+  #
+  # Defaults to Article.can_have_multiple_variants?
+  #
+  # @see Article.can_have_multiple_variants?
+  def can_have_multiple_variants?
+    self.class.can_have_multiple_variants?
+  end
+
   def keep_history?
     false
   end
-  
-  def enable_publishing?
-    true
-  end
-  
-  def enable_multiple_variants?
-    true
-  end
-  
-  def enable_locking?
-    true
+
+  def clone
+    s = super.tap do |clone|
+      clone.created_at = nil
+      clone.updated_at = nil
+      clone.default_variant_id = nil
+      clone.default_variant_data_id = nil
+      clone.default_variant = nil
+      clone.default_variant_data = nil
+      clone.published_publication_id = nil
+      clone.published_publication_data_id = nil      
+      
+      clone.publications.clear
+      clone.versions.clear          
+      clone.variants.clear  
+          
+      self.variants.each do |variant| 
+        variant_clone = variant.clone
+        clone.variants << variant_clone
+        variant_clone.article = clone
+        variant_clone.article_id = nil
+        self.becomes_default_variant_after_save = variant_clone if variant == self.default_variant
+      end
+      clone
+    end
   end
 
 
@@ -193,14 +243,15 @@ class Skyline::Article < ActiveRecord::Base
 
   
   def set_default_variant!(variant)
-    return if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
-    self.attributes = {:default_variant_id => variant.id, :default_variant_data_id => variant.data_id}
-    self.save(false)
+    if set_default_variant(variant)
+      self.save(false)
+    end
   end
   
   def set_default_variant(variant)
-    return if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
+    return false if variant.id == self.default_variant_id && variant.data_id == self.default_variant_data_id
     self.attributes = {:default_variant_id => variant.id, :default_variant_data_id => variant.data_id}
+    true
   end  
 
   # The class that provides our custom data fields.
@@ -244,6 +295,13 @@ class Skyline::Article < ActiveRecord::Base
   end  
   
   protected
+  
+  def set_default_variant_after_save
+    if self.becomes_default_variant_after_save && self.becomes_default_variant_after_save != self.default_variant
+      self.set_default_variant!(self.becomes_default_variant_after_save)
+      self.becomes_default_variant_after_save = nil
+    end
+  end
   
   def after_initialize
     if self.new_record?
