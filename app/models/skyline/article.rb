@@ -173,10 +173,6 @@ class Skyline::Article < ActiveRecord::Base
     false
   end
   
-  def enable_publishing?
-    true
-  end
-  
   def enable_multiple_variants?
     true
   end
