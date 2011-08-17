@@ -95,6 +95,16 @@ class Skyline::Article < ActiveRecord::Base
     def publishable?
       true
     end
+    
+    
+    # Can this type of article be locked?
+    #
+    # @return [true,false] Wether or not this article type can be locked
+    # @abstract Implement in subclass if needed, true is the default
+    def lockable?
+      true
+    end
+    
   end
 
   # Has this article been puslished?
@@ -165,6 +175,15 @@ class Skyline::Article < ActiveRecord::Base
   end
   
   
+  # Can this article instance be locked? 
+  # 
+  # Defaults to the Article.lockable?
+  #
+  # @see Article.lockable?
+  def lockable?
+    self.class.lockable?
+  end
+  
   def rollbackable?
     true
   end
@@ -176,10 +195,7 @@ class Skyline::Article < ActiveRecord::Base
   def enable_multiple_variants?
     true
   end
-  
-  def enable_locking?
-    true
-  end
+
 
   def clone
     s = super.tap do |clone|
