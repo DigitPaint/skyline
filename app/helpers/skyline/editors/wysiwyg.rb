@@ -5,10 +5,9 @@ class Skyline::Editors::Wysiwyg < Skyline::Editors::Editor
       record.send(field.name), 
       :class => "wysiwyg", 
       :rows => 15,
-      :cols => 90,
       :id => self.tag_id,
-      :style => params_to_styles(field.style)
-    ), :class => "section")
+      :style => "width: 100%; height: 5px; #{params_to_styles(field.style)}"
+    ).html_safe, :class => "section")
     out << self.tinymce_js
   end
   
