@@ -161,8 +161,8 @@ class Skyline::ContentController < Skyline::Skyline2Controller
   end
   
   # Editor can only be called on editors and when params[:field] is set
-  verify :xhr => true, :only => [:field]
   def field
+    return unless request.xhr?
     @element = stack.last
     @element.attributes = params[:element]
     render :update do |p|
