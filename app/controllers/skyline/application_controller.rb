@@ -236,7 +236,8 @@ class Skyline::ApplicationController < ApplicationController
   
   def stack
     return @stack if @stack
-    @stack ||= Skyline::Content::Stack.new(@implementation,params[:types] || [])
+    types = params[:types].kind_of?(String) ? params[:types].split("/") : params[:types]
+    @stack ||= Skyline::Content::Stack.new(@implementation, types || [])
     @class = @stack.klass
   
     logger.debug "STACK classes: " + @stack.collect{|s| s.class}.inspect    
