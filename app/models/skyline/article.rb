@@ -59,6 +59,7 @@ class Skyline::Article < ActiveRecord::Base
   named_scope :published, {:conditions => "published_publication_id IS NOT NULL"}  
 
   # Callbacks
+  after_save :set_default_variant_after_save
   before_destroy :confirm_destroyability
   after_destroy :reset_ref_object
   after_destroy :destroy_variants
@@ -69,6 +70,9 @@ class Skyline::Article < ActiveRecord::Base
   accepts_nested_attributes_for :variants
 
   attr_protected :locked unless Skyline::Configuration.enable_locking
+  
+  # Stores a variant that will become the default variant AFTER save
+  attr_accessor :becomes_default_variant_after_save
 
   class << self
     def to_param
@@ -181,6 +185,33 @@ class Skyline::Article < ActiveRecord::Base
     true
   end
 
+  def clone
+    s = super.tap do |clone|
+      Rails.logger.warn("---> #{clone.inspect}")      
+      clone.created_at = nil
+      clone.updated_at = nil
+      clone.default_variant_id = nil
+      clone.default_variant_data_id = nil
+      clone.default_variant = nil
+      clone.default_variant_data = nil
+      clone.published_publication_id = nil
+      clone.published_publication_data_id = nil      
+      
+      clone.publications.clear
+      clone.versions.clear          
+      clone.variants.clear  
+          
+      self.variants.each do |variant| 
+        variant_clone = variant.clone
+        clone.variants << variant_clone
+        variant_clone.article = clone
+        variant_clone.article_id = nil
+        self.becomes_default_variant_after_save = variant_clone if variant == self.default_variant
+      end
+      clone
+    end
+  end
+
 
   # Checks if the page can be edited by a certain user
   # Currently only checks on page locks.
@@ -246,6 +277,13 @@ class Skyline::Article < ActiveRecord::Base
   end  
   
   protected
+  
+  def set_default_variant_after_save
+    if self.becomes_default_variant_after_save && self.becomes_default_variant_after_save != self.default_variant
+      self.set_default_variant!(self.becomes_default_variant_after_save)
+      self.becomes_default_variant_after_save = nil
+    end
+  end
   
   def after_initialize
     if self.new_record?
