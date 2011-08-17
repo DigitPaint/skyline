@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-
-  namespace :skyline do
+  namespace :skyline, :path => ("#{Skyline::Configuration.url_prefix}" || "skyline") do
     root Skyline::Configuration.default_route
     
     resources :articles do

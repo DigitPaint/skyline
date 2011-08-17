@@ -56,7 +56,7 @@ class Skyline::Configuration < Configure
     end
     
     # Default URL admin prefix (default = /skyline/...)
-    config.url_prefix = "/skyline"
+    config.url_prefix = "skyline"
     
     # The skyline_root default route.
     # Most unfortunately we have to set it like this because we cannot override a specific route from the plugin
