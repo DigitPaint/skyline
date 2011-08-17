@@ -12,13 +12,11 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
   
   def show
     @skip_caching = false
-
-    filename = "#{params[:name]}.#{params[:format]}"
     
-    @media_file = Skyline::MediaFile.find(:first, :conditions => {:parent_id => params[:media_dir_id], :name => filename})
-    return self.handle_404 unless @media_file
+    @file = Skyline::MediaFile.first(:conditions => {:parent_id => params[:dir_id], :name => params[:name]})
+    return self.handle_404 unless @file
     
-    cached_file = File.join(self.page_cache_directory,request.path)    
+    cached_file = File.join(self.page_cache_directory.to_s,CGI::unescape(request.path))
     
     if File.exist?(cached_file)                      
       response.etag = File.mtime(cached_file)
@@ -26,29 +24,29 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
       if request.etag_matches?(response.etag)
         head :not_modified
       else
-        send_file cached_file, :filename => @media_file.name ,:type => @media_file.content_type, :disposition => 'inline', :stream => false, :cache => true
+        send_file cached_file, :filename => @file.name ,:type => @file.content_type, :disposition => 'inline', :stream => false, :cache => true
       end
       @skip_caching = true
     else
       if params[:size].present?
         size = params[:size].to_s.split("x").map{|v| v.to_i }
-        size = nil if size[0] == @media_file.width && size[1] >= @media_file.height || size[1] == @media_file.height && size[0] >= @media_file.width
+        size = nil if size[0] == @file.width && size[1] >= @file.height || size[1] == @file.height && size[0] >= @file.width
       else
         size = nil
       end
       
       if size.nil?
-        response.etag = File.mtime(@media_file.file_path)
+        response.etag = File.mtime(@file.file_path)
             
         if request.etag_matches?(response.etag)
           head :not_modified
         else
-          send_file @media_file.file_path, :filename => @media_file.name, :type => @media_file.content_type, :disposition => 'inline', :cache => true
+          send_file @file.file_path, :filename => @file.name, :type => @file.content_type, :disposition => 'inline', :cache => true
         end
         @skip_caching = true
       else
         if size.all?{|s| s > 0 }
-          send_data @media_file.thumbnail(size[0],size[1]), :filename => @media_file.name, :type => @media_file.content_type, :disposition => 'inline', :cache => true
+          send_data @file.thumbnail(size[0],size[1]), :filename => @file.name, :type => @file.content_type, :disposition => 'inline', :cache => true
         else
           render :nothing => true, :status => :unprocessable_entity
         end
@@ -64,10 +62,11 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
     
   def perform_cache
     return if @skip_caching
-    return unless @media_file
+    return unless @file
     ActiveRecord::Base.transaction do
-      Skyline::MediaCache.create(:url => request.path, :object_type => "MediaFile", :object_id => @media_file.id)
-      self.class.cache_page(response.body, request.path)
+      Skyline::MediaCache.create(:url => request.path, :object_type => "MediaFile", :object_id => @file.id)
+      relative_cache_path = CGI::unescape(request.path.to_s).sub(/^\//, "")
+      self.class.cache_page(response.body, relative_cache_path)
     end
   end
 end
