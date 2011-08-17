@@ -48,9 +48,10 @@ class Skyline::Article < ActiveRecord::Base
   set_table_name :skyline_articles
   
   # Associations
-  has_many :versions, :class_name => "Skyline::ArticleVersion", :dependent => :destroy
+  has_many :versions, :class_name => "Skyline::ArticleVersion" 
+  # Variants well be destroyed in the after_destroy!! (Don't try to destro the versions!)
   has_many :variants, :class_name => "Skyline::Variant"
-  has_many :publications, :class_name => "Skyline::Publication"
+  has_many :publications, :class_name => "Skyline::Publication", :dependent => :destroy
   belongs_to :published_publication, :class_name => "Skyline::Publication"
   belongs_to :default_variant, :class_name => "Skyline::Variant"
 
