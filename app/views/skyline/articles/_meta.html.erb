@@ -4,7 +4,7 @@
   <dt><a href="#"><span><%= t(:general, :scope => [:article, :headers]) %></span></a></dt>
   <dd>
     <dl class="details">
-      <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
+      <% if Skyline::Configuration.enable_multiple_variants && @article.can_have_multiple_variants? %>
         <dt><%= t(:current_variant, :scope => [:article, :edit]) %></dt>
         <dd>
           <% form_tag edit_skyline_article_path(@article), {:method => :get, :id => "change_variant_form"} do %>
@@ -47,7 +47,7 @@
                 <th><%= @article.class.human_name %></th>
                 <td class="center"><%= tick_image(@article.published?) %></td>
               </tr>
-              <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
+              <% if Skyline::Configuration.enable_multiple_variants && @article.can_have_multiple_variants? %>
                 <% if @article.published? %>
                   <tr>
                     <th><%= t(:current_variant, :scope => [:article, :edit]) %></th>
@@ -125,7 +125,7 @@
       <% end %>
     </div>
     
-    <% if Skyline::Configuration.enable_multiple_variants && @article.enable_multiple_variants? %>
+    <% if Skyline::Configuration.enable_multiple_variants && @article.can_have_multiple_variants? %>
       <div class="button">
         <% if @variant.destroyable? && @variant.editable_by?(current_user) %>
           <%= submit_button_to :delete_variant, skyline_article_variant_path(@article, @variant), :method => :delete, :class => "small", :confirm => t(:confirm_delete_variant, :scope => [:article,:edit]) %>
