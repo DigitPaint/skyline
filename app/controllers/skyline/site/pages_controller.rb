@@ -34,7 +34,8 @@ class Skyline::Site::PagesController < ApplicationController
   end
   
   def find_page_version_and_url_parts
-    page, @url_parts = @site.pages.find_by_url(params[:url])
+    url = params[:url].to_s.split("/")
+    page, @url_parts = @site.pages.find_by_url(url)
     @page_version = page.andand.published_publication
   end
   
