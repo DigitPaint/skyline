@@ -183,7 +183,6 @@ class Skyline::Article < ActiveRecord::Base
 
   def clone
     s = super.tap do |clone|
-      Rails.logger.warn("---> #{clone.inspect}")      
       clone.created_at = nil
       clone.updated_at = nil
       clone.default_variant_id = nil
