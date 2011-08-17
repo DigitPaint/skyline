@@ -39,7 +39,7 @@
   </dd>
 </dl>
 
-<% if @article.publishable? %>
+<% if @article.class.publishable? %>
   <dl class="advanced">
     <dt><a href="#"><span><%= t(:publication, :scope => [:article, :headers]) %></span></a></dt>
     <dd>
