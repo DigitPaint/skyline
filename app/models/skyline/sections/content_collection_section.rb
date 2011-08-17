@@ -32,7 +32,7 @@ class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
   end
   
   def clone
-    returning super do |clone|
+    super.tap do |clone|
       clone.associated_tags = self.associated_tags.collect{|associated_tag| associated_tag.clone}
     end
   end  

@@ -36,7 +36,7 @@ class Skyline::ObjectRef < Skyline::RefObject
   end
   
   def clone
-    returning super do |clone|
+    super.tap do |clone|
       clone.referable = self.referable.clone if self.referable.kind_of?(Skyline::ReferableUri)
     end
   end
