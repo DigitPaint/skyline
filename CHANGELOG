@@ -5,6 +5,8 @@
 * [Articles] Added support for `save_with_skip_version` so you can save an ArticleVersion without updating the version counter
 * [Articles] Added support for cloning
 * [Articles] Remove Article#enable_publishing? in favour of the documented Article.publishable?
+* [Articles] Remove Article#enable_locking? in favour of Article#lockable? and Article.lockable?
+* [Articles] Remove Article#enable_multiple_variants? in favour of Article.can_have_multiple_variants? and Article#can_have_multiple_variants?
 
 ## 3.1.0 (July 14, 2011) ##
 
