@@ -11,7 +11,7 @@ class Skyline::MessageGenerator
     options = @options.dup
     options.each do |k,v|
       options[k] = case v
-        when Hash : v.to_json
+        when Hash then v.to_json
         else v
       end
     end    
