@@ -79,25 +79,25 @@ module Skyline::Editors
   
     def field_prefix
       value = field_text(field.prefix)
-      @template.content_tag("span",value.html_safe, :class => "prefix") if value.any?
+      @template.content_tag("span",value.html_safe, :class => "prefix") if value.present?
     end
   
     def field_suffix
       value = field_text(field.suffix)    
-      @template.content_tag("span",value.html_safe, :class => "suffix") if value.any?
+      @template.content_tag("span",value.html_safe, :class => "suffix") if value.present?
     end
   
     def field_text(att)
       case att
-        when Proc : perform_proc(att)
+        when Proc then perform_proc(att)
         else att.to_s
       end
     end
   
     def perform_proc(proc)
       case proc.arity
-        when 1 : proc.call(record)
-        when -1,0 : proc.call()
+        when 1 then proc.call(record)
+        when -1,0 then proc.call()
         else
           []
       end
