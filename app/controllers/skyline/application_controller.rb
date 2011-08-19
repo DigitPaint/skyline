@@ -15,7 +15,7 @@ class Skyline::ApplicationController < ApplicationController
 
   # Load all helpers
   Dir[Skyline.root + "app/helpers/**/*_helper.rb"].each do |helper|
-    helper helper.sub(Skyline.root + "app/helpers/","").sub(/_helper\.rb$/,"")
+    helper helper.sub(/^#{Regexp.escape((Skyline.root + "app/helpers/").to_s)}/,"").sub(/_helper\.rb$/,"")
   end
   
   # Load all plugin helpers so they can override stuff.
