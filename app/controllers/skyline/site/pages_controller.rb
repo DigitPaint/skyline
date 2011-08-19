@@ -26,7 +26,7 @@ class Skyline::Site::PagesController < ApplicationController
   protected
 
   def handle_404
-    render :text => "Error 404 :: Page with url \"#{params[:url].join("/")}\" doesn't exist.", :status => :not_found    
+    render :text => "Error 404 :: Page with url \"#{params[:url]}\" doesn't exist.", :status => :not_found    
   end
   
   def find_site
