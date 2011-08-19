@@ -218,8 +218,8 @@ module Skyline::Content
      def relate_to(obj) # :nodoc:
        return unless assoc = obj.class.reflect_on_association(self.instantiated_by)
        case assoc.macro
-         when :has_many : obj.send(self.instantiated_by) << self
-         when :has_one : obj.send("#{self.instantiated_by}=",self) 
+         when :has_many then obj.send(self.instantiated_by) << self
+         when :has_one then obj.send("#{self.instantiated_by}=",self) 
         end
      end
      

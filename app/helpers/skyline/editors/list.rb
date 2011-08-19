@@ -6,8 +6,8 @@ class Skyline::Editors::List < Skyline::Editors::Editor
   private
   def option_tags
     list = case field.list
-      when Array, Hash : field.list
-      when Proc : perform_proc(field.list)
+      when Array, Hash then field.list
+      when Proc then perform_proc(field.list)
     end
     options_for_select(list,field.attribute_value(self.record))
   end
