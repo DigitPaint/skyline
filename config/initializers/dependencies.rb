@@ -7,11 +7,10 @@ require 'andand/andand'
 require 'weppos/url_validation'
 require 'digitpaint/unique_identifiers'
 require 'digitpaint/configure'
-require 'digitpaint/personify/personify'
 require 'digitpaint/nested_attributes_positioning'
 require 'mootools-on-rails/lib/mootools_on_rails'
 
-
+require 'personify'
 require "polyglot"
 require "sprockets"
 require "mime/types"
