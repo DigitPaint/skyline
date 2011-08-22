@@ -60,6 +60,9 @@
             });
             
             t.addEvent("selectRow",function(row,event){
+              if($(event.target).match("a:not(.edit),button,input[type=submit]") || $(event.target).getParent("a:not(.edit),button,input[type=submit]")){
+                return;
+              }
               event.stop();
               row.addClass("selected");
               var l = row.getElement("a.edit");
