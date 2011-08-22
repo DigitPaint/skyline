@@ -92,6 +92,7 @@ namespace :gem do
     gemspec.add_dependency "guid", "0.1.1"
     gemspec.add_dependency "will_paginate", "~>2.3.15"
     gemspec.add_dependency "seed-fu", "~>1.2.0"
+    gemspec.add_dependency "mail", "~>2.2.0"    
   
   end
 end
