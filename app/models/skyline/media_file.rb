@@ -119,10 +119,9 @@ class Skyline::MediaFile < Skyline::MediaNode
   
   def set_dimensions
     return if self.file_type != "image"
-    
     begin
       img = case self.data
-      when ActionController::UploadedTempfile,Tempfile
+      when ActionDispatch::Http::UploadedFile,Tempfile
         Magick::Image::read(self.data.path).first
       else
         Magick::Image::from_blob(self.data.read).first
