@@ -13,7 +13,7 @@ class Skyline::Site::PagesController < ApplicationController
         renderer.assigns.update(:body => self.response.body)
       end      
       
-      render :text => renderer.render(@page_version) if renderer.assigns[:body].present?
+      render :text => renderer.render(@page_version) if renderer.assigns[:body]
     end    
 
     # ================================================
