@@ -19,7 +19,4 @@ require "hpricot"
 require "guid"
 require "will_paginate"
 require "seed-fu"
-
-# If you are upgrading skyline from pre 3.0.8, it's easier to enable the
-# deprecation layer.
-# require 'skyline/deprecated/version3_0_8'
+require 'mail'

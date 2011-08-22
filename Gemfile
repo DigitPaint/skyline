@@ -23,8 +23,8 @@ gem "rmagick", "2.9.1",                     :require => "RMagick"
 gem "hpricot", "0.8.2",                     :require => "hpricot"
 gem "guid", "0.1.1"
 gem "will_paginate", "~> 3.0.pre4"
-gem "seed-fu", "~>1.2.0"
-gem "tmail"
+gem "seed-fu", "~> 1.2.0"
+gem "mail", "~>2.2.0" 
 gem "personify", "~> 1.1.0"
 
 group :test do

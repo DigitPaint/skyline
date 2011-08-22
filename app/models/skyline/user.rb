@@ -58,11 +58,11 @@ class Skyline::User < ActiveRecord::Base
     end
     
     def extract_valid_email_address(email)
-      if email.kind_of? TMail::Address
+      if email.kind_of? Mail::Address
         return email.address
       else
         begin
-          address = TMail::Address.parse(email.to_s)
+          address = Mail::Address.new(email.to_s)
         rescue
           return false
         end
