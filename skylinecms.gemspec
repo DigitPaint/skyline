@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   
   s.extra_rdoc_files = [
     "README.md",
+    "doc/INSTALL.md",
     "doc/MIGRATION.md"
   ]
   
