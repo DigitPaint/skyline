@@ -23,5 +23,3 @@ module Skyline
   module_function :version  
   
 end
-
-require File.dirname(__FILE__) + '/skyline/engine' #if defined?(Rails)

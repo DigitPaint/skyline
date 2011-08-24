@@ -1,3 +1,6 @@
-# This file is here so config.gem and bundler work out of the box and don't complain
-# about a missing skylincms.rb file.
+# This file that initializes the gem
 require File.dirname(__FILE__) + "/skyline"
+
+require File.dirname(__FILE__) + '/skyline/engine' if defined?(::Rails) && ::Rails::VERSION::MAJOR == 3
+
+

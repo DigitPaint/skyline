@@ -1,3 +1,4 @@
+require 'skyline'
 require 'rails'
 require 'fileutils'
 
