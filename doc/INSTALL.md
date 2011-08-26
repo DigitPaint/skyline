@@ -4,14 +4,13 @@ Skyline installation instructions
 Choose your flavour
 -------------------
 
-**Install as a gem** The skylinecms gem is perfect if you want to have stable environment
+**Install as a packaged gem** The skylinecms gem is perfect if you want to have stable environment
 and don't care too much about cutting-edge new features. We release new versions fairly
 often.
 
-**Install the plugin** Use the plugin if you want to be on the latest development version
+**Install as a local gem** Use the "local" gem if you want to be on the latest development version
 with all the 'cool' new features. Especially if you use git, because we're hosting the
-source on github. It's of course entirely possible to use a stable tagged version as a
-plugin too.
+source on github. 
 
 Create your rails app
 ---------------------
@@ -19,10 +18,10 @@ Create your rails app
 Create an empty rails app. Make sure you're usin MySQL for now,
 we didn't test with other databases yet.
 
-    rails my_app --database=mysql
+    rails new my_app --database=mysql
     cd my_app
 
-Installation as a gem
+Installation as a packaged gem
 ---------------------
 
 Install the gems, and initialize Skyline. 
@@ -32,17 +31,19 @@ Install the gems, and initialize Skyline.
     
 Continue below.
 
-Installation as plugin
+Installation as a local gem
 -----------------------
 
 Download the Skyline source from [http://github.com/DigitPaint/skyline](http://github.com/DigitPaint/skyline).
 You can use it as a Git submodule or yust download the zip version and unpack it to
-`vendor/plugins/skyline`
+`vendor/skyline`
 
 If you're using bundler, add the following to your `Gemfile`
 
-    skyline_gemfile = File.join(File.dirname(__FILE__), 'vendor', 'plugins', 'skyline', 'Gemfile')
-    instance_eval(File.read(skyline_gemfile), skyline_gemfile)
+  gem "skylinecms", :path => "vendor/skyline"
+  
+Run `bundle` and you're done!
+
 
 Setup your database
 -------------------
@@ -91,4 +92,4 @@ Create the template folder in your `app` directory.
 
 Open `config/routes.rb` and add the default Skyline route below all other routes:
 
-    map.connect '*url', :controller => "skyline/site/pages", :action => "show"  
+    match '(*url)', :to => "pages#show", :constraints => Skyline::RouteConstraint

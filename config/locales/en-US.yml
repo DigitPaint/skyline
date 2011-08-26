@@ -10,7 +10,10 @@
     abbr_day_names: [su, mo, tu, we, th, fr, sa]
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
-    order: [:day, :month, :year]
+    order: 
+      - :day
+      - :month
+      - :year
     days: 
       sunday: sunday
       monday: monday

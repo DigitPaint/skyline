@@ -3,6 +3,7 @@
 ## Edge ##
 
 ### Core ###
+* [Core] Skyline is now an Engine! This changes quite a lot, please see doc/INSTALL
 * [Core] Skyline now works with Rails 3.0.x
 * [Core] Add route constraints so they can be used in the implementation (Skyline::RouteConstraints)
 * [Core] Update will_paginate to rails compatible

@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   
   s.extra_rdoc_files = [
     "README.md",
+    "doc/INSTALL.md",
     "doc/MIGRATION.md"
   ]
   
@@ -29,6 +30,7 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   
+  s.add_dependency "thor"
   s.add_dependency "rails", "3.0.9"
   s.add_dependency "polyglot", "0.3.2"
   s.add_dependency "sprockets", "1.0.2"
