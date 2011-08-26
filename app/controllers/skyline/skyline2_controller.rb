@@ -1,7 +1,7 @@
 class Skyline::Skyline2Controller < Skyline::ApplicationController
   layout "general"
 
-  around_filter VersionStamper.instance  
+  around_filter ::Sklyine::VersionStamper.instance  
 
   before_filter :load_implementation
 
