@@ -181,25 +181,29 @@ class Skyline::Article < ActiveRecord::Base
     self.renderable?
   end
   
-  
   # Can this article instance be locked? 
   # 
-  # Defaults to the Article.lockable?
+  # Defaults to the Skyline::Article.lockable?
   #
-  # @see Article.lockable?
+  # @see Skyline::Article.lockable?
   def lockable?
     self.class.lockable?
   end
   
   # Can this article instance have multiple variants?
   #
-  # Defaults to Article.can_have_multiple_variants?
+  # Defaults to Skyline::Article.can_have_multiple_variants?
   #
-  # @see Article.can_have_multiple_variants?
+  # @see Skyline::Article.can_have_multiple_variants?
   def can_have_multiple_variants?
     self.class.can_have_multiple_variants?
   end
 
+  # Do we need to keep the history of this article?
+  # 
+  # If true, this article will have multiple publications, if false, there is only one published publication.
+  # 
+  # @return [true, false] Default is false
   def keep_history?
     false
   end
@@ -257,6 +261,8 @@ class Skyline::Article < ActiveRecord::Base
   # The class that provides our custom data fields.
   # 
   # @return [Class,false] False if we don't have an inner Data class, the inner Data class if there is one.
+  # 
+  # TODO : Dataleak waiting to happen (!!)
   def data_class
     # Note: We can't use memoize here, because it freezes the class
     return @_data_class unless @_data_class.nil?
@@ -282,14 +288,17 @@ class Skyline::Article < ActiveRecord::Base
     nil
   end
   
+  # Multisite interface
   def sites
     [Skyline::Site.new]
   end
   
+  # Multisite interface  
   def site
     Skyline::Site.new
   end  
   
+  # Multisite interface  
   def renderable_scope
     Skyline::Rendering::Scopes::Wildcard.new
   end  
