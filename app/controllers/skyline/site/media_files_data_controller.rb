@@ -65,8 +65,7 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
     return unless @file
     ActiveRecord::Base.transaction do
       Skyline::MediaCache.create(:url => request.path, :object_type => "MediaFile", :object_id => @file.id)
-      relative_cache_path = CGI::unescape(request.path.to_s).sub(/^\//, "")
-      self.class.cache_page(response.body, relative_cache_path)
+      self.class.cache_page(response.body, request.path)
     end
   end
 end
