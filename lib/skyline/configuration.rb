@@ -43,9 +43,9 @@ class Skyline::Configuration < Configure
       config.media_file_cache_path = nil
       config.rss_section_cache_path = nil
     else
-      config.assets_path = File.join(Rails.root,"/tmp/upload")
-      config.media_file_cache_path = File.join(Rails.root,"/tmp/media_files/cache")
-      config.rss_section_cache_path = File.join(Rails.root,"/tmp/rss_sections/cache")
+      config.assets_path = Rails.root + "tmp/upload"
+      config.media_file_cache_path = Rails.root + "tmp/media_files/cache"
+      config.rss_section_cache_path = Rails.root + "tmp/rss_sections/cache"
     end 
     
     unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
@@ -72,9 +72,7 @@ class Skyline::Configuration < Configure
   end  
   
   def after_configure
-    check_or_create_path(self["assets_path"],"assets_path")
-    check_or_create_path(self["media_file_cache_path"],"media_file_cache_path")
-    check_or_create_path(self["rss_section_cache_path"],"rss_section_cache_path")
+    sanitize_paths
     
     Skyline::MediaNode.assets_path = self["assets_path"]  
     Skyline::MediaCache.cache_path = self["media_file_cache_path"]
@@ -98,6 +96,17 @@ class Skyline::Configuration < Configure
   end
   
   protected
+  
+  # Ensures that all paths are Pathname objects
+  def sanitize_paths
+    
+    %w{assets_path media_file_cache_path rss_section_cache_path}.each do |key|
+      self[key] = Pathname.new(self[key]) unless self[key].kind_of?(Pathname)
+      
+      check_or_create_path(self[key], key)          
+    end    
+  end
+  
     
   # Check if a path is set, and if we're in production made raise an assertion
   # if the path does not exist. It just creates the path in development mode.
