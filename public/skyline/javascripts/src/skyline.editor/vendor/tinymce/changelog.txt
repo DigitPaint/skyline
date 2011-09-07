@@ -1,3 +1,29 @@
+Version 3.4.5 (2011-09-06)
+	Fixed accessibility bug in WebKit where the right and left arrow keys would update native list boxes.
+	Added new whitespace_elements option to enable users to specify specific elements where the whitespace is preserved.
+	Added new merge_siblings option to formats. This option makes it possible to disable the auto merging of siblings when applying formats.
+	Fixed bug in IE where trailing comma in paste plugin would cause plugin to not run correctly.
+	Fixed bug in WebKit where console messages would be logged when deleting an empty document.
+	Fixed bug in IE8 where caret positioned is on list item instead of paragraph when outdent splits the list
+	Fixed bug with image dialogs not inserting an image if id was omitted from valid_elements.
+	Fixed bug where the selection normalization logic wouldn't properly handle image elements in specific config cases.
+	Fixed bug where the map elements coords attribute would be messed up by IE when serializing the DOM.
+	Fixed bug where IE wouldn't properly handle custom elements when the contents was serialized.
+	Fixed bug where you couldn't move the caret in Gecko if you focused the editor using the API or a UI control.
+	Fixed bug where adjacent links would get merged on IE due to bugs in their link command.
+	Fixed bug where the color split buttons would loose the selection on IE if the editor was placed in a frame/iframe.
+	Fixed bug where floated images in WebKit wouldn't get properly linked.
+	Fixed bug where the fullscreen mode in a separate window wasn't forced into IE9+ standards mode.
+	Fixed bug where pressing enter in an empty editor on WebKit could produce DIV elements instead of P.
+	Fixed bug where spans would get removed incorrectly when merging two blocks on backspace/delete on WebKit.
+	Fixed bug where the editor contents wouldn't be completely removed on backspace/delete on WebKit.
+	Fixed bug where the fullpage plugin wouldn't properly render style elements in the head on IE 6/7.
+	Fixed bug where the nonbreaking_force_tab option in the nonbreaking plugin wouldn't work on Gecko/WebKit.
+	Fixed bug where the isDirty state would become true on non IE browsers if there was an table at the end of the contents.
+	Fixed bug where entities wasn't properly encoded on WebKit when pasting text as plain text.
+	Fixed bug where empty editors would produce an exception of valid_elements didn't include body and forced_root_blocks where disabled.
+	Fixed bug where the fullscreen mode wouldn't retain the header/footer in the fullpage plugin.
+	Fixed issue where the plaintext_mode and plaintext_mode_sticky language keys where swapped.
 Version 3.4.4 (2011-08-04)
 	Added new html5 audio support. Patch contributed by Ronald M. Clifford.
 	Added mute option for video elements and preload options for video/audio patch contributed by Dmitry Kalinkin.
