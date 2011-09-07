@@ -13,6 +13,7 @@
 	<script src="../vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../vendor/mootools/mootools-more.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../src/skyline.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/drag.js" type="text/javascript" charset="utf-8"></script>	
 	<script src="../src/sortable.js" type="text/javascript" charset="utf-8"></script>
   <style>
   div.test {
@@ -67,26 +68,82 @@
     <br/>
     <br/>
     <br/>            
-    <div style="overflow: auto; height: 150px; width: 300px; border: 1px solid #f00; position: relative" id="s0scroll">
-      <ul id="s0" class="sortable">
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
-        <li>Item 4</li>
-        <li>Item 5</li>
-        <li>Item 6</li>
-        <li>Item 7</li>                                
-      </ul>
+    <div style="overflow: auto; height: 350px; width: 300px; border: 1px solid #f00; position: relative;" id="s0scroll">
+      <div style="padding: 20px;">
+        <p style="background: #f00; color: #fff; height: 100px">
+          Some extra offset content.
+        </p>
+        <div style="position: relative">
+          <ul id="s0" class="sortable">
+            <li id="i1">Item 1</li>
+            <li id="i2">Item 2</li>
+            <li id="i3">Item 3</li>
+            <li id="i4">Item 4</li>
+            <li id="i5">Item 5</li>
+            <li id="i6">Item 6</li>
+            <li id="i7">Item 7</li>                                
+            <li id="i8">Item 8</li>
+            <li id="i9">Item 9</li>
+            <li id="i10">Item 10</li>
+            <li id="i11">Item 11</li>
+            <li id="i12">Item 12</li>
+            <li id="i13">Item 13</li>
+            <li id="i14">Item 14</li>                                
+        
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
   <script type="text/javascript" charset="utf-8">
-    var s = new Skyline.Sortable('s0', {clone: true, offsetParent: "s0scroll"});
+    var s = new Skyline.Sortable('s0', {clone: true, revert: true, offsetParent: "s0scroll"});
     var scr = new Scroller("s0scroll");
     
     s.addEvents({
       "start" : function(){ scr.start(); },
       "stop"  : function(){ scr.stop(); }
     })
+    
+    $("s0").getElements("li").each(function(el){
+      el.set("html", el.get('html') + " " + JSON.encode(el.getPosition(el.getOffsetParent())))
+    })
+    
+  </script>  
+  
+  
+    <div style="overflow: auto; height: 350px; width: 300px; border: 1px solid #f00; position: relative;" id="s3scroll">
+      <ul id="s3" class="sortable">
+        <li id="i1">Item 1</li>
+        <li id="i2">Item 2</li>
+        <li id="i3">Item 3</li>
+        <li id="i4">Item 4</li>
+        <li id="i5">Item 5</li>
+        <li id="i6">Item 6</li>
+        <li id="i7">Item 7</li>                                
+        <li id="i8">Item 8</li>
+        <li id="i9">Item 9</li>
+        <li id="i10">Item 10</li>
+        <li id="i11">Item 11</li>
+        <li id="i12">Item 12</li>
+        <li id="i13">Item 13</li>
+        <li id="i14">Item 14</li>                                  
+      </ul>
+    </div>
+  </div>  
+  
+  <script type="text/javascript" charset="utf-8">
+    var s = new Skyline.Sortable('s3', {clone: true, revert: true, offsetParent: "s3scroll"});
+    var scr = new Scroller("s3scroll");
+    
+    s.addEvents({
+      "start" : function(){ scr.start(); },
+      "stop"  : function(){ scr.stop(); }
+    })
+    
+    $("s3").getElements("li").each(function(el){
+      el.set("html", el.get('html') + " " + JSON.encode(el.getPosition(el.getOffsetParent())))
+    })
+    
   </script>  
   
   <div class="test test1">

@@ -36,8 +36,8 @@ Skyline.Drag = new Class({
     el = (this.positions) ? this.positions[i] : el.getCoordinates(this.offsetParent);
 
     var now = this.mouse.now;
-    var x = now.x - this.offsets.x;
-    var y = now.y - this.offsets.y;
+    var x = (isNaN(now.x) ? 0 : now.x) - this.offsets.x;
+    var y = (isNaN(now.y) ? 0 : now.y) - this.offsets.y;
 
     return (x > el.left && x < el.right && y < el.bottom && y > el.top);
   },
@@ -52,14 +52,17 @@ Skyline.Drag = new Class({
   },
   start: function(event){
     this.parent(event);
-    this.offsetParent = $(this.options.offsetParent) || this.element.getOffsetParent();
+    var realOffsetParent = this.element.getOffsetParent();
+    this.offsetParent = $(this.options.offsetParent) || realOffsetParent;
     this.offsets = this.offsetParent.getPosition();
-    this.scroll = this.offsetParent.getScroll();        
-    this.offsets.x += this.scroll.x;
-    this.offsets.y += this.scroll.y;
+    this.scroll = this.offsetParent.getScroll();      
+    
     for (var z in this.options.modifiers){
       if (!this.options.modifiers[z]) continue;
-      this.mouse.pos[z] = event.page[z] - this.value.now[z] + this.scroll[z];
+      this.mouse.pos[z] = event.page[z] - this.value.now[z];
+      if(this.offsetParent != realOffsetParent){
+        this.mouse.pos[z] += this.scroll[z];
+      }
     }
   }
 });
