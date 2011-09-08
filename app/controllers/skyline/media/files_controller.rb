@@ -51,7 +51,6 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
   
   def create
     @file = @dir.files.build(:name => params[:Filename], :data => params[:Filedata])
-    sleep 5
 
     if @file.save
       render :json => {:result => "success"}
