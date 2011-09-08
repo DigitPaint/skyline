@@ -25,7 +25,7 @@ class Skyline::Rendering::Renderer
         if sub == :all
           @@renderables[type][:all] = renderables_to_class(type, @@renderables[type].values.flatten.uniq)
         else
-          sub = sub.name.downcase.underscore.to_sym if sub.kind_of?(Class)
+          sub = sub.name.underscore.to_sym if sub.kind_of?(Class)
           classes = @@renderables[type][sub] || @@renderables[type][:default]
           @@renderables[type][sub] = renderables_to_class(type, classes)
         end
