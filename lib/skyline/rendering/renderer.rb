@@ -83,7 +83,9 @@ class Skyline::Rendering::Renderer
                            :paths => ["app/templates", Skyline.root + "app/templates/skyline"],
                            :site => nil)
 
-    @assigns = options[:assigns].update(:_controller => options[:controller], 
+    # The controller is optional!!
+    @controller = options[:controller]
+    @assigns = options[:assigns].update(:_controller => @controller, 
                                         :_site => options[:site])
 
     @template_paths = options[:paths].collect{|p| (Rails.root + p).to_s if File.exist?(Rails.root + p)}.compact
@@ -124,12 +126,24 @@ class Skyline::Rendering::Renderer
       
       @_local_object = object   # for object function
       
+      if @controller
+        if @controller.respond_to?(:_routes)
+          (class << av; self; end).send(:include, @controller._routes.url_helpers)
+        end
+
+        if @controller.respond_to?(:_helpers)
+          (class << av; self; end).send(:include, @controller._helpers)
+        end
+      end
+          
       av.extend Skyline::Rendering::Helpers::RendererHelper
       av.extend Helpers
       
       av.render(:file => "index", :locals => options[:locals]).html_safe
     end
   end
+  
+  
   
   # Render a collection of objects (array), this gives
   # support for peek() and skip!() in the templates. A template
