@@ -771,6 +771,24 @@
         metadata: "Gegevens"
         destroy: "Verwijderen"
         confirm_destroy: "Weet u zeker dat u %{name} wilt verwijderen?"
+        
+  will_paginate:
+    previous_label: "&#8592; Vorige"
+    next_label: "Volgende &#8594;"
+    page_gap: "&hellip;"
+
+    page_entries_info:
+      single_page:
+        zero:  "Geen %{model} gevonden"
+        one:   "1 %{model}"
+        other: "alle %{count} %{model}"
+      single_page_html:
+        zero:  "Geen %{model} gevonden"
+        one:   "<b>1</b> %{model}"
+        other: "<b>all&nbsp;%{count}</b> %{model}"
+
+      multi_page: "%{model} %{from} - %{to} van %{count}"
+      multi_page_html: "%{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b>"        
            
   tinymce:
     skyline_table: {
