@@ -9,14 +9,3 @@ require 'digitpaint/unique_identifiers'
 require 'digitpaint/configure'
 require 'digitpaint/nested_attributes_positioning'
 require 'mootools-on-rails/lib/mootools_on_rails'
-
-require 'personify'
-require "polyglot"
-require "sprockets"
-require "mime/types"
-require "RMagick"
-require "hpricot"
-require "guid"
-require "will_paginate"
-require "seed-fu"
-require 'mail'

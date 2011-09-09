@@ -1,6 +1,7 @@
 require 'skyline'
 require 'rails'
 require 'fileutils'
+require Skyline.root + 'config/initializers/gem_dependencies'
 
 module Skyline
   class Engine < Rails::Engine
@@ -13,7 +14,7 @@ module Skyline
     vendor_path = (Skyline.root + "vendor").to_s    
     config.autoload_paths << vendor_path
     config.autoload_once_paths << vendor_path
-    
+        
     initializer "skyline.setup_public_paths" do |app|
       puts "Setup public paths"
       public_path = Pathname.new(Rails.public_path) + "skyline"
