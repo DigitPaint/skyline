@@ -8,7 +8,7 @@ module Skyline::PluginHelper
     plugin_template = template.sub(".html.erb", "_#{name}.html.erb")
     
     logger.debug "Looking for template #{plugin_template} in plugins..."
-    Dir[Skyline::PluginsManager.plugin_path + "*/app/views/#{plugin_template}"].each do |file|      
+    Dir[Rails.application.config.skyline_plugins_manager.plugin_path + "*/app/views/#{plugin_template}"].each do |file|      
       if Rails.env == "development"
         concat render(:inline => File.read(file), :layout => nil)
       else
