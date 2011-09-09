@@ -4,7 +4,7 @@ class Skyline::PluginsLoaderMiddleware
   end
 
   def call(env)
-    Skyline::PluginsManager.load_all!    
+    Rails.application.config.skyline_plugins_manager.load_all!    
     @app.call(env)
   end
 end

@@ -19,8 +19,8 @@ class Skyline::ApplicationController < ApplicationController
   end
   
   # Load all plugin helpers so they can override stuff.
-  Dir[Skyline::PluginsManager.plugin_path + "*/app/helpers/**/*_helper.rb"].each do |helper|
-    helper helper.sub(/^#{Regexp.escape(Skyline::PluginsManager.plugin_path.to_s)}\/?.+?\/app\/helpers\//,"").sub(/_helper\.rb$/,"")
+  Dir[Rails.application.config.skyline_plugins_manager.plugin_path + "*/app/helpers/**/*_helper.rb"].each do |helper|
+    helper helper.sub(/^#{Regexp.escape(Rails.application.config.skyline_plugins_manager.plugin_path.to_s)}\/?.+?\/app\/helpers\//,"").sub(/_helper\.rb$/,"")
   end
   
   define_callbacks :authenticate

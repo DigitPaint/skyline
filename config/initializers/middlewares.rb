@@ -20,5 +20,5 @@ Rails.application.config.middleware.use(Skyline::SprocketsMiddleware, Rails.publ
 end
 
 if !Rails.configuration.cache_classes && Rails.configuration.reload_plugins
-  Rails.application.config.use(Skyline::PluginsLoaderMiddleware)
+  Rails.application.config.middleware.use(Skyline::PluginsLoaderMiddleware)
 end
