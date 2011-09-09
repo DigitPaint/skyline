@@ -7,8 +7,6 @@ class Skyline::Plugins::Plugin
     @path = Pathname.new(path)
     @name = @path.basename.to_s
     
-    puts "YOYUOYOYOYOYYO   " + path.inspect
-    
     files = { 
       :init_file => "skyline/init.rb",
       :load_file => "skyline/load.rb",
