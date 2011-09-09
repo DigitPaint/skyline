@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rmagick", "2.13.1"
   s.add_dependency "hpricot", "0.8.2"
   s.add_dependency "guid", "0.1.1"
-  s.add_dependency "will_paginate", "~> 3.0.pre4"
+  s.add_dependency "will_paginate", "~> 3.0.0"
   s.add_dependency "seed-fu", "~> 1.2.0"
   s.add_dependency "mail", "~>2.2.0" 
   s.add_dependency "personify", "~> 1.1.0"
