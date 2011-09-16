@@ -1,0 +1,67 @@
+<table class="listing" id="browserLinkableList">
+  <thead>
+    <tr>
+      <th class="icon"></th>
+      <th><%= @linkable_type.human_attribute_name(:title) if @linkable_type %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @linkables.present? %>
+      <% selected_row = nil %>    
+      <% @linkables.each do |linkable| %>
+        <% selected_row = "linkable_#{linkable.id}" if linkable == @linkable %>
+        <tr class="<%= cycle("odd","even") %> <%= "selected" if linkable == @linkable %>" id="linkable_<%= linkable.id %>"
+            data-url = "<%= linkable.url || linkable.id %>",
+            data-referable_id = "<%= linkable.id %>",
+            data-referable_type = "<%= linkable.class.name %>",
+            data-referable_title = "<%= linkable.title %>">
+          <td class="icon center"><%= tick_image(linkable.published?) %></td>
+          <th>
+            <%= linkable.title.blank? ? "&nbsp;" : linkable.title %>
+          </th>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+  (function(){
+    var f = $('browserLinkableList');
+    var t = new Skyline.Table(f, {draggable: false});
+    <% if selected_row %>
+      t.selectedRow = $('<%= selected_row %>')
+    <% end %>
+
+    t.addEvent("selectRow",function(row,event){
+      event.stop();
+      row.addClass("selected");
+      $('browser_linkable_referable_id').set("value", row.get("data-referable_id"));
+      $('browser_linkable_referable_type').set("value", row.get("data-referable_type"));
+      $('browser_linkable_referable_title').set("value", row.get("data-referable_title"));
+      $('browser_linkable_url').set("value", row.get("data-url"));      
+    });
+          
+    t.addEvent("deselectRow",function(row){
+      row.removeClass("selected");
+    });
+    
+    var bc = $('browserContentPanel'); 
+    var l = bc.retrieve("skyline.layout");
+
+    if(l){
+      // Cleanup old events
+      l.removeEvents("resize");
+    }
+        
+    // Make sure the contentPanel resizes our table!
+    bc.addComponentEvent("skyline.layout","resize",function(panel,w,h){
+      $('browserLinkableList').retrieve("skyline.table").resize(w, "100%");
+    });    
+    
+    if(l){
+      $('browserLinkableList').retrieve("skyline.table").resize(l.width - l.offsets.width, "100%");
+    }
+    
+  })();
+</script>

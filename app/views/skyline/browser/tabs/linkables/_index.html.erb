@@ -1,0 +1,29 @@
+<div id="browserLinkables" class="window">
+  <div class="leftPanel scrollable">
+    <input id="browser_linkable_referable_id" type="hidden" name="browser[referable_id]" value="<%=  %>">
+    <input id="browser_linkable_referable_type" type="hidden" name="browser[referable_type]" value="" >
+    <input id="browser_linkable_referable_title" type="hidden" name="browser[referable_title]" value="" >    
+    <input id="browser_linkable_url" type="hidden" name="browser[url]" value="">    
+    
+    <ul class="selectlist">
+      <% Skyline::Linkable.linkables.each do |linkable| %>
+        <% active = false %>
+        <li>
+          <%= link_to linkable.model_name.human(:count => 2), skyline_browser_tabs_linkable_path(linkable.name, :referable_id => params[:referable_id]), :class => (active ? "active" : nil), :remote => true %>
+        </li>
+      <% end %>
+    </ul>		    
+  </div>
+  <div class="rightPanel scrollable" id="browserLinkableContentPanel">
+    <%= render :partial => "skyline/browser/tabs/linkables/show" %>  
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">  
+  (function(){
+    var mtp = new Skyline.HorizontalLayout("browserLinkables", {height: 200, hidden: true});
+    var lp = mtp.addPanel(mtp.element.getElement(".leftPanel"),{width: 200});
+    mtp.addSplitter();
+    var rp = mtp.addPanel(mtp.element.getElement(".rightPanel"));
+  })();
+
+</script>

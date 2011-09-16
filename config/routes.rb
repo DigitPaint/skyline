@@ -57,6 +57,7 @@ Rails.application.routes.draw do
             resources :media_files
           end
         end
+        resources :linkables        
       end         
     end
      
