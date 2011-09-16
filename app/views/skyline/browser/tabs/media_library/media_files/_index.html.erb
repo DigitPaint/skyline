@@ -49,37 +49,6 @@
 
 <script type="text/javascript" charset="utf-8">
   (function(){
-    // var ul = $('browserFilelist');
-    // ul.addEvent("click", function(ev){
-    //   ev.stop();
-    //   ev.preventDefault();
-    //   
-    //   var t =  $(ev.target);
-    //   var li = (t.get("tag") == "li" ? t : t.getParents("li")[0]);
-    //   if(li){
-    //     var a = li.getElement("a");        
-    //     ul.getElements('li.selected').removeClass('selected'); 
-    //     li.addClass('selected');
-    //     
-    //     $('browser_media_file_type').set("value", a.get("data-file_type"));
-    //     $('browser_media_referable_id').set("value", a.get("data-referable_id"));
-    //     $('browser_media_referable_type').set("value", a.get("data-referable_type"));
-    //     $('browser_media_referable_title').set("value", a.get("data-referable_title"));
-    //     $('skylineReferableLocation').set("value", a.get("data-url"));
-    //     
-    //     if($('browserImageWidth')){
-    //       $('browserImageWidth').set("value", a.get("data-image_width"));
-    //     };
-    //     if($('browserImageHeight')){
-    //       $('browserImageHeight').set("value", a.get("data-image_height"));
-    //     };
-    //     
-    //     new Request({
-    //       url: a.get("href"),
-    //       method: "get"
-    //     }).send();        
-    //   }
-    // })
     
     var f = $('browserFilelist');
     var t = new Skyline.Table(f, {draggable: false});
