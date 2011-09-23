@@ -1,5 +1,8 @@
-body{
+html{
   font-size: 62.5%;
+}
+
+body{  
   font-family: Verdana, Helvetica, Arial, sans-serif;
   background: #fff;  
 }
@@ -2316,7 +2319,7 @@ ul.selectlist li a.active,
 tr.selected th,
 tr.selected td,
 .dialog .selected{
-  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x !important;
+  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x;
   color: #fff;
 }
 
