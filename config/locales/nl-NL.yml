@@ -614,6 +614,7 @@
   browser:
     tabs:
       "Skyline::Page" : "Pagina's"
+      "Skyline::Linkable" : "Content"      
       "Skyline::MediaFile" : "Media library"
       "Skyline::ReferableUri" : "Extern"
     external_link:

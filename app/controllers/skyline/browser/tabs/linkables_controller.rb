@@ -6,6 +6,8 @@ class Skyline::Browser::Tabs::LinkablesController < Skyline::ApplicationControll
     @linkable = @linkable_type.find_by_id(params[:referable_id])
     
     render :update do |p|
+      p << "document.id(\"browserLinkableLinkables\").getElements(\"li a\").removeClass(\"active\");"
+      p << "document.id(\"browserLinkableLinkables#{@linkable_type.name}\").getElement(\"a\").addClass(\"active\");"      
     	p.replace_html("browserLinkableContentPanel", :partial => "show")
     end
   end

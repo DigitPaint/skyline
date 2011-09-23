@@ -14,6 +14,7 @@ class Skyline::Browser::LinksController < Skyline::ApplicationController
       elsif Skyline::Linkable.linkables.map(&:name).include?(params[:referable_type])
         @linkable_type = Skyline::Linkable.linkables.find{|l| l.name == params[:referable_type]}
         @linkable = @linkable_type.find_by_id(params[:referable_id])
+        @linkables = @linkable_type.all if @linkable
         @active_tab = "Skyline::Linkable"
       end
     end
