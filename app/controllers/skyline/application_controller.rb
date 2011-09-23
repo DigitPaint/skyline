@@ -80,10 +80,14 @@ class Skyline::ApplicationController < ApplicationController
   # Returns the currently logged in user
   # --
   def current_user
-    @current_user
+    (self.respond_to?(:skyline_current_user) ? self.skyline_current_user : nil) || @current_user
   end  
   
   helper_method :current_user  
+  
+  def current_user=(c)
+    @current_user = c
+  end
   
   # Override this in the controller, all actions are protected by default
   def protect?; true; end
@@ -92,7 +96,8 @@ class Skyline::ApplicationController < ApplicationController
   def authenticate_user
     if self.protect? 
       run_callbacks :authenticate do
-        unless session[:user_id] && @current_user = Skyline::User.find_by_id(session[:user_id])
+        self.current_user = Skyline::Configuration.user_class.find_by_identification(session[:skyline_user_identification]) if !self.current_user && session[:skyline_user_identification]
+        unless self.current_user
           # Store location to go back to in session...
           session[:before_login_url] = request.fullpath
           return redirect_to(new_skyline_authentication_path)
@@ -164,7 +169,7 @@ class Skyline::ApplicationController < ApplicationController
   # Currently just logs an [AUTH] message and renders an UNAUTHORIZED text on the screen
   # --
   def handle_unauthorized_user
-    logger.warn("[AUTH] Unauthorized access to #{self.controller_name}/#{self.action_name} by #{@current_user.email} (#{@current_user.id})")
+    logger.warn("[AUTH] Unauthorized access to #{self.controller_name}/#{self.action_name} by #{current_user.email} (#{current_user.id})")
     render(:text => "UNAUTHORIZED", :status => :unauthorized)    
   end
        

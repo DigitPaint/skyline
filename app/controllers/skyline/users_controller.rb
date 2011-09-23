@@ -15,7 +15,7 @@ class Skyline::UsersController < Skyline::ApplicationController
   
   def new
     @user = Skyline::User.new(params[:user])
-    @roles = @current_user.viewable_roles
+    @roles = current_user.viewable_roles
     
     if request.xhr?
       render :update do |p|
@@ -33,7 +33,7 @@ class Skyline::UsersController < Skyline::ApplicationController
         p.redirect_to skyline_users_path(:page => page_number_for_user(@user))
       end
     else
-      @roles = @current_user.viewable_roles
+      @roles = current_user.viewable_roles
       messages.now[:error] = t(:error,:scope => [:user,:create,:flashes])
       render :update do |p|
         p << "Skyline.Dialog.current.setContent('#{escape_javascript(render :partial => "new")}'); Skyline.Dialog.current.setup();"
@@ -44,7 +44,7 @@ class Skyline::UsersController < Skyline::ApplicationController
   
   def edit
     @user = Skyline::User.find_by_id(params[:id])
-    @roles = @current_user.viewable_roles
+    @roles = current_user.viewable_roles
     
     if request.xhr?
       render :update do |p|
@@ -65,7 +65,7 @@ class Skyline::UsersController < Skyline::ApplicationController
         p.redirect_to skyline_users_path(:page => page_number_for_user(@user))
       end
     else
-      @roles = @current_user.viewable_roles
+      @roles = current_user.viewable_roles
       messages.now[:error] = t(:error,:scope => [:user,:update,:flashes])
       render :update do |p|
         p << "Skyline.Dialog.current.setContent('#{escape_javascript(render :partial => "edit")}'); Skyline.Dialog.current.setup();"

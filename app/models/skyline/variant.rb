@@ -1,7 +1,7 @@
 class Skyline::Variant < Skyline::ArticleVersion
   include NestedAttributesPositioning
   
-  belongs_to :current_editor, :class_name => "Skyline::User"
+  belongs_to :current_editor, :class_name => "::#{Skyline::Configuration.user_class.name}"
   
   validate :validate_version_match
   
@@ -107,7 +107,7 @@ class Skyline::Variant < Skyline::ArticleVersion
   # ==== Returns
   # true,false:: true if the user is allowed to edit.
   def editable_by?(user)
-    user_id = user.kind_of?(Skyline::User) ? user.id : user
+    user_id = user.kind_of?(Skyline::Configuration.user_class) ? user.id : user
     return true unless Skyline::Configuration.enable_enforce_only_one_user_editing
     self.current_editor_id.nil? || self.current_editor_timestamp.nil? || self.current_editor_id == user_id || self.class.editor_idle_time < (Time.zone.now - self.current_editor_timestamp)
   end
@@ -122,7 +122,7 @@ class Skyline::Variant < Skyline::ArticleVersion
   def edit_by!(user, options = {})
     options.reverse_merge! :force => false
     options[:new_editor] = true
-    user_id = user.kind_of?(Skyline::User) ? user.id : user
+    user_id = user.kind_of?(Skyline::Configuration.user_class) ? user.id : user
     self.class.update_current_editor(self.id, user_id, options)
   end
   

@@ -55,6 +55,9 @@ class Skyline::Configuration < Configure
       end    
     end
     
+    # Authentication User model
+    config.user_class = Skyline::User
+    
     # Default URL admin prefix (default = /skyline/...)
     config.url_prefix = "skyline"
     
