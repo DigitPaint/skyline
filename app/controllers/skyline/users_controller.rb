@@ -15,7 +15,7 @@ class Skyline::UsersController < Skyline::ApplicationController
   
   def new
     @user = Skyline::User.new(params[:user])
-    @roles = @current_user.viewable_roles    
+    @roles = current_user.viewable_roles
   end
   
   def create
@@ -25,15 +25,15 @@ class Skyline::UsersController < Skyline::ApplicationController
       notifications[:success] = t(:success, :scope => [:user,:create,:flashes])
       javascript_redirect_to skyline_users_path(:page => page_number_for_user(@user))
     else
-      @roles = @current_user.viewable_roles
-      messages.now[:error] = t(:error,:scope => [:user,:create,:flashes])      
+      @roles = current_user.viewable_roles
+      messages.now[:error] = t(:error,:scope => [:user,:create,:flashes])
     end
     
   end
   
   def edit
     @user = Skyline::User.find_by_id(params[:id])
-    @roles = @current_user.viewable_roles    
+    @roles = current_user.viewable_roles    
   end  
   
   def update
@@ -46,7 +46,7 @@ class Skyline::UsersController < Skyline::ApplicationController
       notifications[:success] = t(:success, :scope => [:user,:update,:flashes])
       javascript_redirect_to skyline_users_path(:page => page_number_for_user(@user))
     else
-      @roles = @current_user.viewable_roles
+      @roles = current_user.viewable_roles
       messages.now[:error] = t(:error,:scope => [:user,:update,:flashes])
     end
   end

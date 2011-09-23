@@ -12,7 +12,7 @@
 <dl id="contentPanel" class="panel">
   <dt id="contentHeaderPanel">
     <span class="content">
-      <% if @current_user.allow?(:user_create) %>
+      <% if current_user.allow?(:user_create) %>
         <%= link_to(
               button_text(:add),
               new_skyline_user_path, 
@@ -45,10 +45,10 @@
                 <td><%= u.roles.map{|s| t(s.name, :scope => [:user,:roles], :default => s.name) }.to_sentence %></td>
                 <td><%= u.created_at.present? ? l(u.created_at, :format => :long) : "" %></td> 
                 <td class="right">
-                  <% if @current_user.allow?(:user_update) %>
+                  <% if current_user.allow?(:user_update) %>
                     <%= link_to button_text(:edit), edit_skyline_user_path(u), :class => "button small edit" %>
                   <% end %>
-                  <% if @current_user.allow?(:user_delete) %>
+                  <% if current_user.allow?(:user_delete) %>
                     <%= link_to(
                           button_text(:delete), 
                           skyline_user_path(u,:page => params[:page]), 

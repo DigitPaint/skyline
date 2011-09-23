@@ -27,14 +27,14 @@
       <li>
         <%= link_to t(:media_library, :scope => [:navigation,:mainnavigation]), skyline_media_dirs_path, :class => (current_menu_item == :media_library ? "active" : nil) %>
       </li>
-      <% if @current_user.allow?(:settings_update) || @current_user.allow?(:user_show) %>
+      <% if current_user.allow?(:settings_update) || current_user.allow?(:user_show) %>
         <li class="has-children">
           <span <%= 'class="active"' if current_menu_item == :admin %>><%= t(:admin, :scope => [:navigation,:mainnavigation]) %></span>
           <ul>
-            <% if @current_user.allow?(:settings_update) && Skyline::Content::Implementation.instance.has_settings? %>
+            <% if current_user.allow?(:settings_update) && Skyline::Content::Implementation.instance.has_settings? %>
               <li><%= link_to t(:settings, :scope => [:navigation,:mainnavigation]), skyline_settings_path %></li>
             <% end %>
-            <% if @current_user.allow?(:user_show) %>            
+            <% if current_user.allow?(:user_show) %>            
               <li><%= link_to t(:users, :scope => [:navigation,:mainnavigation]), skyline_users_path %></li>
             <% end %>
             <% plugin_hook :admin_submenu %>

@@ -1,12 +1,12 @@
 class Skyline::User < ActiveRecord::Base
+  include Skyline::Authentication::User
+  
   set_table_name :skyline_users
   has_many :grants, :class_name => "Skyline::Grant", :dependent => :delete_all
   has_many :roles, :class_name => "Skyline::Role", :through => :grants
   has_many :rights, :class_name => "Skyline::Right", 
     :finder_sql => proc{ "SELECT DISTINCT r.* FROM skyline_rights AS r, skyline_grants AS g JOIN skyline_rights_skyline_roles AS rr ON rr.role_id = g.role_id WHERE g.user_id = #{id} AND r.id = rr.right_id" }
   
-  has_many :user_preferences, :class_name => "Skyline::UserPreference"  
-    
   # This must be set to change the password (by the user himself)
   attr_accessor :current_password
   
@@ -53,6 +53,10 @@ class Skyline::User < ActiveRecord::Base
       user && user || false
     end
     
+    def find_by_identification(identification)
+      self.find_by_id(identification)
+    end
+    
     def encrypt(pw)
       Digest::SHA1.hexdigest(pw)
     end
@@ -77,7 +81,7 @@ class Skyline::User < ActiveRecord::Base
     def per_page; 30; end      
     
   end
-  
+
   # Check if a user has a specific right
   #
   # ==== Parameters
@@ -160,6 +164,8 @@ class Skyline::User < ActiveRecord::Base
       Skyline::Role.all(:conditions => {:system => false})
     end
   end
+  
+
   
   protected
   
