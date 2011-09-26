@@ -17,9 +17,9 @@ module Skyline
         if `git --git-dir=#{git_dir} describe --tags HEAD` =~ /^v\d+\.\d+\.\d+(\.\d+)?$/
           build = nil
         else
-          build = `git --git-dir=#{git_dir} show HEAD --format=format:"%ct" --quiet 2>&1`
-          if build =~ /\d+/
-            build = Time.at(build.to_i).strftime("%Y%m%d") 
+          build = `git --git-dir=#{git_dir} show HEAD --format=format:"%h" --quiet 2>&1`
+          if build =~ /[0-9a-f]+/
+            build = build.to_s
           else
             build = nil
           end
