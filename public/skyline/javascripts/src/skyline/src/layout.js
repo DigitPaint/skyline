@@ -8,6 +8,7 @@
   data-panel-hidden - "true","false"
   data-panel-height -
   data-panel-width  -
+  data-panel-position - 
   
   Events:
   afterSetup - Fires after the layout has been set up.
@@ -40,6 +41,7 @@ Skyline.Layout  = new Class({
     this.addSplitterBeforeNext = false;
     
     var o = arguments[1] || {};
+    o = Object.merge(o, this.getElementDataOptions());
     
     if(o.width){ o.autoWidth = false; } else { o.autoWidth = true; }
     if(o.height){ o.autoHeight = false; }  else { o.autoHeight = true; }
@@ -60,8 +62,8 @@ Skyline.Layout  = new Class({
     this.cacheOffsets();    
   },
   
-  setElementDataOptions : function(){
-    var optionKeys = ["hidden", "width", "height"];
+  getElementDataOptions : function(){
+    var optionKeys = ["hidden", "width", "height", "position"];
     var options = {};
     var el = this.element;
     
@@ -70,7 +72,7 @@ Skyline.Layout  = new Class({
       if(prop){ options[k] = prop }
     });
 
-    this.setOptions(options);
+    return options;
   },
   
   /*
@@ -264,7 +266,6 @@ Skyline.Layout  = new Class({
   },
   // Setup the attached element.
   initializeElement : function(){
-    this.setElementDataOptions();
     
     if(this.options.hidden){
       this.hide(true);
