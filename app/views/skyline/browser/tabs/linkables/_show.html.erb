@@ -57,11 +57,9 @@
     // Make sure the contentPanel resizes our table!
     bc.addComponentEvent("skyline.layout","resize",function(panel,w,h){
       $('browserLinkableList').retrieve("skyline.table").resize(w, "100%");
-      console.log("RESIIZZE!");
     });    
     
     if(l){
-      console.log("L", l.width, l.offsets.width);
       $('browserLinkableList').retrieve("skyline.table").resize(l.width - l.offsets.width, "100%");
     }
     
