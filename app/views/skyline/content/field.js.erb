@@ -1,0 +1,2 @@
+var id = "<%= input_id("field","element",params[:field]) %>";
+$(id).replace("<%= escape_javascript content_field(@element.class, 'element', @element.class.fields[params[:field].to_sym] || Field.new(:name => params[:field]), @element) %>")

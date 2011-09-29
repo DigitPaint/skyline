@@ -1,0 +1,5 @@
+<%= render_messages_javascript %>;
+<%= render_notifications_javascript %>;
+
+$("contentPanel").replaceHTML('<%= escape_javascript(render :partial => "/skyline/media/dirs/show") %>');
+$("metaPanel").replaceHTML('<%= escape_javascript(render :partial => "/skyline/media/dirs/edit") %>');

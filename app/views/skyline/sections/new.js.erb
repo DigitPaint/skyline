@@ -1,0 +1,12 @@
+<% if params[:after_section]
+  pos, id = :after, params[:after_section]          
+else
+  pos, id = :bottom, "contentlist"
+end %>
+      
+<%= skyline_fields_for params[:object_name] do |variant_form| %>
+  $('<%= id %>').append('<%= pos %>', '<%= escape_javascript(render :partial => "form", :locals => {:variant_form => variant_form, :section => @section, :guid => @section_guid}) %>')
+<% end %>
+
+$('contentlist').retrieve('application.sections').addSection('section_<%= @section_guid %>');
+$('contentEditPanel').scrollTo(0, $('contentEditPanel').getScroll().y + $('section_<%= @section_guid %>').getPosition("contentEditPanel").y);

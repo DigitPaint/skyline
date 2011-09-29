@@ -1,0 +1,6 @@
+<% if @content_item_class.present? %>
+  $("section-<%= params[:guid] %>-content-item-id").replaceHTML('<%= escape_javascript render(:partial => "content_item", :locals => {:guid => params[:guid], :sectionable => Skyline::Sections::ContentItemSection.new}) %>');
+<% else %>
+  $("section-<%= params[:guid] %>-content-item-id").replaceHTML("");
+  (new Fx.Scroll("contentEditPanel")).toBottom();
+<% end %>

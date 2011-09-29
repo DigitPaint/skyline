@@ -1,0 +1,5 @@
+<% editor = Skyline::Editors::JoinableList.new(["element"],@source_object,@source_klass.fields[params[:association].to_sym],@template) %>
+$("<%= editor.js_object_name %>").append("bottom", "<%= escape_javascript editor.render_row(@object) %>");
+<% if params[:add_multiple] != "true" %>
+  $("element_<%= params[:association] %>_browser").replaceHTML(<%= escape_javascript render(:partial => "add", :locals => {:source_object => @source_object,:target_class => @target_klass,:association => @assoc.name}) %>);        
+<% end %>

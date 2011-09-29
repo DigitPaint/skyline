@@ -49,7 +49,7 @@ class Skyline::VariantsController < Skyline::ApplicationController
     if variant = @article.variants.find_by_id(params[:id])
       variant.edit_by!(current_user, :force => true)
       if request.xhr?
-        render(:update){|p| p.redirect_to edit_skyline_article_path(@article,:variant_id => variant)}
+        javascript_redirect_to edit_skyline_article_path(@article,:variant_id => variant)
       else
         redirect_to edit_skyline_article_path(@article,:variant_id => variant)
       end

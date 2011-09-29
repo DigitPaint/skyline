@@ -7,18 +7,12 @@ class Skyline::ContentController < Skyline::Skyline2Controller
   self.default_menu = :content_library   
     
   def index
-    if request.xhr?
-      render :update do |p|
-        p.replace_html "leftContentContentPanel", :partial => "types"
+    if first_element = (Skyline::Configuration.articles + Skyline::Configuration.content_classes).first
+	    if first_element.ancestors.include?(Skyline::Article)
+	      redirect_to skyline_articles_path(:type => first_element)
+	    else
+	      redirect_to object_url(first_element, :controller => "skyline/content", :action => "list") 
       end
-    else
-      if first_element = (Skyline::Configuration.articles + Skyline::Configuration.content_classes).first
-		    if first_element.ancestors.include?(Skyline::Article)
-		      redirect_to skyline_articles_path(:type => first_element)
-		    else
-		      redirect_to object_url(first_element, :controller => "skyline/content", :action => "list") 
-	      end
-	    end
     end
   end
     
@@ -89,18 +83,15 @@ class Skyline::ContentController < Skyline::Skyline2Controller
     if request.xhr? && stack.klass.orderable? && params[:order]
       ids = params[:order].split(",").collect{|s| s.to_i}
       if ids.size > 1 && stack.klass.reorder(ids)
-        render(:update){|p| p.call "Application.addOddEven", "#{stack.klass.name}Listing", "tbody tr"}
       elsif ids.size <= 1
-        render :nothing => true        
+        render :nothing => true
       else
         list_elements!
-        render :update do |p|
-          p.replace_html "contentEditPanel", presenter_for(@elements,stack.klass)
-          p << "$('contentEditPanel').retrieve('skyline.layout').setup()";
-        end
       end
     end  
-    redirect_to :action => "list", :types => stack.url_types(:up => 1, :collection => true) if !request.xhr?
+    if !request.xhr?
+      redirect_to :action => "list", :types => stack.url_types(:up => 1, :collection => true) 
+    end
   end
   
   def create
@@ -132,16 +123,12 @@ class Skyline::ContentController < Skyline::Skyline2Controller
   def import
     if request.xhr?
       if stack.size > 1
-        klass = stack.parent_collection.to_s
+        @klass = stack.parent_collection.to_s
       else
-        klass = stack.klass.to_s
+        @klass = stack.klass.to_s
       end
       
-      url = object_url(stack.current, {:action => "import"})
-          
-      render :update do |p|
-        p << dialog(t(:dialog_title, :scope => [:content, :import]), :partial => "import", :locals => {:url => url, :klass => klass},  :width => 400)
-      end
+      @url = object_url(stack.current, {:action => "import"})          
     end  
     
     if request.post?
@@ -165,9 +152,6 @@ class Skyline::ContentController < Skyline::Skyline2Controller
     return unless request.xhr?
     @element = stack.last
     @element.attributes = params[:element]
-    render :update do |p|
-      p.replace input_id("field","element",params[:field]), content_field(@element.class, 'element', @element.class.fields[params[:field].to_sym] || Field.new(:name => params[:field]), @element)
-    end
   end
   
   def error

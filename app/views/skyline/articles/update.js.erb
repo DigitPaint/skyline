@@ -1,0 +1,20 @@
+<% if @saved %>
+  <% if @article.locked? %>
+    <%= notification :success, t(:locked, :scope => [@article.class, :update, :flashes]) %>;
+    <% if @article.kind_of?(Skyline::Page) %>
+      $$('#article_<%= @article.id %> span')[0].addClass('locked');
+    <% end %>
+  <% else %>
+    <%= notification :success, t(:unlocked, :scope => [@article.class, :update, :flashes]) %>;
+    <% if @article.kind_of?(Skyline::Page) %>
+      $$('#article_<%= @article.id %> span')[0].removeClass('locked');
+    <% end %>
+  <% end %>
+<% else %>
+  <% if @article.locked? %>
+    <%= message :error, t(:lock_failed, :scope => [@article.class, :update, :flashes]) %>;
+  <% else %>
+    <%= message :error, t(:unlock_failed, :scope => [@article.class, :update, :flashes]) %>;
+  <% end %>
+<% end %>
+$("article_security").replace('<%= escape_javascript(render :partial => "security") %>');

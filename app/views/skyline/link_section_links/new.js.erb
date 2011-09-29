@@ -1,0 +1,4 @@
+<%= skyline_fields_for params[:object_name], @link do |sectionable_form| %>
+  $("section-<%= params[:guid] %>-links").append("bottom", '<%= escape_javascript render(:partial => "form", :locals => {:sectionable_form => sectionable_form, :link => @link, :guid => params[:guid], :link_guid => @link_guid}) %>' );
+  linkSectionLinksSortable<%= params[:guid].to_s.gsub("-","") %>.addItem('link_section_<%= @link_guid %>');
+<% end %>

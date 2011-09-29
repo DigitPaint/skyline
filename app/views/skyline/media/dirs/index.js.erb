@@ -1,0 +1,6 @@
+<%= render_messages_javascript %>;
+<%= render_notifications_javascript %>;
+
+$("dirtree").replace('<%= escape_javascript(render :partial => "index") %>');
+$("contentPanel").replaceHTML('<%= escape_javascript(render :partial => "show") %>');
+$("metaPanel").replaceHTML('<%= escape_javascript(render :partial => "edit") %>');

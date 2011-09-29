@@ -2,14 +2,6 @@ class Skyline::Browser::Tabs::MediaLibrary::MediaFilesController < Skyline::Appl
   def index
     @media_dir = Skyline::MediaDir.find(params[:media_dir_id])
     @media_file = @media_dir.files.find_by_id(params[:media_file_id])
-    
-    render :update do |p|
-      # if !params[:listonly]
-      #   p.replace_html("browserUploadPanel", :partial => "new", :locals => {:media_dir => @media_dir})
-      # end
-    	    	
-    	p.replace_html("browserContentPanel", :partial => "index")
-    end    
   end
   
   # show
@@ -22,10 +14,6 @@ class Skyline::Browser::Tabs::MediaLibrary::MediaFilesController < Skyline::Appl
   def show
     @media_file = Skyline::MediaFile.find(params[:id])
     @media_dir = @media_file.directory
-
-    render :update do |p|
-      p.replace("browserFileInfo", :partial => "show")
-    end 
   end
 
 end
