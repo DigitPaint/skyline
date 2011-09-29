@@ -97,7 +97,8 @@ class Skyline::Presenters::Presenter
       
       case field.editor
         # :publish editor is temporary editor created by the presenter itself.
-        when :publish : [content ? image_tag("/skyline/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("/skyline/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
+        when :publish
+          [content ? image_tag("/skyline/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("/skyline/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
         else normalize_content(content,field)          
       end
     end        
