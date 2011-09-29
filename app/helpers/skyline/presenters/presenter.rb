@@ -36,9 +36,12 @@ class Skyline::Presenters::Presenter
   end
   
   def delete_button(record)
-    link_to_remote button_text(:delete),{ 
-                   :url => {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
-                   :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name) }, :class => "button small red"
+    link_to(
+      button_text(:delete), 
+      {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
+      :remote => true,
+      :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name), 
+      :class => "button small red")
   end
 
     

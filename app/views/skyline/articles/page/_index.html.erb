@@ -5,7 +5,13 @@
         <ul>
           <% possible_positions = @article.root? ? %w{in} : %w{in below} %>
           <% possible_positions.each do |pos| %>
-            <li><%= link_to_remote(t("add_page_#{pos}", :scope => [@article.class, :edit]), :url => skyline_articles_path(:article_id => @article, :type => "skyline/page"), :method => :post, :data => "'position=#{pos}'") %></li>
+            <li><%= 
+              link_to(
+                t("add_page_#{pos}", :scope => [@article.class, :edit]), 
+                skyline_articles_path(:article_id => @article, :type => "skyline/page", :position => pos), 
+                :method => :post, 
+                :remote => true) 
+              %></li>
           <% end %>
         </ul>
       <% end %>

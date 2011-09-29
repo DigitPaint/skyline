@@ -1,4 +1,4 @@
-<%= remote_form_for @dir, :url => skyline_media_dir_path(@dir), :method => :put do |f|%>
+<%= form_for @dir, :url => skyline_media_dir_path(@dir), :method => :put, :remote => true do |f|%>
   <%= f.hidden_field :parent_id %>
   <dl class="panel">
     <dt>
@@ -28,12 +28,14 @@
         <% if @dir.parent_id.blank? %>
           <%= link_to_function button_text(:delete_media_dir), "", :class => "button small disabled" %>
         <% else %>
-          <%= link_to_remote button_text(:delete_media_dir),{
-            :url => skyline_media_dir_url(@dir), 
-            :method => :delete,
-            :confirm => t(:message, :scope => [:media_dir,:destroy]),
-            :href => url_for(:action => "destroy", :id => @dir.id)},
-            { :class =>  "button small red"}
+          <%= link_to(
+                button_text(:delete_media_dir),
+                skyline_media_dir_url(@dir), 
+                :remote => true,
+                :method => :delete,
+                :confirm => t(:message, :scope => [:media_dir,:destroy]),
+                :href => url_for(:action => "destroy", :id => @dir.id),
+                :class =>  "button small red")
           %>
         <% end %>
       </div>

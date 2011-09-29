@@ -13,7 +13,13 @@
   <dt id="contentHeaderPanel">
     <span class="content">
       <% if @current_user.allow?(:user_create) %>
-        <%= link_to_remote button_text(:add), {:url => new_skyline_user_path, :method => :get}, :class => "button small right", :style => "margin-top: 3px; visibility:visible;" %>
+        <%= link_to(
+              button_text(:add),
+              new_skyline_user_path, 
+              :remote => true,
+              :method => :get, 
+              :class => "button small right", 
+              :style => "margin-top: 3px; visibility:visible;") %>
       <% end %>
       
       <%= t(:header, :scope => [:user, :index], :count => @users.total_entries) %>
@@ -43,7 +49,13 @@
                     <%= link_to button_text(:edit), edit_skyline_user_path(u), :class => "button small edit" %>
                   <% end %>
                   <% if @current_user.allow?(:user_delete) %>
-                    <%= link_to_remote button_text(:delete), {:url => skyline_user_path(u,:page => params[:page]), :method => :delete, :confirm => t(:confirm_destroy, :scope => [:user,:index], :display_name => u.display_name)}, :class => "button #{@current_user == u ? "disabled" : "red"} small" %>
+                    <%= link_to(
+                          button_text(:delete), 
+                          skyline_user_path(u,:page => params[:page]), 
+                          :remote => true,
+                          :method => :delete, 
+                          :confirm => t(:confirm_destroy, :scope => [:user,:index], :display_name => u.display_name), 
+                          :class => "button #{@current_user == u ? "disabled" : "red"} small") %>
                   <% end %>
                   
                 </td>
