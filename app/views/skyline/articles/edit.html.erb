@@ -35,14 +35,25 @@
                     <ul>
                       <% Skyline::Rendering::Renderer.renderables(:sections, a.object.class).each do |section| %>                    
                         <li>
-                          <%= link_to(section.model_name.human, 
-                                :url => new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize), 
-                                :method => :get, 
-                                :remote => true,
-                                :data => "(new Hash({'after_section' : $('contentlist').retrieve('application.sections').getCurrentActiveId()})).toQueryString()") %></li>
+                          <%= link_to(
+                                section.model_name.human, 
+                                new_skyline_section_path(:sectionable_type => section.name, :object_name => v.object_name_with_index, :renderable_scope => @renderable_scope.serialize)) %></li>
                       <% end %>
                     </ul>                           
                   <% end %>
+                  <script type="text/javascript" charset="utf-8">
+                    (function(){
+                      var c = function(ev){
+                        ev.stop();
+                        var r = new Request.Rails(this);            
+                        r.send((new Hash({'after_section' : $('contentlist').retrieve('application.sections').getCurrentActiveId()})).toQueryString());
+                      }
+                      $("add_section_button").getElements("ul a").each(function(a){
+                        a.addEvent("click", c);                        
+                      });
+                    })();
+                  </script>
+
                 <% end %>
                 <div id="mceToolbarContainer" class="tinymce"></div>
               </div>
