@@ -18,7 +18,7 @@ class Skyline::VariantCurrentEditorController < Skyline::ApplicationController
       response.update({
         :current_editor => false,
         :title => I18n.t(:dialog_title, :scope => [:variant_current_editor,:takeover]),
-        :message => render_to_string(:partial => "skyline/articles/takeover_action", :locals => {:current_editor => u})
+        :message => render_to_string(:partial => "/skyline/articles/takeover_action.html", :locals => {:current_editor => u})
       })
     end
 
