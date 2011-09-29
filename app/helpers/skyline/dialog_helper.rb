@@ -26,6 +26,7 @@ module Skyline::DialogHelper
     p << "sd.setContent('#{escape_javascript(content)}');"
     p << "sd.setup(); sd.show();"
     p << "})()"
+    p.html_safe
   end
   
 end
