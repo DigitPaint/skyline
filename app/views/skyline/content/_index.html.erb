@@ -1,5 +1,5 @@
 <dt id="leftContentHeaderPanel" class="<%= local_assigns[:active] ? "active" : "" %>">
-   <%= link_to_remote t(:default_group, :scope => [:content]), :url => {:controller => "skyline/content", :action => "index"}, :method => :get, :html => {:class => "content"}  %>
+  <span class="content"><%= t(:default_group, :scope => [:content]) %></span>
 </dt>
 <dd id="leftContentContentPanel">
   

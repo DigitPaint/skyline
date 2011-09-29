@@ -15,13 +15,7 @@ class Skyline::UsersController < Skyline::ApplicationController
   
   def new
     @user = Skyline::User.new(params[:user])
-    @roles = current_user.viewable_roles
-    
-    if request.xhr?
-      render :update do |p|
-        p << dialog(t(:dialog_title, :display_name => @user.display_name, :scope => [:user,:new]), :partial => "new", :width => 700)
-      end
-    end        
+    @roles = current_user.viewable_roles    
   end
   
   def create
@@ -29,28 +23,17 @@ class Skyline::UsersController < Skyline::ApplicationController
     
     if @user.save
       notifications[:success] = t(:success, :scope => [:user,:create,:flashes])
-      render :update do |p|
-        p.redirect_to skyline_users_path(:page => page_number_for_user(@user))
-      end
+      javascript_redirect_to skyline_users_path(:page => page_number_for_user(@user))
     else
       @roles = current_user.viewable_roles
-      messages.now[:error] = t(:error,:scope => [:user,:create,:flashes])
-      render :update do |p|
-        p << "Skyline.Dialog.current.setContent('#{escape_javascript(render :partial => "new")}'); Skyline.Dialog.current.setup();"
-      end
+      messages.now[:error] = t(:error,:scope => [:user,:create,:flashes])      
     end
     
   end
   
   def edit
     @user = Skyline::User.find_by_id(params[:id])
-    @roles = current_user.viewable_roles
-    
-    if request.xhr?
-      render :update do |p|
-        p << dialog(t(:dialog_title, :display_name => @user.display_name, :scope => [:user,:edit]), :partial => "edit", :width => 700)
-      end
-    end    
+    @roles = current_user.viewable_roles    
   end  
   
   def update
@@ -61,15 +44,10 @@ class Skyline::UsersController < Skyline::ApplicationController
     
     if @user.save
       notifications[:success] = t(:success, :scope => [:user,:update,:flashes])
-      render :update do |p|
-        p.redirect_to skyline_users_path(:page => page_number_for_user(@user))
-      end
+      javascript_redirect_to skyline_users_path(:page => page_number_for_user(@user))
     else
       @roles = current_user.viewable_roles
       messages.now[:error] = t(:error,:scope => [:user,:update,:flashes])
-      render :update do |p|
-        p << "Skyline.Dialog.current.setContent('#{escape_javascript(render :partial => "edit")}'); Skyline.Dialog.current.setup();"
-      end
     end
   end
   
@@ -83,9 +61,7 @@ class Skyline::UsersController < Skyline::ApplicationController
       notifications[:error] = t(:error, :scope => [:user,:destroy,:flashes])
     end 
 
-    render :update do |p|
-      p.redirect_to skyline_users_path(:page => params[:page])
-    end
+    javascript_redirect_to skyline_users_path(:page => params[:page])
   end
   
 

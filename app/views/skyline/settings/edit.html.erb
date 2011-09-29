@@ -11,7 +11,7 @@
   </dd>
 <% end %>
 
-<% form_for @settings, :as => :settings, :url => skyline_setting_path(@settings.page.name), :html => {:method => :put} do |f| %>
+<%= skyline_form_for @settings, :as => :settings, :url => skyline_setting_path(@settings.page.name), :html => {:method => :put} do |f| %>
   <dl id="contentPanel" class="panel">
     <dt id="contentHeaderPanel">
       <span class="content">

@@ -6,18 +6,6 @@ class Skyline::PublicationsController < Skyline::ApplicationController
   authorize :rollback, :by => "article_variant_create"
   
   def index
-    if request.xhr?
-      render :update do |p|
-        p << "var s = function(){"
-        p << "var sd = new Skyline.Dialog({width: 700, height: 500});"
-        p << "sd.setTitle('#{escape_javascript(t(:dialog_title, :scope => [:publication,:index]))}');"
-        p << "sd.setContent('" + escape_javascript(render(:partial => "index")) + "');"
-        p << "sd.setup(); sd.show();"
-        p << "sd.layout = new Application.Layouts.History(sd.contentEl.getElement('form'));"
-        p << "sd.layout.rollbackUrl = '"+escape_javascript(rollback_skyline_article_publication_path(@article, "000"))+"'"
-        p << "}()"
-      end
-    end
   end
   
   def rollback

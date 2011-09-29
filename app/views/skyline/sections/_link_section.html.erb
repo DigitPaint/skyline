@@ -29,5 +29,10 @@
 </script>
 
 <div class="submit body">
-  <%= link_to_remote( button_text(:add_link), {:url => new_skyline_link_section_link_path(:object_name => sectionable_form.object_name_with_index, :guid => guid), :method => :get}, :class => "button small") %>
+  <%= link_to(
+        button_text(:add_link), 
+        new_skyline_link_section_link_path(:object_name => sectionable_form.object_name_with_index, :guid => guid),
+        :remote => true,
+        :method => :get, 
+        :class => "button small") %>
 </div>

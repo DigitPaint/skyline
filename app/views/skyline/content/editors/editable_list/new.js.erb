@@ -1,0 +1,2 @@
+<% editor = Skyline::Editors::EditableList.new(["element"],@source_object,@source_klass.fields[params[:association].to_sym],@template) %>
+$("<%= editor.js_object_name %>").append("bottom", "<%= escape_javascript editor.render_row(@object) %>");

@@ -405,37 +405,7 @@
       flashes:
         success: "Gegevens van gebruiker successvol gewijzigd."
         error: "De gegevens van de gebruiker konden niet worden opgeslagen, controleer uw invoer en probeer het opnieuw."
-  media_dir:
-    directories: "Mappen"
-    new: "Toevoegen"
-    destroy:
-      message: "Weet u zeker dat u deze folder wilt verwijderen?"
-  media_file:
-    update:
-      flashes: 
-        success: "Bestand succesvol opgeslagen."
-        failed: "Bestand kon niet worden opgeslagen, controleer uw invoer en probeer het opnieuw."
-    index:
-      files_in: "Bestanden in %{directory}"
-    new:
-      header: "Bestanden uploaden in"
-      no_files: "Nog geen bestanden gekozen"
-      cancel: "annuleren"
-      upload: "uploaden"
-      files: "bestanden"
-      add_files: "bestand(en) toevoegen"
-      file_progress:  "Bezig met uploaden bestand <span class=\"current-file\">1</span> van <span class=\"total-files\">2</span>"
-      percentage_progress: "<span class=\"current-percentage\">20%</span> gereed (<span class=\"current-size\">20 kB</span> van in totaal <span class=\"total-size\">100 kB</span>)"      
-      all_uploaded_message: "De volgende bestanden zijn geupload:"   
-      some_uploaded_message: "Niet alle bestanden konden worden geupload:"  
-    edit:
-      preview: "Preview"
-      download: "Download"
-      size: "Afmeting (bxh)"
-      type: "Type"
-      filesize: "Bestandsgrootte"
-      available_tags: "Beschikbare tags:"
-      meta_data: "Gegevens"
+
   variant_current_editor:
     takeover:
       dialog_title: "Bewerken overgenomen"
@@ -614,6 +584,7 @@
   browser:
     tabs:
       "Skyline::Page" : "Pagina's"
+      "Skyline::Linkable" : "Content"      
       "Skyline::MediaFile" : "Media library"
       "Skyline::ReferableUri" : "Extern"
     external_link:
@@ -751,6 +722,14 @@
       edit:
         actions: "Actions"
         edit: "Edit"
+      update:
+        flashes:
+          success: "Map succesvol gewijzigd"
+          failed: "Map kon niet gewijzigd worden, probeer het opnieuw"
+      destroy:
+        flashes:
+          success: "Map succesvol verwijderd"
+
     files:
       new:
         files: "bestanden"
@@ -771,6 +750,13 @@
         metadata: "Gegevens"
         destroy: "Verwijderen"
         confirm_destroy: "Weet u zeker dat u %{name} wilt verwijderen?"
+      update:
+        flashes:
+          success: "Bestand gewijzigd"
+          failed: "Bestand kon niet gewijzigd worden, proveer het opnieuw"
+      destroy:
+        flashes:
+          success: "Bestand succesvol verwijderd"        
         
   will_paginate:
     previous_label: "&#8592; Vorige"

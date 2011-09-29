@@ -122,6 +122,10 @@ provides:
       this.el.fireEvent('ajax:before');
       if(this.el.get('tag') == 'form') {
         this.options.data = this.el;
+      } else {
+        var d = {};
+        d[rails.csrf.param] = rails.csrf.token;
+        this.options.data = Object.merge(d, (this.options.data || {}));
       }
       this.parent(options);
       this.el.fireEvent('ajax:after', this.xhr);

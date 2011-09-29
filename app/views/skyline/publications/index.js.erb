@@ -1,0 +1,9 @@
+(function(){
+  var sd = new Skyline.Dialog({width: 700, height: 500});
+  sd.setTitle('<%= escape_javascript(t(:dialog_title, :scope => [:publication,:index])) %>');
+  sd.setContent('<%= escape_javascript(render(:partial => "index")) %>');
+  sd.setup(); 
+  sd.show();
+  sd.layout = new Application.Layouts.History(sd.contentEl.getElement('form'));
+  sd.layout.rollbackUrl = '<%= escape_javascript(rollback_skyline_article_publication_path(@article, "000")) %>';
+})();

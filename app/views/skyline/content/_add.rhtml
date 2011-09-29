@@ -13,7 +13,12 @@
 
 <% if klass.importable? %>
   <div class="button">
-    <%= link_to_remote button_text(:import), { :url => object_url(record,{:action => "import"}.update(url_suffix)), :method => :get }, :class => "button small" %>
+    <%= link_to(
+          button_text(:import), 
+          object_url(record,{:action => "import"}.update(url_suffix)),
+          :remote => true,
+          :method => :get, 
+          :class => "button small") %>
   </div>
 <% end %>
 

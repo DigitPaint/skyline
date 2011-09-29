@@ -10,7 +10,7 @@ class Skyline::ApplicationController < ApplicationController
   
   class_inheritable_accessor :default_menu
   attr_accessor :current_menu
-  hide_action :default_menu, :default_menu=, :current_menu, :current_menu=, :menu
+  hide_action :default_menu, :default_menu=, :current_menu, :current_menu=, :menu, :javascript_redirect_to
   
 
   # Load all helpers
@@ -288,4 +288,9 @@ class Skyline::ApplicationController < ApplicationController
   end
   helper_method :object_url
     
+    
+  def javascript_redirect_to(url)
+    render :js => "window.location = '#{url.to_s.html_safe}';", 
+  end 
+  
 end

@@ -36,9 +36,12 @@ class Skyline::Presenters::Presenter
   end
   
   def delete_button(record)
-    link_to_remote button_text(:delete),{ 
-                   :url => {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
-                   :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name) }, :class => "button small red"
+    link_to(
+      button_text(:delete), 
+      {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
+      :remote => true,
+      :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name), 
+      :class => "button small red")
   end
 
     
@@ -94,7 +97,8 @@ class Skyline::Presenters::Presenter
       
       case field.editor
         # :publish editor is temporary editor created by the presenter itself.
-        when :publish : [content ? image_tag("/skyline/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("/skyline/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
+        when :publish
+          [content ? image_tag("/skyline/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("/skyline/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
         else normalize_content(content,field)          
       end
     end        

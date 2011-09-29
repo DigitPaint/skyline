@@ -94,7 +94,11 @@
               <%= t(:number_of_publications, :count => @article.publications.size, :scope => [@article.class, :edit]).html_safe %>
             </dd>
             <dd>
-              <%= link_to_remote t(:publication_history_link, :scope => [:article, :edit]), :url => skyline_article_publications_path(@article), :method => :get %>
+              <%= link_to( 
+                    t(:publication_history_link, :scope => [:article, :edit]), 
+                    skyline_article_publications_path(@article), 
+                    :method => :get, 
+                    :remote => true) %>
             </dd>
           <% end %>
         <% end %>                

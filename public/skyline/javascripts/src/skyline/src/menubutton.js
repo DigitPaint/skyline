@@ -76,9 +76,7 @@ Skyline.MenuButton = new Class({
       if(!(lnk.get("tag") == "a")){
         lnk = lnk.getParent("a");
       }
-      if(lnk){
-        lnk.fireEvent("click",ev);
-      } else {
+      if(!lnk){
         Event.stop(ev);        
       }
       // this.deactivate();

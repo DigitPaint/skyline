@@ -1,0 +1,4 @@
+document.id("browserLinkableLinkables").getElements("li a").removeClass("active");
+document.id("browserLinkableLinkables<%= @linkable_type.name %>").getElement("a").addClass("active");      
+
+$("browserLinkableContentPanel").replaceHTML('<%=escape_javascript render(:partial => "show") %>');
