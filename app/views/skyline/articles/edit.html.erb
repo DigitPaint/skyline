@@ -1,4 +1,4 @@
-<%= form_for @article, :as => :article, :url => skyline_article_path(@article), :html => {:method => :put, :id => "page_form"} do |a| %>
+<%= skyline_form_for @article, :as => :article, :url => skyline_article_path(@article), :html => {:method => :put, :id => "page_form"} do |a| %>
   <dl id="contentPanel" class="panel">    
     <%= a.fields_for :variants_attributes, @variant, :index => 1 do |v| %>
       <%= v.fields_for :data_attributes, v.object.data do |vd| %>

@@ -1,3 +1,3 @@
-<% form_for :user, @user, :url => skyline_user_path(), :remote => true, :method => :post do |f|%>
+<%= skyline_form_for :user, @user, :url => skyline_user_path(), :remote => true, :method => :post do |f|%>
   <%=  render :partial =>  "form", :locals => {:f => f, :password_attribute => :password, :password_confirmation_attribute => :password_confirmation}  %>
 <% end %>

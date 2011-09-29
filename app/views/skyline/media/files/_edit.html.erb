@@ -34,7 +34,7 @@
     </div>
   </dd>
 </dl>
-<% form_for @file, 
+<%= skyline_form_for @file, 
       :url => skyline_media_dir_file_path(@dir, @file), 
       :remote => true,
       :method => :put, 

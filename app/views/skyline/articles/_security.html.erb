@@ -13,7 +13,7 @@
         </tbody>
       </table>
       <% if  @variant.editable_by?(current_user) && current_user.allow?(@article, :lock) %>
-        <%= form_for(:article, @article, :url => skyline_article_path(@article, :variant_id => @variant), :html => {:method => "put"}, :remote => true) do |f| %>
+        <%= skyline_form_for(:article, @article, :url => skyline_article_path(@article, :variant_id => @variant), :html => {:method => "put"}, :remote => true) do |f| %>
           <div class="button" style="margin-top: 5px">
     		    <% if @article.locked? %>
     		      <%= f.hidden_field :locked, :value => "0" %>
