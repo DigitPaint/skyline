@@ -102,11 +102,9 @@ class Skyline::Configuration < Configure
   
   # Ensures that all paths are Pathname objects
   def sanitize_paths
-    
     %w{assets_path media_file_cache_path rss_section_cache_path}.each do |key|
-      self[key] = Pathname.new(self[key]) unless self[key].kind_of?(Pathname)
-      
-      check_or_create_path(self[key], key)          
+      self[key] = Pathname.new(self[key]) if self[key] && !self[key].kind_of?(Pathname)
+      check_or_create_path(self[key], key)
     end    
   end
   
