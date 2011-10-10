@@ -78,6 +78,9 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   def method_missing(method,*params,&block)
     if method.to_s == self.article.class.name.demodulize.underscore
       self.article
+    elsif method == :to_ary
+      # this line fixes the to_ary problem
+      raise NoMethodError
     else
       super
     end
