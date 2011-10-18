@@ -285,7 +285,7 @@ class Skyline::ApplicationController < ApplicationController
     
     
   def javascript_redirect_to(url)
-    render :js => "window.location = '#{url.to_s.html_safe}';", 
+    render :js => "window.location = '#{url.to_s.html_safe}';"
   end 
   
 end
