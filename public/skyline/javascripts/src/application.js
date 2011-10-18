@@ -137,7 +137,7 @@ Application.Layout = (function(){
       
       // TODO: Currently hardcoded, should someday become something like $$('ul.sections')...
       if($('contentlist')){
-        new Application.Sections("contentlist",{ scrollParent : "contentEditPanel" });
+        new Application.Sections("contentlist",{ offsetParent : "contentEditPanel" });
       }
       
       // TODO: Currently hardcoded

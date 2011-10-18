@@ -111,11 +111,7 @@ Application.Sections = new Class({
       clone.adopt(tools.clone(true));
     }
     
-    var op = element.getOffsetParent();
-    var p = element.getPosition(op);
-    var s = op.getScroll();
-    p.x = p.x + s.x;
-    p.y = p.y + s.y;    
-    return clone.inject(parent).setPosition(p);
+    return clone.inject(parent).position(element.getPosition(element.getOffsetParent()));;
+
   }  
 });
