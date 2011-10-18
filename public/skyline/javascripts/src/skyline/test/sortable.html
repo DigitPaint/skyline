@@ -63,7 +63,7 @@
   </style>
 <body>
   <div class="test test1">
-    <h1>Simple sort with scroller </h1>    
+    <h1>Sort with scroller and custom ghost </h1>
     <br/>
     <br/>
     <br/>
@@ -73,30 +73,34 @@
         <p style="background: #f00; color: #fff; height: 100px">
           Some extra offset content.
         </p>
-        <div style="position: relative">
+        <!-- <div style="position: relative"> -->
           <ul id="s0" class="sortable">
-            <li id="i1">Item 1</li>
-            <li id="i2">Item 2</li>
-            <li id="i3">Item 3</li>
-            <li id="i4">Item 4</li>
-            <li id="i5">Item 5</li>
-            <li id="i6">Item 6</li>
-            <li id="i7">Item 7</li>                                
-            <li id="i8">Item 8</li>
-            <li id="i9">Item 9</li>
-            <li id="i10">Item 10</li>
-            <li id="i11">Item 11</li>
-            <li id="i12">Item 12</li>
-            <li id="i13">Item 13</li>
-            <li id="i14">Item 14</li>                                
+            <li id="i1"> <div class="section">Item 1 </div></li>
+            <li id="i2"> <div class="section">Item 2 </div></li>
+            <li id="i3"> <div class="section">Item 3 </div></li>
+            <li id="i4"> <div class="section">Item 4 </div></li>
+            <li id="i5"> <div class="section">Item 5 </div></li>
+            <li id="i6"> <div class="section">Item 6 </div></li>
+            <li id="i7"> <div class="section">Item 7 </div></li>                                
+            <li id="i8"> <div class="section">Item 8 </div></li>
+            <li id="i9"> <div class="section">Item 9 </div></li>
+            <li id="i10"><div class="section">Item 10</div></li>
+            <li id="i11"><div class="section">Item 11</div></li>
+            <li id="i12"><div class="section">Item 12</div></li>
+            <li id="i13"><div class="section">Item 13</div></li>
+            <li id="i14"><div class="section">Item 14</div></li>                                
         
           </ul>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
   </div>
   <script type="text/javascript" charset="utf-8">
-    var s = new Skyline.Sortable('s0', {clone: true, revert: true, offsetParent: "s0scroll"});
+    var s = new Skyline.Sortable('s0', {
+      clone: true, 
+      revert: true, 
+      offsetParent: "s0scroll"
+    });
     var scr = new Scroller("s0scroll");
     
     s.addEvents({
