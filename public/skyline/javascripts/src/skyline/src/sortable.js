@@ -15,9 +15,9 @@ Skyline.Sortable = new Class({
   initialize : function(listEl){
     this.setOptions(arguments[1]);
     
-    this.element = $(listEl);
+    this.element = document.id(listEl);
     if(this.options.offsetParent){
-      this.oParent = $(this.options.offsetParent);
+      this.oParent = document.id(this.options.offsetParent);
     } else {
       this.oParent = this.element.getOffsetParent();
     }
@@ -35,7 +35,7 @@ Skyline.Sortable = new Class({
     };
   },
   addItem : function(el){
-    var el = $(el);
+    var el = document.id(el);
     var h = el;
     if(this.options.handle){
       h = el.getElement(this.options.handle);
@@ -105,10 +105,12 @@ Skyline.Sortable = new Class({
     
     if(this.marker){
       this.marker.destroy();
+      this.marker = null;
     }
     
+    this.drag.detach();    
     this.clone.destroy();
-    this.drag.detach();
+    
     this.idle = true;
     this.fireEvent('stop', this.draggable);    
   },
@@ -129,7 +131,7 @@ Skyline.Sortable = new Class({
   _getDragMarker : function(){
     if(this.marker){ return this.marker; }
     this.marker = new Element("li",{"styles" : {"z-index" : 99, "display" : "none" }, "class" : "marker"});
-    this.marker.inject($(document.body));
+    this.marker.inject(document.id(document.body));
     return this.marker;
   },
   _getDropPosition : function(el,droppable){

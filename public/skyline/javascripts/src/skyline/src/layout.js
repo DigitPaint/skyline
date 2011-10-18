@@ -69,7 +69,7 @@ Skyline.Layout  = new Class({
       var prop = el.getProperty("data-panel-" + k);
       if(prop){ options[k] = prop }
     });
-    
+
     this.setOptions(options);
   },
   
@@ -338,8 +338,8 @@ Skyline.HorizontalLayout = new Class({
   },  
   setupWidths : function(){
     var width = this.width - this.offsets.width;
-    if(width < 0) { width = 0; }
-        
+    if(width < 0 || isNaN(width)) { width = 0; }
+      
     this.element.setStyle("width",width);
     var rest = width;
     var variablePanel = null;
@@ -351,7 +351,7 @@ Skyline.HorizontalLayout = new Class({
           panel.width = panel.element.offsetWidth;          
         } else {
           panel.width = panel.options.width;
-        }
+        }        
         rest = rest - panel.width;
         this.setPanelSize(panel,panel.width);
         panel.setupWidths();          
@@ -367,7 +367,7 @@ Skyline.HorizontalLayout = new Class({
   
   setupHeights : function(){
     var height = this.height - this.offsets.height;
-    if(height < 0){ height = 0; }
+    if(height < 0 || isNaN(height)){ height = 0; }
         
     this.element.setStyle("height",height);
     this.panels.each(function(panel){
@@ -402,8 +402,8 @@ Skyline.VerticalLayout = new Class({
 
   setupWidths : function(){
     var width = this.width - this.offsets.width;
-    if(width < 0) { width = 0; }
-    
+    if(width < 0 || isNaN(width)) { width = 0; }
+
     this.element.setStyle("width", width);
     this.panels.each(function(panel){
       if(panel.hidden){ return; }      
@@ -414,7 +414,7 @@ Skyline.VerticalLayout = new Class({
   
   setupHeights : function(){
     var height = this.height - this.offsets.height;
-    if(height < 0){ height = 0; }
+    if(height < 0 || isNaN(height)){ height = 0; }
     this.element.setStyle("height",height);
     var rest = height;
     
