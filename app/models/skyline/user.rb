@@ -81,6 +81,10 @@ class Skyline::User < ActiveRecord::Base
     def per_page; 30; end      
     
   end
+  
+  def identification
+    self.id
+  end
 
   # Check if a user has a specific right
   #

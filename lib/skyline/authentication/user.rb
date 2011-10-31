@@ -11,6 +11,10 @@
 #     self.first(:conditions => {:email => email.to_s.downcase, :password => encrypt(password.to_s)})
 #   end
 #   
+#   def identification
+#     self.id
+#   end
+# 
 #   def allow?(right_or_class, suffix = nil)
 #     true
 #   end
@@ -38,6 +42,13 @@ module Skyline::Authentication::User
   # @return <User>:: an instance of the class this module includes
   def self.authenticate(email, password)
     raise "self.authenticate(email, password) is not implemented yet"
+  end
+  
+  # Return the unique identifier for this user (probably the DB id)
+  #
+  # @return <Integer,String>:: an identification String or Integer
+  def identification
+    raise "identification is not implemented yet"
   end
   
   # Check if a user has a specific right
