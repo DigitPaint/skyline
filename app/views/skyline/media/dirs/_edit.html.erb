@@ -33,7 +33,7 @@
                 skyline_media_dir_url(@dir), 
                 :remote => true,
                 :method => :delete,
-                :confirm => t(:message, :scope => [:media_dir,:destroy]),
+                :confirm => t(:message, :scope => [:media, :dirs, :destroy]),
                 :href => url_for(:action => "destroy", :id => @dir.id),
                 :class =>  "button small red")
           %>

@@ -727,6 +727,7 @@
           success: "Map succesvol gewijzigd"
           failed: "Map kon niet gewijzigd worden, probeer het opnieuw"
       destroy:
+        message: "Weet u zeker dat u deze folder wilt verwijderen?"
         flashes:
           success: "Map succesvol verwijderd"
 
@@ -757,7 +758,11 @@
       destroy:
         flashes:
           success: "Bestand succesvol verwijderd"        
-        
+    
+  tags:
+    index:
+      available_tags: "Beschikbare tags:"
+       
   will_paginate:
     previous_label: "&#8592; Vorige"
     next_label: "Volgende &#8594;"

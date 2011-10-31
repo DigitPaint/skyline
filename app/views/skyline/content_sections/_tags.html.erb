@@ -7,7 +7,7 @@
           <dl class="tagselector">
             <dt></dt>
             <dd><%=s.text_area :raw_tags, :rows => nil %></dd>
-            <dt class="tags"><%=t(:available_tags, :scope => [:media_file, :edit])%></dt>
+            <dt class="tags"><%=t(:available_tags, :scope => [:tags, :index])%></dt>
             <dd class="tags">
               <%= render :partial => "/skyline/tags/available_tags"%>
             </dd>

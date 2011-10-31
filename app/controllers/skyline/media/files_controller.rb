@@ -30,9 +30,9 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
     @dir = @file.directory if @dir.id != @file.parent_id      
 
     if @saved
-      notifications.now[:success] = t(:success, :scope => [:media, :files ,:update,:flashes])
+      notifications.now[:success] = t(:success, :scope => [:media, :files, :update, :flashes])
     else
-      messages.now[:error] = t(:failed, :scope => [:media_file,:update,:flashes])
+      messages.now[:error] = t(:failed, :scope => [:media, :files, :update, :flashes])
     end    
   end
   

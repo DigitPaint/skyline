@@ -728,6 +728,7 @@
           success: "Successfully changed folder"
           failed: "Could not change folder, please try again"
       destroy:
+        message: "Are you sure you want to delete this folder?"
         flashes:
           success: "Successfully removed directory"
     files:
@@ -757,6 +758,10 @@
       destroy:
         flashes:
           success: "Successfully removed file"
+  
+  tags:
+    index:
+      available_tags: "Available tags:"
   
   will_paginate:
     previous_label: "&#8592; Previous"
