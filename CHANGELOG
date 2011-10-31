@@ -5,10 +5,14 @@
 ### Core ###
 * [Core] Skyline is now an Engine! This changes quite a lot, please see doc/INSTALL
 * [Core] Skyline now works with Rails 3.0.x
+* [Core] Skyline now works on Ruby 1.9 (tested 1.9.2)
 * [Core] Add route constraints so they can be used in the implementation (Skyline::RouteConstraints)
 * [Core] Update will_paginate to rails compatible
 * [Core] Add TMail as gem dependency, it's no longer included in Rails
 * [Core] Update test_helpers and factory girl for rails3
+* [Core] Development versions now use the commit SHA1 as the patch version
+* [Core] Skyline does no longer force you to use Mootools in your application (Skyline itself still uses it)
+* [Core] Skyline does no longer overwrite the default form builder
 
 ### User interface (core) ###
 * [UI] Update tinyMCE to 3.4.4
@@ -21,6 +25,7 @@
 * [Config] Make the default skyline root route configurable (Configuration.default_route)
 
 ### Referables (core) ###
+* [Referables] Add Linkable interface so we can browse for any object in the linkbrowser that defines this interface
 * [Referables] Use data-skyline-* attributes instead of our custom skyline-* so the wysiwyg is always valid HTML(5)
 * [Referables] Add InflineRef#compile_html, convert all doc to Yardoc
 
@@ -35,6 +40,7 @@
 
 ### Media Library ###
 * [MediaLibrary] Add better caching to the Skyline::Media::DataController, also respond with a 404 if the image can't be found
+* [MediaLibrary] Fixed localizations for NL/EN
 
 ### Content Elements ###
 * [ContentElements] Fix checkable_list editor for contentitems
