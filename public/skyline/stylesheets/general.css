@@ -2316,6 +2316,8 @@ span.drag{
 
 ul.selectlist li a.active,
 #application .selected,
+table.listing tbody tr.selected td,
+table.listing tbody tr.selected th,
 tr.selected th,
 tr.selected td,
 .dialog .selected{
