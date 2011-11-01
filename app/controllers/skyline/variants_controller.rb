@@ -1,5 +1,4 @@
 class Skyline::VariantsController < Skyline::ApplicationController
-  # insert_before_filter_after :authentication, :find_article
   set_callback :authenticate, :after, :find_article
 
   authorize :create, :by => Proc.new{|user,controller,action| user.allow?(controller.article, :variant_create)  }
@@ -20,7 +19,7 @@ class Skyline::VariantsController < Skyline::ApplicationController
     redirect_to edit_skyline_article_path(@article, :variant_id => variant.id)    
   end
   
-  def destroy
+  def destroy    
     return handle_unauthorized_user unless Skyline::Configuration.enable_multiple_variants
     
     variant = @article.variants.find_by_id(params[:id])
