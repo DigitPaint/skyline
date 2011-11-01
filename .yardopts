@@ -7,3 +7,4 @@ app/helpers/skyline/*.rb
 -
 doc/INSTALL.md
 doc/MIGRATION.md
+doc/concepts.md

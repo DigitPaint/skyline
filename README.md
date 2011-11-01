@@ -30,13 +30,20 @@ either be featured as lists or shown individually
 Installation and usage
 ----------------------
 
-Check out our [getting start guide](http://www.skylinecms.nl/documentation/guides/getting_started) to get Skyline
-up and running. 
+Start with our {file:doc/INSTALL.md installation instructions} to get Skyline up and running.
+
+It might be a good idea to read about {file:doc/concepts.md the basic Skyline concepts}.
 
 For further information, see our documentation and guides on
-[www.skylinecms.nl/documentation](http://www.skylinecms.nl/documentation).
+[www.skylinecms.nl/documentation](http://www.skylinecms.nl/documentation) (currently outdated).
 
 If you're running into problems, don't hesitate to contact us!
+
+Updating
+--------
+
+See our {file:doc/MIGRATION.md migration instructions} to update from one Skyline version to another. 
+
 
 Copyright
 ---------
