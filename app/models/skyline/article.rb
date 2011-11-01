@@ -325,7 +325,7 @@ class Skyline::Article < ActiveRecord::Base
 
   
   def confirm_destroyability
-    raise StandardError, "can't be destroyed because this page is persistent" if self.persistent?
+    raise StandardError, "can't be destroyed because this article is persistent" if self.persistent?
   end  
 
   # Reset ref objects that refer to this now removed Article.
