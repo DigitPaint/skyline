@@ -2,6 +2,7 @@ Skyline CMS
 ===========
 
 **Homepage**:  [http://www.skylinecms.nl](http://www.skylinecms.nl)   
+**Documentation**:  [http://api.skylinecms.nl](http://api.skylinecms.nl)   
 **Twitter**:   Follow [skylinecms](http://www.twitter.com/skylinecms) on twitter  
 **Git**:       [http://github.com/digitpaint/skyline](http://github.com/digitpaint/skyline)   
 **Author**:    DigitPaint  
