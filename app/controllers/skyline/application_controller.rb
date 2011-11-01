@@ -169,7 +169,7 @@ class Skyline::ApplicationController < ApplicationController
   # Currently just logs an [AUTH] message and renders an UNAUTHORIZED text on the screen
   # --
   def handle_unauthorized_user
-    logger.warn("[AUTH] Unauthorized access to #{self.controller_name}/#{self.action_name} by #{current_user.email} (#{current_user.id})")
+    logger.warn("[AUTH] Unauthorized access to #{self.controller_name}/#{self.action_name} by #{current_user.email} (ID=#{current_user.id})")
     render(:text => "UNAUTHORIZED", :status => :unauthorized)    
   end
        
