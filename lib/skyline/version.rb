@@ -5,7 +5,7 @@ module Skyline
   # @private
   module VERSION
     MAJOR = 3
-    MINOR = 1
+    MINOR = 2
     TINY = 0
     BUILD = 0
 
