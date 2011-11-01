@@ -79,8 +79,11 @@ class Skyline::Configuration < Configure
     
     Skyline::MediaNode.assets_path = self["assets_path"]  
     Skyline::MediaCache.cache_path = self["media_file_cache_path"]
-    Skyline::Sections::RssSection.cache_path = self["rss_section_cache_path"]
-    Skyline::Sections::RssSection.cache_timeout = self["rss_section_cache_timeout"]
+    
+    if self.sections.values.flatten.uniq.include?("rss_section")
+      Skyline::Sections::RssSection.cache_path = self["rss_section_cache_path"]
+      Skyline::Sections::RssSection.cache_timeout = self["rss_section_cache_timeout"]
+    end
     
     Skyline::Rendering::Renderer.register_renderables(:sections,self["sections"])
     Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])      
@@ -102,7 +105,7 @@ class Skyline::Configuration < Configure
   
   # Ensures that all paths are Pathname objects
   def sanitize_paths
-    %w{assets_path media_file_cache_path rss_section_cache_path}.each do |key|
+    %w{assets_path media_file_cache_path}.each do |key|
       self[key] = Pathname.new(self[key]) if self[key] && !self[key].kind_of?(Pathname)
       check_or_create_path(self[key], key)
     end    
