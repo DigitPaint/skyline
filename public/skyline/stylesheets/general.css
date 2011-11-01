@@ -1540,6 +1540,7 @@ div.fake-textfield span{
 
 div.fake-textfield span:first-child{
   width: auto;
+  white-space: nowrap;
 }
 
 div.fake-textfield input{  
