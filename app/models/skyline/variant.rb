@@ -128,7 +128,11 @@ class Skyline::Variant < Skyline::ArticleVersion
   
   def destroyable?
     if self.article.andand.published_publication
+      # This variant should not be the published variant
       self.article.published_publication.variant != self
+    elsif self.article && self.article.variants.size == 1
+      # If this is the only variant we should check if the article can be destroyed
+      self.article.destroyable?
     else
       # also yield true if self.article doesn't exist (this happens when the article is already destroyed)
       true
