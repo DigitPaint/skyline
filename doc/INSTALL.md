@@ -4,11 +4,13 @@ Skyline installation instructions
 Choose your flavour
 -------------------
 
-**Install as a packaged gem** The skylinecms gem is perfect if you want to have stable environment
+### Install as a packaged gem ###
+The skylinecms gem is perfect if you want to have stable environment
 and don't care too much about cutting-edge new features. We release new versions fairly
 often.
 
-**Install as a local gem** Use the "local" gem if you want to be on the latest development version
+### Install as a local gem ###
+Use the "local" gem if you want to be on the latest development version
 with all the 'cool' new features. Especially if you use git, because we're hosting the
 source on github. 
 
@@ -38,7 +40,7 @@ You can use it as a Git submodule or yust download the zip version and unpack it
 
 If you're using bundler, add the following to your `Gemfile`
 
-  gem "skylinecms", :path => "vendor/skylinecms"
+    gem "skylinecms", :path => "vendor/skylinecms"
 
 Run bundler
 -----------
