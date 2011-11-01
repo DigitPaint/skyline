@@ -6,11 +6,36 @@ General update recipe
 
 After every Skyline update make sure that:
 
-* You have updated your `Gemfile`, or the `config.gem` specifications in your `environment.rb`.
+* You have updated your `Gemfile`
 * Run `rake skyline:db:migrate` to update your Skyline tables.
 * Run `rake skyline:db:seed` to update roles/rights and other important data updates.
-* **Plugin users only!** The assets (`RAILS_ROOT/public/skyline`) are from the new version. If they are symlinked, Skyline will 
+* The assets (`RAILS_ROOT/public/skyline`) are from the new version. If they are symlinked, Skyline will 
   take care of them for you.
+
+
+Version 3.1.0 -> Version 3.2.0
+------------------------------
+
+**Important**: Skyline now is Rails 3.0.x only!!
+
+**Important**: Read the changelog for Skyline 3.2.0!!
+
+Skyline is now a fully-fledged Rails 3.0.x engine and should be used as such. 
+
+## For custom sections ##
+
+* Skyline no longer enforces it's own FormBuilder, so instead of `form_for` / `fields_for` use
+  `skyline_form_for` and `skyline_fields_for` in your edit interface.
+
+## For custom Artciles ##
+
+The following things have changed and may have effect on your implementation:
+
+* [Articles] Remove Article#enable_publishing? in favour of the documented Article.publishable?
+* [Articles] Remove Article#enable_locking? in favour of Article#lockable? and Article.lockable?
+* [Articles] Remove Article#enable_multiple_variants? in favour of Article.can_have_multiple_variants? and Article#can_have_multiple_variants?
+* [Articles] Remove unused Article#rollbackable?
+
 
 Version 3.0.8 -> Version 3.1.0
 ------------------------------
