@@ -25,7 +25,7 @@ class Skyline::Rendering::Renderer
         if sub == :all
           @@renderables[type][:all] = renderables_to_class(type, @@renderables[type].values.flatten.uniq)
         else
-          sub = sub.name.downcase.underscore.to_sym if sub.kind_of?(Class)
+          sub = sub.name.underscore.to_sym if sub.kind_of?(Class)
           classes = @@renderables[type][sub] || @@renderables[type][:default]
           @@renderables[type][sub] = renderables_to_class(type, classes)
         end
@@ -83,7 +83,9 @@ class Skyline::Rendering::Renderer
                            :paths => ["app/templates", Skyline.root + "app/templates/skyline"],
                            :site => nil)
 
-    @assigns = options[:assigns].update(:_controller => options[:controller], 
+    # The controller is optional!!
+    @controller = options[:controller]
+    @assigns = options[:assigns].update(:_controller => @controller, 
                                         :_site => options[:site])
 
     @template_paths = options[:paths].collect{|p| (Rails.root + p).to_s if File.exist?(Rails.root + p)}.compact
@@ -114,22 +116,34 @@ class Skyline::Rendering::Renderer
 
       av = ActionView::Base.new(load_paths.map(&:to_s))
 
-      self.assigns.merge(options[:assigns]).each do |k, v|
-        av.assigns[k.to_sym] = v
-      end
-
-      av.assigns[:_template_assigns] = @template_assigns
-      av.assigns[:_renderer] = self
-      av.assigns[:_local_object_name] = object_config[:class_name].demodulize.underscore.to_sym
-      av.assigns[:_local_object] = object
+      assigns = (options[:assigns] || {}).merge(self.assigns)
+      assigns[:_template_assigns] = @template_assigns
+      assigns[:_renderer] = self
+      assigns[:_local_object_name] = object_config[:class_name].demodulize.underscore.to_sym
+      assigns[:_local_object] = object
+      
+      av.assign(assigns)
+      
       @_local_object = object   # for object function
       
+      if @controller
+        if @controller.respond_to?(:_routes)
+          (class << av; self; end).send(:include, @controller._routes.url_helpers)
+        end
+
+        if @controller.respond_to?(:_helpers)
+          (class << av; self; end).send(:include, @controller._helpers)
+        end
+      end
+          
       av.extend Skyline::Rendering::Helpers::RendererHelper
       av.extend Helpers
       
-      av.render(:file => "index", :locals => options[:locals])
+      av.render(:file => "index", :locals => options[:locals]).html_safe
     end
   end
+  
+  
   
   # Render a collection of objects (array), this gives
   # support for peek() and skip!() in the templates. A template
@@ -362,7 +376,7 @@ class Skyline::Rendering::Renderer
     end    
     @_current_colection = nil
     
-    output.join("\n")
+    output.join("\n").html_safe
   end  
   
     
@@ -384,7 +398,7 @@ class Skyline::Rendering::Renderer
 
     # Load all helpers
     Dir[Rails.root + "app/helpers/**/*_helper.rb"].each do |helper|
-      self.helper helper.sub(Rails.root + "app/helpers/","").sub(/_helper\.rb$/,"")
+      self.helper helper.sub(/^#{Regexp.escape((Rails.root + "app/helpers/").to_s)}/,"").sub(/_helper\.rb$/,"")
     end  
     
   end

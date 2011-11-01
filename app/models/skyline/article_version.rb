@@ -4,11 +4,13 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   
   belongs_to :article, :class_name => "Skyline::Article", :foreign_key => "article_id"
   belongs_to :data, :polymorphic => true, :dependent => :destroy
-  belongs_to :creator, :class_name => "Skyline::User"
-  belongs_to :last_updated_by, :class_name => "Skyline::User"
+  belongs_to :creator, :class_name => "::#{Skyline::Configuration.user_class.name}"
+  belongs_to :last_updated_by, :class_name => "::#{Skyline::Configuration.user_class.name}"
   has_many :sections, :class_name => "Skyline::Section", :dependent => :destroy
   
   validates_presence_of :name
+  
+  after_initialize :set_defaults  
   before_update :increase_version
   
   accepts_nested_attributes_for :data
@@ -65,12 +67,10 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   end
   alias_method_chain :data, :build
 
-  def respond_to?(method, include_priv = false)
-    if method.to_s == self.article.class.name.demodulize.underscore
-      self.article
-    else
-      super
-    end
+  def respond_to?(method, include_private = false)
+    s = super
+    return s if s
+    method.to_s == self.article.class.name.demodulize.underscore
   end
   
   # Method missing implementation so we can call 
@@ -78,6 +78,9 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   def method_missing(method,*params,&block)
     if method.to_s == self.article.class.name.demodulize.underscore
       self.article
+    elsif method == :to_ary
+      # this line fixes the to_ary problem
+      raise NoMethodError
     else
       super
     end
@@ -93,7 +96,7 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   
   protected
   
-  def after_initialize
+  def set_defaults
     self.name = I18n.t(:default_name, :scope => [:page_version]) if self.name.blank?
     self.version ||= 1
   end

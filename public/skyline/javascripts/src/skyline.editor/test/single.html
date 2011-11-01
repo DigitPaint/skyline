@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="DigitPaint BV. http://www.digitpaint.nl" />	
+
+	<title>Skyline v3</title>
+
+	<link href="undohtml.css?1195729478" media="screen" rel="stylesheet" type="text/css" />
+	<link href="../assets/ui.css?1195729478" media="screen" rel="stylesheet" type="text/css" />	
+  <link href="/javascripts/skyline/assets/dialog/dialog.css?1195729478" media="screen" rel="stylesheet" type="text/css" /> 	
+  <script src="../../skyline/vendor/mootools/mootools-core.js" type="text/javascript" charset="utf-8"></script>  
+  
+  <script src="../../skyline/src/skyline.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../skyline/src/utils.js" type="text/javascript" charset="utf-8"></script>  
+  <script src="../../skyline/src/dialog.js" type="text/javascript" charset="utf-8"></script>    
+  
+  <script src="../vendor/tinymce/jscripts/tiny_mce/tiny_mce_src.js?debug=1" type="text/javascript" charset="utf-8"></script>  
+  <script src="../vendor/tinymce/jscripts/tiny_mce/themes/advanced/editor_template_src.js" type="text/javascript" charset="utf-8"></script>    
+  <script src="../vendor/tinymce/jscripts/tiny_mce/plugins/paste/editor_plugin.js" type="text/javascript" charset="utf-8"></script>  
+  <script src="../src/script_loader.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script src="../src/skyline.editor.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script src="../src/theme.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/ui/separator.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/ui/toolbar.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/autoresize/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinewindows/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylineimage/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylineimage/dialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinelink/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinelink/dialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinecode/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinecode/dialog.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinecontextmenu/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../src/plugins/skylinetable/editor_plugin.js" type="text/javascript" charset="utf-8"></script>
+  
+  
+</head>
+<body>
+  
+  <div id="mceToolbarContainer" class="defaultSkin" style="overflow: auto; zoom: 1 "></div>
+  
+  <textarea id="area1" style="width: 300px; height: 5px" class="skylineEditor">
+    text piet <strong>puk</strong>
+  </textarea>
+  
+  
+<script type="text/javascript" charset="utf-8">
+  e1 = new Skyline.Editor("area1", {language : "en"});  
+</script>  
+</body>
+</html>

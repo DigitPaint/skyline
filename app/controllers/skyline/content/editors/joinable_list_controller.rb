@@ -5,11 +5,8 @@ class Skyline::Content::Editors::JoinableListController < Skyline::Skyline2Contr
   
   def index
     @filter = filter_from_params_or_default
-    @elements = @target_klass.paginate_for_cms(:all,:page => params[:page], :per_page => 10, :self_referential => false, :filter => @filter)
+    @elements = @target_klass.paginate_for_cms(:page => params[:page], :per_page => 10, :self_referential => false, :filter => @filter).all
     @title_field = @target_klass.fields[@target_klass.settings.title_field]
-    render :update do |p|
-      p.replace_html "element_#{params[:association]}_browser", :partial => "list"
-    end
   end
   
   def new
@@ -19,24 +16,9 @@ class Skyline::Content::Editors::JoinableListController < Skyline::Skyline2Contr
     else
       @object = @target_klass.find(params[:target_id])
     end
-    render :update do |p|
-      editor = Skyline::Editors::JoinableList.new(["element"],@source_object,@source_klass.fields[params[:association].to_sym],@template)
-      p.insert_html :bottom, editor.js_object_name, editor.render_row(@object)
-#      p << "#{editor.js_object_name}.afterUpdate();"
-      if params[:add_multiple] != "true"
-        p.replace_html "element_#{params[:association]}_browser",
-          :partial => "add", 
-          :locals => {:source_object => @source_object,:target_class => @target_klass,:association => @assoc.name}        
-      end
-    end
   end
   
   def cancel
-    render :update do |p|
-      p.replace_html "element_#{params[:association]}_browser", 
-        :partial => "add", 
-        :locals => {:source_object => @source_object,:target_class => @target_klass,:association => @assoc.name}
-    end
   end
 
   protected

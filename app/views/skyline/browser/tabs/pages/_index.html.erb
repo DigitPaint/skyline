@@ -11,7 +11,7 @@
     <%=hidden_field_tag "browser[referable_title]", @page && @page.default_variant_data.andand.navigation_title || "", :id => "browser_page_referable_title" %>
     <input id="browser_page_url" type="hidden" name="browser[url]" value="<%= @page && @page.id %>">    
   </div>
-  <iframe class="previewPanel preview" src="<%= @page && skyline_article_article_version_url(@page, @page.default_variant) || "#"  %>"></iframe>
+  <iframe class="previewPanel preview" src="<%= @page && skyline_article_article_version_url(@page, @page.default_variant) || "javascript:''"  %>"></iframe>
 </div>
 <script type="text/javascript" charset="utf-8">  
   var f = function(){

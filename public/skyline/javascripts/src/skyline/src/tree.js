@@ -149,6 +149,7 @@ Skyline.Tree = new Class({
         var ul = el.getElement("ul");
         if(ul){ ul.addClass("empty"); }
         el.removeClass("hasChildren");
+        el.removeClass("open");
       }
     });
     this.containerEl.getElements("li:last-child").addClass("last");
@@ -343,13 +344,15 @@ Skyline.Tree.SubTreeDrag = new Class({
   _onDrop : function(ghostEl,droppable){
     if(droppable){
       var position = this.determineDropPosition(ghostEl,droppable); 
+      
       if(position == "before" || position == "after"){
-        this.dragEl.inject(droppable,position);
+        this.dragEl.inject(droppable, position);
       } else {
+        var subtree = this.getSubTreeOf(droppable);
         var injected = false;
         //  Do the ordering.
         if(this.options.orderBy){
-          var elements = this.getSubTreeOf(droppable).getChildren("li");
+          var elements = subtree.getChildren("li");
           injected = elements.some(function(el){
             if(!this.options.orderBy(this.dragEl,el)){
               this.dragEl.inject(el,"before");
@@ -358,8 +361,9 @@ Skyline.Tree.SubTreeDrag = new Class({
           }.bind(this));
         }
         if(!injected){
-          this.dragEl.inject(this.getSubTreeOf(droppable),"bottom");
-        }        
+          this.dragEl.inject(subtree,"bottom");
+        }
+        subtree.removeClass("empty");
       }
       this.fireEvent("move",this.dragEl);
     }

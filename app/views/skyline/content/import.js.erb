@@ -1,0 +1,4 @@
+<%= dialog(
+      t(:dialog_title, :scope => [:content, :import]), 
+      :partial => "import", 
+      :locals => {:url => @url, :klass => @klass},  :width => 400) %>

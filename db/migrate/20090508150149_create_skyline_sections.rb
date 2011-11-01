@@ -8,7 +8,7 @@ class CreateSkylineSections < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :skyline_sections, [:page_version_id, :position]
+    add_index :skyline_sections, [:page_version_id, :position], :name => "ss_page_version_id_position"
   end
 
   def self.down

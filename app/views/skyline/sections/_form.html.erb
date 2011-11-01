@@ -1,17 +1,17 @@
 <% sectionable_type = section.sectionable.andand.class.to_s.demodulize.underscore %>
 <li id="section_<%=guid%>" class="<%= sectionable_type.camelcase(:lower) %> <%= section.sectionable.andand.errors.any? ? "invalid" : "" %>">
-  <% variant_form.fields_for "sections_attributes", section, :index => guid do |section_form| %>
+  <%= variant_form.fields_for "sections_attributes", section, :index => guid do |section_form| %>
     <%= section_form.hidden_field :id unless section_form.object.new_record? %>
     <%= section_form.hidden_field :_destroy, :class => "delete" %>
     <%= section_form.positioning_field %>
     
-    <% section_form.fields_for "sectionable_attributes", section_form.object.sectionable do |sectionable_form| %>
+    <%= section_form.fields_for "sectionable_attributes", section_form.object.sectionable do |sectionable_form| %>
       <%= sectionable_form.hidden_field :id unless sectionable_form.object.new_record? %>
       <%= sectionable_form.hidden_field :class if sectionable_form.object.new_record? %>    
 
       <div class="undestroy">
         <%= link_to_function button_text(:undo), "PageHelper.unDestroy('section_#{guid}')", :class => "undo button small" %>
-        <%= t(:will_be_destroyed, :section => section.sectionable.class.human_name, :scope => [:section, :form]) %>
+        <%= t(:will_be_destroyed, :section => section.sectionable.class.model_name.human, :scope => [:section, :form]) %>
       </div>  
       <div class="section">   	        
         <% if section.sectionable.default_interface %>
@@ -19,7 +19,7 @@
         		<div class="tools">
         		  <%= renderable_templates_select(section.sectionable, section_form) %>
         		</div>
-        		<%= section.sectionable.class.human_name %>
+        		<%= section.sectionable.class.model_name.human %>
         	</div>
         	<div class="body">
             <%= render :partial => "skyline/sections/#{sectionable_type}", :locals => {:section_form => section_form, :sectionable_form => sectionable_form, :guid => guid} %>

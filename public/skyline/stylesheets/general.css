@@ -1,5 +1,8 @@
-body{
+html{
   font-size: 62.5%;
+}
+
+body{  
   font-family: Verdana, Helvetica, Arial, sans-serif;
   background: #fff;  
 }
@@ -623,6 +626,10 @@ ul.toptabs:after,
 
 .tree ul li.open{
   display: block;
+}
+
+.tree li.droppable.inside > a{
+  background: #ddd;
 }
 
 .tree ul li.open,
@@ -1524,22 +1531,30 @@ dl.fields dd{
 }
 
 div.fake-textfield{
-  float: left;
   padding: 0 2px;
+  width: 100%;
 }
 
 div.fake-textfield span{
   vertical-align: middle;
-  float: left;
   color: #999;
+  display: table-cell;
+  width: 100%;
 }
 
-div.fake-textfield input{
+div.fake-textfield span:first-child{
+  width: auto;
+  white-space: nowrap;
+}
+
+div.fake-textfield input{  
   vertical-align: middle;  
-  width: 400px;
+  width: 100%;
   border: none;
   padding: 0;
   margin: 0;
+  display: block;
+  -webkit-appearance: none;
 }
 
 ul.checkboxes{
@@ -2306,10 +2321,12 @@ span.drag{
 
 ul.selectlist li a.active,
 #application .selected,
+table.listing tbody tr.selected td,
+table.listing tbody tr.selected th,
 tr.selected th,
 tr.selected td,
 .dialog .selected{
-  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x !important;
+  background: url(../images/backgrounds/selected.gif) 0 0 #0069ba repeat-x;
   color: #fff;
 }
 

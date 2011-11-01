@@ -10,7 +10,10 @@
     abbr_day_names: [zo, ma, di, wo, do, vr, za]
     month_names: [~, januari, februari, maart, april, mei, juni, juli, augustus, september, oktober, november, december]
     abbr_month_names: [~, jan, feb, mrt, apr, mei, jun, jul, aug, sep, okt, nov, dec]
-    order: [:day, :month, :year]
+    order: 
+      - :day
+      - :month
+      - :year
     days: 
       sunday: zondag
       monday: maandag
@@ -192,7 +195,7 @@
       # custom blank validation message for login attribute of User model.
       #models:
         
-      # Translate model names. Used in Model.human_name().
+      # Translate model names. Used in Model.model_name.human().
       #models:
         # For example,
         #   user: "Dude"
@@ -402,37 +405,7 @@
       flashes:
         success: "Gegevens van gebruiker successvol gewijzigd."
         error: "De gegevens van de gebruiker konden niet worden opgeslagen, controleer uw invoer en probeer het opnieuw."
-  media_dir:
-    directories: "Mappen"
-    new: "Toevoegen"
-    destroy:
-      message: "Weet u zeker dat u deze folder wilt verwijderen?"
-  media_file:
-    update:
-      flashes: 
-        success: "Bestand succesvol opgeslagen."
-        failed: "Bestand kon niet worden opgeslagen, controleer uw invoer en probeer het opnieuw."
-    index:
-      files_in: "Bestanden in %{directory}"
-    new:
-      header: "Bestanden uploaden in"
-      no_files: "Nog geen bestanden gekozen"
-      cancel: "annuleren"
-      upload: "uploaden"
-      files: "bestanden"
-      add_files: "bestand(en) toevoegen"
-      file_progress:  "Bezig met uploaden bestand <span class=\"current-file\">1</span> van <span class=\"total-files\">2</span>"
-      percentage_progress: "<span class=\"current-percentage\">20%</span> gereed (<span class=\"current-size\">20 kB</span> van in totaal <span class=\"total-size\">100 kB</span>)"      
-      all_uploaded_message: "De volgende bestanden zijn geupload:"   
-      some_uploaded_message: "Niet alle bestanden konden worden geupload:"  
-    edit:
-      preview: "Preview"
-      download: "Download"
-      size: "Afmeting (bxh)"
-      type: "Type"
-      filesize: "Bestandsgrootte"
-      available_tags: "Beschikbare tags:"
-      meta_data: "Gegevens"
+
   variant_current_editor:
     takeover:
       dialog_title: "Bewerken overgenomen"
@@ -611,6 +584,7 @@
   browser:
     tabs:
       "Skyline::Page" : "Pagina's"
+      "Skyline::Linkable" : "Content"      
       "Skyline::MediaFile" : "Media library"
       "Skyline::ReferableUri" : "Extern"
     external_link:
@@ -748,6 +722,15 @@
       edit:
         actions: "Actions"
         edit: "Edit"
+      update:
+        flashes:
+          success: "Map succesvol gewijzigd"
+          failed: "Map kon niet gewijzigd worden, probeer het opnieuw"
+      destroy:
+        message: "Weet u zeker dat u deze folder wilt verwijderen?"
+        flashes:
+          success: "Map succesvol verwijderd"
+
     files:
       new:
         files: "bestanden"
@@ -768,6 +751,35 @@
         metadata: "Gegevens"
         destroy: "Verwijderen"
         confirm_destroy: "Weet u zeker dat u %{name} wilt verwijderen?"
+      update:
+        flashes:
+          success: "Bestand gewijzigd"
+          failed: "Bestand kon niet gewijzigd worden, proveer het opnieuw"
+      destroy:
+        flashes:
+          success: "Bestand succesvol verwijderd"        
+    
+  tags:
+    index:
+      available_tags: "Beschikbare tags:"
+       
+  will_paginate:
+    previous_label: "&#8592; Vorige"
+    next_label: "Volgende &#8594;"
+    page_gap: "&hellip;"
+
+    page_entries_info:
+      single_page:
+        zero:  "Geen %{model} gevonden"
+        one:   "1 %{model}"
+        other: "alle %{count} %{model}"
+      single_page_html:
+        zero:  "Geen %{model} gevonden"
+        one:   "<b>1</b> %{model}"
+        other: "<b>all&nbsp;%{count}</b> %{model}"
+
+      multi_page: "%{model} %{from} - %{to} van %{count}"
+      multi_page_html: "%{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b>"        
            
   tinymce:
     skyline_table: {

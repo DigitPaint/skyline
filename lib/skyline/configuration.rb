@@ -6,57 +6,75 @@
 class Skyline::Configuration < Configure
   
   defaults do |config|
+    # The application name (defaults to the name)
     config.name = File.expand_path(Rails.root).split("/").last
+    
+    # The application title
     config.title = config.name.humanize
     
-    config.sections = {:default => [
-                         "wysiwyg_section", 
-                         "heading_section", 
-                         "rss_section", 
-                         "iframe_section",
-                         "content_collection_section", 
-                         "content_item_section", 
-                         "splitter_section", 
-                         "link_section",
-                         "raw_section",
-                         "media_section",
-                         "redirect_section",
-                         "page_fragment_section"]
-                      }
+    # Available sections per article
+    config.sections = {
+      :default => [
+        "wysiwyg_section", 
+        "heading_section", 
+        "rss_section", 
+        "iframe_section",
+        "content_collection_section", 
+        "content_item_section", 
+        "splitter_section", 
+        "link_section",
+        "raw_section",
+        "media_section",
+        "redirect_section",
+        "page_fragment_section"
+      ]
+    }
     
+    # Available articles (Skyline::Page is always included)
     config.articles = []
+    
+    # Available content classes
     config.content_classes = []
     
-    config.rss_section_cache_timeout = 1.hour  
-    
+    # Do you want to use a custom logo? If so define it here    
     config.custom_logo = false
     config.skyline_logo = "/skyline/images/logo.png"
+    
+    # Add a "branding" name so you don't have to use the name "Skyline"
     config.branding_name = ""
     
+    # The Skyline locale
     config.locale = "en-US"
     
+    # Custom stylesheets to include
     # ie: [{:path => "/stylesheets/skyline.css", :if => "lte IE 7"}]
     config.custom_stylesheets = []
     
+    # Path configuration
     if Rails.env == "production"
       config.assets_path = nil
       config.media_file_cache_path = nil
+      
+      # Only if you need the rss section
       config.rss_section_cache_path = nil
     else
-      config.assets_path = File.join(Rails.root,"/tmp/upload")
-      config.media_file_cache_path = File.join(Rails.root,"/tmp/media_files/cache")
-      config.rss_section_cache_path = File.join(Rails.root,"/tmp/rss_sections/cache")
+      config.assets_path = Rails.root + "tmp/upload"
+      config.media_file_cache_path = Rails.root + "tmp/media_files/cache"
+      
+      # Only if you need the rss section      
+      config.rss_section_cache_path = Rails.root + "tmp/rss_sections/cache"
     end 
-    
-    unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
-      # We need to reload the configuration because this file get's reloaded 
-      if (Rails.root + "config/initializers/skyline_configuration.rb").exist?
-        load Rails.root + "config/initializers/skyline_configuration.rb"
-      end    
-    end
+        
+    # Authentication User model
+    config.user_class = Skyline::User
     
     # Default URL admin prefix (default = /skyline/...)
-    config.url_prefix = "/skyline"
+    config.url_prefix = "skyline"
+    
+    # The skyline_root default route.
+    # Most unfortunately we have to set it like this because we cannot override a specific route from the plugin
+    # in the implementation.    
+    config.default_route = {:to => "articles#index", :type => "skyline/page"}
     
     # The skyline_root default route.
     # Most unfortunately we have to set it like this because we cannot override a specific route from the plugin
@@ -69,17 +87,28 @@ class Skyline::Configuration < Configure
     config.enable_locking = true
     config.enable_enforce_only_one_user_editing = true
     config.enable_publication_history = true
+    
+    # Section stuff
+    config.rss_section_cache_timeout = 1.hour
+    
+    # We need to reload the configuration if this file get's reloaded 
+    unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
+      if (Rails.root + "config/initializers/skyline_configuration.rb").exist?
+        load Rails.root + "config/initializers/skyline_configuration.rb"
+      end    
+    end    
   end  
   
   def after_configure
-    check_or_create_path(self["assets_path"],"assets_path")
-    check_or_create_path(self["media_file_cache_path"],"media_file_cache_path")
-    check_or_create_path(self["rss_section_cache_path"],"rss_section_cache_path")
+    sanitize_paths
     
     Skyline::MediaNode.assets_path = self["assets_path"]  
     Skyline::MediaCache.cache_path = self["media_file_cache_path"]
-    Skyline::Sections::RssSection.cache_path = self["rss_section_cache_path"]
-    Skyline::Sections::RssSection.cache_timeout = self["rss_section_cache_timeout"]
+    
+    if self.sections.values.flatten.uniq.include?("rss_section")
+      Skyline::Sections::RssSection.cache_path = self["rss_section_cache_path"]
+      Skyline::Sections::RssSection.cache_timeout = self["rss_section_cache_timeout"]
+    end
     
     Skyline::Rendering::Renderer.register_renderables(:sections,self["sections"])
     Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])      
@@ -98,6 +127,14 @@ class Skyline::Configuration < Configure
   end
   
   protected
+  
+  # Ensures that all paths are Pathname objects
+  def sanitize_paths
+    %w{assets_path media_file_cache_path}.each do |key|
+      self[key] = Pathname.new(self[key]) if self[key] && !self[key].kind_of?(Pathname)
+      check_or_create_path(self[key], key)
+    end    
+  end
     
   # Check if a path is set, and if we're in production made raise an assertion
   # if the path does not exist. It just creates the path in development mode.

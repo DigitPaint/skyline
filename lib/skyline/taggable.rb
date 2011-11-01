@@ -12,7 +12,7 @@
 #      has_many :associated_tags, :class_name => "Skyline::AssociatedTag", :as => "taggable"
 #      has_many :tags, :through => :associated_tags, :class_name => "Skyline::Tag"    
 #     
-#      named_scope :with_tags (tags)      (scope to return items that have at least one of the tags supplied; or all if no tags are passed)
+#      scope :with_tags (tags)      (scope to return items that have at least one of the tags supplied; or all if no tags are passed)
 #
 #      def raw_tags 
 #      def raw_tags=(str)
@@ -31,7 +31,7 @@ module Skyline::Taggable
     base.send :alias_method_chain, :clone, :associated_tags
     
     base.class_eval do
-      named_scope :with_tags, lambda {|tags|
+      scope :with_tags, lambda {|tags|
         if tags.any?
           {:conditions => ["(SELECT tag_id FROM skyline_associated_tags WHERE taggable_id=#{self.table_name}.id AND taggable_type=? AND tag_id IN (?) LIMIT 1)", self.name, tags],
            :include => :associated_tags}

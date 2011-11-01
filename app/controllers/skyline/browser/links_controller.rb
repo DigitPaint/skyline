@@ -4,14 +4,18 @@ class Skyline::Browser::LinksController < Skyline::ApplicationController
     @pages = Skyline::Page.group_by_parent_id
     
     if params[:referable_type].present?
-      case params[:referable_type]
-        when "Skyline::MediaFile" then
-          @media_file = Skyline::MediaFile.find_by_id(params[:referable_id])
-          @media_dir = @media_file.directory if @media_file
-          @active_tab = "Skyline::MediaFile"
-        when "Skyline::Page" then
-          @page = Skyline::Page.find_by_id(params[:referable_id])
-          @active_tab = "Skyline::Page"          
+      if params[:referable_type] == "Skyline::MediaFile"
+        @media_file = Skyline::MediaFile.find_by_id(params[:referable_id])
+        @media_dir = @media_file.directory if @media_file
+        @active_tab = "Skyline::MediaFile"
+      elsif params[:referable_type] == "Skyline::Page"
+        @page = Skyline::Page.find_by_id(params[:referable_id])
+        @active_tab = "Skyline::Page"
+      elsif Skyline::Linkable.linkables.map(&:name).include?(params[:referable_type])
+        @linkable_type = Skyline::Linkable.linkables.find{|l| l.name == params[:referable_type]}
+        @linkable = @linkable_type.find_by_id(params[:referable_id])
+        @linkables = @linkable_type.all if @linkable
+        @active_tab = "Skyline::Linkable"
       end
     end
     

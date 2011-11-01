@@ -13,9 +13,9 @@
 # 
 #    class  Model < ActiveRecord::Base
 #      -- If the model has a 'published' column:
-#      named_scope :for_content_item_section, :conditions => {:published => true}
+#      scope :for_content_item_section, :conditions => {:published => true}
 #      -- else
-#      named_scope :for_content_item_section, {}
+#      scope :for_content_item_section, {}
 #    end
 
 
@@ -24,9 +24,9 @@ module Skyline::ContentItemSectionSelectable
     Skyline::Sections::ContentItemSection.register_selectable_model(base)
     
     if base.column_names.include?("published")
-      base.send :named_scope, :for_content_item_section, :conditions => {:published => true}
+      base.send :scope, :for_content_item_section, :conditions => {:published => true}
     else
-      base.send :named_scope, :for_content_item_section, {}
+      base.send :scope, :for_content_item_section, {}
     end
   end
 end

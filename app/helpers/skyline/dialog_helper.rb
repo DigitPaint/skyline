@@ -14,8 +14,8 @@ module Skyline::DialogHelper
     
     options.each do |k,v|
       options[k] = case v
-        when String,Symbol : "'" + escape_javascript(v.to_s) + "'"
-        when Hash : options_for_javascript(v)
+        when String,Symbol then "'" + escape_javascript(v.to_s) + "'"
+        when Hash then options_for_javascript(v)
         else v
       end
     end    
@@ -26,6 +26,7 @@ module Skyline::DialogHelper
     p << "sd.setContent('#{escape_javascript(content)}');"
     p << "sd.setup(); sd.show();"
     p << "})()"
+    p.html_safe
   end
   
 end

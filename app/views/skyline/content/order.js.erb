@@ -1,0 +1,6 @@
+<% if @elements %>
+  $("contentEditPanel").replaceHTML(<%= escape_javascript presenter_for(@elements,stack.klass) %>)
+  $('contentEditPanel').retrieve('skyline.layout').setup();
+<% else %>
+  Application.addOddEven("<%= stack.klass.name %>Listing", "tbody tr")
+<% end %>

@@ -9,17 +9,10 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
   authorize :destroy, :by => "media_file_delete"
   
   def index
-    render :update do |p|
-      p.replace_html "contentEditPanel", :partial => "index"
-    end
   end
   
   def edit
-    @file = @dir.files.find(params[:id])
-    
-    render :update do |p|
-      p.replace_html "metaPanel", :partial => "edit"
-    end
+    @file = @dir.files.find(params[:id])    
   end
   
   # We've got two different kinds of updates:
@@ -32,26 +25,19 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
     
     # We use an instance variable because we want to use it in the render(:update) block.
     @saved = @file.save
-    
-    render :update do |p|
-      # file was moved to another directory
-      @dir = @file.directory if @dir.id != @file.parent_id      
-      
-      if @saved
-        p.notification :success, t(:success, :scope => [:media, :files ,:update,:flashes])
-      	p.replace_html "contentPanel", :partial => "skyline/media/dirs/show"
-      else
-        p.message :error, t(:failed, :scope => [:media_file,:update,:flashes])
-      end      
-      
-      p.replace_html "metaPanel", :partial => "edit"
-      
+
+    # file was moved to another directory
+    @dir = @file.directory if @dir.id != @file.parent_id      
+
+    if @saved
+      notifications.now[:success] = t(:success, :scope => [:media, :files, :update, :flashes])
+    else
+      messages.now[:error] = t(:failed, :scope => [:media, :files, :update, :flashes])
     end    
   end
   
   def create
     @file = @dir.files.build(:name => params[:Filename], :data => params[:Filedata])
-    sleep 5
 
     if @file.save
       render :json => {:result => "success"}
@@ -64,11 +50,9 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
   def destroy
     @file = @dir.files.find(params[:id])
     @file.destroy
-    render :update do |p|
-      p.notification :success, t(:success, :scope => [:media, :files,:destroy,:flashes])
-      p.replace_html("contentPanel", :partial => "skyline/media/dirs/show")
-      p.replace_html("metaPanel", :partial => "skyline/media/dirs/edit")      
-    end
+    notifications.now[:success] =  t(:success, :scope => [:media, :files,:destroy,:flashes])
+    
+    render :template => "/skyline/media/dirs/show"
   end
 
   protected

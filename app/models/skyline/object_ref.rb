@@ -2,7 +2,7 @@
 class Skyline::ObjectRef < Skyline::RefObject	
   after_destroy :destroy_referable
   
-	def respond_to?(m)
+	def respond_to?(m, include_private = false)
 		return true if super
 		if self.referable
 			self.referable.respond_to?(m)
@@ -36,7 +36,7 @@ class Skyline::ObjectRef < Skyline::RefObject
   end
   
   def clone
-    returning super do |clone|
+    super.tap do |clone|
       clone.referable = self.referable.clone if self.referable.kind_of?(Skyline::ReferableUri)
     end
   end

@@ -49,7 +49,7 @@
           </td>
         </tr>
       <% else %>
-        <% f.fields_for "grants_attributes", (@user.grants.first || @user.grants.build), :index => 1 do |gf| %>
+        <%= f.fields_for "grants_attributes", (@user.grants.first || @user.grants.build), :index => 1 do |gf| %>
           <tr>
             <th>
               <%= gf.hidden_field :id unless gf.object.new_record? %>

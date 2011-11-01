@@ -1,12 +1,12 @@
 class Skyline::User < ActiveRecord::Base
+  include Skyline::Authentication::User
+  
   set_table_name :skyline_users
   has_many :grants, :class_name => "Skyline::Grant", :dependent => :delete_all
   has_many :roles, :class_name => "Skyline::Role", :through => :grants
   has_many :rights, :class_name => "Skyline::Right", 
-    :finder_sql => 'SELECT DISTINCT r.* FROM skyline_rights AS r, skyline_grants AS g JOIN skyline_rights_skyline_roles AS rr ON rr.role_id = g.role_id WHERE g.user_id = #{id} AND r.id = rr.right_id'
+    :finder_sql => proc{ "SELECT DISTINCT r.* FROM skyline_rights AS r, skyline_grants AS g JOIN skyline_rights_skyline_roles AS rr ON rr.role_id = g.role_id WHERE g.user_id = #{id} AND r.id = rr.right_id" }
   
-  has_many :user_preferences, :class_name => "Skyline::UserPreference"  
-    
   # This must be set to change the password (by the user himself)
   attr_accessor :current_password
   
@@ -19,7 +19,7 @@ class Skyline::User < ActiveRecord::Base
     
   
   # Validations
-  validate_on_update :valid_current_password, :if => :editing_myself
+  validate :valid_current_password, :if => :editing_myself, :on => :update
 
   validates_presence_of :password, :if => :password_changed?
   validates_presence_of :password_confirmation, :message => :confirmation, :if => :password_changed?, :on => :update
@@ -33,7 +33,7 @@ class Skyline::User < ActiveRecord::Base
 
   validate :grants_didnt_change, :if => :editing_myself
 
-  before_validation_on_update :reset_password_on_empty_current_password
+  before_validation :reset_password_on_empty_current_password, :on => :update
   before_save :set_forced_password,:encrypt_password
   
   default_scope :order => "email ASC"
@@ -53,16 +53,20 @@ class Skyline::User < ActiveRecord::Base
       user && user || false
     end
     
+    def find_by_identification(identification)
+      self.find_by_id(identification)
+    end
+    
     def encrypt(pw)
       Digest::SHA1.hexdigest(pw)
     end
     
     def extract_valid_email_address(email)
-      if email.kind_of? TMail::Address
+      if email.kind_of? Mail::Address
         return email.address
       else
         begin
-          address = TMail::Address.parse(email.to_s)
+          address = Mail::Address.new(email.to_s)
         rescue
           return false
         end
@@ -78,6 +82,10 @@ class Skyline::User < ActiveRecord::Base
     
   end
   
+  def identification
+    self.id
+  end
+
   # Check if a user has a specific right
   #
   # ==== Parameters
@@ -160,6 +168,8 @@ class Skyline::User < ActiveRecord::Base
       Skyline::Role.all(:conditions => {:system => false})
     end
   end
+  
+
   
   protected
   

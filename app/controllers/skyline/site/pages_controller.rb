@@ -13,7 +13,7 @@ class Skyline::Site::PagesController < ApplicationController
         renderer.assigns.update(:body => self.response.body)
       end      
       
-      render :text => renderer.render(@page_version) if renderer.assigns[:body].present?
+      render :text => renderer.render(@page_version) if renderer.assigns[:body]
     end    
 
     # ================================================
@@ -26,7 +26,7 @@ class Skyline::Site::PagesController < ApplicationController
   protected
 
   def handle_404
-    render :text => "Error 404 :: Page with url \"#{params[:url].join("/")}\" doesn't exist.", :status => :not_found    
+    render :text => "Error 404 :: Page with url \"#{params[:url]}\" doesn't exist.", :status => :not_found    
   end
   
   def find_site
@@ -34,7 +34,8 @@ class Skyline::Site::PagesController < ApplicationController
   end
   
   def find_page_version_and_url_parts
-    page, @url_parts = @site.pages.find_by_url(params[:url])
+    url = params[:url].to_s.split("/")
+    page, @url_parts = @site.pages.find_by_url(url)
     @page_version = page.andand.published_publication
   end
   

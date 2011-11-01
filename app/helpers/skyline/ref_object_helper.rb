@@ -58,27 +58,29 @@ module Skyline::RefObjectHelper
       end
 
       
-      deselect_button = link_to_function(button_text(:delete), "Application.Browser.unlink('#{options[:container]}');", :class => "button small red delete")
-      browse_button = link_to_function(button_text(:browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}');", :class => "button small")
+      deselect_button = link_to_function(button_text(:delete), "Application.Browser.unlink('#{options[:container]}');", :class => "button small red delete").html_safe
+      browse_button = link_to_function(button_text(:browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}');", :class => "button small").html_safe
     
-      c << content_tag("div", :class => "not-linked") do
+      c << content_tag("div", {:class => "not-linked"}) do
         nl = []
-        nl << content_tag("span",t(:nothing_selected, :scope => [:browser,browser]), :class => "title")
+        nl << content_tag("span",t(:nothing_selected, :scope => [:browser,browser]), {:class => "title"}, false)
         nl << browse_button
+        nl.join.html_safe
       end
       
-      c << content_tag("div", :class => "linked") do
+      c << content_tag("div", {:class => "linked"}) do
         l = []
         referable_title = content_tag("span", ref_object_title(linked_form.object.andand.referable) + " ", :id => linked_form.dom_id(:title), :class => "title referable_title")
         l << t(:links_to, :scope => [:browser,browser], :referable_title => referable_title)
         l << deselect_button
         l << "&nbsp;"
         l << browse_button
+        l.join.html_safe
       end
       
-      c = content_tag("div", c.join, :class => "relatesTo #{"linked" if linked_form.object.present? && !linked_form.object.andand.marked_for_destruction?}")
+      c = content_tag("div", c.join.html_safe, :class => "relatesTo #{"linked" if linked_form.object.present? && !linked_form.object.andand.marked_for_destruction?}")
     end
 
-    content_tag("div", c, :id => form_builder.dom_id(field), :class => css_class) + form_builder.fieldset_errors(field).to_s
+    content_tag("div", c, :id => form_builder.dom_id(field), :class => css_class) + form_builder.fieldset_errors(field)
   end
 end

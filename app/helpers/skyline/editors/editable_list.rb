@@ -45,15 +45,20 @@ class Skyline::Editors::EditableList < Skyline::Editors::Editor
   protected
   
   def add_new_link
-    link_to_remote(t(:add_more, :scope => [:content], :class => @target_class.plural_name), {
-      :url => {:controller => "skyline/content/editors/editable_list", 
-               :action => "new", 
-               :source_type => self.record.class.to_s.demodulize.underscore, 
-               :source_id => self.record,
-               :association => self.field},
+    #TODO - link_to :remote => true,  has not been tested     
+    link_to(
+      t(:add_more, :scope => [:content], :class => @target_class.plural_name),
+      {
+        :controller => "skyline/content/editors/editable_list", 
+        :action => "new", 
+        :source_type => self.record.class.to_s.demodulize.underscore, 
+        :source_id => self.record,
+        :association => self.field
+      },
+      :remote => true,
 			:loading => "Application.toggleSpin('#{js_object_name}_add','#{t(:loading, :scope => [:global])}')",
-			:complete => "Application.toggleSpin('#{js_object_name}_add')" 
-    }, :class => "add")
+			:complete => "Application.toggleSpin('#{js_object_name}_add')", 
+      :class => "add")
   end
   
   

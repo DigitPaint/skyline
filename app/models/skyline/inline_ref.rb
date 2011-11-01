@@ -8,17 +8,15 @@ class Skyline::InlineRef < Skyline::RefObject
   class << self    
     # Convert an html tag to RefObject tag and update or create RefObject in database
     #
-    # ==== Parameters
-    # html_node<String>:: the html node from the editor
-    # refering_object<Object>:: refering object
-    # refering_column_name<Symbol>:: column name in which the data is stored
-    # ==== Returns
-    # String:: converted html
-    # Array:: ids of refs in html
-    def parse_html(html_node, refering_object, refering_column_name)    
+    # @param [String] html the html node from the editor
+    # @param [Object] refering_object refering object
+    # @param [Symbol] refering_column_name column name in which the data is stored
+    # 
+    # @return [Array[String, Array]] An array containing the converted html and a list of IDS of refs in the HTML
+    def parse_html(html, refering_object, refering_column_name)    
       old_refs = find_ref_ids_for_object(refering_object, refering_column_name)
             
-      h = Hpricot(html_node)
+      h = Hpricot(html)
       updated_refs = []
       
       # html tags to be converted to [REF:id]
@@ -26,17 +24,21 @@ class Skyline::InlineRef < Skyline::RefObject
                           "img" => {:src => "src", :inner_html => false, :skyline_class => Skyline::ImageRef}                                          
                           } 
       
-      iterate_elements.each do |tag, attributes|                
-        h.search("#{tag}[@skyline-referable-type]").each do |node|                                 
-          ref_obj_id = create_ref_from_node(node, refering_object, refering_column_name, attributes[:src], attributes[:skyline_class])
-          if attributes[:inner_html]
-            node.swap("[REF:#{ref_obj_id}]#{node.inner_html}[/REF:#{ref_obj_id}]")
-          else
-            node.swap("[REF:#{ref_obj_id}]")
-          end
-                  
-          updated_refs << ref_obj_id
+      process_tags = lambda{|tag, attributes, node|
+        ref_obj_id = create_ref_from_node(node, refering_object, refering_column_name, attributes[:src], attributes[:skyline_class])
+        if attributes[:inner_html]
+          node.swap("[REF:#{ref_obj_id}]#{node.inner_html}[/REF:#{ref_obj_id}]")
+        else
+          node.swap("[REF:#{ref_obj_id}]")
         end
+                
+        updated_refs << ref_obj_id        
+      }
+      
+      iterate_elements.each do |tag, attributes|                
+        h.search("#{tag}[@data-skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
+        # Deprecated
+        h.search("#{tag}[@skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }        
       end
       
       del = (old_refs - updated_refs)
@@ -46,47 +48,53 @@ class Skyline::InlineRef < Skyline::RefObject
       end
                   
       [h.to_html, updated_refs]
-    end            
-    
-    # Create hash of InlineRef objects for specified object and column name
-    #
-    # ==== Paramenters
-    # object<Object>:: the object containing the Inline Refs
-    # column_name<String>:: column name in which the inline refs are stored as [REF:id] tags
-    #
-    # ==== Retruns
-    # Hash:: a hash of inlinerefs with id as key and object as value
-    def hash_refs_for_object(object, column_name)
-      types = [Skyline::ImageRef,Skyline::LinkRef].map(&:name)
-      refs = Skyline::RefObject.all(:conditions => {:refering_id => object.id, :refering_type => object.class.name, :refering_column_name => column_name.to_s, :type => types})
-      refs.inject({}){|mem,o| mem[o.id] = o; mem }
     end
     
-    # Convert [REF:id] tags to html tags
-    #
-    # ==== Parameters
-    # object<Object>:: the object containing the string to be converted
-    # column_name<String>:: name of column containing the string to be converted
-    # with_refs<Boolean>:: boolean that sets wether to print skyline-reference tags into the html tag
+    # Convert a string containing [REF] references into html
     # 
-    # ==== Returns
-    # String:: converted html text
-    def convert(object,column_name,with_refs=false,options={})
+    # @param [String] ref_html The HTML containing [REF] references
+    # @param [Object] refering_object The object containing the string to be converted
+    # @param [String] refering_column_name Name of column containing the string to be converted
+    # @param [Boolean] include_ref_data Boolean that sets wether to print skyline-reference attributes into the html tags (default = false)
+    # 
+    # @option options [Boolean] :nullify Wether of not to nullify the ID's of the refs to force creation of new refs (needed for cloning)
+    # 
+    # @return [String] Converted html text
+    def compile_html(ref_html, refering_object, refering_column_name, include_ref_data = false, options = {})
       options.reverse_merge! :nullify => false
+
+      return ref_html unless ref_html.kind_of?(String)
       
-      refs = self.hash_refs_for_object(object, column_name)
-      value = object[column_name]
-      
-      return value unless value.kind_of?(String)
-      v = value.gsub(/\[REF:(\d+)\]/) do |match|
+      refs = self.hash_refs_for_object(refering_object, refering_column_name)
+      v = ref_html.gsub(/\[REF:(\d+)\]/) do |match|
         i = match[5..-2]
-        refs[i.to_i].to_start_html(with_refs,options)
+        refs[i.to_i].to_start_html(include_ref_data, options)
       end
     
       outp = v.gsub(/\[\/REF:(\d+)\]/) do |match|
         i = match[6..-2]
         refs[i.to_i].to_end_html
-      end
+      end      
+    end
+    
+    
+    # Create hash of InlineRef objects for specified object and column name
+    #
+    # @param [Object] refering_object the object containing the Inline Refs
+    # @param [String] refering_column_name column name in which the inline refs are stored as [REF:id] tags
+    #
+    # @return [Hash] a hash of inlinerefs with id as key and object as value
+    def hash_refs_for_object(refering_object, refering_column_name)
+      types = [Skyline::ImageRef,Skyline::LinkRef].map(&:name)
+      refs = Skyline::RefObject.all(:conditions => {:refering_id => refering_object.id, :refering_type => refering_object.class.name, :refering_column_name => refering_column_name.to_s, :type => types})
+      refs.inject({}){|mem,o| mem[o.id] = o; mem }
+    end
+    
+    # Convert [REF:id] tags to html tags
+    #
+    # @see Skyline::InlineRef#compile_html
+    def convert(refering_object, refering_column_name, include_ref_data=false, options={})
+      compile_html(refering_object[refering_column_name], refering_object, refering_column_name, include_ref_data, options)
     end
     
     private
@@ -101,19 +109,24 @@ class Skyline::InlineRef < Skyline::RefObject
       Skyline::InlineRef.connection.select_values("SELECT id FROM #{self.table_name} WHERE refering_id = '#{refering_object.id}' AND refering_type = '#{refering_object.class.name}' AND refering_column_name = '#{refering_column_name.to_s}'").map(&:to_i)
     end
     
-    # create ref_object from html node
+    # Create an InlineRef instance from html node
     #
-    # ==== Parameters
-    # html_node<String>:: html node to be converted to ref_object
-    # refering_object<Object>:: object containing the html node
-    # refering_column_name<Symbol>:: column name of the object containing the html node
-    # src_attr<String>:: attribute of the html node containing the source of the element
-    # skyline_class<Class>:: sti class for the ref_object
+    # @param [String] html_node html node to be converted to ref_object
+    # @param [Object] refering_object object containing the html node
+    # @param [Symbol] refering_column_name column name of the object containing the html node
+    # @param [String] src_attr attribute of the html node containing the source of the element
+    # @param [Class] skyline_class sti class for the ref_object
     #
-    # ==== Returns
-    # Integer:: id of the new ref_object
+    # @return [Integer] id of the new ref_object
     def create_ref_from_node(html_node, refering_object, refering_column_name, src_attr, skyline_class)            
-      id, ref_id, ref_type = remove_attributes(html_node, ["skyline-ref-id", "skyline-referable-id", "skyline-referable-type"])
+      id, ref_id, ref_type = remove_attributes(html_node, ["data-skyline-ref-id", "data-skyline-referable-id", "data-skyline-referable-type"])
+      
+      # Deprecated attributes
+      d_id, d_ref_id, d_ref_type = remove_attributes(html_node, ["skyline-ref-id", "skyline-referable-id", "skyline-referable-type"])
+      
+      id ||= d_id
+      ref_id ||= d_ref_id
+      ref_type ||= d_ref_type
       
       referable_params = {}
       referable_params[:uri] = html_node[:href]
@@ -163,9 +176,12 @@ class Skyline::InlineRef < Skyline::RefObject
     # ==== Returns
     # Array:: values of removed attributes
     def remove_attributes(node, attributes)
-      ret = attributes.inject([]) do |result, element|
-        result << node.remove_attribute(element).to_s.strip
-        result
+      attributes.inject([]) do |result, attribute|
+        if node.has_attribute?(attribute)
+          result << node.remove_attribute(attribute).to_s.strip 
+        else 
+          result << nil
+        end
       end
     end
   end    

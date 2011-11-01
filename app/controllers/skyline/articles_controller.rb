@@ -1,6 +1,7 @@
 class Skyline::ArticlesController < Skyline::ApplicationController
   
-  insert_before_filter_after :authentication, :find_article, :only => [:edit, :update, :destroy]
+  # insert_before_filter_after :authentication, :find_article, :only => [:edit, :update, :destroy]
+  set_callback :authenticate, :after, :find_article, :if => lambda{|c| %w{edit update destroy}.include?(c.action_name)  }
   
   authorize :index, :by => Proc.new{|user,controller,action| user.allow?(controller.article || controller.class_from_type, :index)  }
   authorize :create, :by => Proc.new{|user,controller,action| user.allow?(controller.article || controller.class_from_type, :create)  }  
@@ -45,9 +46,7 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     end
     
     if request.xhr?
-      render :update do |p|
-  		  p.redirect_to @target
-      end
+      javascript_redirect_to @target
     else
 		  redirect_to @target
   	end
@@ -98,7 +97,7 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     end
 
     
-    saved = false
+    @saved = false
     begin
       Skyline::Article.transaction do
         if params["clone_variant"] == "1"
@@ -118,7 +117,7 @@ class Skyline::ArticlesController < Skyline::ApplicationController
             @variant.save!
           end          
         end
-        saved = true
+        @saved = true
       end
     rescue ActiveRecord::RecordInvalid
       logger.debug "Article update failed: #{@article.errors.inspect}"
@@ -126,30 +125,11 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     end
     
     if params[:article].has_key?(:move_behind)
-      # no notifications needed
-      render :update do |p|
-      end
+      render :nothing => true
     elsif request.xhr?
-      render :update do |p|
-        if saved
-          if @article.locked?
-            p.notification :success, t(:locked, :scope => [@article.class, :update, :flashes])
-            p << "$$('#article_#{@article.id} span')[0].addClass('locked')" if @article.kind_of?(Skyline::Page)
-          else
-            p.notification :success, t(:unlocked, :scope => [@article.class, :update, :flashes])
-            p << "$$('#article_#{@article.id} span')[0].removeClass('locked')" if @article.kind_of?(Skyline::Page)
-          end
-        else
-          if @article.locked?
-            p.message :error, t(:lock_failed, :scope => [@article.class, :update, :flashes])
-          else
-            p.message :error, t(:unlock_failed, :scope => [@article.class, :update, :flashes])
-          end
-        end
-        p.replace "article_security", :partial => "security"
-      end
+      render :action => :update
     else
-      if saved
+      if @saved
         notifications[:success] = t(:success, :scope => [@article.class, :update, :flashes])
         redirect_to edit_skyline_article_path(@article, :variant_id => @variant.id)
       else

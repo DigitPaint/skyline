@@ -1,0 +1,4 @@
+<%= render_messages_javascript %>;
+<%= render_notifications_javascript %>;
+
+$("contentEditPanel").replaceHTML('<%= escape_javascript(render :partial => "index") %>');

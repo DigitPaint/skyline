@@ -36,9 +36,12 @@ class Skyline::Presenters::Presenter
   end
   
   def delete_button(record)
-    link_to_remote button_text(:delete),{ 
-                   :url => {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
-                   :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name) }, :class => "button small red"
+    link_to(
+      button_text(:delete), 
+      {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
+      :remote => true,
+      :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name), 
+      :class => "button small red")
   end
 
     
@@ -94,7 +97,8 @@ class Skyline::Presenters::Presenter
       
       case field.editor
         # :publish editor is temporary editor created by the presenter itself.
-        when :publish : [content ? image_tag("/skyline/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("/skyline/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
+        when :publish
+          [content ? image_tag("/skyline/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("/skyline/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
         else normalize_content(content,field)          
       end
     end        
@@ -102,15 +106,15 @@ class Skyline::Presenters::Presenter
   
   def normalize_content(content,field=nil)
     case content 
-      when /<.+?>/ : 
+      when /<.+?>/ then 
         if field.filter_html == false
           content.to_s
         else
           truncate(simple_format(strip_tags(content.gsub("<br />", "<br />\n").gsub("</p>", "</p>\n"))),150)
         end
-      when String : truncate(content,150)
-      when TrueClass,FalseClass : [(content ? image_tag("/skyline/images/icons/true.gif") : image_tag("/skyline/images/icons/false.gif")),{:class => "center"}]
-      when Date,Time : l(content, :format => :long)
+      when String then truncate(content,:length => 150)
+      when TrueClass,FalseClass then [(content ? image_tag("/skyline/images/icons/true.gif") : image_tag("/skyline/images/icons/false.gif")),{:class => "center"}]
+      when Date,Time then l(content, :format => :long)
       else content.to_s
     end 
   end

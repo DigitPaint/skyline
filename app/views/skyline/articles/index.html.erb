@@ -1,7 +1,7 @@
 <dl id="contentPanel" class="panel">    
   <dt id="contentHeaderPanel">    
     <span class="content">
-      <%= controller.class_from_type.human_name(:count => 2) %>
+      <%= controller.class_from_type.model_name.human(:count => 2) %>
     </span>
   </dt>
      
@@ -21,7 +21,7 @@
           <%= render :partial => "list" %>          
         <% end %>
       <% else %>
-        <em><%= t(:blank, :scope => [:article, :index], :name => controller.class_from_type.human_name(:count => 2).downcase) %></em>
+        <em><%= t(:blank, :scope => [:article, :index], :name => controller.class_from_type.model_name.human(:count => 2).downcase) %></em>
       <% end %>
     </div>
   </dd>    

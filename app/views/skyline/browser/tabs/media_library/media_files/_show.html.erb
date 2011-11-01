@@ -4,9 +4,7 @@
       <dl class="advanced">
         <dt><%=t(:preview, :scope => [:media, :files, :edit])%></dt>
         <dd>
-          <%= image_tag(url_for(
-                :action => "show", 
-                :controller => "/skyline/media/data", 
+          <%= image_tag(skyline_media_dir_data_with_size_path(
                 :dir_id => @media_dir,
                 :name => @media_file.name,
                 :size => '100x100'), 

@@ -41,7 +41,7 @@ class Skyline::FormBuilder < ActionView::Helpers::FormBuilder
   # 
   # @return [String]
   def label(method, text = nil, options = {})
-    if @object.errors[method]
+    if @object.errors[method].present?
       super(method,text,options.merge(:class => "invalid #{options[:class]}".strip))
     else
       super
@@ -61,7 +61,7 @@ class Skyline::FormBuilder < ActionView::Helpers::FormBuilder
   # with help of {Skyline::NestedAttributesPositioning} module)
   # 
   # @example Usage:
-  #   <% article_form.fields_for "sections_attributes", section, :index => 5 do |s| %>
+  #   <%= article_form.fields_for "sections_attributes", section, :index => 5 do |s| %>
   #     <%= s.hidden_field :id unless s.object.new_record? %>
   #     <%= s.hidden_field :_destroy, :class => "delete" %>
   #     <%= s.positioning_field %>
@@ -121,16 +121,16 @@ class Skyline::FormBuilder < ActionView::Helpers::FormBuilder
     options = parms.extract_options!
     method_options = options.except(:text_suffix)
     
-    if @object.errors[method]
+    if @object.errors[method].present?
       method_options[:class] ||= ""
       method_options[:class] << " invalid"
     end
     
-    parms << method_options if method_options.any?    
+    parms << method_options if method_options.present?    
     html = yield(parms)
     html << options[:text_suffix] if options[:text_suffix]
 
-    if @object.errors[method]
+    if @object.errors[method].present?
       html + fieldset_errors(method)
     else
       html
@@ -144,15 +144,15 @@ class Skyline::FormBuilder < ActionView::Helpers::FormBuilder
   # @param attribute [String,Symbol] The attribute to get the errors for
   # @return [String,nil] A string containing each error in a div or nil if there are no errors.
   def fieldset_errors(attribute)
-    return unless @object.errors[attribute]
+    return unless @object.errors[attribute].present?
     out = []
-    if errs = @object.errors[attribute]
+    if (errs = @object.errors[attribute]).present?
       errs = [errs] if self.single_error_message?(errs)
       out = errs.map do |err|        
         @template.content_tag("div",err,:class => "error")
       end
     end
-    out.join("\n")
+    out.join("\n").html_safe
   end
   
   # The ID that a field for a certain field would get.

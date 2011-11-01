@@ -17,8 +17,8 @@ class CreateSkylinePageVersions < ActiveRecord::Migration
       t.timestamps
     end
     
-    add_index :skyline_page_versions, [:type, :page_id, :version]
-    add_index :skyline_page_versions, :url_part
+    add_index :skyline_page_versions, [:type, :page_id, :version], :name => "spv_type_page_id_version"
+    add_index :skyline_page_versions, :url_part, :name => "spv_url_part"
   end
 
   def self.down

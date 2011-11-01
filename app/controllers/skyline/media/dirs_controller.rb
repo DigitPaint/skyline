@@ -16,11 +16,6 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
     @dir = Skyline::MediaDir.find(params[:id])
     
     # selected_file = params[:selected_file_id].nil? || params[:selected_file_id] == "0" ? nil : Skyline::MediaFile.find(params[:selected_file_id])
-    
-    render :update do |p|
-      p.replace_html("contentPanel", :partial => "show")
-      p.replace_html("metaPanel", :partial => "edit")      
-    end    
   end
   
   def create
@@ -35,11 +30,7 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
     @dir.save
     
     @dirs = Skyline::MediaDir.group_by_parent_id    
-    render :update do |p|
-      p.replace "dirtree", :partial => "index"
-      p.replace_html("contentPanel", :partial => "show")
-      p.replace_html("metaPanel", :partial => "edit")      
-    end
+    render :action => "index"    
   end
   
   def update    
@@ -53,16 +44,14 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
     end
     
     @dirs = Skyline::MediaDir.group_by_parent_id 
-    render :update do |p|
-      if @saved
-        p.notification :success, t(:success, :scope => [:media, :dirs,:update,:flashes])
-      else
-        p.notification :failed, t(:success, :scope => [:media, :dirs,:update,:flashes])
-      end
-      p.replace "dirtree", :partial => "index"
-      p.replace_html("contentPanel", :partial => "show")
-      p.replace_html("metaPanel", :partial => "edit")      
-    end
+    
+    if @saved
+      notifications.now[:success] = t(:success, :scope => [:media, :dirs,:update,:flashes])
+    else
+      notifications.now[:failed] = t(:success, :scope => [:media, :dirs,:update,:flashes])
+    end    
+    
+    render :action => "index"
   end  
   
   def destroy
@@ -72,12 +61,9 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
     destroy_dir.destroy
 
     @dirs = Skyline::MediaDir.group_by_parent_id        
-    render :update do |p|
-      p.notification :success, t(:success, :scope => [:media, :dirs,:destroy,:flashes])
-      p.replace "dirtree", :partial => "index"
-      p.replace_html("contentPanel", :partial => "show")
-      p.replace_html("metaPanel", :partial => "edit")      
-    end
+    notifications.now[:success] = t(:success, :scope => [:media, :dirs,:destroy,:flashes])
+    
+    render :action => "index"
   end
   
 end

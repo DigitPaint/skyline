@@ -3,7 +3,7 @@ class Skyline::Publication < Skyline::ArticleVersion
   belongs_to :variant, :class_name => "Skyline::Variant"
   
   default_scope :order => "created_at DESC"
-  named_scope :with_variant, {:conditions => "variant_id IS NOT NULL"}
+  scope :with_variant, {:conditions => "variant_id IS NOT NULL"}
   
   def published?
     self.article.published_publication == self

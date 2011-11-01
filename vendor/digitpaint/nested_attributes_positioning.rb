@@ -5,7 +5,7 @@
 #
 # Example view:
 #
-#   <% article_form.fields_for "sections_attributes", section, :index => guid do |s| %>
+#   <%= article_form.fields_for "sections_attributes", section, :index => guid do |s| %>
 #     <%= s.hidden_field :id unless s.object.new_record? %>
 #     <%= s.hidden_field :_destroy, :class => "delete" %>
 #     <%= s.positioning_field %>

@@ -1,0 +1,10 @@
+require 'personify'
+require "polyglot"
+require "sprockets"
+require "mime/types"
+require "RMagick"
+require "hpricot"
+require "guid"
+require "will_paginate"
+require "seed-fu"
+require 'mail'

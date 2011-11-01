@@ -8,8 +8,13 @@ class Skyline::FlashSessionCookieMiddleware
 
   def call(env)
     if env['HTTP_USER_AGENT'] =~ /^(Adobe|Shockwave) Flash/
+      if @session_key.respond_to?(:call)
+        sk = @session_key.call
+      else
+        sk = @session_key
+      end      
       params = ::Rack::Utils.parse_query(env['QUERY_STRING'])
-      env['HTTP_COOKIE'] = [ @session_key, params[@session_key] ].join('=').freeze unless params[@session_key].nil?
+      env['HTTP_COOKIE'] = [ sk, params[sk] ].join('=').freeze unless params[sk].nil?
     end
     @app.call(env)
   end

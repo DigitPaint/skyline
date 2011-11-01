@@ -98,6 +98,11 @@
         tinymce.DOM.setStyle(tbl, "table-layout", "fixed");
         tinymce.DOM.setStyle(tbl, "height", "auto");       
         
+        // Resize the window onload
+        var w = ed.getWin();
+        if(w.addEventListener){
+          w.addEventListener("load", resize, false)         
+        }
 			});
 			
 			var delayedResize = function(){
@@ -114,6 +119,8 @@
 			ed.onPaste.add(resize);
 			ed.onKeyUp.add(resize);
 			ed.onPostRender.add(resize);
+
+
 
 			ed.onLoadContent.add(function(ed, l) {
         // resize();

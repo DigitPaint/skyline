@@ -6,9 +6,8 @@
   </dt>
   <% if @file.file_type == "image" %>
     <dd>
-      <%= image_tag(url_for(
-            :action => :show, 
-            :controller => "media/data", 
+      <%= image_tag(skyline_media_dir_data_with_size_path(
+            :dir_id => @file.parent_id,
             :name => @file.name,
             :size => '100x100'), 
             :alt => @file.name) %>
@@ -29,14 +28,15 @@
   <dd class="last">
     <div class="button">
       <%= link_to t(:download, :scope => [:media, :files, :edit]), 
-            url_for(:action => :show, :controller => "media/data", :name => @file.name),
+            skyline_media_dir_data_path(:name => @file.name, :dir_id => @file.parent_id),
             :target => "_blank",
             :class => "button small" %>
     </div>
   </dd>
 </dl>
-<% remote_form_for @file, 
+<%= skyline_form_for @file, 
       :url => skyline_media_dir_file_path(@dir, @file), 
+      :remote => true,
       :method => :put, 
       :html => {:method=>:put} do |f|%>
       
@@ -89,12 +89,14 @@
   </dt>
   <dd class="last">
     <div class="button">
-      <%=link_to_remote button_text(:delete), {
-          :url => skyline_media_dir_file_url(@dir,@file),
-          :method=> :delete,
-          :confirm => 'Weet u zeker dat u dit bestand wilt verwijderen?',
-          :href => url_for(:action => "destroy", :id => @file.id) },
-          { :class => "button small red" }
+      <%= link_to(
+            button_text(:delete), 
+            skyline_media_dir_file_url(@dir,@file),
+            :remote => true,
+            :method => :delete,
+            :confirm => t(:confirm_destroy, :scope => [:media, :files, :edit], :name => @file.name),
+            :href => url_for(:action => "destroy", :id => @file.id),
+            :class => "button small red")
       %>
     </div>
   </dd>

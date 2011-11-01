@@ -2,9 +2,10 @@ require 'test_helper'
 require 'mocks/test_content_object.rb'
 
 class TestContentObjectTest < ActiveSupport::TestCase
+  
   context "test content object" do
     setup do
-      upload = ActionController::TestUploadedFile.new((Skyline.root + "db/fixtures/files/test.gif").to_s, "image/gif")
+      upload = Rack::Test::UploadedFile.new((Skyline.root + "db/fixtures/files/test.gif"), "image/gif")
       @image = Skyline::MediaFile.new(:name => "test_img.gif", :parent_id => nil, :data => upload)
       @image.save
     end

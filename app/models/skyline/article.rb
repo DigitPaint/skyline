@@ -23,7 +23,7 @@ class Skyline::Article < ActiveRecord::Base
       subclass.class_eval do
         has_one :article, :foreign_key => "published_publication_data_id", :class_name => parentclass.name
         
-        named_scope :published, {
+        scope :published, {
           :include => [:article],
           :conditions => "skyline_articles.published_publication_data_id = #{self.table_name}.id"
         }
@@ -56,9 +56,10 @@ class Skyline::Article < ActiveRecord::Base
   belongs_to :default_variant, :class_name => "Skyline::Variant"
 
   # Scopes
-  named_scope :published, {:conditions => "published_publication_id IS NOT NULL"}  
+  scope :published, {:conditions => "published_publication_id IS NOT NULL"}  
 
   # Callbacks
+  after_initialize :build_variant_with_data  
   after_save :set_default_variant_after_save
   before_destroy :confirm_destroyability
   after_destroy :reset_ref_object
@@ -181,25 +182,29 @@ class Skyline::Article < ActiveRecord::Base
     self.renderable?
   end
   
-  
   # Can this article instance be locked? 
   # 
-  # Defaults to the Article.lockable?
+  # Defaults to the Skyline::Article.lockable?
   #
-  # @see Article.lockable?
+  # @see Skyline::Article.lockable?
   def lockable?
     self.class.lockable?
   end
   
   # Can this article instance have multiple variants?
   #
-  # Defaults to Article.can_have_multiple_variants?
+  # Defaults to Skyline::Article.can_have_multiple_variants?
   #
-  # @see Article.can_have_multiple_variants?
+  # @see Skyline::Article.can_have_multiple_variants?
   def can_have_multiple_variants?
     self.class.can_have_multiple_variants?
   end
 
+  # Do we need to keep the history of this article?
+  # 
+  # If true, this article will have multiple publications, if false, there is only one published publication.
+  # 
+  # @return [true, false] Default is false
   def keep_history?
     false
   end
@@ -237,14 +242,14 @@ class Skyline::Article < ActiveRecord::Base
   # @param user [Skyline::User,Integer] The user or user id to check the access for.
   # @return [true,false] True if the user can edit this page, false otherwise
   def editable_by?(user)
-    user = user.kind_of?(Skyline::User) ? user : Skyline::User.find_by_id(user)    
+    user = user.kind_of?(Skyline::Configuration.user_class) ? user : Skyline::Configuration.user_class.find_by_identification(user)    
     self.locked? && user.allow?(:page_lock) || !self.locked?
   end  
 
   
   def set_default_variant!(variant)
     if set_default_variant(variant)
-      self.save(false)
+      self.save(:validate => false)
     end
   end
   
@@ -257,6 +262,8 @@ class Skyline::Article < ActiveRecord::Base
   # The class that provides our custom data fields.
   # 
   # @return [Class,false] False if we don't have an inner Data class, the inner Data class if there is one.
+  # 
+  # TODO : Dataleak waiting to happen (!!)
   def data_class
     # Note: We can't use memoize here, because it freezes the class
     return @_data_class unless @_data_class.nil?
@@ -282,14 +289,17 @@ class Skyline::Article < ActiveRecord::Base
     nil
   end
   
+  # Multisite interface
   def sites
     [Skyline::Site.new]
   end
   
+  # Multisite interface  
   def site
     Skyline::Site.new
   end  
   
+  # Multisite interface  
   def renderable_scope
     Skyline::Rendering::Scopes::Wildcard.new
   end  
@@ -303,7 +313,7 @@ class Skyline::Article < ActiveRecord::Base
     end
   end
   
-  def after_initialize
+  def build_variant_with_data
     if self.new_record?
       v = self.variants.build(:article => self)
       self.default_variant_data = v.data
@@ -311,12 +321,12 @@ class Skyline::Article < ActiveRecord::Base
   end
   
   def has_at_least_one_variant
-    self.errors.add "must have at least one Variant" if self.variants.empty?
+    self.errors.add :variants, "must have at least one Variant" if self.variants.empty?
   end  
 
   
   def confirm_destroyability
-    raise StandardError, "can't be destroyed because this page is persistent" if self.persistent?
+    raise StandardError, "can't be destroyed because this article is persistent" if self.persistent?
   end  
 
   # Reset ref objects that refer to this now removed Article.

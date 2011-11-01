@@ -10,18 +10,20 @@ class Skyline::ApplicationController < ApplicationController
   
   class_inheritable_accessor :default_menu
   attr_accessor :current_menu
-  hide_action :default_menu, :default_menu=, :current_menu, :current_menu=, :menu
+  hide_action :default_menu, :default_menu=, :current_menu, :current_menu=, :menu, :javascript_redirect_to
   
 
   # Load all helpers
   Dir[Skyline.root + "app/helpers/**/*_helper.rb"].each do |helper|
-    helper helper.sub(Skyline.root + "app/helpers/","").sub(/_helper\.rb$/,"")
+    helper helper.sub(/^#{Regexp.escape((Skyline.root + "app/helpers/").to_s)}/,"").sub(/_helper\.rb$/,"")
   end
   
   # Load all plugin helpers so they can override stuff.
-  Dir[Skyline::PluginsManager.plugin_path + "*/app/helpers/**/*_helper.rb"].each do |helper|
-    helper helper.sub(/^#{Regexp.escape(Skyline::PluginsManager.plugin_path.to_s)}\/?.+?\/app\/helpers\//,"").sub(/_helper\.rb$/,"")
+  Dir[Rails.application.config.skyline_plugins_manager.plugin_path + "*/app/helpers/**/*_helper.rb"].each do |helper|
+    helper helper.sub(/^#{Regexp.escape(Rails.application.config.skyline_plugins_manager.plugin_path.to_s)}\/?.+?\/app\/helpers\//,"").sub(/_helper\.rb$/,"")
   end
+  
+  define_callbacks :authenticate
   
   
   class << self
@@ -57,17 +59,6 @@ class Skyline::ApplicationController < ApplicationController
       read_inheritable_attribute(:authorizations) || {}
     end
     
-    def insert_before_filter_after(identifier,*filters,&block)      
-      pos = 0
-      filter_chain.each_with_index do |f,i|
-        if f.identifier == identifier
-          pos = i
-          break
-        end
-      end
-      self.filter_chain.send(:update_filter_chain,filters, :before,pos+1, &block)
-    end
-    
   end
 
   protected
@@ -77,8 +68,8 @@ class Skyline::ApplicationController < ApplicationController
     I18n.locale = Skyline::Configuration.locale.present? ? Skyline::Configuration.locale : "en-US"
   end
   
-  def default_url_options(options=nil)
-    return if options.nil?
+  def default_url_options(options={})
+    return {} if options.blank?
     if options[:id].andand.kind_of?(Skyline::Article)
       {:type => options[:id].class}
     elsif options[:article_id].andand.kind_of?(Skyline::Article)
@@ -89,10 +80,14 @@ class Skyline::ApplicationController < ApplicationController
   # Returns the currently logged in user
   # --
   def current_user
-    @current_user
+    (self.respond_to?(:skyline_current_user) ? self.skyline_current_user : nil) || @current_user
   end  
   
   helper_method :current_user  
+  
+  def current_user=(c)
+    @current_user = c
+  end
   
   # Override this in the controller, all actions are protected by default
   def protect?; true; end
@@ -100,10 +95,13 @@ class Skyline::ApplicationController < ApplicationController
   # Authenticate the user
   def authenticate_user
     if self.protect? 
-      unless session[:user_id] && @current_user = Skyline::User.find_by_id(session[:user_id])
-        # Store location to go back to in session...
-        session[:before_login_url] = request.request_uri
-        return redirect_to(new_skyline_authentication_path)
+      run_callbacks :authenticate do
+        self.current_user = Skyline::Configuration.user_class.find_by_identification(session[:skyline_user_identification]) if !self.current_user && session[:skyline_user_identification]
+        unless self.current_user
+          # Store location to go back to in session...
+          session[:before_login_url] = request.fullpath
+          return redirect_to(new_skyline_authentication_path)
+        end
       end
     end
   end
@@ -171,7 +169,7 @@ class Skyline::ApplicationController < ApplicationController
   # Currently just logs an [AUTH] message and renders an UNAUTHORIZED text on the screen
   # --
   def handle_unauthorized_user
-    logger.warn("[AUTH] Unauthorized access to #{self.controller_name}/#{self.action_name} by #{@current_user.email} (#{@current_user.id})")
+    logger.warn("[AUTH] Unauthorized access to #{self.controller_name}/#{self.action_name} by #{current_user.email} (ID=#{current_user.id})")
     render(:text => "UNAUTHORIZED", :status => :unauthorized)    
   end
        
@@ -195,7 +193,7 @@ class Skyline::ApplicationController < ApplicationController
   #--
   def messages
     unless defined? @_messages
-      @_messages = session["_messages"] ||= ActionController::Flash::FlashHash.new
+      @_messages = session["_messages"] ||= ActionDispatch::Flash::FlashHash.new
       @_messages.sweep
     end
     @_messages
@@ -212,7 +210,7 @@ class Skyline::ApplicationController < ApplicationController
   #--
   def notifications
     unless defined? @_notifications
-      @_notifications = session["_notifications"] ||= ActionController::Flash::FlashHash.new
+      @_notifications = session["_notifications"] ||= ActionDispatch::Flash::FlashHash.new
       @_notifications.sweep
     end
     @_notifications
@@ -243,7 +241,8 @@ class Skyline::ApplicationController < ApplicationController
   
   def stack
     return @stack if @stack
-    @stack ||= Skyline::Content::Stack.new(@implementation,params[:types] || [])
+    types = params[:types].kind_of?(String) ? params[:types].split("/") : params[:types]
+    @stack ||= Skyline::Content::Stack.new(@implementation, types || [])
     @class = @stack.klass
   
     logger.debug "STACK classes: " + @stack.collect{|s| s.class}.inspect    
@@ -289,4 +288,9 @@ class Skyline::ApplicationController < ApplicationController
   end
   helper_method :object_url
     
+    
+  def javascript_redirect_to(url)
+    render :js => "window.location = '#{url.to_s.html_safe}';"
+  end 
+  
 end

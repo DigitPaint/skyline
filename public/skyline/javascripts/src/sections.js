@@ -90,9 +90,11 @@ Application.Sections = new Class({
     section.addEvent("click", activate);
     section.getElements("input, select, textarea").addEvent("focus", activate);   
     
-    if(section.retrieve("skyline.editor")){
-      section.retrieve("skyline.editor").addEvent("focus", activate);
-    } 
+    setTimeout(function(){
+      if(section.retrieve("skyline.editor")){
+        section.retrieve("skyline.editor").addEvent("focus", activate);
+      }
+    },0);
   },
   
   _fakeSection : function(event,element,parent){

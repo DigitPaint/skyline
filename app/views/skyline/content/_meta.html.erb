@@ -15,7 +15,7 @@
   <div class="section">
     <div class="head"><%= t(:meta_information, :scope => [:content, :edit]) %></div>
     <div class="body">        
-      <% tags = @element.available_tags.collect{|tag| content_tag("li", tag.tag)}.join %>
+      <% tags = @element.available_tags.collect{|tag| content_tag("li", tag.tag)} %>
       <% raw_tags_field = Skyline::Content::MetaData::Field.new(:name => 'raw_tags', :owner => @element.class) %>
       
       <dl class="tagselector">
@@ -28,7 +28,7 @@
         <dd class="tags">
           <% if tags.any? %>
             <ul id="taglist">
-              <%= tags %>
+              <%= tags.join.html_safe %>
             </ul>
           <% else %>
             <%= t(:no_tags_available, :scope => [:content,:edit]) %>

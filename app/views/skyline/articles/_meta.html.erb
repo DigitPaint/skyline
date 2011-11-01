@@ -7,7 +7,7 @@
       <% if Skyline::Configuration.enable_multiple_variants && @article.can_have_multiple_variants? %>
         <dt><%= t(:current_variant, :scope => [:article, :edit]) %></dt>
         <dd>
-          <% form_tag edit_skyline_article_path(@article), {:method => :get, :id => "change_variant_form"} do %>
+          <%= form_tag edit_skyline_article_path(@article), {:method => :get, :id => "change_variant_form"} do %>
             <%= select_tag "variant_id", 
                   options_for_select(
                       @article.variants.map{|v| ["#{v.name}#{" (#{t(:published, :scope => [:article, :edit])})" if v.published_variant?}",v.id] }, 
@@ -21,19 +21,25 @@
       <dt><%= t(:created_at, :scope => [:article, :edit]) %></dt>
       <dd>
         <%= l(@variant.created_at, :format => :short) %>
-        <%= "<br/>#{@variant.creator.display_name}" if @variant.creator %>
+        <% if @variant.creator %>
+          <br/>
+          <%= @variant.creator.display_name %>
+        <% end %>
       </dd>
     
       <dt><%= t(:updated_at, :scope => [:article, :edit]) %></dt>
       <dd>
         <%= l(@variant.updated_at, :format => :short) %>
-        <%= "<br/>#{@variant.last_updated_by.display_name}" if @variant.last_updated_by %>              
+        <% if @variant.last_updated_by %>
+          <br/>
+          <%= @variant.last_updated_by.display_name %>              
+        <% end %>
       </dd>
     </dl>
   </dd>
 </dl>
 
-<% if @article.publishable? %>
+<% if @article.class.publishable? %>
   <dl class="advanced">
     <dt><a href="#"><span><%= t(:publication, :scope => [:article, :headers]) %></span></a></dt>
     <dd>
@@ -44,7 +50,7 @@
           <table class="details">
             <tbody>
               <tr>
-                <th><%= @article.class.human_name %></th>
+                <th><%= @article.class.model_name.human %></th>
                 <td class="center"><%= tick_image(@article.published?) %></td>
               </tr>
               <% if Skyline::Configuration.enable_multiple_variants && @article.can_have_multiple_variants? %>
@@ -77,15 +83,22 @@
           <dt><%= t(:last_published, :scope => [:article, :edit]) %></dt>
           <dd>
             <%= l(@article.publications.first.created_at, :format => :short) %>
-            <%= "<br/>#{@article.publications.first.last_updated_by.display_name}" if @article.publications.first.last_updated_by %>
+            <% if @article.publications.first.last_updated_by %>
+              <br/>
+              <%= @article.publications.first.last_updated_by.display_name  %>
+            <% end %>
           </dd>
           <% if @article.keep_history? %>
             <dt><%= t(:publication_history, :scope => [:article, :edit]) %></dt>
             <dd>
-              <%= t(:number_of_publications, :count => @article.publications.size, :scope => [@article.class, :edit]) %>
+              <%= t(:number_of_publications, :count => @article.publications.size, :scope => [@article.class, :edit]).html_safe %>
             </dd>
             <dd>
-              <%= link_to_remote t(:publication_history_link, :scope => [:article, :edit]), :url => skyline_article_publications_path(@article), :method => :get %>
+              <%= link_to( 
+                    t(:publication_history_link, :scope => [:article, :edit]), 
+                    skyline_article_publications_path(@article), 
+                    :method => :get, 
+                    :remote => true) %>
             </dd>
           <% end %>
         <% end %>                

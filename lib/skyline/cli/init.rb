@@ -1,3 +1,4 @@
+require 'thor/group'
 require 'pathname'
 require 'fileutils'
 
@@ -15,32 +16,22 @@ module Skyline
         say "=> Verifying if this is a Rails(like) app"
         unless (self.target_dir + "lib").exist? &&
             (self.target_dir + "public").exist? &&
-            (self.target_dir + "config/environment.rb").exist?
+            (self.target_dir + "Gemfile").exist?
             
-          raise Thor::Error, "This does not seem like a valid Rails app (need lib, public and config/environment.rb)"
+          raise Thor::Error, "This does not seem like a valid Rails app (need lib, public and Gemfile)"
         end
       end
       
-      def add_config_gem
-        environment_rb = (self.target_dir + "config/environment.rb")
-        if File.read(environment_rb) =~ /^\s*config.gem\s+[\":']skylinecms[\"']?(.+[\":']version[\"']?\s*=>\s*[\"'](.+)[\"'])?/i
+      def add_to_gemfile
+        gemfile = (self.target_dir + "Gemfile")
+        if File.read(gemfile) =~ /^\s*gem\s+[\":']skylinecms[\"']?\s*,\s*([\"'](.+)[\"'])?/i
           say_status "exist", "Already found gem version #{$2}, not doing anything, check gem dependency manually", :blue
         else
-          say "=> Adding config.gem line to environment.rb"
-          inject_into_file environment_rb, :after => "Rails::Initializer.run do |config|\n" do
-            "  config.gem \"skylinecms\", :version => \"#{Skyline::VERSION::STRING}\"\n"
+          say "=> Adding gem line to Gemfile"
+          append_to_file gemfile do
+            "  gem \"skylinecms\", \"~>#{Skyline::VERSION::STRING}\"\n"
           end
         end
-      end
-      
-      def create_stub_tasks_file
-        tasks_dir = (self.target_dir + "lib/tasks")
-        
-        say "=> Creating lib/tasks directory"
-        empty_directory tasks_dir
-        
-        say "=> Creating lib/tasks/skyline.rake"
-        copy_file self.template_dir + "tasks/skyline.rake", tasks_dir + "skyline.rake"
       end
       
       def copy_assets
@@ -80,17 +71,14 @@ module Skyline
       
       def add_default_pages_route
         routes_rb = self.target_dir + "config/routes.rb"
-        route_string = "map.connect '*url', :controller => \"skyline/site/pages\", :action => \"show\""
-        
+        routing_code = "match '(*url)', :to => \"skyline/site/pages#show\", :constraints => Skyline::RouteConstraint"
+        sentinel = /\.routes\.draw do(?:\s*\|map\|)?\s*$/
+
         say "=> Add default pages route"
-        if File.read(routes_rb) =~ /#{Regexp.escape(route_string)}$/
+        if File.read(routes_rb) =~ /#{Regexp.escape(routing_code)}$/
           say_status "exist", "default pages route", :blue
         else
-          inject_into_file routes_rb, :after => "map.connect ':controller/:action/:id.:format'\n" do
-            "\n" +
-            "  # The default Skyline pages route\n" +
-            "  #{route_string}\n"
-          end
+          inject_into_file routes_rb, "\n  #{routing_code}\n", { :after => sentinel, :verbose => false }
         end
       end
       

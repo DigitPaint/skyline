@@ -58,17 +58,25 @@ module Skyline::ApplicationHelper
   # 
   # @option options [Class] :generator (Skyline::MessageGenerator) The generator to use to render the messages.
   def render_messages(options={})
-    _render_volatiles(self.messages,options)
+    javascript_tag render_messages_javascript(options)
   end
   
   # Actually render the notifications on screen.
   #
   # @option options [Class] :generator (Skyline::NotificationGenerator) The generator to use to render the messages.
   def render_notifications(options={})
+    javascript_tag render_notifications_javascript(options)
+  end
+
+  def render_messages_javascript(options={})
+    _render_volatiles(self.messages,options)    
+  end
+  
+  def render_notifications_javascript(options={})
     options.reverse_merge! :generator => Skyline::NotificationGenerator
     _render_volatiles(self.notifications,options)
   end
-    
+  
   protected
   
   def _render_volatiles(messages_hash, options={})
@@ -76,11 +84,14 @@ module Skyline::ApplicationHelper
     options.reverse_merge! :generator => Skyline::MessageGenerator
     generator = options.delete(:generator)
     out = messages_hash.inject([]) do |acc,v|
-      type,messages = v[0],[v[1]].flatten
-      msg_options = messages.extract_options!
+      type, messages = v[0],[v[1]].flatten
+            
+      msg_options = messages.extract_options!      
       msg_options.reverse_merge! options
+            
       acc += messages.map{|msg| generator.new(type,msg,msg_options) }
     end
-    javascript_tag out.join("\n")    
+    out.join("\n").html_safe
   end
+  
 end

@@ -1,7 +1,7 @@
 class Skyline::Variant < Skyline::ArticleVersion
   include NestedAttributesPositioning
   
-  belongs_to :current_editor, :class_name => "Skyline::User"
+  belongs_to :current_editor, :class_name => "::#{Skyline::Configuration.user_class.name}"
   
   validate :validate_version_match
   
@@ -107,7 +107,7 @@ class Skyline::Variant < Skyline::ArticleVersion
   # ==== Returns
   # true,false:: true if the user is allowed to edit.
   def editable_by?(user)
-    user_id = user.kind_of?(Skyline::User) ? user.id : user
+    user_id = user.kind_of?(Skyline::Configuration.user_class) ? user.id : user
     return true unless Skyline::Configuration.enable_enforce_only_one_user_editing
     self.current_editor_id.nil? || self.current_editor_timestamp.nil? || self.current_editor_id == user_id || self.class.editor_idle_time < (Time.zone.now - self.current_editor_timestamp)
   end
@@ -122,13 +122,17 @@ class Skyline::Variant < Skyline::ArticleVersion
   def edit_by!(user, options = {})
     options.reverse_merge! :force => false
     options[:new_editor] = true
-    user_id = user.kind_of?(Skyline::User) ? user.id : user
+    user_id = user.kind_of?(Skyline::Configuration.user_class) ? user.id : user
     self.class.update_current_editor(self.id, user_id, options)
   end
   
   def destroyable?
     if self.article.andand.published_publication
+      # This variant should not be the published variant
       self.article.published_publication.variant != self
+    elsif self.article && self.article.variants.size == 1
+      # If this is the only variant we should check if the article can be destroyed
+      self.article.destroyable?
     else
       # also yield true if self.article doesn't exist (this happens when the article is already destroyed)
       true
@@ -136,8 +140,10 @@ class Skyline::Variant < Skyline::ArticleVersion
   end
   
   def destroy_with_removing_page
-    self.destroy_without_removing_page
-    self.article.destroy if self.article.variants(true).empty?
+    Skyline::Article.transaction do
+      self.destroy_without_removing_page
+      self.article.destroy if self.article.variants(true).empty?
+    end
   end
   alias_method_chain :destroy, :removing_page
 

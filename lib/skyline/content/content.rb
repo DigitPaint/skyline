@@ -8,7 +8,7 @@ module Skyline::Content
          obj.class_eval do 
            after_save :process_after_save
            
-           named_scope :published, lambda {
+           scope :published, lambda {
              if obj.publishable?
                {:conditions => {:published => true}}
              else
@@ -16,7 +16,7 @@ module Skyline::Content
              end
            }
 
-           named_scope :with_site, {}
+           scope :with_site, {}
          end         
        end
      end 
@@ -100,7 +100,7 @@ module Skyline::Content
       # Same as find_for_cms, but works with the will_paginate plugin
       #--
       def paginate_for_cms(*args)
-        skyline_options,options = extract_all_options!(args)        
+        skyline_options, options = extract_all_options!(args)        
         with_skyline_scope(skyline_options) do
          options.update(:order => self.default_order_by_statement)
          paginate(*(args << options))
@@ -218,8 +218,8 @@ module Skyline::Content
      def relate_to(obj) # :nodoc:
        return unless assoc = obj.class.reflect_on_association(self.instantiated_by)
        case assoc.macro
-         when :has_many : obj.send(self.instantiated_by) << self
-         when :has_one : obj.send("#{self.instantiated_by}=",self) 
+         when :has_many then obj.send(self.instantiated_by) << self
+         when :has_one then obj.send("#{self.instantiated_by}=",self) 
         end
      end
      

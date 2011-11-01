@@ -1,6 +1,7 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+//= require "rails"
 //= require "mootools_on_rails"
 
 var Application = {};
@@ -251,7 +252,7 @@ Application.Layout = (function(){
   };  
   
   Layout.Media.initializeUploadPanel = function(dirPath){
-    var uPanel = $('contentInfoPanel')
+    var uPanel = $('contentInfoPanel');
     var fB = $('finishedbutton');
     fB.setStyle('display','none');
 
@@ -287,13 +288,13 @@ Application.Layout = (function(){
 
     upl.addEvent("start",function(){
       uPanel.retrieve("skyline.layout").parent.setup();
-    })
+    });
 
     $('cancelselect').addEvent('click', function() {
      upl.reset(); // remove all files
      uPanel.retrieve("skyline.layout").hide();
      return false;
-   })
+   });
   };
   
   

@@ -2,8 +2,6 @@ class Skyline::PublishedPublicationsController < Skyline::ApplicationController
   before_filter :find_article
 
   def create
-    return handle_unauthorized_user unless @article.editable_by?(current_user)
-
     variant = @article.variants.find_by_id(params[:variant_id])
     if !variant || !variant.editable_by?(current_user)
       return redirect_to(skyline_page_path(@article)) 
@@ -19,8 +17,6 @@ class Skyline::PublishedPublicationsController < Skyline::ApplicationController
   end
   
   def destroy
-    return handle_unauthorized_user unless @article.editable_by?(current_user)
-
     if @article.depublishable?
       @article.depublish
       messages[:success] = t(:success, :scope => [:published_publication, @article.class, :destroy, :flashes])

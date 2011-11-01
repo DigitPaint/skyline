@@ -3,12 +3,12 @@
 } -%>
 <% @locale.each do |key,value| %>
   tinyMCE.addI18n("<%= I18n.locale %>.<%= key %>",
-    <%= value.update(@options).to_json %>
+    <%= value.update(@options).to_json.html_safe %>
   );
 <% end %>
 
 I18n = {};
 I18n.LibraryUploader = {
-  allUploadedMessage : "<%=t(:all_uploaded_message, :scope => [:media, :files, :new]) %>",
-  someUploadedMessage : "<%=t(:some_uploaded_message, :scope => [:media, :files, :new]) %>"
+  allUploadedMessage : "<%= t(:all_uploaded_message, :scope => [:media, :files, :new]).html_safe %>",
+  someUploadedMessage : "<%= t(:some_uploaded_message, :scope => [:media, :files, :new]).html_safe %>"
 };

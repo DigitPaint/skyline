@@ -1,11 +1,12 @@
 ENV["RAILS_ENV"] = "test"
 ENV['RAILS_ROOT'] ||= File.dirname(__FILE__) + '/../../../..' 
 require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config/environment.rb'))
-require 'test_help'
+require 'rails/test_help'
 # include ActionController::TestProcess
 require 'factories'
 
 SILENT_SEED = true
+Rails.backtrace_cleaner.remove_silencers!
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method

@@ -4,50 +4,63 @@ Skyline installation instructions
 Choose your flavour
 -------------------
 
-**Install as a gem** The skylinecms gem is perfect if you want to have stable environment
+### Install as a packaged gem ###
+The skylinecms gem is perfect if you want to have stable environment
 and don't care too much about cutting-edge new features. We release new versions fairly
 often.
 
-**Install the plugin** Use the plugin if you want to be on the latest development version
+### Install as a local gem ###
+Use the "local" gem if you want to be on the latest development version
 with all the 'cool' new features. Especially if you use git, because we're hosting the
-source on github. It's of course entirely possible to use a stable tagged version as a
-plugin too.
+source on github. 
 
 Create your rails app
 ---------------------
 
-Create an empty rails app. Make sure you're usin MySQL for now,
-we didn't test with other databases yet.
+Create an empty rails app. 
 
-    rails my_app --database=mysql
+    rails new my_app
     cd my_app
 
-Installation as a gem
+Installation as a packaged gem
 ---------------------
 
-Install the gems, and initialize Skyline. 
+Edit the Gemfile and add
 
-    gem install skylinecms
-    skylincms init
+    gem "skylinecms"
     
-Continue below.
+Continue with "Run bundler".
 
-Installation as plugin
+Installation as a local gem
 -----------------------
 
 Download the Skyline source from [http://github.com/DigitPaint/skyline](http://github.com/DigitPaint/skyline).
 You can use it as a Git submodule or yust download the zip version and unpack it to
-`vendor/plugins/skyline`
+`vendor/skylinecms`
 
 If you're using bundler, add the following to your `Gemfile`
 
-    skyline_gemfile = File.join(File.dirname(__FILE__), 'vendor', 'plugins', 'skyline', 'Gemfile')
-    instance_eval(File.read(skyline_gemfile), skyline_gemfile)
+    gem "skylinecms", :path => "vendor/skylinecms"
+
+Run bundler
+-----------
+
+Just run bundle install to fetch and install all dependencies:
+
+    bundle install
+
+Bootstrap skyline
+-----------------
+
+Run the skyline init script to initialize all required configurations. You might want to skip this step
+if you want to update Skyline frequently (you can do most of these steps by hand: see below)
+
+    bundle exec skylinecms init
 
 Setup your database
 -------------------
 
-Modify `config/database.yml` to match your database configuration and then run:
+Modify `config/database.yml` to match your database configuration if needed. Run:
 
     rake db:create
     rake skyline:db:migrate
@@ -56,19 +69,34 @@ Modify `config/database.yml` to match your database configuration and then run:
 Create your first user and grant him/her access
 -----------------------------------------------
 
-Open a Rails console by running `./script/console`
+Open a Rails console by running `rails console`
 
-    u = Skyline::User.new(:email => 'admin@admin.com', :password => 'secret')
-    u.roles << Skyline::Role.first
-    u.save!
+    user = Skyline::User.new(:email => 'admin@admin.com', :password => 'secret')
+    user.grants.build(:role => Skyline::Role.find_by_name("super"))
+    user.save
 
 Make sure the user exists in the database.
 
-If you went the "gem route" you're done now just start the server with `./script/server`
-and browse to `http://localhost:3000/skyline` and log in with the just created user.
+Boot your server!
+-----------------
 
-Extra work when using the plugin
---------------------------------
+You should be good to go. Start your server:
+
+    rails server
+    
+and browse to *http://localhost:9000/skyline* to reach Skyline. 
+
+Where to go from here?
+----------------------
+
+* Check the documentation
+* Look at our [sample implementation on github](http://github.com/DigitPaint/skyline_demo_site)
+* Roam around our Google Group ([http://groups.google.com/group/skylinecms](http://groups.google.com/group/skylinecms))
+* Follow us on twitter [@skylinecms](http://twitter.com/skylinecms)
+
+
+Configurating Skyline manually
+------------------------------
 
 ### Create configuration file
 
@@ -78,7 +106,6 @@ add the following:
     Skyline::Configuration.configure do |config|  
       config.assets_path = File.join(Rails.root,"tmp/upload")
       config.media_file_cache_path = File.join(Rails.root,"tmp/cache/media_files/cache")
-      config.rss_section_cache_path = File.join(Rails.root,"tmp/cache/rss_sections/cache")   
     end
 
 ### Create template folder
@@ -91,4 +118,4 @@ Create the template folder in your `app` directory.
 
 Open `config/routes.rb` and add the default Skyline route below all other routes:
 
-    map.connect '*url', :controller => "skyline/site/pages", :action => "show"  
+    match '(*url)', :to => "skyline/site/pages#show", :constraints => Skyline::RouteConstraint

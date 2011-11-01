@@ -1,6 +1,8 @@
 class Skyline::Page < Skyline::Article
   class Data < Skyline::Article::Data
+    after_initialize :set_defaults    
     before_validation :sanitize_url_part
+    
     validate :validate_url_part, :if => :to_be_published  
     validates_presence_of :title  
 
@@ -14,7 +16,7 @@ class Skyline::Page < Skyline::Article
 
     protected
 
-    def after_initialize
+    def set_defaults
       self.title ||= I18n.t(:default_title, :scope => [:page_version])    
     end
 
@@ -45,9 +47,9 @@ class Skyline::Page < Skyline::Article
   
   validate :only_one_root
   
-  named_scope :root_nodes, {:conditions => {:parent_id => nil}}
-  named_scope :in_navigation, {:conditions => {:skyline_page_data => {:in_navigation => true}}, :include => [:published_publication_data]}
-  named_scope :with_default_data, {:include => [:default_variant_data, :default_variant, :published_publication]}
+  scope :root_nodes, {:conditions => {:parent_id => nil}}
+  scope :in_navigation, {:conditions => {:skyline_page_data => {:in_navigation => true}}, :include => [:published_publication_data]}
+  scope :with_default_data, {:include => [:default_variant_data, :default_variant, :published_publication]}
   
   default_scope :order => "position"
  
@@ -249,9 +251,9 @@ class Skyline::Page < Skyline::Article
   def only_one_root
     if !self.parent && self.site
       if self.new_record?
-        self.errors.add_to_base "cannot be another root node." if self.site.root
+        self.errors.add(:base, "cannot be another root node.") if self.site.root
       else
-        self.errors.add_to_base "cannot be another root node" if self.site.root && self.site.root.id != self.id
+        self.errors.add(:base, "cannot be another root node.") if self.site.root && self.site.root.id != self.id
       end
     end
   end

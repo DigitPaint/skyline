@@ -1,6 +1,8 @@
 # @private
 class Skyline::MediaCache < ActiveRecord::Base    
   set_table_name :skyline_media_cache  
+  
+  # Cache path must be a Pathname object
   cattr_accessor :cache_path
   @@cache_path ||= Skyline::Configuration.media_file_cache_path
     
@@ -10,7 +12,7 @@ class Skyline::MediaCache < ActiveRecord::Base
     def delete_file(path)
       if File.file?(path)
         File.delete(path)
-        dir = File.basename(path)
+        dir = File.dirname(path)
         if File.directory?(dir) && Dir.entries(dir).size == 2
           Dir.delete(dir) rescue nil
         end
@@ -26,7 +28,7 @@ class Skyline::MediaCache < ActiveRecord::Base
   def expire_cache
     # It'd be better to call expire_page here, except it's a
     # controller method and we can't get to it.
-    path = self.class.cache_path + "#{self.url}"
+    path = self.class.cache_path.to_s + "#{self.url}"
 
     logger.info "Sweeping #{path}"
     delete_file(path)

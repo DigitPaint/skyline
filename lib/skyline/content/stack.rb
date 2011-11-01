@@ -101,7 +101,7 @@ class Skyline::Content::Stack < Array
         logger.debug "Trying: #{type} :: #{self.last.class.reflect_on_association(type.to_sym).inspect}"
         assoc = self.last.class.reflect_on_association(type)
         self << case assoc.macro
-          when :has_many : self.last.send(type).build
+          when :has_many then self.last.send(type).build
           else assoc.klass.new
         end
       end

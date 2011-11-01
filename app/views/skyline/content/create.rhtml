@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="content editcontent">        
-  <% content_form :element, {:action => "create", :multipart => true, :submit_value => "save"} do %>
+  <%= content_form :element, {:action => "create", :multipart => true, :submit_value => "save"} do %>
     <%= render :partial => "meta" %>
   <% end %>
 </div>

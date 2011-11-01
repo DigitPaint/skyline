@@ -287,8 +287,8 @@ module Skyline::Content
     #--
     def field_create_defaults(options)
       case options[:editor]
-        when :textile : {:cache => true} 
-        when :inline_list : {:hidden => [:list,:create]}
+        when :textile then {:cache => true} 
+        when :inline_list then {:hidden => [:list,:create]}
         else {}
       end
     end

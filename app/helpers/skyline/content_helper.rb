@@ -21,7 +21,7 @@ module Skyline::ContentHelper
     
     links << "<span>#{label_for(last)}</span>" if last
     
-    content_tag("div","#{t(:breadcrumb_prefix, :scope => :content)} " + links.join(" &raquo; "),:id => "breadcrumb")    
+    content_tag("div",("#{t(:breadcrumb_prefix, :scope => :content)} " + links.join(" &raquo; ")).html_safe ,:id => "breadcrumb")    
   end
   
   def label_for(type)
@@ -64,7 +64,7 @@ module Skyline::ContentHelper
     url_options = url_options_for_record(record, {:action => options[:action]})
     
     contents = ''
-    contents << content_fields(record.class,record_name, record)
+    contents << content_fields(record.class, record_name, record)
     
     contents << capture(&block) if block_given?
 		            
@@ -73,10 +73,10 @@ module Skyline::ContentHelper
 #      contents << hidden_field(record_name, :id) unless record.new_record?
       contents << hidden_field_tag(:version,record.current_version)
       
-      output = content_tag('form', contents, :id => "contentform", :action => object_url(record,url_options), :method => 'post', :enctype => options[:multipart] ? 'multipart/form-data': nil)
+      output = content_tag('form', contents.html_safe, :id => "contentform", :action => object_url(record,url_options), :method => 'post', :enctype => options[:multipart] ? 'multipart/form-data': nil)
                
     else
-      output = content_tag('div', contents, :id => "contentform")
+      output = content_tag('div', contents.html_safe, :id => "contentform")
     end
     
 
@@ -84,12 +84,12 @@ module Skyline::ContentHelper
     # functionality.
     output << postponed_editors.map(&:output).join("\n") if postponed_editors.any?
     
-    concat output
+    output
   end  
 
-  def content_fields(fieldset,record_name, record)
+  def content_fields(fieldset, record_name, record)
     out = ""
-
+    
     fieldset.each_field do |field|
       next if (field.hidden_in(:edit) && !record.new_record?) || 
               (field.hidden_in(:create) && record.new_record?)
@@ -101,11 +101,11 @@ module Skyline::ContentHelper
           out <<  render(:partial => "skyline/content/group", :locals => {:title => field.singular_title, :content => content_fields(field, record_name, record)})
       end
     end
-    out
+    out.html_safe
   end  
   
   def content_field(fieldset,record_name,field, record)
-    e = Skyline::Editors::Editor.create(field,[record_name],record,@template)
+    e = Skyline::Editors::Editor.create(field,[record_name],record,self)
     if e.postpone?
       postponed_editors << e
       ""
@@ -117,7 +117,7 @@ module Skyline::ContentHelper
   # Outputs an object list with the right presenter
   # defaults to Table currently.
   def presenter_for(records,fieldset)
-    Skyline::Presenters::Presenter.create(fieldset.settings.presenter,records,fieldset,@template).output
+    Skyline::Presenters::Presenter.create(fieldset.settings.presenter,records,fieldset,self).output
   end
   
   # Postponed editors are editors like inline_list that should not be in the form but provide their own form/list
@@ -136,7 +136,7 @@ module Skyline::ContentHelper
   
   def record_with_errors(content, record, field)
     if record.errors.on(field.attribute_name) 
-      content_tag("div", content, :class => "fieldWithErrors")
+      content_tag("div", content.html_safe, :class => "fieldWithErrors")
     else
       content
     end

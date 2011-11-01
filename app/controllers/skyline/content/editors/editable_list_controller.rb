@@ -5,10 +5,6 @@ class Skyline::Content::Editors::EditableListController < Skyline::Skyline2Contr
   
   def new
     @object = @source_object.send(@assoc.name).build
-    render :update do |p|
-      editor = Skyline::Editors::EditableList.new(["element"],@source_object,@source_klass.fields[params[:association].to_sym],@template)
-      p.insert_html :bottom, editor.js_object_name, editor.render_row(@object)
-    end
   end
   
   protected
