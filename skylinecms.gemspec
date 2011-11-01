@@ -5,16 +5,14 @@ require "skyline/version"
 
 Gem::Specification.new do |s|
   s.name = "skylinecms"
-  s.version = Skyline.version
-
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  
+  s.version = Skyline.version  
   s.authors = ["DigitPaint"]
   s.email = %q{info@digitpaint.nl}
   s.homepage = %q{http://www.skylinecms.nl}  
-    
   s.description = %q{Skyline is an extremely flexible and expandable open source content management system. Its feature rich interface allows for fast and intuitive management of websites.}
   s.summary = %q{The new Ruby on Rails open source standard in content management}
+
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
 
   s.default_executable = "skylinecms"
   
