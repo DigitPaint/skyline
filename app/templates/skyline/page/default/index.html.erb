@@ -7,7 +7,7 @@
 	<title><%= article_version.data.title %></title>
 
   <% if redirect_section = article_version.sections.detect{|section| section.sectionable.kind_of?(Skyline::Sections::RedirectSection)} %>
-    <%= tag ("meta", "http-equiv" => "refresh", "content" => "#{redirect_section.sectionable.delay};url=#{redirect_section.sectionable.url(request)}")%>
+    <%= tag("meta", {"http-equiv" => "refresh", "content" => "#{redirect_section.sectionable.delay};url=#{redirect_section.sectionable.url(request)}"}) %>
   <% end %>
 </head>
 
