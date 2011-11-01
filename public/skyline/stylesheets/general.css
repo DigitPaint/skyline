@@ -628,6 +628,10 @@ ul.toptabs:after,
   display: block;
 }
 
+.tree li.droppable.inside > a{
+  background: #ddd;
+}
+
 .tree ul li.open,
 .tree ul li.hasChildren {
   background-image: url(../images/backgrounds/tree-li-open.gif);
