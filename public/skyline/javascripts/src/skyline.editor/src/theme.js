@@ -178,6 +178,7 @@
 	  _onFocus : function(){
       this._onActivate();
 	  },
+	  
 		_onActivate : function(){
 			var t = this, ed = t.editor;
 		  each(t.toolbars,function(to){

@@ -125,7 +125,6 @@
 </dl>
 
 <script type="text/javascript" charset="utf-8">
-  
   <% if Skyline::Configuration.enable_enforce_only_one_user_editing %>
     new Application.Poller("/<%= Skyline::Configuration.url_prefix %>/variants/<%= @variant.id %>/current_editor");
   <% end %>
