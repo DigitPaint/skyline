@@ -22,9 +22,11 @@
 * [UI] Various minor UI fixes
 * [UI] Don't show section choice button if there are no sections to choose from.
 * [UI] Allow setting some parts of a Skyline.Panel with data- attributes
+* [UI] Fix drag & drop of last child of a subtree
 
 ### Configuration (core) ###
 * [Config] Make the default skyline root route configurable (Configuration.default_route)
+* [Config] RSS section cache path is no longer required to be available unless you are using it
 
 ### Referables (core) ###
 * [Referables] Add Linkable interface so we can browse for any object in the linkbrowser that defines this interface
@@ -39,6 +41,7 @@
 * [Articles] Remove Article#enable_multiple_variants? in favour of Article.can_have_multiple_variants? and Article#can_have_multiple_variants?
 * [Articles] Remove unused Article#rollbackable?
 * [Articles] Add support for saving with_skip_version
+* [Articles] Fix destruction of last variant of a page that still has children
 
 ### Media Library ###
 * [MediaLibrary] Add better caching to the Skyline::Media::DataController, also respond with a 404 if the image can't be found
