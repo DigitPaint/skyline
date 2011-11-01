@@ -94,7 +94,7 @@
             skyline_media_dir_file_url(@dir,@file),
             :remote => true,
             :method => :delete,
-            :confirm => 'Weet u zeker dat u dit bestand wilt verwijderen?',
+            :confirm => t(:confirm_destroy, :scope => [:media, :files, :edit], :name => @file.name),
             :href => url_for(:action => "destroy", :id => @file.id),
             :class => "button small red")
       %>
