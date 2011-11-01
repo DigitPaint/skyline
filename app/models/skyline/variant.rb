@@ -136,8 +136,10 @@ class Skyline::Variant < Skyline::ArticleVersion
   end
   
   def destroy_with_removing_page
-    self.destroy_without_removing_page
-    self.article.destroy if self.article.variants(true).empty?
+    Skyline::Article.transaction do
+      self.destroy_without_removing_page
+      self.article.destroy if self.article.variants(true).empty?
+    end
   end
   alias_method_chain :destroy, :removing_page
 
