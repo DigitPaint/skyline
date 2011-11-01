@@ -71,7 +71,7 @@ module Skyline
       
       def add_default_pages_route
         routes_rb = self.target_dir + "config/routes.rb"
-        routing_code = "match '(*url)', :to => \"pages#show\", :constraints => Skyline::RouteConstraint"
+        routing_code = "match '(*url)', :to => \"skyline/site/pages#show\", :constraints => Skyline::RouteConstraint"
         sentinel = /\.routes\.draw do(?:\s*\|map\|)?\s*$/
 
         say "=> Add default pages route"
