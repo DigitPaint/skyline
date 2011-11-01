@@ -1,6 +1,6 @@
 class RemoveUnusedArticlesIndex < ActiveRecord::Migration
   def self.up
-    remove_index :skyline_articles, :name => "index_skyline_pages_on_page_id_and_in_navigation"
+    remove_index :skyline_articles, :name => "sp_page_id_in_navigation"
   end
 
   def self.down

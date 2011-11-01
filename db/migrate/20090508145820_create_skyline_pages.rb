@@ -7,8 +7,8 @@ class CreateSkylinePages < ActiveRecord::Migration
       t.integer :position, :null => false
       t.timestamps
     end
-    add_index :skyline_pages, [:page_id, :position]
-    add_index :skyline_pages, [:page_id, :in_navigation]
+    add_index :skyline_pages, [:page_id, :position], :name => "sp_page_id_position"
+    add_index :skyline_pages, [:page_id, :in_navigation], :name => "sp_page_id_in_navigation"
   end
 
   def self.down

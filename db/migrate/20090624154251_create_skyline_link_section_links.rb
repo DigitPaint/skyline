@@ -8,7 +8,7 @@ class CreateSkylineLinkSectionLinks < ActiveRecord::Migration
       t.integer :position, :null => false
       t.timestamps
     end
-    add_index :skyline_link_section_links, [:link_section_id, :position]
+    add_index :skyline_link_section_links, [:link_section_id, :position], :name => "slsl_link_section_id_position"
   end
 
   def self.down
