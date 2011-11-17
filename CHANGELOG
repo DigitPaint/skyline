@@ -1,5 +1,10 @@
 # Changelog for Skyline #
 
+## Edge ##
+
+### Sections (builtin) ###
+* [Sections] Empty values for MediaSection's dimensions resulted in 0-values for width and height.
+
 ## 3.2.0 (November 1, 2011) ##
 
 ### Core ###
