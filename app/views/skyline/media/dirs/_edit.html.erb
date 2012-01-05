@@ -29,7 +29,7 @@
           <%= link_to_function button_text(:delete_media_dir), "", :class => "button small disabled" %>
         <% else %>
           <%= link_to_remote button_text(:delete_media_dir),{
-            :url => skyline_media_dir_url(@dir), 
+            :url => skyline_media_dir_path(@dir), 
             :method => :delete,
             :confirm => t(:message, :scope => [:media_dir,:destroy]),
             :href => url_for(:action => "destroy", :id => @dir.id)},

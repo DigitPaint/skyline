@@ -90,7 +90,7 @@
   <dd class="last">
     <div class="button">
       <%=link_to_remote button_text(:delete), {
-          :url => skyline_media_dir_file_url(@dir,@file),
+          :url => skyline_media_dir_file_path(@dir,@file),
           :method=> :delete,
           :confirm => 'Weet u zeker dat u dit bestand wilt verwijderen?',
           :href => url_for(:action => "destroy", :id => @file.id) },
