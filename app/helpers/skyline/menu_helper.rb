@@ -23,7 +23,7 @@ module Skyline::MenuHelper
     @_menu_scope = scope
     menu = capture(&block)
     @_menu_scope = []
-    concat(menu)
+    menu
   end
   
   def current_menu_scope(scope)
