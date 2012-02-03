@@ -1,5 +1,5 @@
 if !Object.const_defined?(:Rails)
-  require File.dirname(__FILE__) + "/../../../../../config/environment"
+  require File.dirname(__FILE__) + "/../../../../config/environment"
 end
 
 # ========================================================================
