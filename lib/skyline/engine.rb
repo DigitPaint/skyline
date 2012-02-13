@@ -27,7 +27,7 @@ module Skyline
     end
     
     initializer "skyline.setup_plugins_manager" do |app|
-      app.config.skyline_plugins_manager = Skyline::Plugins::Manager.new(app)
+      app.config.skyline_plugins_manager = Skyline::Plugins::Manager.new(self, app)
       if app.config.cache_classes || !app.config.reload_plugins
         app.config.skyline_plugins_manager.load_all!
       end      

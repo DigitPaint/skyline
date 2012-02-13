@@ -58,10 +58,18 @@ class Skyline::Plugins::Plugin
   def add_view_path!
     vp = (self.path + "app/views")
     return unless vp.exist?
+    engine_vp =  self.manager.engine.root + "app/views"
     
     ActiveSupport.on_load(:action_controller) do
-      prepend_view_path(vp)
+      current_view_paths = self.view_paths
+      append_view_path(vp)
+      plugin_path = self.view_paths.dup.pop
+
+      ep = self.view_paths.detect{|p| p.to_path == engine_vp.to_s}
+      i = self.view_paths.index(ep)
+      self.view_paths = current_view_paths.dup.insert(i, plugin_path)
     end
+
     ActiveSupport.on_load(:action_mailer) do
       prepend_view_path(vp)
     end    
