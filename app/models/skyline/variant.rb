@@ -53,24 +53,26 @@ class Skyline::Variant < Skyline::ArticleVersion
     raise StandardError, "can't be published if its dirty" if self.changed? || self.data.changed?
     
     if self.valid?
-      self.prepare_data_to_be_published!(false)
+      self.article.run_callbacks :publication do
+        self.prepare_data_to_be_published!(false)
 
-      published_publication = self.clone_to_class(self.article.publications)
-      published_publication.save
+        published_publication = self.clone_to_class(self.article.publications)
+        published_publication.save
 
-      self.article.published_publication = published_publication
-      self.article.url_part = published_publication.data.url_part if published_publication.data.respond_to?(:url_part)
-      self.article.published_publication_data = published_publication.data
-      self.article.set_default_variant(self)
-      self.article.save!
+        self.article.published_publication = published_publication
+        self.article.url_part = published_publication.data.url_part if published_publication.data.respond_to?(:url_part)
+        self.article.published_publication_data = published_publication.data
+        self.article.set_default_variant(self)
+        self.article.save!
 
-      unless self.article.keep_history?
-        self.article.publications.each do |publication|
-          publication.destroy if publication != published_publication
+        unless self.article.keep_history?
+          self.article.publications.each do |publication|
+            publication.destroy if publication != published_publication
+          end
         end
-      end
 
-      published_publication
+        published_publication
+      end
     else
       self.prepare_data_to_be_published!(false)
       false

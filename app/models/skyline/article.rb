@@ -64,6 +64,9 @@ class Skyline::Article < ActiveRecord::Base
   before_destroy :confirm_destroyability
   after_destroy :reset_ref_object
   after_destroy :destroy_variants
+  
+  # Custom callbacks
+  define_callbacks :publication
 
   # Validations
   validate :has_at_least_one_variant
