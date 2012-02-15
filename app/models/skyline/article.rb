@@ -67,6 +67,7 @@ class Skyline::Article < ActiveRecord::Base
   
   # Custom callbacks
   define_callbacks :publication
+  define_callbacks :depublication
 
   # Validations
   validate :has_at_least_one_variant
@@ -135,8 +136,10 @@ class Skyline::Article < ActiveRecord::Base
     raise StandardError, "can't be depublished because this page is persistent" if self.persistent?
     
     if self.published_publication
-      self.published_publication.destroy unless self.keep_history?
-      self.published_publication = nil
+      self.run_callbacks :depublication do
+        self.published_publication.destroy unless self.keep_history?
+        self.published_publication = nil
+      end
     end
     
     self.published_publication_data = nil
