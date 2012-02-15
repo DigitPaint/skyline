@@ -16,10 +16,11 @@
 # @private
 class Skyline::Plugins::Manager
   
-  attr_reader :app
+  attr_reader :app, :engine
   
-  def initialize(app)
+  def initialize(engine, app)
     @app = app
+    @engine = engine
     init_all!
   end
   
