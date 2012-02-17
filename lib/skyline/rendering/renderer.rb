@@ -62,7 +62,17 @@ class Skyline::Rendering::Renderer
     # Convert a renderable specified by string to a class
     def renderables_to_class(type, renderables, additional_map = {})
       map = {:sections => "Skyline::Sections"}.merge(additional_map)
-      renderables.map{|f| f.kind_of?(String) ? "#{[map[type], f.camelize].compact.join("::")}".constantize : f}
+      renderables.map do |f|
+        if f.kind_of?(String) 
+          if f =~ /\A::/
+            f.camelize.constantize
+          else
+            "#{[map[type], f.camelize].compact.join("::")}".constantize
+          end
+        else 
+          f
+        end
+      end
     end
     
   end
