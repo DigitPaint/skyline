@@ -30,6 +30,7 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
     else
       if params[:size].present?
         size = params[:size].to_s.split("x").map{|v| v.to_i }
+        size = [0, 0] unless size.count == 2
         size = nil if size[0] == @file.width && size[1] >= @file.height || size[1] == @file.height && size[0] >= @file.width
       else
         size = nil
