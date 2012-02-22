@@ -19,7 +19,11 @@ class Skyline::UsersController < Skyline::ApplicationController
   end
   
   def create
-    @user = Skyline::User.new(params[:user])
+    if (@user = Skyline::User.find_by_email(params[:user][:email])) && @user.is_destroyed
+      @user.reactivate(params[:user])
+    else
+      @user = Skyline::User.new(params[:user])
+    end
     
     if @user.save
       notifications[:success] = t(:success, :scope => [:user,:create,:flashes])

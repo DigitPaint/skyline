@@ -16,7 +16,8 @@ class Skyline::User < ActiveRecord::Base
   
   # This can be set by the admin to force checking of the current password etc
   attr_accessor :editing_myself
-    
+  
+  attr_accessor :skip_email_validation
   
   # Validations
   validate :valid_current_password, :if => :editing_myself, :on => :update
@@ -29,7 +30,7 @@ class Skyline::User < ActiveRecord::Base
   
   validates_presence_of :email
   validate :valid_email_address
-  validates_uniqueness_of :email, :unless => :is_destroyed
+  validates_uniqueness_of :email, :unless => :skip_email_validation
 
   validate :grants_didnt_change, :if => :editing_myself
 
@@ -153,7 +154,7 @@ class Skyline::User < ActiveRecord::Base
   
   # Don't really destroy the object, just
   # set the is_destroyed? flag.
-  def destroy_without_callbacks
+  def destroy
     unless new_record?
       self.update_attributes(:is_destroyed => true)
     end
@@ -169,7 +170,17 @@ class Skyline::User < ActiveRecord::Base
     end
   end
   
-
+  # Reactivate user with these attributes, if they are valid
+  def reactivate(attributes)
+    temp_user = Skyline::User.new(attributes)
+    temp_user.skip_email_validation = true
+    if temp_user.valid?
+      self.grants.collect {|g| g.destroy }
+      self.attributes = attributes
+      self.force_password = attributes[:password]
+      self.is_destroyed = false
+    end
+  end
   
   protected
   
