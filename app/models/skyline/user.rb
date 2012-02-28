@@ -177,7 +177,7 @@ class Skyline::User < ActiveRecord::Base
     if temp_user.valid?
       self.grants.collect {|g| g.destroy }
       self.attributes = attributes
-      self.force_password = attributes[:password]
+      self.force_password! attributes[:password]
       self.is_destroyed = false
     end
   end
