@@ -2,7 +2,7 @@
 class Skyline::Content::Stack < Array
   
   def logger
-    RAILS_DEFAULT_LOGGER
+    Rails.logger
   end
 
   def initialize(implementation,types)

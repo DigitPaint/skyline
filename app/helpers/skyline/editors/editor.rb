@@ -10,9 +10,9 @@ module Skyline::Editors
           Skyline::Editors::TextField.new(name_chain,record,field,template)
         end
       rescue NameError => e
-        RAILS_DEFAULT_LOGGER.warn(" Editor instantiation error ".center(50,"="))
-        RAILS_DEFAULT_LOGGER.warn(e.to_s + "\n" + e.backtrace.join("\n"))
-        RAILS_DEFAULT_LOGGER.warn("=" * 50)      
+        Rails.logger.warn(" Editor instantiation error ".center(50,"="))
+        Rails.logger.warn(e.to_s + "\n" + e.backtrace.join("\n"))
+        Rails.logger.warn("=" * 50)
         Skyline::Editors::TextField.new(name_chain,record,field,template)
       end
     
