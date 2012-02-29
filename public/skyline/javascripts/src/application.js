@@ -4,7 +4,7 @@
 //= require "rails"
 //= require "mootools_on_rails"
 
-var Application = {};
+//= require "application_preinit"
 
 //= require "utils"
 //= require "draggable_files"
