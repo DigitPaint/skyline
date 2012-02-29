@@ -8,6 +8,7 @@ Rails.application.config.middleware.insert_before(
 # Only needed for development, the files will be cached in Production.
 # --
 Rails.application.config.middleware.use(Skyline::SprocketsMiddleware, Rails.public_path, "skyline/javascripts/src", :cache => (Rails.env == "production") ) do |env|
+  env.register_load_location("")
   env.register_load_location("skyline/src")
   env.register_load_location("skyline/vendor/*")
   env.register_load_location("skyline/vendor/fancyupload/")
