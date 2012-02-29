@@ -149,19 +149,23 @@ module Skyline::Content
     # be added through a RefObject.
     # 
     #--
+    mattr_accessor :field_hash
+    mattr_accessor :ungrouped_field_list
+    mattr_accessor :field_order
+    
     def field(*fields,&block)
       options = options_from_params_with_default fields      
       fields = fields.first if fields.any? && fields.first.kind_of?(Array)
       options.reverse_merge! field_create_defaults(options)
-  
+      
       fields.each do |field_name|
         options.update(:name => field_name, :owner => self)
         if self.fields.has_key?(field_name)
-          write_inheritable_hash(:fields,{field_name => MetaData::Field.from(self.fields[field_name],options)})
+          self.field_hash = self.fields.merge(field_name => MetaData::Field.from(self.fields[field_name],options))
         else
-          write_inheritable_hash(:fields,{field_name => MetaData::Field.new(options)})
+          self.field_hash = self.fields.merge(field_name => MetaData::Field.new(options))
         end
-        self.ungrouped_fields << field_name 
+        self.ungrouped_field_list = self.ungrouped_fields << field_name
         yield self.fields[field_name] if block_given?
         after_field_create!(self.fields[field_name])
       end
@@ -184,8 +188,8 @@ module Skyline::Content
       field_group = MetaData::FieldGroup.new(options.update(:owner => self, :name => name))
       yield field_group if block_given?
       
-      write_inheritable_attribute(:ungrouped_fields,self.ungrouped_fields.dup << name)
-      write_inheritable_hash(:fields,{name => field_group}) 
+      self.ungrouped_field_list = self.ungrouped_fields.dup << name
+      self.field_hash = self.fields.merge(name => field_group)
       
       field_group
     end
@@ -194,9 +198,10 @@ module Skyline::Content
     #   field_order :name,:naw,:body
     def field_order(*order)
       if order.empty?
-        read_inheritable_attribute(:field_order) || write_inheritable_attribute(:field_order,order)
+        self.field_order = order unless self.field_order.present?
+        self.field_order
       else
-        write_inheritable_attribute(:field_order,order)
+        self.field_order = order
       end
     end
     
@@ -209,7 +214,7 @@ module Skyline::Content
     # <tt>Array[Symbol]</tt>:: Field names of fields which are writable.
     #--
     def writable_fields #:nodoc:
-      self.fields.select do |k,v| 
+      self.fields.select do |k,v|
         if v.kind_of?(MetaData::Field) && v.editor == :file && !v.hidden_in(:edit)
           true
         else
@@ -231,11 +236,11 @@ module Skyline::Content
     end
     
     def fields #:nodoc:
-      read_inheritable_attribute(:fields) || write_inheritable_hash(:fields,{})
+      self.field_hash || {}
     end
             
     def ungrouped_fields #:nodoc:
-      read_inheritable_attribute(:ungrouped_fields) || write_inheritable_attribute(:ungrouped_fields,[])
+      self.ungrouped_field_list || []
     end
     
     # @deprecated

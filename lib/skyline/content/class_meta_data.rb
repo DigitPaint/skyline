@@ -1,6 +1,7 @@
 module Skyline::Content
   module ClassMetaData
-      
+    mattr_accessor :module_settings
+    
     # Returns singular name of this class, falls back on standard Rails humanization
     def singular_name
       self.settings.singular_label
@@ -72,7 +73,7 @@ module Skyline::Content
       return get_settings if settings.nil? && !block_given?
       s = MetaData::ClassSettings.new(settings.update(:owner => self))
       yield s if block_given?
-      write_inheritable_attribute(:settings,s)
+      self.module_settings = s
       after_set_settings!
       s
     end
@@ -99,7 +100,8 @@ module Skyline::Content
     end
     
     def get_settings
-      read_inheritable_attribute(:settings) || write_inheritable_attribute(:settings,MetaData::ClassSettings.new(:owner => self))
+      self.module_settings = MetaData::ClassSettings.new(:owner => self) unless self.module_settings.present?
+      self.module_settings
     end
   end
 end
