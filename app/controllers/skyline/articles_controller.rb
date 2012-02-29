@@ -133,8 +133,8 @@ class Skyline::ArticlesController < Skyline::ApplicationController
         notifications[:success] = t(:success, :scope => [@article.class, :update, :flashes])
         redirect_to edit_skyline_article_path(@article, :variant_id => @variant.id)
       else
-        if @variant.errors.on(:version)
-          messages.now[:error] = @variant.errors.on(:version)
+        if @variant.errors[:version]
+          messages.now[:error] = @variant.errors[:version]
         else
           messages.now[:error] = t(:error, :scope => [@article.class, :update, :flashes])
         end

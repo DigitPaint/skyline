@@ -51,11 +51,11 @@ module Skyline::Editors
       if self.respond_to? :output_without_errors
         out << field_with_errors([field_prefix, output_without_errors, field_suffix].join.html_safe)
       end
-      content_tag("div",out.html_safe, :id  => "field_#{input_id(field_names)}", :class => "editor #{"invalid" if record.errors.on(field.attribute_name)}")
+      content_tag("div",out.html_safe, :id  => "field_#{input_id(field_names)}", :class => "editor #{"invalid" if record.errors[field.attribute_name]}")
     end
   
     def errors
-      errors = record.errors.on(field.attribute_name)
+      errors = record.errors[field.attribute_name]
       if errors.kind_of?(Array)
         errors.flatten.to_sentence
       else
@@ -70,7 +70,7 @@ module Skyline::Editors
     end
   
     def field_with_errors(content)
-      if self.record.errors.on(self.field.attribute_name) 
+      if self.record.errors[self.field.attribute_name]
         content_tag("div", content.html_safe, :class => "fieldWithErrors")
       else
         content
