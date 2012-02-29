@@ -16,6 +16,6 @@
   <% assign(:heading_level,1) %>
   
   <%= render_collection(article_version.sections) %>
-  <%= @body %>
+  <%= @body.andand.html_safe %>
 </body>
 </html>
