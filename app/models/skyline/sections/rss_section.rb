@@ -31,12 +31,6 @@ class Skyline::Sections::RssSection < ActiveRecord::Base
     self.rss_feed ? self.rss_feed[:items] : []
   end
   
-  protected
-  def cache_file
-    File.join(self.class.cache_path, "#{self.id}.yml")
-  end
-  memoize :cache_file
-    
   def rss_feed
     if File.exists?(self.cache_file) && File.mtime(self.cache_file) > Time.now - self.cache_timeout
       YAML.load(File.read(self.cache_file))
@@ -80,6 +74,12 @@ class Skyline::Sections::RssSection < ActiveRecord::Base
   end
   memoize :rss_feed
   
+  protected
+  def cache_file
+    File.join(self.class.cache_path, "#{self.id}.yml")
+  end
+  memoize :cache_file
+    
   def fetch_feed
     logger.debug "[RssSection] Fetching feed #{self.url}"
     feed = open(self.url).read
