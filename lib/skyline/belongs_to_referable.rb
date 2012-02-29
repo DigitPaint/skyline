@@ -43,7 +43,7 @@ module Skyline::BelongsToReferable
     
     base.send(:cattr_accessor, :referable_contents)
     base.send(:attr_accessor, :previous_referables)
-    base.send(:alias_method_chain, :clone, :referable_content)
+    base.send(:alias_method_chain, :dup, :referable_content)
     
     
     base.send("referable_contents=", [])
@@ -112,13 +112,13 @@ module Skyline::BelongsToReferable
   end
   
   # @private
-  def clone_with_referable_content
-    clone_without_referable_content.tap do |clone|      
+  def dup_with_referable_content
+    dup_without_referable_content.tap do |dup|
       if self.referable_contents.any?
         self.referable_contents.each do |field|
           if self.send(field).present?
-            clone.send("#{field}_id=", nil)
-            clone.send("#{field}=", self.send(field).clone)
+            dup.send("#{field}_id=", nil)
+            dup.send("#{field}=", self.send(field).dup)
           end
         end
       end

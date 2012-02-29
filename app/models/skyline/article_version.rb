@@ -26,30 +26,30 @@ class Skyline::ArticleVersion < ActiveRecord::Base
     self.sections.collect{|s| s.to_text}.join(" ").squeeze(" ")
   end
   
-  def clone
-    super.tap do |clone|
-      clone.created_at = nil
-      clone.updated_at = nil
-      clone.sections = self.sections.collect{|section| section.clone}
-      clone.data = self.data.clone
+  def dup
+    super.tap do |dup|
+      dup.created_at = nil
+      dup.updated_at = nil
+      dup.sections = self.sections.collect{|section| section.dup}
+      dup.data = self.data.dup
     end
   end  
   
   # Clones this object and makes it have another class
-  def clone_to_class(klass_or_proxy)
-    clone = klass_or_proxy.build
+  def dup_to_class(klass_or_proxy)
+    dup = klass_or_proxy.build
 
     attrs = clone_attributes(:read_attribute_before_type_cast)
     attrs.delete(self.class.primary_key)
     attrs.delete("created_at")
     attrs.delete("updated_at")
-    attrs["type"] = clone.type
-    clone.send :instance_variable_set, '@attributes', attrs
+    attrs["type"] = dup.type
+    dup.send :instance_variable_set, '@attributes', attrs
     
-    clone.variant = self if clone.respond_to?(:variant)  # only call clone.variant= for publications
-    clone.sections = self.sections.collect{|section| section.clone}
-    clone.data = self.data.clone
-    clone
+    dup.variant = self if dup.respond_to?(:variant)  # only call clone.variant= for publications
+    dup.sections = self.sections.collect{|section| section.dup}
+    dup.data = self.data.dup
+    dup
   end
   
   # Custom data method that ensures that you always have 

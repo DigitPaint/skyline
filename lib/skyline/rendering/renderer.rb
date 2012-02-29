@@ -173,7 +173,7 @@ class Skyline::Rendering::Renderer
   # 
   # @return [String] The rendererd templates
   def render_collection(objects, options = {}, &block)
-    self.clone.send(:_render_collection, objects, options, &block)
+    self.dup.send(:_render_collection, objects, options, &block)
   end
   
   # The current object that's being rendered

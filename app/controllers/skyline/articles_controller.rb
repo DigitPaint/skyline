@@ -58,7 +58,7 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     end
     
     if @variant.editable_by?(current_user)
-      @variant.edit_by!(current_user) 
+      @variant.edit_by!(current_user)
     else
       messages.now[:error] = render_to_string(:partial => "currently_editing")      
       return render(:action => "edit_preview_only")
@@ -101,7 +101,7 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     begin
       Skyline::Article.transaction do
         if params["clone_variant"] == "1"
-          @variant = @variant.clone()
+          @variant = @variant.dup()
           
           # Dirty hack so AR thinks this object isn't new.
           @variant.attributes = new_variant.attributes.except("version")

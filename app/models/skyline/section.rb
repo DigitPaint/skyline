@@ -19,9 +19,9 @@ class Skyline::Section < ActiveRecord::Base
     self.sectionable = klass.constantize.new(params)
   end
   
-  def clone
-    super.tap do |clone|
-      clone.sectionable = self.sectionable.clone
+  def dup
+    super.tap do |dup|
+      dup.sectionable = dup.sectionable.dup
     end
   end  
   

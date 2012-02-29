@@ -16,7 +16,7 @@ class Skyline::Publication < Skyline::ArticleVersion
     raise ArgumentError, "variant_attributes must be an Hash" unless variant_attributes.kind_of?(Hash)
     raise ArgumentError, "variant_attributes['name'] expected" unless variant_attributes.include?('name')
     
-    variant = self.clone_to_class(self.article.variants)
+    variant = self.dup_to_class(self.article.variants)
     variant.attributes = variant_attributes      
     variant.variant_id = nil
     variant.save

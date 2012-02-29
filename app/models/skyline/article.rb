@@ -215,29 +215,29 @@ class Skyline::Article < ActiveRecord::Base
     false
   end
 
-  def clone
-    s = super.tap do |clone|
-      clone.created_at = nil
-      clone.updated_at = nil
-      clone.default_variant_id = nil
-      clone.default_variant_data_id = nil
-      clone.default_variant = nil
-      clone.default_variant_data = nil
-      clone.published_publication_id = nil
-      clone.published_publication_data_id = nil      
+  def dup
+    s = super.tap do |dup|
+      dup.created_at = nil
+      dup.updated_at = nil
+      dup.default_variant_id = nil
+      dup.default_variant_data_id = nil
+      dup.default_variant = nil
+      dup.default_variant_data = nil
+      dup.published_publication_id = nil
+      dup.published_publication_data_id = nil
       
-      clone.publications.clear
-      clone.versions.clear          
-      clone.variants.clear  
+      dup.publications.clear
+      dup.versions.clear
+      dup.variants.clear
           
       self.variants.each do |variant| 
-        variant_clone = variant.clone
-        clone.variants << variant_clone
-        variant_clone.article = clone
-        variant_clone.article_id = nil
-        self.becomes_default_variant_after_save = variant_clone if variant == self.default_variant
+        variant_dup = variant.dup
+        dup.variants << variant_dup
+        variant_dup.article = dup
+        variant_dup.article_id = nil
+        self.becomes_default_variant_after_save = variant_dup if variant == self.default_variant
       end
-      clone
+      dup
     end
   end
 

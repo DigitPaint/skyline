@@ -56,7 +56,9 @@ class Skyline::Variant < Skyline::ArticleVersion
       self.article.run_callbacks :publication do
         self.prepare_data_to_be_published!(false)
 
-        published_publication = self.clone_to_class(self.article.publications)
+        published_publication = self.dup_to_class(self.article.publications)
+        published_publication.created_at = Time.now
+        published_publication.updated_at = Time.now
         published_publication.save
 
         self.article.published_publication = published_publication

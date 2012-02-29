@@ -35,9 +35,9 @@ class Skyline::ObjectRef < Skyline::RefObject
     self.referable_type == "Skyline::MediaFile"
   end
   
-  def clone
-    super.tap do |clone|
-      clone.referable = self.referable.clone if self.referable.kind_of?(Skyline::ReferableUri)
+  def dup
+    super.tap do |dup|
+      dup.referable = self.referable.dup if self.referable.kind_of?(Skyline::ReferableUri)
     end
   end
   
