@@ -19,6 +19,8 @@ class Skyline::Publication < Skyline::ArticleVersion
     variant = self.dup_to_class(self.article.variants)
     variant.attributes = variant_attributes      
     variant.variant_id = nil
+    variant.created_at = Time.now
+    variant.updated_at = Time.now
     variant.save
     variant
   end
