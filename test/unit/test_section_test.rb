@@ -6,7 +6,7 @@ class TestSectionTest < ActiveSupport::TestCase
   context "test section" do
     setup do
       @small_image_html = "<img src='henk.jpg' skyline-ref-id='' skyline-referable-id='10'  skyline-referable-type='Skyline::MediaFile' width='200' height='200'/>"
-      @small_image_no_refs = "<img src=\"broken.jpg\" height=\"200\" width=\"200\" />"
+      @small_image_no_refs = "<img src=\"broken.jpg\" width=\"200\" height=\"200\" />"
       
       @small_link_html = "<a href=\"henk.html\" skyline-ref-id=\"\" skyline-referable-id=\"10\"  skyline-referable-type=\"Skyline::MediaFile\" class=\"myLink\">my link</a>"
       @small_link_no_refs = "<a href=\"broken\" class=\"myLink\" >my link</a>"
