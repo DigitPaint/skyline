@@ -12,7 +12,7 @@ class Skyline::Article < ActiveRecord::Base
     
     def self.inherited(subclass)
       super      
-      subclass.set_table_name subclass.name.underscore.gsub("/","_")
+      subclass.table_name = subclass.name.underscore.gsub("/","_")
       
       parentclass = subclass.parent
       parentclass.class_eval do
@@ -45,7 +45,7 @@ class Skyline::Article < ActiveRecord::Base
 
   extend ActiveSupport::Memoizable
 
-  set_table_name :skyline_articles
+  self.table_name = "skyline_articles"
   
   # Associations
   has_many :versions, :class_name => "Skyline::ArticleVersion" 

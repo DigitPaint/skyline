@@ -1,6 +1,6 @@
 # @private
 class Skyline::ArticleVersion < ActiveRecord::Base
-  set_table_name :skyline_article_versions
+  self.table_name = "skyline_article_versions"
   
   belongs_to :article, :class_name => "Skyline::Article", :foreign_key => "article_id"
   belongs_to :data, :polymorphic => true, :dependent => :destroy

@@ -1,7 +1,7 @@
 class Skyline::User < ActiveRecord::Base
   include Skyline::Authentication::User
   
-  set_table_name :skyline_users
+  self.table_name = "skyline_users"
   has_many :grants, :class_name => "Skyline::Grant", :dependent => :delete_all
   has_many :roles, :class_name => "Skyline::Role", :through => :grants
   has_many :rights, :class_name => "Skyline::Right", 

@@ -1,6 +1,6 @@
 # @private
 class Skyline::Section < ActiveRecord::Base
-  set_table_name :skyline_sections
+  self.table_name = "skyline_sections"
   
   belongs_to :variant, :class_name => "Skyline::Variant"
   belongs_to :article_version, :class_name => "Skyline::ArticleVersion"

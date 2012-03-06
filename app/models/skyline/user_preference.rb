@@ -1,5 +1,5 @@
 class Skyline::UserPreference < ActiveRecord::Base
-  set_table_name :skyline_user_preferences
+  self.table_name = "skyline_user_preferences"
   
   belongs_to :user, :class_name => "::#{Skyline::Configuration.user_class.name}"
   

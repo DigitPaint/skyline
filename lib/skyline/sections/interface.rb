@@ -24,7 +24,7 @@ module Skyline::Sections::Interface
  
   def self.included(base)
     base.class_eval do
-      set_table_name "skyline_sections_#{base.table_name}" if base.parents.include?(Skyline)
+      self.table_name = "skyline_sections_#{base.table_name}" if base.parents.include?(Skyline)
       has_one :section, :as => :sectionable, :class_name => "Skyline::Section"
     end
     base.send(:cattr_accessor, :default_interface)
