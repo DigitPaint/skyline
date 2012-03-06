@@ -5,7 +5,17 @@ class Skyline::LocalesTest < ActiveSupport::TestCase
     setup do
       @original_load_path = I18n.load_path.dup
       @origignal_locale = I18n.locale
-      I18n.load_path = I18n.load_path.select{|p| (p =~ /vendor\/plugins\/skyline/)}
+      
+      skyline_locales = Dir[Skyline.root + "config/locales/*.{yml,rb}"]
+      idx = I18n.load_path.index(I18n.load_path.grep(/#{Rails.root}\/config\/locales.+/).first)
+      if idx
+        I18n.load_path.insert(idx,*skyline_locales)
+      else
+        skyline_locales.each do |locale|
+          I18n.load_path << locale
+        end
+      end
+      
       I18n.backend = I18n::Backend::Simple.new
       
       @standard_locale = :"nl-NL"
@@ -15,11 +25,11 @@ class Skyline::LocalesTest < ActiveSupport::TestCase
 
     should "should all have all entries" do
       I18n.locale = @standard_locale
-      standard = I18n.translate("")
+      standard = I18n.backend.send(:translations)
       
       @other_locales.each do |l|
         I18n.locale = l
-        other = I18n.translate("")
+        other = I18n.backend.send(:translations)
         
         missing_keys = differences(standard, other)
         if missing_keys.any?
