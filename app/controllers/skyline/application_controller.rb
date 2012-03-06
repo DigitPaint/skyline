@@ -116,7 +116,7 @@ class Skyline::ApplicationController < ApplicationController
       up.each do |k,v|
         if k == "_delete"
           v.each do |delete_id|
-            current_user.user_preferences.remove(delete_id)
+            current_user.user_preferences.remove_key(delete_id)
           end
         else
           current_user.user_preferences.set(k,v)

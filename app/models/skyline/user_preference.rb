@@ -26,7 +26,7 @@ class Skyline::UserPreference < ActiveRecord::Base
       self.exists?(["`#{self.table_name}`.`key` LIKE ?", "#{key}.%"])
     end
     
-    def remove(key)
+    def remove_key(key)
       self.delete_all("`#{self.table_name}`.`key` LIKE '#{key}.%'")
     end
         
