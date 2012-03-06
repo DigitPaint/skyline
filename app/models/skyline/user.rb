@@ -157,6 +157,7 @@ class Skyline::User < ActiveRecord::Base
   def destroy
     unless new_record?
       self.update_attributes(:is_destroyed => true)
+      self.grants.collect {|g| g.destroy }
     end
     
     freeze
@@ -175,7 +176,6 @@ class Skyline::User < ActiveRecord::Base
     temp_user = Skyline::User.new(attributes)
     temp_user.skip_email_validation = true
     if temp_user.valid?
-      self.grants.collect {|g| g.destroy }
       self.attributes = attributes
       self.force_password! attributes[:password]
       self.is_destroyed = false
