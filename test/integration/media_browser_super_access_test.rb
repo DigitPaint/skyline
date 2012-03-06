@@ -37,11 +37,11 @@ class MediaBrowserSuperAccessTest < ActionController::IntegrationTest
     end 
      
     should "be able to create a MediaFile" do
-      @u.allow(:post, skyline_media_dir_files_path(@media_dir),{:Filename => "/files/test.gif", :Filedata => fixture_file_upload("/../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
+      @u.allow(:post, skyline_media_dir_files_path(@media_dir),{:Filename => "/files/test.gif", :Filedata => fixture_file_upload(File.dirname(__FILE__) + "/../../db/fixtures/files/test.gif", "image/gif")})
     end
       
     should "be able to edit a MediaFile" do
-      @u.allow(:put,  skyline_media_dir_file_path(@media_dir,@media_file), {:Filename => "/files/test.gif", :mediafile => fixture_file_upload("/../../vendor/plugins/skyline/db/fixtures/files/test.gif", "image/gif")})
+      @u.allow(:put,  skyline_media_dir_file_path(@media_dir,@media_file), {:Filename => "/files/test.gif", :mediafile => fixture_file_upload(File.dirname(__FILE__) + "/../../db/fixtures/files/test.gif", "image/gif")})
     end    
       
     should "be able to delete a MediaFile" do
