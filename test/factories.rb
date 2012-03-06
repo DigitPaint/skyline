@@ -1,3 +1,5 @@
+require 'factory_girl'
+
 Factory.define :media_dir, :class => Skyline::MediaDir do |d|  
   d.name "test_dir"
 end
