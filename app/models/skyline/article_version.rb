@@ -15,11 +15,11 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   
   accepts_nested_attributes_for :data
   
-  def build_data(data_attributes)
-    params = data_attributes.dup
-    raise ArgumentError, "Missing class parameter when building data" unless params["class"]
-    klass = params.delete("class")
-    self.data = klass.constantize.new(params)
+  def build_data(*params, &block)
+    attrs = params.first.dup
+    raise ArgumentError, "Missing class parameter when building data" unless attrs["class"]
+    klass = attrs.delete("class")
+    self.data = klass.constantize.new(attrs)
   end
 
   def to_text  
