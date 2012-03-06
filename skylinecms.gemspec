@@ -40,6 +40,8 @@ Gem::Specification.new do |s|
   s.add_dependency "seed-fu", "2.2.0"
   s.add_dependency "mail", "~>2.4.1" 
   s.add_dependency "personify", "~> 1.1.0"
+  s.add_dependency 'factory_girl'
+  s.add_dependency 'shoulda'
 
 end
 
