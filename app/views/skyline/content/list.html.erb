@@ -1,8 +1,8 @@
 <% content_for :header do %>
   <% if @stack.size > 1 %>
-    <%= @title = t(:title_sublisting, :scope => [:content, :list], :group => @stack.klass.plural_name, :title => @stack[-2].class.singular_name + " " + @stack[-2].human_id.to_s) %>
+    <%= @title = t(:title_sublisting, :scope => [:content, :list], :group => @stack.klass.plural_name, :title => @stack[-2].class.singular_name + " " + @stack[-2].human_id.to_s).html_safe %>
   <% else %>
-    <%= @title = t(:title, :scope => [:content, :list], :class => @stack.klass.plural_name) %> 
+    <%= @title = t(:title, :scope => [:content, :list], :class => @stack.klass.plural_name).html_safe %> 
   <% end %>
 <% end %>
 
