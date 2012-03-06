@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'test_helper'
 require 'mocks/test_section.rb'
 
@@ -217,7 +218,7 @@ class TestSectionTest < ActiveSupport::TestCase
         assert @section[:body_a].match(/\[REF/)
         @section = Skyline::TestSection.find(@section.id)
           
-        @clone = @section.clone
+        @clone = @section.dup
         assert @clone.save
         @clone_refs = Skyline::InlineRef.hash_refs_for_object(@clone,:body_a)
         assert_equal 1, @clone_refs.keys.size
