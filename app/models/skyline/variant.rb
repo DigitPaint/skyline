@@ -162,7 +162,7 @@ class Skyline::Variant < Skyline::ArticleVersion
   
   def create_data
     if self.data.new_record?
-      self.data.save(false)
+      self.data.save(:validate => false)
       self.data_id = self.data.id
     end
   end
