@@ -9,7 +9,7 @@
 <%= Skyline::Presenters::Table.new(@elements,stack.klass,self).output %>
 
 <% content_for :meta do %>
-  <%= render :partial => "add", :locals => {:klass => stack.klass, :record => stack.current, :return_to => url_for({})} %>	
+  <%= render :partial => "add", :locals => {:klass => stack.klass, :record => stack.current, :return_to => url_for(:types => stack.klass.to_s.underscore.pluralize)} %>	
   <%= render :partial => "filter" if stack.klass.filterable? %>
 <% end %>
 
