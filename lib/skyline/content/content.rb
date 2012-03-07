@@ -184,7 +184,7 @@ module Skyline::Content
         return nil if self_referential_associations.empty?
         
         self_referential_associations.collect do |assoc| 
-          (assoc.options[:foreign_key] || assoc.primary_key_name).to_s + " is null" 
+          (assoc.options[:foreign_key] || assoc.foreign_key).to_s + " is null"
         end.join(" AND ")
       end
     
@@ -282,7 +282,7 @@ module Skyline::Content
          params = {}
          if tempid = k.to_s[/^n__?(n?\d+)/,1]
            # new
-           params.update(assoc.source_reflection.primary_key_name => target_id)
+           params.update(assoc.source_reflection.foreign_key => target_id)
            params.update(position_column => order_map[tempid]) if position_column           
            self.send(assoc.through_reflection.name).build(v.update(params))
          else
