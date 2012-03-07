@@ -103,12 +103,6 @@ mime_types = {
                     audio/x-midi
                     application/x-midi
                     audio/ac3},
-  :pdf =>        %w{application/pdf
-                    application/x-pdf
-                    application/acrobat
-                    applications/vnd.pdf
-                    text/pdf
-                    text/x-pdf},
   :excel =>      %w{application/vnd.ms-excel
                     application/msexcel
                     application/x-msexcel
