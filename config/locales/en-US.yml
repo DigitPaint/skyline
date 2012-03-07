@@ -631,7 +631,7 @@
     add_a_new: Add %{class}
     add_more: Add more %{class}
     pagination:
-      number_of: "Nubmer of %{class}:"
+      number_of: "Number of %{class}:"
       pages: "Pages:"
       next: "Next &raquo;"
       previous: "Previous &raquo;"
