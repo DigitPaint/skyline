@@ -43,8 +43,6 @@ class Skyline::Article < ActiveRecord::Base
     attr_accessor :to_be_published    
   end
 
-  extend ActiveSupport::Memoizable
-
   self.table_name = "skyline_articles"
   
   # Associations

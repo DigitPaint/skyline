@@ -1,6 +1,5 @@
 # @private
 class Skyline::Content::Implementation
-  extend ActiveSupport::Memoizable
   include Singleton
   
   # All the content_classes. This works fine when using in Rails
@@ -30,12 +29,14 @@ class Skyline::Content::Implementation
     
   # Does this implementations have a Settings class?
   def has_settings?
-    "Settings".constantize
-    true
-  rescue NameError
-    false
+    return @has_settings unless @has_settings === nil
+    @has_settings = begin
+      "Settings".constantize
+      true
+    rescue NameError
+      false
+    end
   end
-  memoize :has_settings?
   
   # The settings class for this implementation
   def settings
