@@ -9,6 +9,7 @@ module Skyline::FormHelper
   
   def skyline_fields_for(record_or_name_or_array, *args, &block)
     options = args.extract_options!
+    args = [nil] if args == []
     with_custom_field_error_proc do
       self.fields_for(record_or_name_or_array, *(args << options.merge(:builder => Skyline::FormBuilder)), &proc)    
     end    
