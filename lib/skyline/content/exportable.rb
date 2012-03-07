@@ -3,7 +3,9 @@ module Skyline::Content
   module Exportable
     
     # List of possible export formats for this class
-    mattr_accessor :export_formats
+    def export_formats
+      self.exportable_formats || []
+    end
     
     # Set a list of possible export format for this class
     # [DOC]
@@ -15,7 +17,7 @@ module Skyline::Content
         class << self; self; end.send(:define_method, "export_#{format}"){}
       end
       if formats.any?
-        self.export_format = formats
+        self.exportable_formats = formats
         class << self; self; end.send(:define_method,:exportable?) do
           true
         end

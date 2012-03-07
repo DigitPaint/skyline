@@ -3,25 +3,35 @@ module Skyline::Content
   module Content
     def self.included(obj)
       obj.extend(KlassMethods)
-     
-       if obj.ancestors.include?( ::ActiveRecord::Base)
-         obj.class_eval do 
-           after_save :process_after_save
+      
+      if obj.ancestors.include?( ::ActiveRecord::Base)
+        obj.class_eval do
+          after_save :process_after_save
+          
+          # Attributes for module settings (replacement for read/write_inheritable*)
+          # Values for FieldMetaData
+          class_attribute :fmd_field_hash
+          class_attribute :fmd_ungrouped_field_list
+          class_attribute :fmd_field_order_value
+          # Settings for ClassMetaData
+          class_attribute :cmd_settings
+          # List of possible export formats for Exportable
+          class_attribute :exportable_formats
            
-           scope :published, lambda {
-             if obj.publishable?
-               {:conditions => {:published => true}}
-             else
-               {}
-             end
-           }
+          scope :published, lambda {
+            if obj.publishable?
+              {:conditions => {:published => true}}
+            else
+              {}
+            end
+          }
 
-           scope :with_site, {}
-         end         
-       end
-     end 
+          scope :with_site, {}
+        end
+      end
+    end
      
-     module KlassMethods  #:nodoc:
+    module KlassMethods  #:nodoc:
     
       def content?
         true
