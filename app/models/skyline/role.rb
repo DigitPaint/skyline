@@ -1,6 +1,6 @@
 # @private
 class Skyline::Role < ActiveRecord::Base
-  set_table_name :skyline_roles
+  self.table_name = "skyline_roles"
   
   has_many :grants, :class_name => "Skyline::Grant"
   has_many :users, :class_name => "Skyline::User", :through => :grants

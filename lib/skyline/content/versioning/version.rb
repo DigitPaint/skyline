@@ -1,6 +1,6 @@
 # @private
 class Skyline::Content::Versioning::Version < ActiveRecord::Base
-  set_table_name "skyline_versions"
+  self.table_name = "skyline_versions"
   belongs_to :versionable, :polymorphic => true
   alias_attribute :current_version, :version
   alias_attribute :current_author, :author

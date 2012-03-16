@@ -110,12 +110,12 @@ class UserPreferenceTest < ActiveSupport::TestCase
     end
     
     should "delete a key" do
-      Skyline::UserPreference.remove("a")
+      Skyline::UserPreference.remove_key("a")
       assert !Skyline::UserPreference.has_key?("a")
     end
     
     should "delete a key and its children" do
-      Skyline::UserPreference.remove("b")
+      Skyline::UserPreference.remove_key("b")
       assert !Skyline::UserPreference.has_key?("b.a")
       assert !Skyline::UserPreference.has_key?("b")
     end

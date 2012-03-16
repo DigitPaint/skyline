@@ -2,7 +2,6 @@ require 'fileutils'
 
 # @private
 class Skyline::Sections::RssSection < ActiveRecord::Base
-  extend ActiveSupport::Memoizable
   extend UrlValidation  
   include Skyline::Sections::Interface
 
@@ -31,15 +30,10 @@ class Skyline::Sections::RssSection < ActiveRecord::Base
     self.rss_feed ? self.rss_feed[:items] : []
   end
   
-  protected
-  def cache_file
-    File.join(self.class.cache_path, "#{self.id}.yml")
-  end
-  memoize :cache_file
-    
   def rss_feed
+    return @rss_feed unless @rss_feed === nil
     if File.exists?(self.cache_file) && File.mtime(self.cache_file) > Time.now - self.cache_timeout
-      YAML.load(File.read(self.cache_file))
+      @rss_feed = YAML.load(File.read(self.cache_file))
     else
       if feed = fetch_feed
         results = RSS::Parser.parse(feed, false)
@@ -66,20 +60,25 @@ class Skyline::Sections::RssSection < ActiveRecord::Base
           } if i < self.show_count  
         end        
         cache(feed)
-        feed
+        @rss_feed = feed
       elsif File.exists?(self.cache_file)
         self.reset_mtime
-        YAML.load(File.read(self.cache_file))
+        @rss_feed = YAML.load(File.read(self.cache_file))
       else
-        false
+        @rss_feed = false
       end
     end
+    @rss_feed
 #  rescue
 #    logger.error "[RssSection] Failed to parse feed!"
 #    false
   end
-  memoize :rss_feed
   
+  protected
+  def cache_file
+    @cache_file ||= File.join(self.class.cache_path, "#{self.id}.yml")
+  end
+    
   def fetch_feed
     logger.debug "[RssSection] Fetching feed #{self.url}"
     feed = open(self.url).read

@@ -1,4 +1,4 @@
-<%= skyline_fields_for "article[variants_attributes][1][sections_attributes][#{guid}][sectionable_attributes]", sectionable do |s| %>
+<%= skyline_fields_for sectionable, :as => "article[variants_attributes][1][sections_attributes][#{guid}][sectionable_attributes]" do |s| %>
   <table class="fields" id="section-<%=guid%>-tags">
     <tbody>
       <tr>

@@ -54,7 +54,6 @@ class Skyline::Page < Skyline::Article
   default_scope :order => "position"
  
   class << self
-    extend ActiveSupport::Memoizable
     
     def right_prefix
       "page"
@@ -158,9 +157,8 @@ class Skyline::Page < Skyline::Article
   end
   
   def nesting
-    self.root? ? [self] : self.parent.nesting + [self]
+    @nesting ||= self.root? ? [self] : self.parent.nesting + [self]
   end
-  memoize :nesting
   
   def parents
     self.nesting.dup[0..-2]

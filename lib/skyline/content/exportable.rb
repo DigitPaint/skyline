@@ -4,8 +4,8 @@ module Skyline::Content
     
     # List of possible export formats for this class
     def export_formats
-      read_inheritable_attribute(:export_formats) || []
-    end      
+      self.exportable_formats || []
+    end
     
     # Set a list of possible export format for this class
     # [DOC]
@@ -17,7 +17,7 @@ module Skyline::Content
         class << self; self; end.send(:define_method, "export_#{format}"){}
       end
       if formats.any?
-        write_inheritable_attribute(:export_formats,formats)
+        self.exportable_formats = formats
         class << self; self; end.send(:define_method,:exportable?) do
           true
         end

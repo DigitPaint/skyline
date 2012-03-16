@@ -1,6 +1,6 @@
 # @private
 class Skyline::MediaCache < ActiveRecord::Base    
-  set_table_name :skyline_media_cache  
+  self.table_name = "skyline_media_cache"
   
   # Cache path must be a Pathname object
   cattr_accessor :cache_path

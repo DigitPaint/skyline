@@ -80,7 +80,7 @@ class Skyline::ArticleTest < ActiveSupport::TestCase
       @orig[:default_variant] = @article.default_variant
       @orig[:default_variant_data] = @article.default_variant_data
       
-      @clone = @article.clone
+      @clone = @article.dup
     end
     
     should "be a new record" do

@@ -9,8 +9,8 @@ class Skyline::VariantsController < Skyline::ApplicationController
     return handle_unauthorized_user unless Skyline::Configuration.enable_multiple_variants
     
     if params[:variant_id]
-      variant_to_clone = @article.variants.find_by_id(params[:variant_id])
-      variant = variant_to_clone.clone
+      variant_to_dup = @article.variants.find_by_id(params[:variant_id])
+      variant = variant_to_dup.dup
       variant.save
     else
       variant = @article.variants.create

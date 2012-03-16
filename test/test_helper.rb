@@ -4,6 +4,7 @@ require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config/environment.rb'))
 require 'rails/test_help'
 # include ActionController::TestProcess
 require 'factories'
+require 'shoulda'
 
 SILENT_SEED = true
 Rails.backtrace_cleaner.remove_silencers!

@@ -14,27 +14,27 @@ class UserPreferencesTest < ActionController::IntegrationTest
     end
     
     should "be stored in a cookie with value and sent on request" do
-      @u.cookies["skyline_up"] = CGI::escape(ActiveSupport::JSON.encode({"my_field" => "a.email@address.com"}))
+      @u.cookies["skyline_up"] = ActiveSupport::JSON.encode({"my_field" => "a.email@address.com"})
       @u.get "/skyline"
       @u.assert_equal('a.email@address.com', @user.user_preferences.get('my_field'))
     end
     
     should "be stored in a cookie with serialized hash and sent on request" do
       up_my_hash = {'a' => 1, 'b' => 2}
-      @u.cookies["skyline_up"] = CGI::escape(ActiveSupport::JSON.encode({"my_hash" => up_my_hash}))
+      @u.cookies["skyline_up"] = ActiveSupport::JSON.encode({"my_hash" => up_my_hash})
       @u.get "/skyline"
       @u.assert_equal(up_my_hash, @user.user_preferences.get('my_hash'))
     end
 
     should "be able to collect multiple values and send after request" do
-      @u.cookies["skyline_up"] = CGI::escape(ActiveSupport::JSON.encode({"my_field" => "a.email@address.com", "my_hash" => {'a' => 1, 'b' => 2}}))
+      @u.cookies["skyline_up"] = ActiveSupport::JSON.encode({"my_field" => "a.email@address.com", "my_hash" => {'a' => 1, 'b' => 2}})
       @u.get "/skyline"  
       @u.assert_equal({'a' => 1, 'b' => 2}, @user.user_preferences.get('my_hash'))
       @u.assert_equal('a.email@address.com', @user.user_preferences.get('my_field'))
     end
     
     should "have empty value in cookie after request" do
-      @u.cookies["skyline_up"] = CGI::escape(ActiveSupport::JSON.encode({"my_field" => "a.email@address.com"}))
+      @u.cookies["skyline_up"] = ActiveSupport::JSON.encode({"my_field" => "a.email@address.com"})
       @u.cookies["my_own_field"] = "Do not delete me"
       
       @u.get "/skyline"
@@ -60,7 +60,7 @@ class UserPreferencesTest < ActionController::IntegrationTest
     
     should "store delete value in cookie and handle correctly" do
       @u.assert @user.user_preferences.has_key?("a")
-      @u.cookies["skyline_up"] = CGI::escape(ActiveSupport::JSON.encode({"_delete" => ["a","b"]}))
+      @u.cookies["skyline_up"] = ActiveSupport::JSON.encode({"_delete" => ["a","b"]})
       
       @u.get "/skyline"
       

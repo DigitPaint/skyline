@@ -31,9 +31,9 @@ class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
     self.content_class.published.with_tags(self.tags).scoped(:limit => self.number)
   end
   
-  def clone
-    super.tap do |clone|
-      clone.associated_tags = self.associated_tags.collect{|associated_tag| associated_tag.clone}
+  def dup
+    super.tap do |dup|
+      dup.associated_tags = self.associated_tags.collect{|associated_tag| associated_tag.dup}
     end
   end  
 end

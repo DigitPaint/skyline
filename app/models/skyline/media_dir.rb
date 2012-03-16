@@ -1,6 +1,5 @@
 # @private
 class Skyline::MediaDir < Skyline::MediaNode
-  extend ActiveSupport::Memoizable
   include UniqueIdentifiers
   
   has_many :files, :foreign_key => "parent_id", :class_name => "Skyline::MediaFile"
@@ -14,7 +13,6 @@ class Skyline::MediaDir < Skyline::MediaNode
   validate :only_one_root
     
   class << self
-    extend ActiveSupport::Memoizable
     # returns an Array of hashes
     #
     # ==== Returns

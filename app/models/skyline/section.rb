@@ -1,6 +1,6 @@
 # @private
 class Skyline::Section < ActiveRecord::Base
-  set_table_name :skyline_sections
+  self.table_name = "skyline_sections"
   
   belongs_to :variant, :class_name => "Skyline::Variant"
   belongs_to :article_version, :class_name => "Skyline::ArticleVersion"
@@ -12,16 +12,16 @@ class Skyline::Section < ActiveRecord::Base
   
   default_scope :order => "position ASC"
   
-  def build_sectionable(sectionable_attributes)
-    params = sectionable_attributes.dup
-    raise ArgumentError, "Missing class parameter when building sectionable" unless params["class"]
-    klass = params.delete("class")
-    self.sectionable = klass.constantize.new(params)
+  def build_sectionable(*params, &block)
+    attrs = params.first.dup
+    raise ArgumentError, "Missing class parameter when building sectionable" unless attrs["class"]
+    klass = attrs.delete("class")
+    self.sectionable = klass.constantize.new(attrs)
   end
   
-  def clone
-    super.tap do |clone|
-      clone.sectionable = self.sectionable.clone
+  def dup
+    super.tap do |dup|
+      dup.sectionable = dup.sectionable.dup
     end
   end  
   

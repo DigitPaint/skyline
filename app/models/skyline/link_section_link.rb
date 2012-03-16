@@ -3,7 +3,7 @@ class Skyline::LinkSectionLink < ActiveRecord::Base
   include Skyline::BelongsToReferable
   include Skyline::Positionable
   
-  set_table_name :skyline_link_section_links
+  self.table_name = "skyline_link_section_links"
   
   self.positionable_scope = :link_section_id
   

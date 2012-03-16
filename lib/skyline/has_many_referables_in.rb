@@ -34,7 +34,7 @@ module Skyline::HasManyReferablesIn
     base.send(:has_many, :image_refs, :class_name => "Skyline::ImageRef", :conditions => {:refering_type => base.name}, :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
     base.send(:has_many, :link_refs, :class_name => "Skyline::LinkRef", :conditions => {:refering_type => base.name}, :foreign_key => :refering_id, :source_type => base.name, :dependent => :destroy)
     
-    base.send :alias_method_chain, :clone, :referables    
+    base.send :alias_method_chain, :dup, :referables
   end
   
   module ClassMethods    
@@ -72,11 +72,11 @@ module Skyline::HasManyReferablesIn
   
   # Implementation of the clone interface
   # @private
-  def clone_with_referables
-    clone_without_referables.tap do |clone|      
+  def dup_with_referables
+    dup_without_referables.tap do |dup|
       if !self.referable_fields.nil?
         self.referable_fields.each do |field|         
-          clone.send("#{field}=".to_sym, self.send(field,true,{:nullify => true}))
+          dup.send("#{field}=".to_sym, self.send(field,true,{:nullify => true}))
         end
       end
     end

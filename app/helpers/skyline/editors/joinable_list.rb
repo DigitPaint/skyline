@@ -4,7 +4,7 @@ class Skyline::Editors::JoinableList < Skyline::Editors::Editor
   
   def initialize(names,record,field,template)
     super
-    RAILS_DEFAULT_LOGGER.debug("@attribute => #{@attribute_names.inspect}")
+    Rails.logger.debug("@attribute => #{@attribute_names.inspect}")
 
     @reflection = self.field.reflection
     if @reflection.macro == :has_many

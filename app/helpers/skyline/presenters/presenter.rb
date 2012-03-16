@@ -32,13 +32,13 @@ class Skyline::Presenters::Presenter
     
   
   def edit_button(record)
-		link_to button_text(:edit),{:action => "edit", :types => stack.url_types(:down => [record.id]), :return_to  => url_for({:filter => params[:filter]})}, :class => "button small"
+    link_to button_text(:edit),{:action => "edit", :types => stack.url_types(:down => [record.id]), :return_to  => url_for({:types => record.class.to_s.underscore.pluralize, :filter => params[:filter]})}, :class => "button small"
   end
   
   def delete_button(record)
     link_to(
       button_text(:delete), 
-      {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({})},
+      {:action => "delete",:types => stack.url_types(:down => [record.id]),:return_to  => url_for({:types => record.class.to_s.underscore.pluralize})},
       :remote => true,
       :confirm => t(:confirm_deletion, :scope => [:content,:list], :class => self.fieldset.singular_name), 
       :class => "button small red")

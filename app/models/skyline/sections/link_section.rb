@@ -9,9 +9,9 @@ class Skyline::Sections::LinkSection < ActiveRecord::Base
   
   accepts_nested_attributes_for :links, :allow_destroy => true
   
-  def clone
-    super.tap do |clone|
-      clone.links = self.links.collect{|link| link.clone}
+  def dup
+    super.tap do |dup|
+      dup.links = self.links.collect{|link| link.dup}
     end
   end  
   

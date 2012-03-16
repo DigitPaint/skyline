@@ -1,6 +1,6 @@
 # @private
 class Skyline::AssociatedTag < ActiveRecord::Base
-  set_table_name :skyline_associated_tags
+  self.table_name = "skyline_associated_tags"
   
   belongs_to :taggable, :polymorphic => true
   belongs_to :tag
