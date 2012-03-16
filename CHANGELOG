@@ -1,8 +1,24 @@
 # Changelog for Skyline #
 
-## Edge ##
+## 3.3.0 (March 16th, 2012) ##
 
 ### [Core] ###
+* [Core] Fix nested_attributes_positioning
+* [Core] Remove deprecated memoize
+* [Core] Changes to form_for and fields_for syntax
+* [Core] Change deprecated logger.silence to manually switch logging level
+* [Core] Fix if errors[attribute_name] returns true even for empty arrays, added .any?
+* [Core] Redirect to content list for selected item after new/create/edit/delete
+* [Core] Fixes for locales-test: load skyline locales as in initializer, I18n.backend.send(:translations) to get all values
+* [Core] Added created_at and updated_at to publication rollback
+* [Core] Revoke user grants when user is destroyed
+* [Core] Update dependencies for testing (shoulda/factorygirl)
+* [Core] Update to latest seed-fu
+* [Core] Change .rhtml to .html.erb
+* [Core] Change clone to dup
+* [Core] Replace RAILS_DEFAULT_LOGGER with Rails.logger
+* [Core] Update javascript to work with newer sprockets gem
+* [Core] Skyline now works with Rails 3.2.2
 * [Core] Allow creation of users that were previously deleted
 * [Core] Allow setting of renderable by string within global namespace
 * [Core] Add hooks for publication and depublication callbacks
@@ -18,10 +34,17 @@
 * [Plugins] Fix view_paths for skyline plugins
 
 ### Media Library
+* [MediaLibrary] Media files edit and delete are available through javascript only
 * [MediaLibrary] Do not allow image links with only one parameter
 
 ### Sections (builtin) ###
 * [Sections] Empty values for MediaSection's dimensions resulted in 0-values for width and height.
+* [Sections] rss_feed method no longer protected in RssSection
+
+### Test ###
+* [Test] Fix Test_section_test: @small_image_no_refs used wrong order for dimensions
+* [Test] Do not use CGI Escaping for JSON in tests
+* [Test] Update reference to test media file in integration test to use more flexible relative path
 
 ### Documentation ###
 * [Documentation] Add link to api
