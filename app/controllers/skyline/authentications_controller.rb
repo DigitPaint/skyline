@@ -18,7 +18,7 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
   def destroy 
     session[:skyline_user_identification] = nil 
     if request.xhr?
-      render(:update){|p| p.redirect_to new_skyline_authentication_path }
+      javascript_redirect_to new_skyline_authentication_path
     else    
       redirect_to new_skyline_authentication_path
     end
