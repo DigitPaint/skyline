@@ -66,8 +66,8 @@ class Skyline::Plugins::Plugin
       plugin_path = self.view_paths.dup.pop
 
       ep = self.view_paths.detect{|p| p.to_path == engine_vp.to_s}
-      i = self.view_paths.index(ep)
-      self.view_paths = current_view_paths.dup.insert(i, plugin_path)
+      i = self.view_paths.paths.index(ep)
+      self.view_paths = current_view_paths.paths.dup.insert(i, plugin_path)
     end
 
     ActiveSupport.on_load(:action_mailer) do
