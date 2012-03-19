@@ -31,7 +31,7 @@ class Skyline::VariantCurrentEditorController < Skyline::ApplicationController
     Rails.logger.level = Logger::FATAL
     
     super
-    
+  ensure
     Rails.logger.level = old_level
   end  
   

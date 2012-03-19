@@ -2,40 +2,33 @@
 
 ## 3.3.0 (March 16th, 2012) ##
 
-### [Core] ###
-* [Core] Fix nested_attributes_positioning
-* [Core] Remove deprecated memoize
-* [Core] Changes to form_for and fields_for syntax
-* [Core] Change deprecated logger.silence to manually switch logging level
-* [Core] Fix if errors[attribute_name] returns true even for empty arrays, added .any?
-* [Core] Redirect to content list for selected item after new/create/edit/delete
-* [Core] Fixes for locales-test: load skyline locales as in initializer, I18n.backend.send(:translations) to get all values
-* [Core] Added created_at and updated_at to publication rollback
-* [Core] Revoke user grants when user is destroyed
-* [Core] Update dependencies for testing (shoulda/factorygirl)
-* [Core] Update to latest seed-fu
-* [Core] Change .rhtml to .html.erb
-* [Core] Change clone to dup
-* [Core] Replace RAILS_DEFAULT_LOGGER with Rails.logger
-* [Core] Update javascript to work with newer sprockets gem
+### Core ###
 * [Core] Skyline now works with Rails 3.2.2
-* [Core] Allow creation of users that were previously deleted
+* [Core] Dependency updates for sprockets, shoulda, factory-girl and seed-fu
+* [Core] Fixed lot's of Rails deprecation issues
 * [Core] Allow setting of renderable by string within global namespace
-* [Core] Add hooks for publication and depublication callbacks
-* [Core] Update seedfiles to use correct path
-* [Core] Update logout link to no longer use :url =>
-* [Core] Fix for bug with some git versions where --quiet is not used, generating not the patch version but a complete log
+* [Core] Fix for bug with VERSION display in some git
 * [Core] Observers are added to applications observers instead of overwriting them
 
 ### User Interface (Core) ###
 * [UI] Remove unused menu_for helper
+* [UI] Changes to form_for and fields_for syntax
+* [UI] Fix logout link to no longer use :url =>
+* [UI] Update javascript to work with newer sprockets gem
 
 ### Plugin management (Core) ###
 * [Plugins] Fix view_paths for skyline plugins
 
+### Articles ###
+* [Articles] Add API for publication/depublication callbacks
+* [Articles] Added created_at and updated_at to publication rollback
+
+### Content elements ###
+* [Content Elements] Redirect to content list for selected item after new/create/edit/delete
+
 ### Media Library
 * [MediaLibrary] Media files edit and delete are available through javascript only
-* [MediaLibrary] Do not allow image links with only one parameter
+* [MediaLibrary] Do not allow image links with only one size parameter (default to 0x0 image)
 
 ### Sections (builtin) ###
 * [Sections] Empty values for MediaSection's dimensions resulted in 0-values for width and height.
@@ -45,11 +38,17 @@
 * [Test] Fix Test_section_test: @small_image_no_refs used wrong order for dimensions
 * [Test] Do not use CGI Escaping for JSON in tests
 * [Test] Update reference to test media file in integration test to use more flexible relative path
+* [Test] Fixes for locales-test: load skyline locales as in initializer, I18n.backend.send(:translations) to get all values
 
 ### Documentation ###
 * [Documentation] Add link to api
 * [Documentation] Update migration documentation
 * [Documentation] Add concepts documentation
+
+### Settings and users ###
+* [Users] Allow creation of users that were previously deleted
+* [Users] Correctly revoke all grants from a user upon deletion
+
 
 ## 3.2.0 (November 1, 2011) ##
 

@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   
   s.add_dependency "thor"
-  s.add_dependency "rails", "3.2.2"
+  s.add_dependency "rails", "~> 3.2.2"
   s.add_dependency "polyglot", "0.3.2"
   s.add_dependency "sprockets", "2.1.2"
   s.add_dependency "mime-types", "1.16"
