@@ -38,7 +38,7 @@ class Skyline::Article < ActiveRecord::Base
       ActiveSupport::Dependencies.autoloaded_constants << "Skyline::Article::Data"
     end
     
-    has_one :version, :as => :data, :class_name => "Skyline::ArticleVersion"
+    has_one :version, :as => :data, :class_name => "Skyline::ArticleVersion", :inverse_of => :data
 
     attr_accessor :to_be_published    
   end
