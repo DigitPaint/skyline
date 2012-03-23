@@ -3,7 +3,7 @@ class Skyline::ArticleVersion < ActiveRecord::Base
   self.table_name = "skyline_article_versions"
   
   belongs_to :article, :class_name => "Skyline::Article", :foreign_key => "article_id"
-  belongs_to :data, :polymorphic => true, :dependent => :destroy
+  belongs_to :data, :polymorphic => true, :dependent => :destroy, :inverse_of => :version
   belongs_to :creator, :class_name => "::#{Skyline::Configuration.user_class.name}"
   belongs_to :last_updated_by, :class_name => "::#{Skyline::Configuration.user_class.name}"
   has_many :sections, :class_name => "Skyline::Section", :dependent => :destroy
