@@ -13,6 +13,8 @@
   Events:
   afterSetup - Fires after the layout has been set up.
   resize - Fires after the panel has been resized.
+  show - Fires when a panel has been shown
+  hide - Fires when a panel has been hidden
   
 */
 Skyline.Layout  = new Class({
@@ -153,8 +155,9 @@ Skyline.Layout  = new Class({
   */  
   show : function(skipSetup){
     this.element.setStyle("display", "block");
-    this.hidden = false;    
+    this.hidden = false;
     if(this.parent && !skipSetup){this.parent.setup();}
+    this.fireEvent("show", [this]);
   },
   /*
     Function: hide()
@@ -164,6 +167,7 @@ Skyline.Layout  = new Class({
     this.element.setStyle("display", "none");
     this.hidden = true; 
     if(this.parent && !skipSetup){this.parent.setup();}    
+    this.fireEvent("hide", [this]);
   },
   /*
     Function: addSplitter()
