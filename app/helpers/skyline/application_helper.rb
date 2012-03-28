@@ -1,4 +1,13 @@
-module Skyline::ApplicationHelper  
+module Skyline::ApplicationHelper
+  
+  # The skyline URL/PATH prefix for the mountable location
+  #
+  # @return [String] the prefix used to mount Skyline
+  def skyline_path_prefix
+    Skyline::Engine.routes._generate_prefix({})
+  end
+  
+  
   # Place a tick or a cross depending on the value of bool
   #
   # @param [Boolean] bool The value of the tick/cross

@@ -16,9 +16,9 @@
   <% end %>
 <% end %>
 
-<%= javascript_include_tag "/skyline/javascripts/skyline.js" %>
-<%= javascript_include_tag "/skyline/javascripts/skyline.editor.js" %>  
-<%= javascript_include_tag "/skyline/javascripts/application.js" %>  	
+<%= javascript_include_tag "#{skyline_path_prefix}/skyline/javascripts/skyline.js" %>
+<%= javascript_include_tag "#{skyline_path_prefix}/skyline/javascripts/skyline.editor.js" %>  
+<%= javascript_include_tag "#{skyline_path_prefix}/skyline/javascripts/application.js" %>  	
 <%= javascript_include_tag skyline_locale_path(I18n.locale) %>  	
 
 <script type="text/javascript" charset="utf-8">

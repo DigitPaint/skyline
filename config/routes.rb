@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+Skyline::Engine.routes.draw do
   namespace :skyline, :path => ("#{Skyline::Configuration.url_prefix}" || "skyline") do
     root Skyline::Configuration.default_route
     
