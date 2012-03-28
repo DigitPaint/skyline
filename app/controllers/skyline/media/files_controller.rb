@@ -37,12 +37,14 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
   end
   
   def create
-    @file = @dir.files.build(:name => params[:Filename], :data => params[:Filedata])
+    @file = @dir.files.build(:name => params[:name], :data => params[:file])
+
+    sleep 1
 
     if @file.save
-      render :json => {:result => "success"}
+      render :json => {:jsonrpc => "2.0", :result => nil, :id => "id"}
     else
-      render :json => {:result => "failed"}
+      render :json => {:jsonrpc => "2.0", :error => @file.errors.full_messages.to_sentence, :id => "id"}, :status => 200
     end
     
   end  

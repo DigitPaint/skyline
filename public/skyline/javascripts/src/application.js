@@ -251,52 +251,41 @@ Application.Layout = (function(){
 
   };  
   
-  Layout.Media.initializeUploadPanel = function(dirPath){
+  Layout.Media.initializeUploadPanel = function(){
     var uPanel = $('contentInfoPanel');
-    var fB = $('finishedbutton');
-    fB.setStyle('display','none');
 
-    var upl = new Application.LibraryUploader("libraryuploaderform",I18n.LibraryUploader);
-
-    fB.addEvent("click",function(e) {
-      e.preventDefault();
-      upl.reset();
-      $('uploadstatus').setStyle("display","");
-      $('cancelselect').setStyle("display","");
-      $('uploadbutton').setStyle("display","");
-      $('finishedbutton').setStyle("display","none");
-
-      uPanel.retrieve("skyline.layout").hide();
-    });  
-
-    upl.addEvent("complete",function(){
-      $('uploadstatus').setStyle("display","none");
-      $('cancelselect').setStyle("display","none");
-      $('uploadbutton').setStyle("display","none");
-
-      $('finishedbutton').setStyle('display','');
-
+    var upl = new Application.LibraryUploader("libraryuploaderform",Object.merge({}, I18n.LibraryUploader, {containerId : "contentInfoPanel"}));
+    
+    upl.addEvent("uploadComplete", function(){
       uPanel.retrieve("skyline.layout").parent.setup();
-
+      // alert($('libraryuploaderform').getProperty("action"));
+      $('libraryuploaderform').getProperty("action");      
       // Get new File list.
-      new Request({
-         evalScripts: true, 
-         url: $('libraryuploaderform').getProperty("action"),
-         method: 'get'
-       }).send();
+      setTimeout(function(){
+        (new Request({
+          evalScripts: true, 
+          url: $('libraryuploaderform').getProperty("action"),
+          method: 'get'
+        })).send();
+      }, 1000);
     });
-
-    upl.addEvent("start",function(){
+    
+    upl.addEvent("uploadStart", function(){
       uPanel.retrieve("skyline.layout").parent.setup();
     });
-
-    $('cancelselect').addEvent('click', function() {
-     upl.reset(); // remove all files
-     uPanel.retrieve("skyline.layout").hide();
-     return false;
-   });
+    
+    upl.addEvent("uploadStop", function(){
+      uPanel.retrieve("skyline.layout").parent.setup();
+    });
+    
+    upl.addEvent("selectCancel", function(){
+      uPanel.retrieve("skyline.layout").hide();
+    });
+    
+    upl.addEvent("uploadFinished", function(){
+      uPanel.retrieve("skyline.layout").hide();
+    });
   };
-  
   
   Layout.current = null;
   

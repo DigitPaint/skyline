@@ -1,6 +1,6 @@
 <div class="upload innerpanel" id="libraryuploader">
 	<div id="uploadarea" class="panelBody">
-    <form id="libraryuploaderform" class="upload innerpanel" action="<%= skyline_media_dir_files_path_with_session_information(@dir) %>">
+    <form id="libraryuploaderform" class="upload innerpanel" action="<%= skyline_media_dir_files_path(@dir, :authenticity_token => form_authenticity_token) %>">
       <div class="upload-files">
         <div class="body">
           <div class="messages"></div>
@@ -17,13 +17,13 @@
           <a id="cancelselect" href="#" class="cancel"><%=t(:cancel, :scope => [:media, :files ,:new]) %></a>
           <%= submit_button :upload, :class => "small green upload", :id => "uploadbutton" %>
           
-          <%= submit_button :ok, :class => "small green upload", :id => "finishedbutton" %>
+          <%= submit_button :ok, :class => "small green finish", :id => "finishedbutton" %>
         </div>
       </div>
       <div class="upload-progress hide">
         <div class="body">
           <%=t(:file_progress, :scope => [:media, :files , :new]).html_safe %>
-          <div class="progressbar">
+          <div class="progressbar" id="uploadprogressbar">
             <div class="bar" style="width: 20%">&nbsp;</div>
           </div>
           <div class="progress-text">
@@ -40,6 +40,6 @@
 </div>
 <script type="text/javascript" charset="utf-8">
   window.addEvent("domready", function(){
-    Application.Layout.Media.initializeUploadPanel("<%= skyline_media_dir_files_path(@dir) %>");
+    Application.Layout.Media.initializeUploadPanel();
   });
 </script>  
