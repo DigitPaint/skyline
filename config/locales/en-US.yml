@@ -737,7 +737,7 @@
         no_files: "No files selected"
         file_progress:  "Uploading file <span class=\"current-file\">1</span> of <span class=\"total-files\">2</span>"
         percentage_progress: "<span class=\"current-percentage\">20%</span> done (<span class=\"current-size\">20 kB</span> of <span class=\"total-size\">100 kB</span>)"              
-        all_uploaded_message: "The following files where uploaded:"   
+        all_uploaded_message: "The following files were uploaded:"   
         some_uploaded_message: "Not all files could be uploaded:"        
         cancel: "Cancel"
       edit:
