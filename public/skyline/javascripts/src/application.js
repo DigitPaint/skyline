@@ -253,28 +253,48 @@ Application.Layout = (function(){
   
   Layout.Media.initializeUploadPanel = function(){
     var uPanel = $('contentInfoPanel');
-
-    var upl = new Application.LibraryUploader("libraryuploaderform",Object.merge({}, I18n.LibraryUploader, {containerId : "contentInfoPanel"}));
+    var upl;
+    window.upl = upl = new Application.LibraryUploader("libraryuploaderform",Object.merge({}, I18n.LibraryUploader, {containerId : "contentInfoPanel"}));
     
-    upl.addEvent("uploadComplete", function(){
+    var uploaderInit = function(){
+      if(upl.supportDragdrop){
+        
+      }
+    };
+    
+    if(!upl.initialized){
+      upl.addEvent("initialized", uploaderInit);
+    } else {
+      uploaderInit();
+    }
+    
+    upl.addEvent("queueChanged", function(){
+   	  var l = $('contentInfoPanel').retrieve('skyline.layout');
+   	  if(l.hidden){
+     	  l.show();
+     	}      
+    });
+    
+    upl.addEvent("uploadCompleted", function(){
       uPanel.retrieve("skyline.layout").parent.setup();
-      // alert($('libraryuploaderform').getProperty("action"));
-      $('libraryuploaderform').getProperty("action");      
+      
       // Get new File list.
-      setTimeout(function(){
-        (new Request({
-          evalScripts: true, 
-          url: $('libraryuploaderform').getProperty("action"),
-          method: 'get'
-        })).send();
-      }, 1000);
+      var r = new Request({
+        evalScripts: true, 
+        url: $('libraryuploaderform').getProperty("action"),
+        method: 'get'
+      });
+      
+      // Sorry IE... It will only send the request if we wait a while..
+      if(Browser.ie6 || Browser.ie7 || Browser.ie8){
+        // alert("refresh!?");
+        setTimeout(function(){ r.send(); }, 1500);
+      } else {
+        r.send();
+      }      
     });
     
-    upl.addEvent("uploadStart", function(){
-      uPanel.retrieve("skyline.layout").parent.setup();
-    });
-    
-    upl.addEvent("uploadStop", function(){
+    upl.addEvent("uiChanged", function(){
       uPanel.retrieve("skyline.layout").parent.setup();
     });
     

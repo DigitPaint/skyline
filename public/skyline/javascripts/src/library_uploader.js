@@ -8,10 +8,13 @@
   
   Events:
   
-  selectCancel         - Called when the cancel button has been clicked.
-  uploadStart    - Called when the upload starts
-  uploadStop     - Called when the upload is stopped by user input
-  uploadComplete - Called when all files have been uploaded (or have tried).
+  initialized    - Called after backend initialization
+  selectCancel   - Called when the cancel button has been clicked.
+  queueChanged   - Called when the Queue has changed.
+  uiRefresh      - Called when the UI has changed (size, etc.)
+  uploadStarted    - Called when the upload starts
+  uploadStopped     - Called when the upload is stopped by user input
+  uploadCompleted - Called when all files have been uploaded (or have tried).
   uploadFinished - Called when the finish button is clicked.
   
 */
@@ -37,6 +40,12 @@ Application.LibraryUploader = new Class({
     // Has the uploader component been initialized?
     this.initialized = false;
     
+    // We have not yet completed upload of the current queue
+    this.completed = false;
+    
+    // Do we support drag & drop; will be available after init
+    this.supportDragdrop = false;
+    
     // The uploadBrowser window
     this.uploadBrowser = new Application.UploadBrowser(this, this.formEl.getElement(".upload-files"));
     
@@ -51,13 +60,14 @@ Application.LibraryUploader = new Class({
   // Reset the uploader to beginstate
   reset : function(){
     if(this.uploader.files.length > 0){
-      this.uploader.splice(0, this.uploader.files.length -1);
+      this.uploader.splice(0, this.uploader.files.length);
       for(var i = 0; i < this.files.length; i++){
         this.files[i].remove();
       }
     }
     this.files = [];
     this.size = 0;
+    this.completed = false;
     
     this.uploader.settings.browse_button = this.options.browseButtonId;
     this.uploader.disableBrowse(false);
@@ -65,11 +75,44 @@ Application.LibraryUploader = new Class({
     this.uploaderInit();    
   },
   
-  // Refreshes the uploader, but only if it has been initialized.
-  refresh : function(){
-    if(this.initialized){
-       this.uploader.refresh();
+  // Syncs rendered queue with uploader; same as reset but does not clear out the queue;
+  _syncQueueWithUploader : function(){
+    // Remove all rendered files
+    for(var i = 0; i < this.files.length; i++){
+      this.files[i].remove();
     }
+    
+    this.files = [];
+    this.size = 0;
+    this.completed = true;
+    
+    // Render files in queue that have not been uploaded
+    if(this.uploader.files.length > 0){
+      var removeFiles = [];
+      var files = this.uploader.files;
+      for(var i = 0; i < files.length; i++){
+        if(files[i].status == plupload.QUEUED){
+          this.addFile(files[i]);
+        } else {
+          removeFiles.push(i);
+          this.completed = false;
+        }
+      }
+      
+      // We have to clear them out of the uploader files queue directly to prevent
+      // an event calling loop.
+      for(var i = 0; i < removeFiles.length; i++){
+        this.uploader.files.splice(removeFiles[i],1);
+      }
+    }
+    
+    if(this.completed){
+       // TODO: do we need this?
+    } else {
+      this.uploaderInit();
+    }
+    
+    
   },
   
   // Cancel the whole thing
@@ -94,6 +137,7 @@ Application.LibraryUploader = new Class({
     f.render();
     info.view = f; // Add's a backreference to the view (Application.UploadFile)
     this.files.push(f)
+    return f;
   },
   
   // Remove a file from the display list and the queue
@@ -111,7 +155,7 @@ Application.LibraryUploader = new Class({
   
   // Start the actual upload
   startUpload : function(){
-    // Reassign the button (as it's not visible anymore)
+    // Reassign the button (as the flash should be visible all the time)
     if(this.uploader.runtime == "flash" || this.uploader.runtime == "silverlight"){
       this.uploader.settings.browse_button = this.uploadProgress.progressBarEl.get("id");
       this.uploader.refresh();      
@@ -120,7 +164,7 @@ Application.LibraryUploader = new Class({
     if(this.uploader.files.length > 0){
       this.uploader.disableBrowse();      
       this.uploader.start();
-      this.fireEvent("uploadStart");      
+      this.fireEvent("uploadStarted");      
     }
   },
   
@@ -132,19 +176,21 @@ Application.LibraryUploader = new Class({
     this.uploader.settings.browse_button = this.options.browseButtonId;
     this.uploader.refresh();
     
-    this.fireEvent("uploadStop");
+    // uiChanged is fired here because in StateChange stopped it would fire on complete also.
+    this.fireEvent("uiChanged");     
+    this.fireEvent("uploadStopped");
   },
   
   // Initialize the uploader events
   _initUploader : function(){    
     // The actual uploader object
     this.uploader = new plupload.Uploader({
-      runtimes : "flash",
+      runtimes : "html5, flash",
       browse_button : this.options.browseButtonId,
       container: this.options.containerId,
       flash_swf_url : this.options.flashSwfUrl,
       url : this.formEl.getProperty("action"),
-      
+      drop_element : "application",
       // This keeps the browser session intact.
       urlstream_upload: true
     });
@@ -152,26 +198,32 @@ Application.LibraryUploader = new Class({
     // Shortcut to progress.
     this.progress = this.uploader.total;
     
-    this.uploader.bind("PostInit", function(){ this.intialized = true; }.bind(this));        
+    this.uploader.bind("PostInit", function(upl){ 
+      this.initialized = true; 
+      this.supportDragdrop = upl.features.dragdrop;
+      this.fireEvent("initialized"); 
+    }.bind(this));
     
-    this.uploader.init();
-    this.uploader.bind("Init", this.uploaderInit.bind(this));  
+    this.uploader.init();    
     
     // We have to override this stupid methods so the event delegation of mootools won't break
     var fl = $(this.uploader.id + '_flash');
-    fl.get = function(){};
-    fl.getParent = function(){};      
+    if(fl){
+      fl.get = function(){};
+      fl.getParent = function(){};      
+    }
     
     // We have to add these after init because we want them to be called AFTER the internal callbacks
+    this.uploader.bind("Init", this.uploaderInit.bind(this));
     this.uploader.bind("QueueChanged", this.uploaderQueueChanged.bind(this));
-    this.uploader.bind("FilesAdded", this.uploaderFilesAdded.bind(this));
     this.uploader.bind("StateChanged", this.uploaderStateChanged.bind(this));
     this.uploader.bind("UploadProgress", this.uploaderUploadProgress.bind(this));    
     this.uploader.bind("ChunkUploaded", this.uploaderChunkUploaded.bind(this));
-    this.uploader.bind("UploadComplete", this.uploaderUploadComplete.bind(this));
+    this.uploader.bind("uploadComplete", this.uploaderUploadComplete.bind(this));
     
     this.uploader.bind("Error", this.uploaderError.bind(this));    
     this.uploader.bind("FileUploaded", this.uploaderFileUploaded.bind(this));
+    
   },
   
   // Uploader eventpassing
@@ -181,12 +233,14 @@ Application.LibraryUploader = new Class({
     this.uploadBrowser.show();
     this.uploadProgress.hide();
     this.uploader.refresh();
+    this.fireEvent("uiChanged");
   },
   
   uploaderUploadComplete : function(upl){
     this.uploadBrowser.show();
     this.uploadProgress.hide();
-    this.uploadBrowser.uploadComplete();
+    this.uploadBrowser.uploadCompleted();
+    this.fireEvent("uiChanged");
     
     var failure = 0;
 
@@ -203,30 +257,25 @@ Application.LibraryUploader = new Class({
       this.uploadBrowser.setMessage(this.options.someUploadedMessage);      
     };
     
-    
-    this.fireEvent("uploadComplete");
-        
+    this.completed = true;
+    this.fireEvent("uploadCompleted");
   },
   
   uploaderStateChanged : function(upl){
     if(upl.state == plupload.STARTED){
       this.uploadBrowser.hide();
       this.uploadProgress.show();
-      this.uploadProgress.uploadStart();
+      this.uploadProgress.uploadStarted();
+      this.fireEvent("uiChanged");
     } else if(upl.state == plupload.STOPPED){
       
     }    
   },
   
-  // Files were added.
-  uploaderFilesAdded : function(upl, files){
-    for(var i=0; i < files.length; i++){
-      this.addFile(files[i]);
-    }
-  },
-  
   // The queue has changed
   uploaderQueueChanged : function(upl){
+    this._syncQueueWithUploader();
+    this.fireEvent("queueChanged");
     this.size = upl.total.size;
     this.uploadBrowser.update();
   },
@@ -332,7 +381,7 @@ Application.UploadBrowser = new Class({
   },
   
   // Call once update is complete
-  uploadComplete : function(){
+  uploadCompleted : function(){
     this.statusEl.setStyle("display", "none");
     this.cancelEl.setStyle("display", "none");
     this.uploadEl.setStyle("display", "none");    
@@ -403,7 +452,7 @@ Application.UploadProgress = new Class({
   },
   
   
-  uploadStart : function(){
+  uploadStarted : function(){
     this.updateTotalFiles();
     this.updateTotalSize();
     this.updateCurrentFile();
