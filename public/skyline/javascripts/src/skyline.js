@@ -6,7 +6,6 @@
 //= require "layout"
 //= require "tree"
 //= require "tag_selector"
-//= require "uploader"
 //= require "dialog"
 //= require "tabs"
 //= require "toggle"
