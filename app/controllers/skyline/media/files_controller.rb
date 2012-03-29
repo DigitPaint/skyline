@@ -26,9 +26,6 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
     # We use an instance variable because we want to use it in the render(:update) block.
     @saved = @file.save
 
-    # file was moved to another directory
-    @dir = @file.directory if @dir.id != @file.parent_id      
-
     if @saved
       notifications.now[:success] = t(:success, :scope => [:media, :files, :update, :flashes])
     else
