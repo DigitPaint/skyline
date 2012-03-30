@@ -6,6 +6,7 @@ Application.Browser = new Class({
     } else {
       this.setOptions({width: 800, height: 400});
     }
+    this.requestClass = Application.Request.HTML;
     this.params = params;
     this.parent(arguments[1]);
     this.addEvent("close",this._onClose.bind(this));

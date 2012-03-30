@@ -19,7 +19,7 @@
 
 <script type="text/javascript" charset="utf-8">
   $('<%= sectionable_form.dom_id :content_type %>').addEvent('change', function(){
-    new Request({
+    new Application.Request({
       data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>') + "&taggable_type="+this.value, 
       evalScripts:true, 
       url:'<%= new_skyline_content_section_path(:guid => guid) %>', 

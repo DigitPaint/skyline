@@ -1,10 +1,9 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
+//= require "application_preinit"
+
+//= require "request"
 
 //= require "rails"
 //= require "mootools_on_rails"
-
-//= require "application_preinit"
 
 //= require "utils"
 //= require "draggable_files"
@@ -218,7 +217,7 @@ Application.Layout = (function(){
 
       event.stop(); 
 
-      new Request({ 
+      new Application.Request({ 
         evalScripts: true, 
         url: link.getProperty("href")
       }).get();
@@ -229,7 +228,7 @@ Application.Layout = (function(){
     tree.addEvent("move", function(branchEl,newParentEl,newPosition){
       var newParentId = Application.getId(newParentEl.get('id'));
       var id = Application.getId(branchEl.get('id'));
-      new Request({ 
+      new Application.Request({ 
         evalScripts:true, 
         url: this.skylineMediaDirsPath + "/"+ id,
         data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&skyline_media_dir[parent_id]=' + newParentId,
@@ -279,7 +278,7 @@ Application.Layout = (function(){
       uPanel.retrieve("skyline.layout").parent.setup();
       
       // Get new File list.
-      var r = new Request({
+      var r = new Appliation.Request({
         evalScripts: true, 
         url: $('libraryuploaderform').getProperty("action"),
         method: 'get'

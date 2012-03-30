@@ -44,7 +44,7 @@
         if (newPosition > 0) {
           aboveId = Application.getId(branchEl.getParent().getChildren()[newPosition-1].get('id'));
         }
-        new Request({ 
+        new Application.Request({ 
           evalScripts:true, 
           url: '<%= skyline_article_path(1234, :type => Skyline::Page) %>'.replace("1234", id),
           data: 'authenticity_token='+encodeURIComponent('<%=form_authenticity_token%>')+'&article[parent_id]=' + newPageId + '&article[move_behind]=' + aboveId,

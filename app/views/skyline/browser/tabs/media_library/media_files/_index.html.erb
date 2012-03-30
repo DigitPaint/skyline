@@ -73,7 +73,7 @@
       };      
       
       var l = row.getElement("a");
-      (new Request({url : l.getProperty("href")})).get();
+      (new Application.Request({url : l.getProperty("href")})).get();
     });
           
     t.addEvent("deselectRow",function(row){

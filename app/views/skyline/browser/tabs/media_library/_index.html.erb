@@ -40,7 +40,7 @@
         event.stop(); 
         event.preventDefault();
       }
-      new Request({ 
+      new Application.Request({ 
         evalScripts: true, 
         url: target.get("href")
       }).get();    

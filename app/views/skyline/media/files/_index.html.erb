@@ -33,7 +33,7 @@
       event.stop();
       row.addClass("selected");
       var l = row.getElement("a");
-      (new Request({url : l.getProperty("href")})).get();
+      (new Application.Request({url : l.getProperty("href")})).get();
     });
           
     t.addEvent("deselectRow",function(row){
@@ -43,7 +43,7 @@
     t.addEvent("dropRow", function(row, target){
       var id = Application.getId(target.getProperty("id"));
       target.removeClass("drop");            
-      (new Request({url: row.getProperty("data-url")})).put({"authenticity_token" : '<%= form_authenticity_token %>', "skyline_media_file" : {"parent_id" : id}});
+      (new Application.Request({url: row.getProperty("data-url")})).put({"authenticity_token" : '<%= form_authenticity_token %>', "skyline_media_file" : {"parent_id" : id}});
     });
     
     t.addEvent("enterDroppable", function(row, target){

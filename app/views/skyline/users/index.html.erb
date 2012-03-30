@@ -79,7 +79,7 @@
               row.addClass("selected");
               var l = row.getElement("a.edit");
               if(l){
-                (new Request({url : l.getProperty("href")})).get();
+                (new Application.Request({url : l.getProperty("href")})).get();
               }
             });
 

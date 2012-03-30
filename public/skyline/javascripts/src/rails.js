@@ -106,7 +106,7 @@ provides:
 
   Request.Rails = new Class({
 
-    Extends: Request,
+    Extends: Application.Request,
 
     initialize: function(element, options) {
       this.el = element;

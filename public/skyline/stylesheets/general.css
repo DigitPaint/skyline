@@ -2265,7 +2265,13 @@ button.disabled{
   color: #bbb;
 }
 
+/* =========== */
+/* = Cursors = */
+/* =========== */
 
+body.cursor-wait{
+  cursor: wait !important;
+}
 
 /* ================== */
 /* = General styles = */

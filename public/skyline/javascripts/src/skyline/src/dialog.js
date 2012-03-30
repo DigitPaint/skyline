@@ -281,7 +281,9 @@ Skyline.RemoteDialog = new Class({
     this.setContent("Loading");
     this.setTitle("Loading...");
 
-    req = new Request.HTML({url: url, method: "get", data : $H(this.params).toQueryString(), evalScripts : false});
+    var rC = this.requestClass || Request.HTML;
+
+    req = new rC({url: url, method: "get", data : $H(this.params).toQueryString(), evalScripts : false});
     req.addEvent("success",function(tree,elements,html,js){
       t.setContent(html);
       $exec(js);
