@@ -29,7 +29,7 @@
   });
 
   window.Application.Request.HTML = new Class({
-    Extends : Request,
+    Extends : Request.HTML,
     Implements : [cursorWait],
     initialize : function(){
       this.parent.apply(this, arguments);
