@@ -22,5 +22,12 @@ module Skyline
   end
   module_function :version  
   
+  # The table name prefix for Skyline
+  # TODO: currently set to "" because we do this manually in all models. We have to remove all manually set table name prefix and use this one instead.
+  def table_name_prefix
+    ""
+  end
+  module_function :table_name_prefix  
+  
 end
 
