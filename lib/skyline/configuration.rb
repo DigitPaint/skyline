@@ -68,19 +68,11 @@ class Skyline::Configuration < Configure
     # Authentication User model
     config.user_class = Skyline::User
     
-    # Default URL admin prefix (default = /skyline/...)
-    config.url_prefix = "skyline"
-    
     # The skyline_root default route.
     # Most unfortunately we have to set it like this because we cannot override a specific route from the plugin
     # in the implementation.    
     config.default_route = {:to => "articles#index", :type => "skyline/page"}
-    
-    # The skyline_root default route.
-    # Most unfortunately we have to set it like this because we cannot override a specific route from the plugin
-    # in the implementation.
-    config.default_route = {:controller => "articles", :action => "index", :type => "skyline/page"}
-    
+        
     # enable/disable 'modules'
     config.enable_pages = true
     config.enable_multiple_variants = true
@@ -96,7 +88,10 @@ class Skyline::Configuration < Configure
       if (Rails.root + "config/initializers/skyline_configuration.rb").exist?
         load Rails.root + "config/initializers/skyline_configuration.rb"
       end    
-    end    
+    end 
+    
+    # Stub so the method below works
+    config.url_prefix = nil   
   end  
   
   def after_configure
@@ -114,6 +109,10 @@ class Skyline::Configuration < Configure
     Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])      
   end  
   
+  def url_prefix
+    Skyline::Engine.routes._generate_prefix({})
+  end
+  
   def articles
     self["articles"].map(&:constantize)
   end  
@@ -121,11 +120,7 @@ class Skyline::Configuration < Configure
   def content_classes
     self["content_classes"].map(&:constantize)
   end
-  
-  def url_prefix
-    self["url_prefix"].gsub(/\A\//, "")
-  end
-  
+    
   protected
   
   # Ensures that all paths are Pathname objects

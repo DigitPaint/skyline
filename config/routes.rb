@@ -1,5 +1,5 @@
 Skyline::Engine.routes.draw do
-  namespace :skyline, :path => ("#{Skyline::Configuration.url_prefix}" || "skyline") do
+  namespace :skyline, :path => "" do
     root Skyline::Configuration.default_route
     
     resources :articles do

@@ -218,7 +218,7 @@ Application.ImageBrowser = new Class({
   initialize : function(params){
     // We have to set the URL here, because the Application.urlPrefix is not available at
     // load time.
-    this.url = "/" + Application.urlPrefix + "/browser/images";
+    this.url = Application.urlPrefix + "/browser/images";
     this.addEvent("select", function(values){
       if (values.url) {
         values.url = Application.sanitizeUrl(values.url);
@@ -234,7 +234,7 @@ Application.LinkBrowser = new Class({
   initialize : function(params){
     // We have to set the URL here, because the Application.urlPrefix is not available at
     // load time.
-    this.url = "/" + Application.urlPrefix + "/browser/links";
+    this.url = Application.urlPrefix + "/browser/links";
     
     if(params.common && params["new"]){
       this.addEvent("addTab",function(tab){
@@ -269,7 +269,7 @@ Application.PageBrowser = new Class({
   initialize : function(params){
     // We have to set the URL here, because the Application.urlPrefix is not available at
     // load time.
-    this.url = "/" + Application.urlPrefix + "/browser/pages";    
+    this.url = Application.urlPrefix + "/browser/pages";    
     this.parent(params);
   }
 });
@@ -280,7 +280,7 @@ Application.FileBrowser = new Class({
   initialize : function(params){
     // We have to set the URL here, because the Application.urlPrefix is not available at
     // load time.
-    this.url = "/" + Application.urlPrefix + "/browser/files";    
+    this.url = Application.urlPrefix + "/browser/files";    
     this.parent(params);
   }
 });
