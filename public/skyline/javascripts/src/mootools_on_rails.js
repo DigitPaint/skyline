@@ -1,3 +1,11 @@
+/* 
+  Class: Element
+  Extensions to the Element class to make certain actions easier (replace and replaceHTML) to achieve
+  in MooTools.
+  
+*/
+
+
 if ('outerHTML' in document.documentElement) {
   Element.HtmlToDom = function(element,content){
     var div = new Element('div');

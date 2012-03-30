@@ -20,6 +20,8 @@ Application.Poller = new Class({
     this.poller = this.poll.periodical(5000,this);
   },
   poll : function(){
+    // We don't want to use the Application.Request here because this is a background operation
+    // and should not show a wait state.
     var request = new Request.JSON({url: this.url });
     request.addEvent("success",this.handlePollResponse.bind(this));
     request.get();
