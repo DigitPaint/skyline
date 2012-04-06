@@ -32,6 +32,7 @@ Skyline.Editor = new Class({
       + "a[id|rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur|skyline-ref-id|skyline-referable-id|skyline-referable-type]",
     theme : "-skyline",
     plugins : "-autoresize,-skylinewindows,-skylineimage,-skylinelink,-skylinecode,-paste,-skylinecontextmenu, -skylinetable",
+    submit_patch : false,
 		paste_strip_class_attributes : "all",
 		relative_urls : false,
 		height: 10
@@ -52,6 +53,14 @@ Skyline.Editor = new Class({
   render : function(){
     var o,ed,oed;
     
+    var frm = $(this.element.form);
+    if(frm && !frm.retrieve("addedTinyMCESaveHandler")){
+      frm.addEvent("submit", function(){
+        tinymce.triggerSave();
+      });
+      frm.store("addedTinyMCESaveHandler", true);
+    }
+    
     // We need to manually disable the activeEditor,
     // because otherwise we'd get multiple toolbars when adding new editors.
     oed = tinymce.EditorManager.activeEditor
@@ -60,7 +69,7 @@ Skyline.Editor = new Class({
     }
     
     o = this.optionsForTinyMce();
-    ed = this.editor = new tinymce.Editor(this.elementId,o);     
+    ed = this.editor = new tinymce.Editor(this.elementId, o);     
     
     // We have to add this from an external
     ed.onFocus = new tinymce.util.Dispatcher(ed);
