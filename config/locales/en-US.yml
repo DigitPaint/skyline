@@ -587,6 +587,7 @@
       "Skyline::Linkable" : "Content"
       "Skyline::MediaFile" : "Media library"
       "Skyline::ReferableUri" : "External"
+      "Skyline::Content" : "Content"
     external_link:
       url: "URL"
     external_image:
@@ -608,6 +609,11 @@
       targets:
         "_blank" : "New window"
         "-" : "Same window"
+    content:
+      dialog_title: "Choose content"
+      links_to: "Links to: %{referable_title}"
+      nothing_selected: "No link has been selected"
+      error: "No or incorrect content selection provided. Contact your system administrator."
     image:
       dialog_title: "Choose image"
       links_to: "%{referable_title}"

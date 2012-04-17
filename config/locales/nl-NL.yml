@@ -587,6 +587,7 @@
       "Skyline::Linkable" : "Content"      
       "Skyline::MediaFile" : "Media library"
       "Skyline::ReferableUri" : "Extern"
+      "Skyline::Content" : "Content"
     external_link:
       url: "URL"
     external_image:
@@ -608,6 +609,11 @@
       targets:
         "_blank" : "Nieuw venster"
         "-" : "Zelfde venster"
+    content:
+      dialog_title: "Kies content"
+      links_to: "Linkt naar: %{referable_title}"
+      nothing_selected: "Nog geen link gekozen"
+      error: "Er was een verkeerde of geen content-selectie opgegeven. Neem contact op met een systembeheerder."
     image:
       dialog_title: "Kies afbeelding"
       links_to: "Linkt naar: %{referable_title}"
