@@ -1,5 +1,5 @@
 class Skyline::Tag < ActiveRecord::Base
-  set_table_name :skyline_tags
+  self.table_name = "skyline_tags"
   
   cattr_accessor :taggable_models
 

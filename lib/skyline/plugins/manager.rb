@@ -48,7 +48,7 @@ class Skyline::Plugins::Manager
   # 
   # @return [Pathname] Rails.public_path + "skyline_plugins"
   def public_path
-    Pathname.new(self.app.paths.public.to_a.first) + "skyline_plugins"
+    Pathname.new(self.app.paths['public'].to_a.first) + "skyline_plugins"
   end
 
   # All known plugins

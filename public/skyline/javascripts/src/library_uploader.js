@@ -1,4 +1,4 @@
-//= require <uploader>
+//= require "uploader"
 
 /*
   Class: Application.LibraryUploader

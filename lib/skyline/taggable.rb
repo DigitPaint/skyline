@@ -28,18 +28,16 @@ module Skyline::Taggable
     base.send :has_many, :tags, :through => :associated_tags, :class_name => "Skyline::Tag"    
     base.send :cattr_accessor, :taggable_type
     
-    base.send :alias_method_chain, :clone, :associated_tags
+    base.send :alias_method_chain, :dup, :associated_tags
     
-    base.class_eval do
-      scope :with_tags, lambda {|tags|
-        if tags.any?
-          {:conditions => ["(SELECT tag_id FROM skyline_associated_tags WHERE taggable_id=#{self.table_name}.id AND taggable_type=? AND tag_id IN (?) LIMIT 1)", self.name, tags],
-           :include => :associated_tags}
-        else
-          {}
-        end
-      }
-    end          
+    base.send :scope, :with_tags, lambda {|tags|
+      if tags.any?
+        {:conditions => ["(SELECT tag_id FROM skyline_associated_tags WHERE taggable_id=#{base.table_name}.id AND taggable_type=? AND tag_id IN (?) LIMIT 1)", base.name, tags],
+         :include => :associated_tags}
+      else
+        {}
+      end
+    }       
   end
   
   def raw_tags
@@ -60,9 +58,9 @@ module Skyline::Taggable
     self.class.available_tags
   end
   
-  def clone_with_associated_tags
-    clone_without_associated_tags.tap{|clone|      
-      clone.associated_tags = self.associated_tags.collect{|at| at.clone }
+  def dup_with_associated_tags
+    dup_without_associated_tags.tap{|dup|
+      dup.associated_tags = self.associated_tags.collect{|at| at.dup }
     }
   end  
   

@@ -1,11 +1,25 @@
-window.tinyMCEPreInit = {};
-tinyMCEPreInit.suffix  = "";
-tinyMCEPreInit.base = "/javascripts/skyline.editor";
-tinyMCEPreInit.query = "";
+//= require "tinymce_preinit.js"
 
 //= require "../vendor/tinymce/jscripts/tiny_mce/tiny_mce_src"
 //= require "../vendor/tinymce/jscripts/tiny_mce/themes/advanced/editor_template"
 //= require "../vendor/tinymce/jscripts/tiny_mce/plugins/paste/editor_plugin"
+
+//= require_self
+
+//= require "script_loader"
+//= require "theme"
+//= require "ui/separator"
+//= require "ui/toolbar"
+//= require "plugins/autoresize/editor_plugin"
+//= require "plugins/skylinewindows/editor_plugin"
+//= require "plugins/skylineimage/editor_plugin"
+//= require "plugins/skylineimage/dialog"
+//= require "plugins/skylinelink/editor_plugin"
+//= require "plugins/skylinelink/dialog"
+//= require "plugins/skylinecode/editor_plugin"
+//= require "plugins/skylinecode/dialog"
+//= require "plugins/skylinecontextmenu/editor_plugin"
+//= require "plugins/skylinetable/editor_plugin"
 
 var __FILE__ = Skyline.Utils.getJsLocation("skyline.editor.js");
 
@@ -130,17 +144,3 @@ Skyline.Editor = new Class({
   }
 });
 
-//= require "script_loader"
-//= require "theme"
-//= require "ui/separator"
-//= require "ui/toolbar"
-//= require "plugins/autoresize/editor_plugin"
-//= require "plugins/skylinewindows/editor_plugin"
-//= require "plugins/skylineimage/editor_plugin"
-//= require "plugins/skylineimage/dialog"
-//= require "plugins/skylinelink/editor_plugin"
-//= require "plugins/skylinelink/dialog"
-//= require "plugins/skylinecode/editor_plugin"
-//= require "plugins/skylinecode/dialog"
-//= require "plugins/skylinecontextmenu/editor_plugin"
-//= require "plugins/skylinetable/editor_plugin"

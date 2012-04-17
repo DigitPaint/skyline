@@ -8,7 +8,7 @@ class Skyline::ApplicationController < ApplicationController
   
   around_filter Skyline::ArticleVersionObserver.instance
   
-  class_inheritable_accessor :default_menu
+  class_attribute :default_menu
   attr_accessor :current_menu
   hide_action :default_menu, :default_menu=, :current_menu, :current_menu=, :menu, :javascript_redirect_to
   
@@ -25,6 +25,7 @@ class Skyline::ApplicationController < ApplicationController
   
   define_callbacks :authenticate
   
+  class_attribute :authorization_hash
   
   class << self
         
@@ -42,7 +43,7 @@ class Skyline::ApplicationController < ApplicationController
     def authorize(*actions)
       options = actions.extract_options!
       raise ArgumentError, "You must specify the :by option" if !options.has_key?(:by)
-      authorizations = read_inheritable_attribute(:authorizations) || {}
+      authorizations = self.authorization_hash || {}
       if actions.any?
         actions.each do |a|
           authorizations[a] ||= [] 
@@ -52,11 +53,11 @@ class Skyline::ApplicationController < ApplicationController
         authorizations[:*] ||= []
         authorizations[:*] << options[:by]        
       end
-      write_inheritable_attribute(:authorizations,authorizations)
+      self.authorization_hash = authorizations
     end
     
     def authorizations
-      read_inheritable_attribute(:authorizations) || {}
+      self.authorization_hash || {}
     end
     
   end
@@ -115,7 +116,7 @@ class Skyline::ApplicationController < ApplicationController
       up.each do |k,v|
         if k == "_delete"
           v.each do |delete_id|
-            current_user.user_preferences.remove(delete_id)
+            current_user.user_preferences.remove_key(delete_id)
           end
         else
           current_user.user_preferences.set(k,v)

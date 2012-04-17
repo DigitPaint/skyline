@@ -1,4 +1,4 @@
-//= require <Swiff.Uploader>
+//= require "Swiff.Uploader"
 /*
   Class: Skyline.Uploader
   An extended version of Swiff.Uploader. It has some extra event's and

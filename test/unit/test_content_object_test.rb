@@ -25,7 +25,7 @@ class TestContentObjectTest < ActiveSupport::TestCase
       
       ref = Skyline::ObjectRef.find_by_id(test_content_object.image_id)
       
-      assert_valid ref
+      assert ref.valid?
     end
     
     should "remove object_ref on destroy" do

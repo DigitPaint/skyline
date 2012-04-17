@@ -1,6 +1,6 @@
 # @private
 class Skyline::MediaNode < ActiveRecord::Base
-  set_table_name :skyline_media_nodes
+  self.table_name = "skyline_media_nodes"
 
   belongs_to :directory, :foreign_key => "parent_id", :class_name => "Skyline::MediaDir"
   

@@ -1,5 +1,5 @@
-//= require <mootools-core>
-//= require <mootools-more>
+//= require "mootools-core"
+//= require "mootools-more"
 
 /*
   Namespace: Skyline

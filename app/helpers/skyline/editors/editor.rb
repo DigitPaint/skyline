@@ -10,9 +10,9 @@ module Skyline::Editors
           Skyline::Editors::TextField.new(name_chain,record,field,template)
         end
       rescue NameError => e
-        RAILS_DEFAULT_LOGGER.warn(" Editor instantiation error ".center(50,"="))
-        RAILS_DEFAULT_LOGGER.warn(e.to_s + "\n" + e.backtrace.join("\n"))
-        RAILS_DEFAULT_LOGGER.warn("=" * 50)      
+        Rails.logger.warn(" Editor instantiation error ".center(50,"="))
+        Rails.logger.warn(e.to_s + "\n" + e.backtrace.join("\n"))
+        Rails.logger.warn("=" * 50)
         Skyline::Editors::TextField.new(name_chain,record,field,template)
       end
     
@@ -51,11 +51,11 @@ module Skyline::Editors
       if self.respond_to? :output_without_errors
         out << field_with_errors([field_prefix, output_without_errors, field_suffix].join.html_safe)
       end
-      content_tag("div",out.html_safe, :id  => "field_#{input_id(field_names)}", :class => "editor #{"invalid" if record.errors.on(field.attribute_name)}")
+      content_tag("div",out.html_safe, :id  => "field_#{input_id(field_names)}", :class => "editor #{"invalid" if record.errors[field.attribute_name].any?}")
     end
   
     def errors
-      errors = record.errors.on(field.attribute_name)
+      errors = record.errors[field.attribute_name]
       if errors.kind_of?(Array)
         errors.flatten.to_sentence
       else
@@ -70,7 +70,7 @@ module Skyline::Editors
     end
   
     def field_with_errors(content)
-      if self.record.errors.on(self.field.attribute_name) 
+      if self.record.errors[self.field.attribute_name].any?
         content_tag("div", content.html_safe, :class => "fieldWithErrors")
       else
         content

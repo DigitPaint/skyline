@@ -135,7 +135,7 @@ module Skyline::ContentHelper
   end
   
   def record_with_errors(content, record, field)
-    if record.errors.on(field.attribute_name) 
+    if record.errors[field.attribute_name]
       content_tag("div", content.html_safe, :class => "fieldWithErrors")
     else
       content

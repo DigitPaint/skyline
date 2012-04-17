@@ -99,7 +99,7 @@ module Skyline::Content
       
       # The method/column name this field writes to. This takes foreign_keys of belongs_to associations in account.
       def attribute_name
-        self.association? && self.reflection.macro == :belongs_to && self.reflection.primary_key_name || self.name
+        self.association? && self.reflection.macro == :belongs_to && self.reflection.foreign_key || self.name
       end
       
       # The type of the associated column, or if it's serialized

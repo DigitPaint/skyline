@@ -36,7 +36,7 @@ module NestedAttributesPositioning
     base.extend(ClassMethods)
     base.send :cattr_accessor, :accepts_nested_attributes_for_associations
     base.send :accepts_nested_attributes_for_associations=, []
-    base.send :alias_method_chain, :attributes=, :positioning
+    base.send :alias_method_chain, :assign_attributes, :positioning
   end
       
   module ClassMethods
@@ -47,10 +47,10 @@ module NestedAttributesPositioning
     end
   end
   
-  def attributes_with_positioning=(attributes)
-    a = attributes.dup
+  def assign_attributes_with_positioning(new_attributes, options = {})
+    a = new_attributes.dup
     self.accepts_nested_attributes_for_associations.map{|association| handle_positioning_for_association(association, a)}
-    self.attributes_without_positioning = a
+    self.assign_attributes_without_positioning(a)
   end
   
   def handle_positioning_for_association(association, attributes)
@@ -63,7 +63,7 @@ module NestedAttributesPositioning
         sorted_attributes << attributes_hash[index]
       end
     
-      self.attributes_without_positioning = {"#{association}_attributes" => sorted_attributes}
+      self.assign_attributes_without_positioning({"#{association}_attributes" => sorted_attributes})
       self.send(association).sort!{|a,b| a.position <=> b.position}
     end
   end

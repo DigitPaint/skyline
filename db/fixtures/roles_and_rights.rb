@@ -38,15 +38,15 @@ Skyline::Right.connection.execute("DELETE FROM skyline_rights_skyline_roles WHER
 log "\n== Creating roles"
 
 stfu do
-  Skyline::Role.seed_many(:name,[
+  Skyline::Role.seed(:name,
     {:name => "super", :system => true}
-  ])
+  )
 end
 
 log "\n== Creating rights"
 
 stfu do 
-  Skyline::Right.seed_many(:name,[
+  Skyline::Right.seed(:name,
     {:name => "media_dir_create"},
     {:name => "media_dir_update"},
     {:name => "media_dir_delete"},
@@ -91,7 +91,7 @@ stfu do
     {:name => "user_delete"},
   
     {:name => "tinymce_edit_html"} # Defines wether or not to show the "edit html" button in the toolbar
-  ])
+  )
 end
 
 log "\n== Mapping Rights to Roles"

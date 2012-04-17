@@ -1,5 +1,5 @@
 class Skyline::UserPreference < ActiveRecord::Base
-  set_table_name :skyline_user_preferences
+  self.table_name = "skyline_user_preferences"
   
   belongs_to :user, :class_name => "::#{Skyline::Configuration.user_class.name}"
   
@@ -26,7 +26,7 @@ class Skyline::UserPreference < ActiveRecord::Base
       self.exists?(["`#{self.table_name}`.`key` LIKE ?", "#{key}.%"])
     end
     
-    def remove(key)
+    def remove_key(key)
       self.delete_all("`#{self.table_name}`.`key` LIKE '#{key}.%'")
     end
         

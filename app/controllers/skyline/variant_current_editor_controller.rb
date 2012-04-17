@@ -27,7 +27,12 @@ class Skyline::VariantCurrentEditorController < Skyline::ApplicationController
   end
   
   def process(request,*args)
-    logger.silence(ActiveSupport::BufferedLogger::Severity::FATAL){ super }
+    old_level = Rails.logger.level
+    Rails.logger.level = Logger::FATAL
+    
+    super
+  ensure
+    Rails.logger.level = old_level
   end  
   
   protected

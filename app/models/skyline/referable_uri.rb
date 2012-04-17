@@ -1,6 +1,6 @@
 # @private
 class Skyline::ReferableUri < ActiveRecord::Base
-  set_table_name :skyline_referable_uris
+  self.table_name = "skyline_referable_uris"
   
   def url
     self.uri

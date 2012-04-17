@@ -16,9 +16,8 @@ class Skyline::SprocketsMiddleware
   end
   
   def register_load_location(*paths)
-    all_paths = paths.map { |path| Dir[Pathname.new(@environment.root.absolute_location) + path].sort }.flatten.compact
-    all_paths.each do |p|
-      @environment.register_load_location(p)
+    paths.each do |p|
+      @environment.append_path(p)
     end
   end
   
@@ -40,7 +39,6 @@ class Skyline::SprocketsMiddleware
     end
       
     if path && content = self.render(path)
-    
       resp = ::Rack::Response.new do |res|
         res.status = 200
         res.headers["Content-Type"] = "text/javascript"
@@ -62,10 +60,7 @@ class Skyline::SprocketsMiddleware
   end
   
   def render(path)
-    pathname = @environment.find(path.to_s)
-    @preprocessor = Sprockets::Preprocessor.new(@environment, :strip_comments => @options[:strip_comments])
-    @preprocessor.require(pathname.source_file)
-    @preprocessor.concatenation.to_s
+    @environment.find_asset(path.to_s).to_s
   end
     
 end

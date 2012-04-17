@@ -64,7 +64,7 @@ class Skyline::ContentController < Skyline::Skyline2Controller
   
   def delete
     @element = stack.last
-    if request.post?
+    if request.post? || request.xhr?
       if @element.destroy
         notifications[:success] = t(:successfully_deleted, :scope => [:content, :flashes], :class => @element.class.singular_name)
       else
@@ -73,9 +73,7 @@ class Skyline::ContentController < Skyline::Skyline2Controller
     end
     respond_to do |format|
       format.html{ redirect_after(:delete) }
-      format.js do
-        render(:update){|p| p.redirect_to controller.send(:redirect_url_after,:delete) }
-      end
+      format.js { javascript_redirect_to(redirect_url_after(:delete)) }
     end
   end
   
