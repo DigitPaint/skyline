@@ -33,12 +33,19 @@ Application.UserPreferences = {
       
       var new_preference = new Hash();
       new_preference[key] = value;
+      
+      var postvars = {};
+      postvars[rails.csrf.param] = rails.csrf.token;
+      postvars['skyline_up'] = JSON.encode(new_preference);
+      
+      // We don't want to use the Application.Request here because this is a background operation
+      // and should not show a wait state.      
       var cookieRequest = new Request.JSON({
                             url: this.Url,
                             onSuccess: function(up){
                               this.userPreferences.empty();
                             }.bind(this)
-                          }).post({'skyline_up': JSON.encode(new_preference)});
+                          }).post(postvars);
     } else {
       Cookie.write("skyline_up", cookie_value, {path: "/"});
     }
