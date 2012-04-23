@@ -4,7 +4,7 @@
     <ul class="selectlist">
     	<% @implementation.settings.ordered_pages.each do |page| %>
     		<li>
-    			<%= link_to page.model_name.human, edit_skyline_setting_path(page.name), :class => (page.name == @settings.page.name ? "selected" : "") %>
+    			<%= link_to page.human_name, edit_skyline_setting_path(page.name), :class => (page.name == @settings.page.name ? "selected" : "") %>
     		</li>
     	<% end %>
     </ul>
@@ -15,7 +15,7 @@
   <dl id="contentPanel" class="panel">
     <dt id="contentHeaderPanel">
       <span class="content">
-        <%= t(:title, :scope => [:settings], :class => @settings.page.model_name.human) %>
+        <%= t(:title, :scope => [:settings], :class => @settings.page.human_name) %>
       </span>
     </dt>
     <dd id="contentBodyPanel">
