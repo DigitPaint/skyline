@@ -15,8 +15,8 @@ class Skyline::InlineRef < Skyline::RefObject
     # @return [Array[String, Array]] An array containing the converted html and a list of IDS of refs in the HTML
     def parse_html(html, refering_object, refering_column_name)    
       old_refs = find_ref_ids_for_object(refering_object, refering_column_name)
-            
-      h = Hpricot(html)
+      
+      h = Nokogiri::HTML(html)
       updated_refs = []
       
       # html tags to be converted to [REF:id]
@@ -35,10 +35,11 @@ class Skyline::InlineRef < Skyline::RefObject
         updated_refs << ref_obj_id        
       }
       
-      iterate_elements.each do |tag, attributes|                
-        h.search("#{tag}[@data-skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
+      iterate_elements.each do |tag, attributes|
+        h.xpath("//#{tag}[@data-skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
+        
         # Deprecated
-        h.search("#{tag}[@skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }        
+        h.xpath("//#{tag}[@skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
       end
       
       del = (old_refs - updated_refs)
@@ -46,8 +47,8 @@ class Skyline::InlineRef < Skyline::RefObject
         self.destroy_all("id IN(#{del.join(',')})") 
         logger.debug("[InlineRef] Destroying refs for #{refering_object.class.name} id: #{refering_object.id} column: #{refering_column_name}. Ref's destroyed: #{del.inspect}")
       end
-                  
-      [h.to_html, updated_refs]
+      
+      [h.inner_text, updated_refs]
     end
     
     # Convert a string containing [REF] references into html

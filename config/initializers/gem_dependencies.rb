@@ -3,7 +3,7 @@ require "polyglot"
 require "sprockets"
 require "mime/types"
 require "RMagick"
-require "hpricot"
+require 'nokogiri'
 require "guid"
 require "will_paginate"
 require "seed-fu"
