@@ -3,6 +3,8 @@ class Skyline::UserPreference < ActiveRecord::Base
   
   belongs_to :user, :class_name => "::#{Skyline::Configuration.user_class.name}"
   
+  attr_accessible :key, :encoded_value
+  
   class << self
     def set(key, value)
       raise ArgumentError.new("Cannot put hash into a value") if !parent_is_hash?(key)

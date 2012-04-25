@@ -76,6 +76,9 @@ class Skyline::Article < ActiveRecord::Base
   
   # Stores a variant that will become the default variant AFTER save
   attr_accessor :becomes_default_variant_after_save
+  
+  attr_accessible :default_variant_id, :default_variant_data_id
+  
 
   class << self
     def to_param

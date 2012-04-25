@@ -14,6 +14,8 @@ class Skyline::Variant < Skyline::ArticleVersion
   
   default_scope :order => "updated_at DESC"
   
+  attr_accessible :article, :article_id, :data_attributes, :name, :version, :sections_attributes
+  
   class << self
     def find_current_editor_for(id)
       values = self.connection.select_one("SELECT current_editor_id,current_editor_timestamp, current_editor_since FROM #{self.table_name} WHERE id = #{id.to_i}")

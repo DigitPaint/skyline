@@ -7,4 +7,7 @@ class Skyline::RefObject < ActiveRecord::Base
   serialize :options  
   
   validates_presence_of :referable_type
+  
+  attr_accessible :referable_id, :referable_type, :options, :refering_id, :refering_type, :refering_column_name
+  
 end

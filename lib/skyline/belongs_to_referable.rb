@@ -68,6 +68,8 @@ module Skyline::BelongsToReferable
                 
         belongs_to f, :class_name => "Skyline::ObjectRef", :foreign_key => "#{f}_id", :dependent => :destroy
         accepts_nested_attributes_for f, :reject_if => proc {|attributes| attributes['referable_type'].blank?}, :allow_destroy => true
+        
+        attr_accessible "#{f}_attributes"
 
         unless options[:allow_nil]
           # validating on :linked instead of :linked_id here; see:

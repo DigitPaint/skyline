@@ -11,6 +11,8 @@ class Skyline::TestSection < ActiveRecord::Base
   
   self.table_name = "skyline_test_sections"
   
+  attr_accessible :body_a, :body_b
+  
   protected
   
   def validate_fail_validation

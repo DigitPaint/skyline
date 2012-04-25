@@ -4,7 +4,9 @@ class Skyline::Page < Skyline::Article
     before_validation :sanitize_url_part
     
     validate :validate_url_part, :if => :to_be_published  
-    validates_presence_of :title  
+    validates_presence_of :title
+    
+    attr_accessible :url_part
 
     def navigation_title
       self[:navigation_title].present? ? self[:navigation_title] : self.title.to_s

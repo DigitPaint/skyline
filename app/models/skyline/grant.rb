@@ -4,4 +4,6 @@ class Skyline::Grant < ActiveRecord::Base
   
   belongs_to :user, :class_name => "Skyline::User"
   belongs_to :role, :class_name => "Skyline::Role"
+  
+  attr_accessible :role
 end

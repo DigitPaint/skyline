@@ -8,7 +8,9 @@ class Skyline::MediaFile < Skyline::MediaNode
   validates_uniqueness_of :name, :scope => "parent_id"
   
   default_scope :order => :name
-    
+  
+  attr_accessible :name, :parent_id, :data
+  
   def self.set_missing_file_types
     self.all(:conditions => "file_type = '' OR file_type IS NULL").each do |media_file|
       media_file.set_file_type!
