@@ -6,7 +6,7 @@ class Skyline::Page < Skyline::Article
     validate :validate_url_part, :if => :to_be_published  
     validates_presence_of :title
     
-    attr_accessible :url_part
+    attr_accessible :url_part, :title, :in_navigation, :navigation_title, :custom_title_tag, :meta_description_tag
 
     def navigation_title
       self[:navigation_title].present? ? self[:navigation_title] : self.title.to_s

@@ -15,6 +15,8 @@ class Skyline::Sections::MediaSection < ActiveRecord::Base
   
   delegate :url, :external?, :to => :media
   
+  attr_accessible :alignment, :width, :height, :caption
+  
   def width
     self.dimension[0]
   end
