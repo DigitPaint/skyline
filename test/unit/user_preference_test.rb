@@ -3,9 +3,9 @@ require 'test_helper'
 class UserPreferenceTest < ActiveSupport::TestCase
   context "User preferences" do
     setup do  
-      @user_preferences1 = Factory(:user_preference, :key => "a.", :encoded_value => 1.to_yaml)
-      @user_preferences2 = Factory(:user_preference, :key => "b.a.", :encoded_value => 2.to_yaml)
-      @user_preferences3 = Factory(:user_preference, :key => "b.b.", :encoded_value => 3.to_yaml)
+      @user_preferences1 = FactoryGirl.create(:user_preference, :key => "a.", :encoded_value => 1.to_yaml)
+      @user_preferences2 = FactoryGirl.create(:user_preference, :key => "b.a.", :encoded_value => 2.to_yaml)
+      @user_preferences3 = FactoryGirl.create(:user_preference, :key => "b.b.", :encoded_value => 3.to_yaml)
     end
     
     should "accept individual key=>value pairs" do

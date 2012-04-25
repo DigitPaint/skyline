@@ -20,16 +20,16 @@ module UserAccessHelper
   end
   
   def build_complete_environment
-    @media_dir = Factory(:media_dir, :type => "Skyline::MediaDir")
+    @media_dir = FactoryGirl.create(:media_dir, :type => "Skyline::MediaDir")
     assert !@media_dir.new_record?
     
-    @media_sub_dir = Factory(:media_dir, :type => "Skyline::MediaDir", :directory => @media_dir)
+    @media_sub_dir = FactoryGirl.create(:media_dir, :type => "Skyline::MediaDir", :directory => @media_dir)
     assert !@media_sub_dir.new_record?
     
-    @media_file = Factory(:media_file, :parent_id => @media_dir.id, :type => "Skyline::MediaFile")
+    @media_file = FactoryGirl.create(:media_file, :parent_id => @media_dir.id, :type => "Skyline::MediaFile")
     assert !@media_file.new_record?
     
-    @user = Factory(:user, :name => "Test User", :email => "test@test.com")
+    @user = FactoryGirl.create(:user, :name => "Test User", :email => "test@test.com")
     assert !@user.new_record?
     @user.force_password!("qwedsa")
   end

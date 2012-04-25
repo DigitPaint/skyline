@@ -5,10 +5,10 @@ class UserPreferencesTest < ActionController::IntegrationTest
   include UserAccessHelper
   context "User preferences" do
     setup do
-       @user = Factory(:user)
+       @user = FactoryGirl.create(:user)
        @user.force_password!("qwedsa")
        
-       @user.user_preferences << Factory(:user_preference, :key => "a.", :encoded_value => 1.to_yaml)
+       @user.user_preferences << FactoryGirl.create(:user_preference, :key => "a.", :encoded_value => 1.to_yaml)
        
        @u = login(@user,"qwedsa")
     end

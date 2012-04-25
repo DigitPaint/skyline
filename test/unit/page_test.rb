@@ -3,7 +3,7 @@ require 'test_helper'
 class Skyline::PageTest < ActiveSupport::TestCase
   context "A new page" do
     setup do
-      @page = Factory(:page)
+      @page = FactoryGirl.create(:page)
       assert !@page.new_record?      
     end
 
@@ -14,7 +14,7 @@ class Skyline::PageTest < ActiveSupport::TestCase
       
   context "A page" do
     setup do
-      @page = Factory(:page)
+      @page = FactoryGirl.create(:page)
       assert !@page.new_record?      
       
       @variant = @page.variants.first
@@ -22,9 +22,9 @@ class Skyline::PageTest < ActiveSupport::TestCase
       @section_b = @variant.sections.create
       @section_c = @variant.sections.create
       
-      @section_a.sectionable = Factory(:wysiwyg_section, :body => "Hallo, dit is de body")
-      @section_b.sectionable = Factory(:wysiwyg_section, :body => "Tweede sectie!")
-      @section_c.sectionable = Factory(:rss_section, :url => "http://www.google.nl/x.rss", :show_count => 1)
+      @section_a.sectionable = FactoryGirl.create(:wysiwyg_section, :body => "Hallo, dit is de body")
+      @section_b.sectionable = FactoryGirl.create(:wysiwyg_section, :body => "Tweede sectie!")
+      @section_c.sectionable = FactoryGirl.create(:rss_section, :url => "http://www.google.nl/x.rss", :show_count => 1)
       
       @section_a.save
       @section_b.save

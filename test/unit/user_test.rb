@@ -6,7 +6,7 @@ class UserTest < ActiveSupport::TestCase
     setup do
       load File.dirname(__FILE__) + '/../../db/fixtures/roles_and_rights.rb' 
     
-      @user = Factory(:user, :name => "Test User", :email => "test@test.com")
+      @user = FactoryGirl.create(:user, :name => "Test User", :email => "test@test.com")
       assert !@user.new_record?
       @user.force_password!("qwedsa")
     end
@@ -42,7 +42,7 @@ class UserTest < ActiveSupport::TestCase
     
     context "that has been destroyed" do
       setup do
-        @user = Factory(:user, :name => "destroyer", :email => "destroy@test.com")
+        @user = FactoryGirl.create(:user, :name => "destroyer", :email => "destroy@test.com")
         assert !@user.new_record?
         @user.force_password!("qwedsa")
         role = Skyline::Role.find_by_name("admin")
