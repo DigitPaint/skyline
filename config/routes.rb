@@ -77,8 +77,10 @@ Skyline::Engine.routes.draw do
   # = Implementation url's =
   # ========================
   #Media files data route
-     
-  match 'media/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
-  match 'media/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
+
+  # match 'media/cache/:timestamp/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :timestamp => /\d+/
+  # match 'media/cache/:timestamp/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :timestamp => /\d+/       
+  # match 'media/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
+  # match 'media/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
      
 end

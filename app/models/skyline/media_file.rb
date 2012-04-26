@@ -97,12 +97,36 @@ class Skyline::MediaFile < Skyline::MediaNode
     @data
   end
 
-  def url(prefix=nil)
-    if prefix
-      "/media/dirs/#{self.parent_id}/data/#{prefix}/#{self.name}"
-    else
-      "/media/dirs/#{self.parent_id}/data/#{self.name}"
-    end
+  # The URL of the file.
+  #
+  # @param prefix [String] The prefix to use for the filename (used for size) /media/dirs/ID/data/PREFIX/FILENAME
+  #
+  # @option options [Boolean] :cache Wether or not to generate an URL that is cacheable (true by default)
+  #
+  # @return [String] The URL to the media file
+  def url(prefix=nil, options={})
+    options.reverse_merge! :cache => true
+    
+    url = ["/media"]
+    
+    # Inject cache url
+    url << "cache/#{self.cache_key}" if options[:cache]
+    
+    url << "dirs/#{self.parent_id}/data"
+    
+    # Inject prefix
+    url << prefix.to_s if prefix
+    
+    url << self.name
+    
+    url.join("/")
+  end
+  
+  # The key to use for caching, currently uses the 
+  #
+  # @return [String]
+  def cache_key
+    self.updated_at.to_i.to_s
   end
   
   def determine_file_type
