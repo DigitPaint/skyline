@@ -14,7 +14,12 @@ class Skyline::LinkRef < Skyline::InlineRef
     href = "broken"
     if !self.referable_id.blank?
       linked_file = self.referable_type.constantize.find_by_id(self.referable_id)
-      href = linked_file.url unless linked_file.blank?
+      
+      if linked_file.present? && linked_file.kind_of?(Skyline::MediaFile)
+        href = linked_file.url(nil, :cache => !skyline_attr)
+      elsif linked_file.present?
+        href = linked_file.url
+      end
     end
     skyline_ref_id = options[:nullify] ? "" : self.id
     skyline_attrs = "data-skyline-ref-id=\"#{skyline_ref_id}\" data-skyline-referable-id=\"#{self.referable_id}\" data-skyline-referable-type=\"#{self.referable_type}\"" if skyline_attr    
