@@ -19,13 +19,13 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
     @file = Skyline::MediaFile.first(:conditions => {:parent_id => params[:dir_id], :name => params[:name]})
     return self.handle_404 unless @file
           
-    # Chceck if we have a timestamp
-    if params[:timestamp].present?
+    # Chceck if we have a cache_key
+    if params[:cache_key].present?
       response.headers["Expires"] = CGI.rfc1123_date(Time.now + 10.years)
       response.headers["Cache-Control"] = "max-age=#{10.years.to_i}, public"
       
-      if params[:timestamp].to_s != @file.cache_key
-        # redirect to correct timestamp
+      if params[:cache_key].to_s != @file.cache_key
+        # redirect to correct cache_key
         sz = params[:size] && params[:size] =~ SIZE_REGEX ? params[:size] : nil
         return redirect_to @file.url(sz, :cache => true), :status => :moved_permanently
       end
