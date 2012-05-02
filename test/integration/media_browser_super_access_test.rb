@@ -4,7 +4,8 @@ require 'user_access_helper'
 
 class MediaBrowserSuperAccessTest < ActionController::IntegrationTest
   include UserAccessHelper
-
+  include Skyline::Engine.routes.url_helpers
+  
   context "A Super user" do
     setup do            
       #TODO: figure out why it doesn't work if seed file is included at the top

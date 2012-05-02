@@ -4,6 +4,7 @@ require 'user_access_helper'
 
 class MediaBrowserUserAccessTest < ActionController::IntegrationTest
   include UserAccessHelper
+  include Skyline::Engine.routes.url_helpers
   fixtures :all
   
   context "A User" do
