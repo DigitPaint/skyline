@@ -122,12 +122,57 @@ class Skyline::MediaFile < Skyline::MediaNode
     url.join("/")
   end
   
+  
+  def url(prefix=nil, options={})
+    url = ["/media"]
+    url << self.cache_key
+    url << self.id.to_s
+    url << prefix.to_s if prefix
+    url << self.name
+    
+    url.join("/")
+  end
+  
+  
   # The key to use for caching, currently uses the 
   #
   # @return [String]
   def cache_key
-    self.updated_at.to_i.to_s
+    s = self.updated_at.to_i.to_s.ljust(6,"0").reverse
+    [s[0,2], s[2,2], s[4..-1]].join("/")
   end
+  
+  # Regex to check the size parameter
+  SIZE_REGEX = /\A\d+x\d+\Z/
+  
+  def valid_size?(raw_size)
+    raw_size =~ SIZE_REGEX
+  end
+  
+  # Normalizes the size parameter
+  #
+  # @param size [String] A string with the format "AAAxBBB" where AAA and BBB are numbers.
+  # @return [nil,false,Array[width,height]] Nil if no sizing should be done, false if this is just wrong and an array with [w,h] if it's ok.
+  def normalize_size(raw_size)
+    return nil unless raw_size.present?
+    if valid_size?(raw_size)
+      size = raw_size.to_s.split("x").map{|v| v.to_i }
+    
+      # Unless all the sizes are set we have to assume this is crap and return an :unprocessable_entity 
+      if !size.all?{|s| s > 0 }
+        return false
+      end    
+    
+      # Never upscale images disproportionally
+      if size[0] == self.width && size[1] >= self.height || size[1] == self.height && size[0] >= self.width
+        return nil
+      end
+    else
+      return false
+    end
+    size
+  end
+  
   
   def determine_file_type
     lookup = Mime::Type.lookup(self.content_type)
@@ -161,7 +206,14 @@ class Skyline::MediaFile < Skyline::MediaNode
   
   # Write data to disk
   def store_data
-    File.open(self.file_path,"wb"){ |f| f.write(self.data.read) } if self.data
+    return unless self.data.present?
+    
+    if !self.data.respond_to?(:to_str) && self.data.respond_to?(:each)
+      File.open(self.file_path, "wb+"){|f| self.data.each{|d| f.write(d) } }
+      self.data.close if self.data.respond_to?(:close)
+    else
+      File.open(self.file_path, "wb+"){|f| f.write(self.data) }
+    end
   end
   
   # Remove data from disk

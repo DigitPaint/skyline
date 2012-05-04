@@ -78,8 +78,9 @@ Skyline::Engine.routes.draw do
   # ========================
   #Media files data route
 
-  # match 'media/cache/:timestamp/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :timestamp => /\d+/
-  # match 'media/cache/:timestamp/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :timestamp => /\d+/       
+  # match 'media/:cache_key/:file_id/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :cache_key => /\d{2}\/\d{2}\/\d+/
+  # match 'media/:cache_key/:file_id/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :cache_key => /\d{2}\/\d{2}\/\d+/
+
   # match 'media/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
   # match 'media/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
      
