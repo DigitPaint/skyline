@@ -4,9 +4,20 @@
   <%= "<div class=\"block\">" if block_alignment %>
   <div class="media <%= block_alignment || media_section.alignment  %>" style="width: <%= media_section.width %>px;" >
     <% image = capture do %>
-      <img src="<%= media_section.media.url %>" alt="<%= media_section.caption %>" />
+    <% 
+      if media_section.width.present? && media_section.height.present?
+        prefix = "#{media_section.width}x#{media_section.height}"
+      end
+      
+      if media_section.media.file?
+        src = media_section.media.url(prefix)
+      else
+        src = media_section.media.url
+      end
+      %>
+      <img src="<%= src %>" alt="<%= media_section.caption %>" />
     <% end %>
-    <%= media_section.link.present? ? link_to(image,media_section.link.url) : image %>
+    <%= media_section.link.present? ? link_to(image, media_section.link.url) : image %>
     <% if media_section.caption.present? %>
       <p class="caption"><%= media_section.caption %></p>
     <% end %>
