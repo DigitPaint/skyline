@@ -55,7 +55,7 @@ unless Module.constants.include?('BlankSlate')
     module AndAnd
       class BlankSlate
         def self.wipe
-          instance_methods.reject { |m| m =~ /^__/ }.each { |m| undef_method m }
+          instance_methods.reject { |m| m =~ /^__/ }.each { |m| undef_method m unless m =~ /(\A__|\Anil\?\Z|\Aobject_id\Z)/ }
         end
         def initialize
           BlankSlate.wipe
