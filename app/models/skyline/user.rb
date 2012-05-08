@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class Skyline::User < ActiveRecord::Base
   include Skyline::Authentication::User
   
@@ -41,6 +43,7 @@ class Skyline::User < ActiveRecord::Base
   
   accepts_nested_attributes_for :grants
   
+  scope :authenticable, :conditions => {:is_destroyed => false}
   
   class << self
     
@@ -50,16 +53,23 @@ class Skyline::User < ActiveRecord::Base
     # User:: The user if authentication passed
     # --
     def authenticate(email,password)
-      user = self.first(:conditions => {:email => email.to_s.downcase, :password => encrypt(password.to_s), :is_destroyed => false})
-      user && user || false
+      user = self.authenticable.find_by_email(email.to_s.downcase)
+      user && verify_password(user.password, password.to_s, user.encryption_method) ? user : false
+    end
+    
+    def verify_password(password, verification, encryption_method)
+    	case encryption_method
+    	when "bcrypt"
+    		BCrypt::Password.new(password) == verification
+    	when "sha1"
+    		password == Digest::SHA1.hexdigest(verification)
+    	else
+    		raise 'Invalid encryption method'
+    	end
     end
     
     def find_by_identification(identification)
       self.find_by_id(identification)
-    end
-    
-    def encrypt(pw)
-      Digest::SHA1.hexdigest(pw)
     end
     
     def extract_valid_email_address(email)
@@ -108,15 +118,6 @@ class Skyline::User < ActiveRecord::Base
     
     @rights ||= self.rights.map{|r| r.name }.uniq
     @rights.include?(right)
-  end
-
-  # Check if this users password matches.
-  def correct_password?(password)
-    if self.password_changed?
-      self.password == password.to_s
-    else
-      self.password == self.class.encrypt(password.to_s)
-    end
   end
 
   def current_password=(v)
@@ -190,11 +191,12 @@ class Skyline::User < ActiveRecord::Base
   
   def encrypt_password
     return unless self.password_changed?
-    self.password = self.class.encrypt(self.password.to_s)
+    self.password = BCrypt::Password.create(self.password.to_s)
+    self.encryption_method = 'bcrypt'
   end
 
   def valid_current_password
-    unless self.current_password && self.password_was == self.class.encrypt(self.current_password)
+    unless self.current_password && self.class.verify_password(self.password_was, self.current_password, self.encryption_method)
       self.errors.add(:current_password, :mismatch)
     end
   end
