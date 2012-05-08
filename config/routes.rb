@@ -70,7 +70,11 @@ Skyline::Engine.routes.draw do
     
     match 'content/(:action/(*types))', :to => "content"
      
-    resources :settings, :except => [:create, :destroy]    
+    resources :settings, :except => [:create, :destroy]
+    
+    # OmniAuth Callback
+    match 'auth/skyline_strategy/callback', to: 'authentications#create'
+    match "auth/failure", to: "authentications#fail"
   end
   
   # ========================
@@ -80,5 +84,4 @@ Skyline::Engine.routes.draw do
      
   match 'media/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
   match 'media/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
-     
 end

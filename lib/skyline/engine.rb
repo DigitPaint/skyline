@@ -2,6 +2,7 @@ require 'skyline'
 require 'rails'
 require 'fileutils'
 require Skyline.root + 'config/initializers/gem_dependencies'
+require 'omniauth'
 
 module Skyline
   class Engine < Rails::Engine
@@ -25,7 +26,7 @@ module Skyline
       public_path = Pathname.new(Rails.public_path) + "skyline"
       unless public_path.exist? 
         FileUtils.rm(public_path) if public_path.symlink?
-
+        
         puts "=> Skyline: Creating assets symlink to '#{public_path}'"
         FileUtils.ln_s((Skyline.root + "public/skyline").relative_path_from(Pathname.new(Rails.public_path)),public_path)
       end      
@@ -71,6 +72,10 @@ module Skyline
       
       if !Rails.configuration.cache_classes && Rails.configuration.reload_plugins
         middleware.use(Skyline::PluginsLoaderMiddleware)
+      end
+      
+      middleware.use OmniAuth::Builder do
+        provider Skyline::Authentication::SkylineStrategy, :callback_path => "/auth/skyline_strategy/callback"
       end
     end
   end

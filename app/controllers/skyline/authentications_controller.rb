@@ -5,8 +5,8 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
   end
   
   def create
-    if user = Skyline::Configuration.user_class.authenticate(params[:email], params[:password])      
-      reset_session      
+    if user = Skyline::Configuration.user_class.authenticate(params[:email], params[:password])
+      reset_session
       session[:skyline_user_identification] = user.identification
       redirect_to skyline_root_path
     else
@@ -15,10 +15,15 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
     end    
   end
   
-  def destroy 
-    session[:skyline_user_identification] = nil 
+  def destroy
+    session[:skyline_user_identification] = nil
     redirect_to new_skyline_authentication_path
-  end    
+  end
+  
+  def fail
+    messages.now[:error] = t(:error, :scope => [:authentication,:create,:flashes])
+    render :action => :new
+  end
   
   protected
   
