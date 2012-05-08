@@ -36,19 +36,19 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
   def update    
     @dir = Skyline::MediaDir.find(params[:id])
     
-    if params[:skyline_media_dir]
-      @dir.name = params[:skyline_media_dir][:name] if !params[:skyline_media_dir][:name].blank?
-      @dir.parent_id = (params[:skyline_media_dir][:parent_id] == "0") ? nil : params[:skyline_media_dir][:parent_id]
+    if params[:media_dir]
+      @dir.name = params[:media_dir][:name] if !params[:media_dir][:name].blank?
+      @dir.parent_id = (params[:media_dir][:parent_id] == "0") ? nil : params[:media_dir][:parent_id]
     
       @saved = @dir.save
     end
     
-    @dirs = Skyline::MediaDir.group_by_parent_id 
+    @dirs = Skyline::MediaDir.group_by_parent_id
     
     if @saved
       notifications.now[:success] = t(:success, :scope => [:media, :dirs,:update,:flashes])
     else
-      notifications.now[:failed] = t(:success, :scope => [:media, :dirs,:update,:flashes])
+      notifications.now[:failed] = t(:failed, :scope => [:media, :dirs,:update,:flashes])
     end    
     
     render :action => "index"
