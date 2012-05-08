@@ -4,7 +4,7 @@
 
     <div id="usernavigation">
       <%= t(:logged_in_as, :user => h(current_user.display_name), :scope => [:authentication]).html_safe  %>
-      (<%= link_to t(:logout, :scope => [:authentication]), skyline_authentication_path, :method => :delete, :remote => true  %>)
+      (<%= link_to t(:logout, :scope => [:authentication]), skyline_authentication_path, :method => :delete %>)
     </div>
   </div>
 
