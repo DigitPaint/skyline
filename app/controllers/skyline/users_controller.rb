@@ -42,8 +42,9 @@ class Skyline::UsersController < Skyline::ApplicationController
   
   def update
     @user = Skyline::User.find_by_id(params[:id])
-    @user.attributes = params[:user]
-    @user.force_password = params[:user].andand[:force_password]
+    attributes = params[:user]
+    @user.force_password = attributes.andand.delete(:force_password)
+    @user.attributes = attributes
     @user.editing_myself = true if @user == current_user
     
     if @user.save
