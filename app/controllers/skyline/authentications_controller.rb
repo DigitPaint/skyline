@@ -21,7 +21,11 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
   end
   
   def fail
-    messages.now[:error] = t(:error, :scope => [:authentication,:create,:flashes])
+    if Skyline::Configuration.login_attempts_allowed > 0
+      messages.now[:error] = t(:error_with_lockout, :scope => [:authentication,:create,:flashes])
+    else
+      messages.now[:error] = t(:error, :scope => [:authentication,:create,:flashes])
+    end
     render :action => :new
   end
   

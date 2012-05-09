@@ -300,6 +300,7 @@
         password_confirmation: "Confirm password"
         role: "Role"
         created_at: "Created on"
+        login_reset: "Reset login attempts"
 
   buttons:
     plus: "+"
@@ -378,6 +379,7 @@
     create: 
       flashes: 
         error: "Could not login, please check your e-mail address and password and try again."
+        error_with_lockout: "Could not login, please check your e-mail address and password and try again. If you continue to get this message, your account may be disabled for security reasons. Please contact your administrator."
   user:
     roles:
       super: "Super admin"      
@@ -390,6 +392,7 @@
       current_password_info: "Your password should be supplied when editing your own user."
       password_info: "Leave blank to keep current password."
       cannot_change_role: "It isn't possible to change your own role."
+      login_attempts_info: "User has attempted to login %{count} times, last attempt was %{duration} ago (%{since})"
     new:
       dialog_title: "Create new user"
     destroy:

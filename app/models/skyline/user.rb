@@ -21,6 +21,8 @@ class Skyline::User < ActiveRecord::Base
   
   attr_accessor :skip_email_validation
   
+  attr_accessor :login_reset
+  
   # Validations
   validate :valid_current_password, :if => :editing_myself, :on => :update
 
@@ -181,6 +183,26 @@ class Skyline::User < ActiveRecord::Base
       self.force_password! attributes[:password]
       self.is_destroyed = false
     end
+  end
+  
+  def allow_login_attempt?
+    if Skyline::Configuration.login_attempts_allowed > 0
+      return self.login_attempts <= Skyline::Configuration.login_attempts_allowed
+    else
+      return true
+    end
+  end
+  
+  def add_login_attempt
+    self.login_attempts = self.login_attempts + 1
+    self.last_login_attempt = Time.now
+    self.save
+  end
+  
+  def reset_login_attempts
+    self.login_attempts = 0
+    self.last_login_attempt = nil
+    self.save
   end
   
   protected

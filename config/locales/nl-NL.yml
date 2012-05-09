@@ -300,6 +300,7 @@
         password_confirmation: "Bevestig wachtwoord"
         role: "Rol"
         created_at: "Aangemaakt op"
+        login_reset: "Inlogpogingen wissen"
 
   buttons:
     plus: "+"
@@ -378,6 +379,7 @@
     create: 
       flashes: 
         error: "Inloggen mislukt, controleer uw e-mailadres en wachtwoord en probeer het opnieuw."
+        error_with_lockout: "Inloggen mislukt, controleer uw e-mailadres en wachtwoord en probeer het opnieuw. Als u deze melding herhaaldelijk krijgt kan uw account om veiligheidsredenen geblokkeerd zijn, neem dan contact op met uw systeembeheerder."
   user:
     roles:
       super: "Superbeheerder"
@@ -390,6 +392,7 @@
       current_password_info: "Bij het bewerken van uw eigen gebruiker dient u uw huidige wachtwoord in te voeren."
       password_info: "Leeglaten indien het wachtwoord niet gewijzigd hoeft te worden."
       cannot_change_role: "Het is niet mogelijk uw eigen rol te wijzigen."
+      login_attempts_info: "Gebruiker heeft %{count} keer geprobeerd in te loggen, voor het laatst %{duration} geleden (%{since})"
     new:
       dialog_title: "Aanmaken van nieuwe gebruiker"
     destroy:

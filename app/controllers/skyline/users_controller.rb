@@ -43,11 +43,13 @@ class Skyline::UsersController < Skyline::ApplicationController
   def update
     @user = Skyline::User.find_by_id(params[:id])
     attributes = params[:user]
+    login_reset = attributes.andand.delete(:login_reset)
     @user.force_password = attributes.andand.delete(:force_password)
     @user.attributes = attributes
     @user.editing_myself = true if @user == current_user
     
     if @user.save
+      @user.reset_login_attempts if login_reset == '1'
       notifications[:success] = t(:success, :scope => [:user,:update,:flashes])
       javascript_redirect_to skyline_users_path(:page => page_number_for_user(@user))
     else

@@ -38,7 +38,23 @@
         <td>
           <%= f.password_field password_confirmation_attribute, :class => "full" %>
         </td>
-      </tr>      
+      </tr>
+      
+      <% if Skyline::Configuration.login_attempts_allowed > 0 && @user.login_attempts > 0 %>
+        <tr>
+          <th><%= f.label :login_reset, f.t(:login_reset) %></th>
+          <td>
+            <%= f.check_box :login_reset, :class => "full", :class => 'checkbox' %><%# t() %>
+            <p class = 'info'>
+              <%= t(:login_attempts_info, 
+                       :count => @user.login_attempts,
+                       :since => l(@user.last_login_attempt, :format => :long),
+                       :duration => distance_of_time_in_words_to_now(@user.last_login_attempt),
+                       :scope => [:user, :edit]) %>
+            </p>
+          </td>
+        </th>
+      <% end %>
       
       <% if current_user == f.object %>
         <tr>

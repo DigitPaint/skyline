@@ -68,6 +68,9 @@ class Skyline::Configuration < Configure
     # Authentication User model
     config.user_class = Skyline::User
     
+    # Number of login attempts allowed by a user before their accounts are locked (if 0, no limit)
+    config.login_attempts_allowed = 0
+    
     # The skyline_root default route.
     # Most unfortunately we have to set it like this because we cannot override a specific route from the plugin
     # in the implementation.    
