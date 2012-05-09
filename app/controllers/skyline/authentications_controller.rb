@@ -5,7 +5,7 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
   end
   
   def create
-    if user = Skyline::Configuration.user_class.authenticate(params[:email], params[:password])
+    if user = Skyline::Configuration.user_class.find_by_id(request.env["omniauth.auth"]["uid"])
       reset_session
       session[:skyline_user_identification] = user.identification
       redirect_to skyline_root_path
