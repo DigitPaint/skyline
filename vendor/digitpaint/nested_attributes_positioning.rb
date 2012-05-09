@@ -50,7 +50,7 @@ module NestedAttributesPositioning
   def assign_attributes_with_positioning(new_attributes, options = {})
     a = new_attributes.dup
     self.accepts_nested_attributes_for_associations.map{|association| handle_positioning_for_association(association, a)}
-    self.assign_attributes_without_positioning(a)
+    self.assign_attributes_without_positioning(a, options)
   end
   
   def handle_positioning_for_association(association, attributes)
