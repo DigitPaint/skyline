@@ -19,11 +19,17 @@ class Skyline::ImageRef < Skyline::InlineRef
         html_options.reverse_merge! image.dimension
       end
       
+      prefix = nil
       if html_options["width"].present? && html_options["height"].present?
-        src = image.url("#{html_options["width"]}x#{html_options["height"]}")        
-      else
+        prefix = "#{html_options["width"]}x#{html_options["height"]}"
+      end
+      
+      if image.present? && image.kind_of?(Skyline::MediaFile)
+        src = image.url(prefix, :cache => !skyline_attr)
+      elsif linked_file.present?
         src = image.url
       end
+      
     end
     
     skyline_ref_id = options[:nullify] ? "" : self.id

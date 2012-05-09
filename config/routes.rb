@@ -75,13 +75,18 @@ Skyline::Engine.routes.draw do
     # OmniAuth Callback
     match 'auth/skyline_strategy/callback', to: 'authentications#create'
     match "auth/failure", to: "authentications#fail"
+    resources :settings, :except => [:create, :destroy]    
   end
   
   # ========================
   # = Implementation url's =
   # ========================
   #Media files data route
+
+  # match 'media/:cache_key/:file_id/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :cache_key => /\d{2}\/\d{2}\/\d+/
+  # match 'media/:cache_key/:file_id/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/, :cache_key => /\d{2}\/\d{2}\/\d+/
+
+  # match 'media/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
+  # match 'media/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
      
-  match 'media/dirs/:dir_id/data/:size/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
-  match 'media/dirs/:dir_id/data/:name', :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
 end
