@@ -8,6 +8,5 @@ class Skyline::RefObject < ActiveRecord::Base
   
   validates_presence_of :referable_type
   
-  attr_accessible :referable_id, :referable_type, :options, :refering_id, :refering_type, :refering_column_name
-  
+  attr_accessible :options, :refering_column_name, :referable_id, :referable_type
 end

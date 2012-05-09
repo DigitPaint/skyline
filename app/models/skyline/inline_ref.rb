@@ -146,13 +146,13 @@ class Skyline::InlineRef < Skyline::RefObject
       new_ref.previous_referable = new_ref.referable.dup if new_ref.referable
         
       new_ref.attributes = {
-        :referable_id => ref_id,
-        :referable_type => ref_type,
         :options => options, 
-        :refering_id => refering_object.id, 
-        :refering_type => refering_object.class.name,
         :refering_column_name => refering_column_name.to_s
       }
+      new_ref.referable_id = ref_id
+      new_ref.referable_type = ref_type
+      new_ref.refering_id = refering_object.id
+      new_ref.refering_type = refering_object.class.name
       
       new_ref.referable.reload if new_ref.referable
       if ref_type == "Skyline::ReferableUri"

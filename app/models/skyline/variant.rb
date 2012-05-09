@@ -14,7 +14,7 @@ class Skyline::Variant < Skyline::ArticleVersion
   
   default_scope :order => "updated_at DESC"
   
-  attr_accessible :article, :article_id, :data_attributes, :name, :version, :sections_attributes
+  attr_accessible :article, :name, :version, :sections_attributes, :data_attributes
   
   class << self
     def find_current_editor_for(id)

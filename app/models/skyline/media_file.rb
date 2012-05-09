@@ -9,7 +9,7 @@ class Skyline::MediaFile < Skyline::MediaNode
   
   default_scope :order => :name
   
-  attr_accessible :name, :parent_id, :data
+  attr_accessible :name, :data
   
   def self.set_missing_file_types
     self.all(:conditions => "file_type = '' OR file_type IS NULL").each do |media_file|

@@ -6,7 +6,7 @@ class TestContentObjectTest < ActiveSupport::TestCase
   context "test content object" do
     setup do
       upload = Rack::Test::UploadedFile.new((Skyline.root + "db/fixtures/files/test.gif"), "image/gif")
-      @image = Skyline::MediaFile.new(:name => "test_img.gif", :parent_id => nil, :data => upload)
+      @image = Skyline::MediaFile.new(:name => "test_img.gif", :data => upload)
       @image.save
     end
     should "be able to save without an image" do
