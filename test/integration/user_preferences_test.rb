@@ -3,6 +3,8 @@ require 'user_access_helper'
 
 class UserPreferencesTest < ActionController::IntegrationTest
   include UserAccessHelper
+  include Skyline::Engine.routes.url_helpers
+  
   context "User preferences" do
     setup do
        @user = FactoryGirl.create(:user)

@@ -15,7 +15,7 @@ module UserAccessHelper
   def login(user,pw)
     open_session do |s|
       s.extend(UserAssertion)
-      s.post "/skyline/authentication", :email => user.email, :password => pw      
+      s.post skyline_auth_skyline_strategy_callback_path, :email => user.email, :password => pw
     end    
   end
   
