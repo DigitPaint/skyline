@@ -98,45 +98,45 @@ class Skyline::MediaFile < Skyline::MediaNode
   def data
     @data
   end
-
-  # The URL of the file.
-  #
-  # @param prefix [String] The prefix to use for the filename (used for size) /media/dirs/ID/data/PREFIX/FILENAME
-  #
-  # @option options [Boolean] :cache Wether or not to generate an URL that is cacheable (true by default)
-  #
-  # @return [String] The URL to the media file
-  def url(prefix=nil, options={})
-    options.reverse_merge! :cache => true
-    
-    url = ["/media"]
-    
-    # Inject cache url
-    url << "cache/#{self.cache_key}" if options[:cache]
-    
-    url << "dirs/#{self.parent_id}/data"
-    
-    # Inject prefix
-    url << prefix.to_s if prefix
-    
-    url << self.name
-    
-    url.join("/")
-  end
   
-  
-  def url(prefix=nil, options={})
-    url = ["/media"]
-    url << self.cache_key
-    url << self.id.to_s
-    url << prefix.to_s if prefix
-    url << self.name
+  # The URL of the file
+  # Uses Rails.application.routes to generate the URL
+  #
+  # @param size [String] The size to use for the filename  
+  #
+  # @options options [Boolean] :cms Wether or not this is an internal URL (default=false)
+  def url(size=nil, options={})
+    options.reverse_merge! :cms => false
     
-    url.join("/")
+    url_options = {
+      
+      :action => "show",
+      :file_id => self.id.to_s,
+      :name => self.name,
+      :only_path => true
+    }
+    
+    url_options[:size] = size if size
+    
+    if(options[:cms])
+      url_options.update({
+        :controller => "skyline/media/data",
+        :dir_id => self.parent_id.to_s
+      })
+      
+      Skyline::Engine.routes.url_for(url_options)
+    else
+      url_options.update({
+        :controller => "skyline/site/media_files_data",  
+        :cache_key => self.cache_key 
+      })
+      Rails.application.routes.url_for(url_options)
+    end
   end
   
   
   # The key to use for caching, currently uses the 
+  # updated_at, reversed and padded to six 0's
   #
   # @return [String]
   def cache_key

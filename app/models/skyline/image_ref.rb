@@ -25,7 +25,7 @@ class Skyline::ImageRef < Skyline::InlineRef
       end
       
       if image.present? && image.kind_of?(Skyline::MediaFile)
-        src = image.url(prefix, :cache => !skyline_attr)
+        src = image.url(prefix, :cms => skyline_attr)
       elsif linked_file.present?
         src = image.url
       end
@@ -35,12 +35,11 @@ class Skyline::ImageRef < Skyline::InlineRef
     skyline_ref_id = options[:nullify] ? "" : self.id
     
     if skyline_attr
-      skyline_prefix = Skyline::Configuration.url_prefix
       html_options.update "data-skyline-ref-id" => skyline_ref_id, "data-skyline-referable-id" => self.referable_id, "data-skyline-referable-type" => self.referable_type
     end
     option_str = html_options.collect{|k,v| "#{k}=\"#{v}\""}.join(" ")
     
-    html_str = "<img src=\"#{skyline_prefix}#{src}\" #{option_str} />"
+    html_str = "<img src=\"#{src}\" #{option_str} />"
   end
     
 end

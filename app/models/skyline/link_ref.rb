@@ -16,7 +16,7 @@ class Skyline::LinkRef < Skyline::InlineRef
       linked_file = self.referable_type.constantize.find_by_id(self.referable_id)
       
       if linked_file.present? && linked_file.kind_of?(Skyline::MediaFile)
-        href = linked_file.url(nil, :cache => !skyline_attr)
+        href = linked_file.url(nil, :cms => skyline_attr)
       elsif linked_file.present?
         href = linked_file.url
       end
