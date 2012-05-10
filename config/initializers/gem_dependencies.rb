@@ -8,3 +8,4 @@ require "guid"
 require "will_paginate"
 require "seed-fu"
 require 'mail'
+require 'omniauth'

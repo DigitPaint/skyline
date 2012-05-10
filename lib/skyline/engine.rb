@@ -3,7 +3,6 @@ require 'rails'
 require 'fileutils'
 require 'skyline/routing_ext'
 require Skyline.root + 'config/initializers/gem_dependencies'
-require 'omniauth'
 
 module Skyline
   class Engine < Rails::Engine
