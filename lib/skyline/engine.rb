@@ -1,6 +1,7 @@
 require 'skyline'
 require 'rails'
 require 'fileutils'
+require 'skyline/routing_ext'
 require Skyline.root + 'config/initializers/gem_dependencies'
 require 'omniauth'
 
@@ -10,6 +11,11 @@ module Skyline
     engine_name "skyline"
     self.isolated = true
     self.routes.default_scope = {}
+    
+    config.skyline = ActiveSupport::OrderedOptions.new
+    config.skyline.mounted_engine_path = ""
+    config.skyline.mounted_media_path = ""
+
     
     config.autoload_paths << (Skyline.root + "lib").to_s
     

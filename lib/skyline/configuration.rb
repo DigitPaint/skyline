@@ -113,7 +113,7 @@ class Skyline::Configuration < Configure
   end  
   
   def url_prefix
-    Skyline::Engine.routes._generate_prefix({})
+    Skyline::Engine.config.skyline.mounted_engine_path
   end
   
   def articles
