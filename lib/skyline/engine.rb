@@ -62,7 +62,6 @@ module Skyline
         env.register_load_location("")
         env.register_load_location("skyline/src")
         env.register_load_location("skyline/vendor/*")
-        env.register_load_location("skyline/vendor/fancyupload/")
         env.register_load_location("skyline/vendor/plupload/js")
         env.register_load_location("skyline/vendor/mootools/")
      
