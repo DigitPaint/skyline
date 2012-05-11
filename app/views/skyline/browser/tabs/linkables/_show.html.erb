@@ -11,7 +11,7 @@
       <% @linkables.each do |linkable| %>
         <% selected_row = "linkable_#{linkable.id}" if linkable == @linkable %>
         <tr class="<%= cycle("odd","even") %> <%= "selected" if linkable == @linkable %>" id="linkable_<%= linkable.id %>"
-            data-url = "<%= linkable.url || linkable.id %>",
+            data-url = "<%= linkable.url(:mode => :cms) || linkable.id %>",
             data-referable_id = "<%= linkable.id %>",
             data-referable_type = "<%= linkable.class.name %>",
             data-referable_title = "<%= linkable.title %>">
