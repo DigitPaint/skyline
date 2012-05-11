@@ -65,79 +65,23 @@ module Skyline::Rendering
       def skip_until!(&block)
         renderer.skip_until!(&block)
       end
-
-      # @see ActionController::Request#session  
-      def session
-        @_controller.session
+    
+      # @see ActionController::RequestForgeryProtection#protect_against_forgery?
+      def protect_against_forgery?
+        controller.send(:protect_against_forgery?)
       end
 
-      # @see ActionController::Request#params 
-      def params
-        @_controller.params
-      end
-
-      # @see ActionController::Cookies#cookies
-      def cookies
-        @_controller.cookies
-      end
-
-      # The request that's currently being processed
-      #
-      # @return ActiveRecord::Request  
-      def request
-        @_controller.request
-      end
-
-      def flash
-        @_controller.send(:flash)
+      # @see ActionController::RequestForgeryProtection#form_authenticity_token
+      def form_authenticity_token
+        controller.send(:form_authenticity_token)
       end
       
-      # The controller
-      def controller
-        @_controller
-      end
-
       # The site that's currently in scope for this template
       #
       # @return Skyline::Site
       def site
         @_site
-      end
-
-      # @see ActionView::Helpers::UrlHelper#url_for
-      def url_for(options = {})
-        options ||= {}
-        url = case options
-        when String
-          super
-        when Hash
-          options = { :only_path => options[:host].nil? }.update(options.symbolize_keys)
-          escape  = options.key?(:escape) ? options.delete(:escape) : true
-          @_controller.send(:url_for, options)
-        when :back
-          escape = false
-          @_controller.request.env["HTTP_REFERER"] || 'javascript:history.back()'
-        else
-          super
-        end
-
-        escape ? escape_once(url) : url
-      end
-
-      # @see ActionController::RequestForgeryProtection#protect_against_forgery?
-      def protect_against_forgery?
-        @_controller.send(:protect_against_forgery?)
-      end
-
-      # @see ActionController::RequestForgeryProtection#request_forgery_protection_token
-      def request_forgery_protection_token
-        @_controller.request_forgery_protection_token
-      end
-
-      # @see ActionController::RequestForgeryProtection#form_authenticity_token
-      def form_authenticity_token
-        @_controller.send(:form_authenticity_token)
-      end
+      end      
 
       # Simple, quick 'n dirty solution so you can use 'acticle_version', 'news_item', .. in all 
       # your templates. So you don't have to use @.... or pass the local to all partials.
