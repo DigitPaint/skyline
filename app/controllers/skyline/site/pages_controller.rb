@@ -1,4 +1,4 @@
-class Skyline::Site::PagesController < ApplicationController
+class Skyline::Site::PagesController < ::ApplicationController
   before_filter :find_site, :find_page_version_and_url_parts, :possibly_redirect
   
   def show
@@ -24,7 +24,7 @@ class Skyline::Site::PagesController < ApplicationController
   
   
   protected
-
+  
   def handle_404
     render :text => "Error 404 :: Page with url \"#{params[:url]}\" doesn't exist.", :status => :not_found    
   end

@@ -95,8 +95,7 @@ class Skyline::Rendering::Renderer
 
     # The controller is optional!!
     @controller = options[:controller]
-    @assigns = options[:assigns].update(:_controller => @controller, 
-                                        :_site => options[:site])
+    @assigns = options[:assigns].update(:_site => options[:site])
 
     @template_paths = options[:paths].collect{|p| (Rails.root + p).to_s if File.exist?(Rails.root + p)}.compact
     @template_assigns = {}
@@ -123,9 +122,31 @@ class Skyline::Rendering::Renderer
       load_paths = self.object_template_paths(object)
 
       Rails.logger.debug "Rendering index template from paths: #{load_paths.join(', ')} (object.template = #{template})"
-
-      av = ActionView::Base.new(load_paths.map(&:to_s))
-
+      
+      helpers = @controller._helpers if @controller && @controller.respond_to?(:_helpers)
+      av_klass = ActionView::Base.prepare(Rails.application.routes, helpers)
+      av = av_klass.new(load_paths.map(&:to_s), {}, @controller)
+      
+      # To make templating work we have to add the
+      # application routes to this class.
+      class << av
+        def _routes_context
+          self
+        end
+        
+        # We need to delete the :script_name from the options as the router
+        # will prefix everything with :script_name...
+        def url_options
+          super.dup.tap do |s|
+            s.delete(:script_name)
+          end
+        end
+        
+        def _routes
+          Rails.application.routes
+        end
+      end      
+      
       assigns = (options[:assigns] || {}).merge(self.assigns)
       assigns[:_template_assigns] = @template_assigns
       assigns[:_renderer] = self
@@ -136,16 +157,6 @@ class Skyline::Rendering::Renderer
       
       @_local_object = object   # for object function
       
-      if @controller
-        if @controller.respond_to?(:_routes)
-          (class << av; self; end).send(:include, @controller._routes.url_helpers)
-        end
-
-        if @controller.respond_to?(:_helpers)
-          (class << av; self; end).send(:include, @controller._helpers)
-        end
-      end
-          
       av.extend Skyline::Rendering::Helpers::RendererHelper
       av.extend Helpers
       
