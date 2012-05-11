@@ -1,8 +1,8 @@
 class Skyline::ArticleVersionsController < Skyline::ApplicationController
-  before_filter :find_article, :load_renderable_scope, :find_article_version, :possibly_redirect
+  before_filter :find_article, :load_site, :find_article_version, :possibly_redirect
 
   def show
-    renderer = @renderable_scope.renderer(:controller => self)
+    renderer = @site.renderer(:controller => self, :mode => :preview)
     body = renderer.render(@article_version)
     
     if wrapper_publication = @article.preview_wrapper_page.andand.published_publication
@@ -19,8 +19,8 @@ class Skyline::ArticleVersionsController < Skyline::ApplicationController
     return redirect_to(skyline_articles_path(:type => params[:type])) if @article.blank?
   end  
 
-  def load_renderable_scope
-    @renderable_scope = Skyline::Site.new
+  def load_site
+    @site = Skyline::Site.new
   end
 
   def find_article_version
