@@ -84,7 +84,7 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
     response.headers["Cache-Control"] = "max-age=#{10.years.to_i}, public"
     
     if @file.valid_size?(params[:size]) || params[:size].blank?
-      redirect_to @file.url(params[:size]), :status => :moved_permanently
+      redirect_to @file.url(params[:size], :mode => :published), :status => :moved_permanently
     else
       self.handle_404
     end    

@@ -24,10 +24,11 @@ class Skyline::ImageRef < Skyline::InlineRef
         prefix = "#{html_options["width"]}x#{html_options["height"]}"
       end
       
+      # TODO: Add support for :preview mode too
       if image.present? && image.kind_of?(Skyline::MediaFile)
-        src = image.url(prefix, :cms => skyline_attr)
+        src = image.url(prefix, :mode => (skyline_attr ? :cms : :published ))
       elsif linked_file.present?
-        src = image.url
+        src = image.url( :mode => (skyline_attr ? :cms : :published ))
       end
       
     end

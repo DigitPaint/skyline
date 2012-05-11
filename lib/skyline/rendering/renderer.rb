@@ -1,7 +1,7 @@
 # The skyline renderer renders all Articles, Sections and basically anything that's renderable
 # or previewable in Skyline.
 class Skyline::Rendering::Renderer
-  attr_reader :assigns, :template_paths
+  attr_reader :assigns, :template_paths, :mode
   attr_accessor :_config
   
   cattr_accessor :renderables
@@ -87,15 +87,18 @@ class Skyline::Rendering::Renderer
   # @option options :paths [Array<String,Pathname>]  (["app/templates", Skyline.root + "app/templates/skyline"])
   #   Paths that will be searched for templates.
   # @option options :site [Site] The currently active site object
+  # @option options :mode [:cms, :preview, :published] The mode we're rendering this page in. Default's to :published to render for the published site.
   def initialize(options = {})
     options.reverse_merge!(:assigns => {}, 
                            :controller => nil, 
                            :paths => ["app/templates", Skyline.root + "app/templates/skyline"],
-                           :site => nil)
+                           :site => nil,
+                           :mode => :published)
 
     # The controller is optional!!
     @controller = options[:controller]
     @assigns = options[:assigns].update(:_site => options[:site])
+    @mode = options[:mode]
 
     @template_paths = options[:paths].collect{|p| (Rails.root + p).to_s if File.exist?(Rails.root + p)}.compact
     @template_assigns = {}

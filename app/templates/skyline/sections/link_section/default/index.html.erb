@@ -6,7 +6,7 @@
   <ul class="links">
     <% link_section.links.each do |link| %>
       <% if link.present? %>
-        <li><%=link_to link.title, link.url%></li>
+        <li><%=link_to link.title, link.url(:mode => renderer.mode)%></li>
       <% end %>
     <% end %>
   </ul>

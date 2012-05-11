@@ -10,14 +10,14 @@
       end
       
       if media_section.media.file?
-        src = media_section.media.url(prefix)
+        src = media_section.media.url(prefix, :mode => renderer.mode)
       else
-        src = media_section.media.url
+        src = media_section.media.url(:mode => renderer.mode)
       end
       %>
       <img src="<%= src %>" alt="<%= media_section.caption %>" />
     <% end %>
-    <%= media_section.link.present? ? link_to(image, media_section.link.url) : image %>
+    <%= media_section.link.present? ? link_to(image, media_section.link.url(:mode => renderer.mode)) : image %>
     <% if media_section.caption.present? %>
       <p class="caption"><%= media_section.caption %></p>
     <% end %>

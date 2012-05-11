@@ -104,12 +104,15 @@ class Skyline::MediaFile < Skyline::MediaNode
   #
   # @param size [String] The size to use for the filename  
   #
-  # @options options [Boolean] :cms Wether or not this is an internal URL (default=false)
-  def url(size=nil, options={})
-    options.reverse_merge! :cms => false
+  # @options options [:cms, :preview, :published, nil] :mode The mode this URL is for. This option is required!
+  def url(*args)
+    options = args.extract_options!
+    raise ArgumentError, ":mode option must be present, but can be nil" unless options.has_key?(:mode)
+    
+    size = args.first
+    mode = options.delete(:mode) || :published
     
     url_options = {
-      
       :action => "show",
       :file_id => self.id.to_s,
       :name => self.name,
@@ -118,14 +121,14 @@ class Skyline::MediaFile < Skyline::MediaNode
     
     url_options[:size] = size if size
     
-    if(options[:cms])
+    case mode
+    when :cms, :preview
       url_options.update({
         :controller => "skyline/media/data",
         :dir_id => self.parent_id.to_s
       })
-      
       Skyline::Engine.routes.url_for(url_options)
-    else
+    when :published
       url_options.update({
         :controller => "skyline/site/media_files_data",  
         :cache_key => self.cache_key 
