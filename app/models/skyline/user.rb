@@ -54,8 +54,8 @@ class Skyline::User < ActiveRecord::Base
     # ==== Returns
     # User:: The user if authentication passed
     # --
-    def authenticate(email,password)
-      user = self.authenticable.find_by_email(email.to_s.downcase)
+    def authenticate(username,password)
+      user = self.authenticable.find_by_email(username.to_s.downcase)
       user && verify_password(user.password, password.to_s, user.encryption_method) ? user : false
     end
     
@@ -72,6 +72,10 @@ class Skyline::User < ActiveRecord::Base
     
     def find_by_identification(identification)
       self.find_by_id(identification)
+    end
+    
+    def find_by_username(username)
+      self.find_by_email(username)
     end
     
     def extract_valid_email_address(email)
