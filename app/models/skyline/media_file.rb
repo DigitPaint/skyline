@@ -11,13 +11,6 @@ class Skyline::MediaFile < Skyline::MediaNode
   
   attr_accessible :name, :data
   
-  def self.set_missing_file_types
-    self.all(:conditions => "file_type = '' OR file_type IS NULL").each do |media_file|
-      media_file.set_file_type!
-    end
-    true
-  end
-  
   # returns thumbnail of image
   # ==== Parameters
   # width<Integer>:: required width of the thumbnail
@@ -184,11 +177,6 @@ class Skyline::MediaFile < Skyline::MediaNode
     lookup.instance_variable_get("@symbol").to_s
   end
   
-  def set_file_type!
-    file_type = determine_file_type
-    self.update_attribute(:file_type, file_type) unless file_type.blank?
-  end
-      
   protected
   
   def set_dimensions
