@@ -193,13 +193,13 @@ class Skyline::User < ActiveRecord::Base
     end
   end
   
-  def add_login_attempt
+  def add_login_attempt!
     self.login_attempts = self.login_attempts + 1
     self.last_login_attempt = Time.now
     self.save
   end
   
-  def reset_login_attempts
+  def reset_login_attempts!
     self.login_attempts = 0
     self.last_login_attempt = nil
     self.save

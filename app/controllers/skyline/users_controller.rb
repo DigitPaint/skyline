@@ -49,7 +49,7 @@ class Skyline::UsersController < Skyline::ApplicationController
     @user.editing_myself = true if @user == current_user
     
     if @user.save
-      @user.reset_login_attempts if login_reset == '1'
+      @user.reset_login_attempts! if login_reset == '1'
       notifications[:success] = t(:success, :scope => [:user,:update,:flashes])
       javascript_redirect_to skyline_users_path(:page => page_number_for_user(@user))
     else
