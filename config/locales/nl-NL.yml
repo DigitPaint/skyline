@@ -384,6 +384,9 @@
   user:
     roles:
       super: "Superbeheerder"
+    filters:
+      flashes:
+        custom_class: "De huidige implementatie gebruikt eigen gebruikersbeheer, standaard gebruikersbeheer is niet beschikbaar"
     index:
       left_header: "Gebruikers"
       header: "Er zijn %{count} gebruikers"

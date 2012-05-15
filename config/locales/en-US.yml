@@ -383,7 +383,10 @@
         error_with_lockout: "Could not login, please check your e-mail address and password and try again. If you continue to get this message, your account may be disabled for security reasons. Please contact your administrator."
   user:
     roles:
-      super: "Super admin"      
+      super: "Super admin"
+    filters:
+      flashes:
+        custom_class: "This implementation has defined a custom user class, default user management is not available"
     index:
       left_header: "Users"
       header: "There are %{count} users"

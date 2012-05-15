@@ -8,6 +8,8 @@ class Skyline::UsersController < Skyline::ApplicationController
   authorize :edit,:update, :by => "user_update"
   authorize :destroy, :by => "user_delete"
   
+  before_filter :check_for_custom_user_class
+  
   def index
     
     @users = Skyline::User.paginate(:per_page => self.per_page,:conditions => {:system => false, :is_destroyed => false}, :include => [:roles], :page => params[:page])
@@ -73,6 +75,13 @@ class Skyline::UsersController < Skyline::ApplicationController
   
 
   protected
+  
+  def check_for_custom_user_class
+    unless Skyline::Configuration.user_class == Skyline::User
+      notifications[:error] = t(:custom_class, :scope => [:user, :filters, :flashes])
+      redirect_to skyline_root_path
+    end
+  end
   
   def per_page
     30
