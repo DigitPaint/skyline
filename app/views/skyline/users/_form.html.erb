@@ -44,7 +44,7 @@
         <tr>
           <th><%= f.label :login_reset, f.t(:login_reset) %></th>
           <td>
-            <%= f.check_box :login_reset, :class => "full", :class => 'checkbox' %><%# t() %>
+            <%= f.check_box :login_reset, :class => "full", :class => 'checkbox' %>
             <p class = 'info'>
               <%= t(:login_attempts_info, 
                        :count => @user.login_attempts,
@@ -53,7 +53,16 @@
                        :scope => [:user, :edit]) %>
             </p>
           </td>
-        </th>
+        </tr>
+      <% else %>
+        <% unless current_user == f.object%>
+          <tr>
+            <th><%= f.label :is_locked, f.t(:is_locked) %></th>
+            <td>
+              <%= f.check_box :is_locked, :class => "full", :class => 'checkbox' %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
       
       <% if current_user == f.object %>

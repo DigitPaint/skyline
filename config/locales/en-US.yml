@@ -301,6 +301,7 @@
         role: "Role"
         created_at: "Created on"
         login_reset: "Reset login attempts"
+        is_locked: "Lock account"
 
   buttons:
     plus: "+"

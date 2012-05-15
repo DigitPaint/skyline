@@ -301,6 +301,7 @@
         role: "Rol"
         created_at: "Aangemaakt op"
         login_reset: "Inlogpogingen wissen"
+        is_locked: "Blokkeer account"
 
   buttons:
     plus: "+"

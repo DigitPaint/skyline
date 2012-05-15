@@ -11,14 +11,16 @@ class Skyline::Authentication::SkylineStrategy
     if user
       if user.allow_login_attempt?
         @user = user
-        @user.reset_login_attempts!
+        @user.reset_login_attempts! if Skyline::Configuration.login_attempts_allowed > 0
         super
       else
         fail!(:invalid_credentials)
       end
     else
-      attempting_user = Skyline::Configuration.user_class.find_by_email(request.params['email'])
-      attempting_user.add_login_attempt! if attempting_user
+      if Skyline::Configuration.login_attempts_allowed > 0
+        attempting_user = Skyline::Configuration.user_class.find_by_email(request.params['email'])
+        attempting_user.add_login_attempt! if attempting_user
+      end
       fail!(:invalid_credentials)
     end
   end

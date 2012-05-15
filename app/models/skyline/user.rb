@@ -186,22 +186,20 @@ class Skyline::User < ActiveRecord::Base
   end
   
   def allow_login_attempt?
-    if Skyline::Configuration.login_attempts_allowed > 0
-      return self.login_attempts <= Skyline::Configuration.login_attempts_allowed
-    else
-      return true
-    end
+    !self.is_locked?
   end
   
   def add_login_attempt!
     self.login_attempts = self.login_attempts + 1
     self.last_login_attempt = Time.now
+    self.is_locked = true if self.login_attempts > Skyline::Configuration.login_attempts_allowed
     self.save
   end
   
   def reset_login_attempts!
     self.login_attempts = 0
     self.last_login_attempt = nil
+    self.is_locked = false
     self.save
   end
   
