@@ -13,10 +13,10 @@ class Skyline::InlineRef < Skyline::RefObject
     # @param [Symbol] refering_column_name column name in which the data is stored
     # 
     # @return [Array[String, Array]] An array containing the converted html and a list of IDS of refs in the HTML
-    def parse_html(html, refering_object, refering_column_name)    
+    def parse_html(html, refering_object, refering_column_name)
       old_refs = find_ref_ids_for_object(refering_object, refering_column_name)
       
-      h = Nokogiri::HTML(html)
+      h = Nokogiri::HTML::DocumentFragment.parse(html)
       updated_refs = []
       
       # html tags to be converted to [REF:id]
@@ -36,10 +36,10 @@ class Skyline::InlineRef < Skyline::RefObject
       }
       
       iterate_elements.each do |tag, attributes|
-        h.xpath("//#{tag}[@data-skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
+        h.css("#{tag}[data-skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
         
         # Deprecated
-        h.xpath("//#{tag}[@skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
+        h.css("#{tag}[skyline-referable-type]").each{ |node| process_tags.call(tag, attributes, node) }
       end
       
       del = (old_refs - updated_refs)
@@ -48,7 +48,7 @@ class Skyline::InlineRef < Skyline::RefObject
         logger.debug("[InlineRef] Destroying refs for #{refering_object.class.name} id: #{refering_object.id} column: #{refering_column_name}. Ref's destroyed: #{del.inspect}")
       end
       
-      [h.inner_text, updated_refs]
+      [h.to_s, updated_refs]
     end
     
     # Convert a string containing [REF] references into html
@@ -119,7 +119,7 @@ class Skyline::InlineRef < Skyline::RefObject
     # @param [Class] skyline_class sti class for the ref_object
     #
     # @return [Integer] id of the new ref_object
-    def create_ref_from_node(html_node, refering_object, refering_column_name, src_attr, skyline_class)            
+    def create_ref_from_node(html_node, refering_object, refering_column_name, src_attr, skyline_class)
       id, ref_id, ref_type = remove_attributes(html_node, ["data-skyline-ref-id", "data-skyline-referable-id", "data-skyline-referable-type"])
       
       # Deprecated attributes
