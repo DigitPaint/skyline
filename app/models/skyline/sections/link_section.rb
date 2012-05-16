@@ -8,6 +8,7 @@ class Skyline::Sections::LinkSection < ActiveRecord::Base
   validate :has_at_least_one_link
   
   accepts_nested_attributes_for :links, :allow_destroy => true
+  attr_accessible :links_attributes, :title
   
   def dup
     super.tap do |dup|

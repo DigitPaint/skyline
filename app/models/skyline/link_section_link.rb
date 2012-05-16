@@ -17,6 +17,8 @@ class Skyline::LinkSectionLink < ActiveRecord::Base
   
   default_scope :order => "position"  
   
+  attr_accessible :title, :position
+  
   protected
   def presence_of_linked
     self.errors.add :linked, :empty if self.linked.blank? || self.linked.marked_for_destruction?

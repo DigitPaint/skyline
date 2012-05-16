@@ -7,6 +7,8 @@ class Skyline::MediaCache < ActiveRecord::Base
   @@cache_path ||= Skyline::Configuration.media_file_cache_path
     
   after_destroy :expire_cache
+  
+  attr_accessible :url, :object_type, :object_id
     
   class << self
     def delete_file(path)
