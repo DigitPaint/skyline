@@ -7,6 +7,8 @@ class Skyline::MediaFile < Skyline::MediaNode
   validates_presence_of :data, :on => :create
   validates_uniqueness_of :name, :scope => "parent_id"
   
+  has_many :media_sizes, :foreign_key => "media_file_id", :class_name => 'Skyline::MediaSize', :dependent => :destroy
+  
   default_scope :order => :name
   
   attr_accessible :name, :data
@@ -122,6 +124,7 @@ class Skyline::MediaFile < Skyline::MediaNode
       })
       Skyline::Engine.routes.url_for(url_options)
     when :published
+      self.allow_size(size) if size
       url_options.update({
         :controller => "skyline/site/media_files_data",  
         :cache_key => self.cache_key 
@@ -159,11 +162,6 @@ class Skyline::MediaFile < Skyline::MediaNode
       # Unless all the sizes are set we have to assume this is crap and return an :unprocessable_entity 
       if !size.all?{|s| s > 0 }
         return false
-      end    
-    
-      # Never upscale images disproportionally
-      if size[0] == self.width && size[1] >= self.height || size[1] == self.height && size[0] >= self.width
-        return nil
       end
     else
       return false
@@ -171,6 +169,25 @@ class Skyline::MediaFile < Skyline::MediaNode
     size
   end
   
+  # Check if a size is allowed for this file
+  #
+  # @param width [Integer] the width to check
+  # @param height [Integer] the height to check
+  #
+  # @return [Boolean] whether the image should be rendered in the given size
+  def allowed_size? (width, height)
+    self.media_sizes.each do |size|
+      return true if size.width == width && size.height == height
+    end
+    false
+  end
+  
+  # Allow this file to be rendered in the given size
+  def allow_size(size)
+    width, height = self.normalize_size(size)
+    self.media_sizes.create(:width => width, :height => height) if width.present? && height.present? && !self.allowed_size?(width, height)
+  end
+    
   
   def determine_file_type
     lookup = Mime::Type.lookup(self.content_type)

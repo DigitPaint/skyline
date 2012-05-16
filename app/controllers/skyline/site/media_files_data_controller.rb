@@ -34,6 +34,8 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
         return render :nothing => true, :status => :unprocessable_entity
       elsif size.nil?
         cache_file(self.cache_file_path, @file, File.open(@file.file_path, "rb"))
+      elsif !@file.allowed_size?(size[0],size[1])
+        return render :nothing => true, :status => :unprocessable_entity
       else
         # Send the resized data
         cache_file(self.cache_file_path, @file, @file.thumbnail(size[0],size[1]))
