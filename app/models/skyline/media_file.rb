@@ -201,11 +201,12 @@ class Skyline::MediaFile < Skyline::MediaNode
   def store_data
     return unless self.data.present?
     
-    if !self.data.respond_to?(:to_str) && self.data.respond_to?(:each)
-      File.open(self.file_path, "wb+"){|f| self.data.each{|d| f.write(d) } }
-      self.data.close if self.data.respond_to?(:close)
+    tempfile = self.data.tempfile if self.data.respond_to?(:tempfile) && self.data.tempfile.present?
+    if tempfile && !tempfile.respond_to?(:to_str) && tempfile.respond_to?(:each)
+      File.open(self.file_path, "wb+"){|f| self.data.tempfile.each{|d| f.write(d) } }
+      self.data.tempfile.close if self.data.tempfile.respond_to?(:close)
     else
-      File.open(self.file_path, "wb+"){|f| f.write(self.data) }
+      File.open(self.file_path, "wb+"){|f| f.write(self.data.read) }
     end
   end
   
