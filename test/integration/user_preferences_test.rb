@@ -40,9 +40,9 @@ class UserPreferencesTest < ActionController::IntegrationTest
       @u.cookies["my_own_field"] = "Do not delete me"
       
       @u.get "/skyline"
-          
-      @u.assert("", cookies["skyline_up"])
-      @u.assert("Do not delete me", cookies["my_own_field"])
+      
+      @u.assert("", @u.cookies["skyline_up"])
+      @u.assert("Do not delete me", @u.cookies["my_own_field"])
     end
     
     should "be able to be set through controller" do
