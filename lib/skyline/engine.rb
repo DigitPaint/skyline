@@ -36,14 +36,7 @@ module Skyline
         FileUtils.ln_s((Skyline.root + "public/skyline").relative_path_from(Pathname.new(Rails.public_path)),public_path)
       end      
     end
-    
-    initializer "skyline.setup_plugins_manager" do |app|
-      app.config.skyline_plugins_manager = Skyline::Plugins::Manager.new(self, app)
-      if app.config.cache_classes || !app.config.reload_plugins
-        app.config.skyline_plugins_manager.load_all!
-      end      
-    end
-   
+       
    #  Middleware
    
     initializer "skyline.setup_session" do |app|
@@ -82,5 +75,13 @@ module Skyline
         provider Skyline::Authentication::SkylineStrategy, :callback_path => "/auth/skyline_strategy/callback"
       end
     end
+    
+    initializer "skyline.setup_plugins_manager" do |app|
+      app.config.skyline_plugins_manager = Skyline::Plugins::Manager.new(self, app)
+      if app.config.cache_classes || !app.config.reload_plugins
+        app.config.skyline_plugins_manager.load_all!
+      end      
+    end
+    
   end
 end
