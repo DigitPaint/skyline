@@ -176,7 +176,7 @@ class Skyline::Page < Skyline::Article
     path.squeeze("/")
   end
   
-  def url
+  def url(*args)
     return "/" if self.root?
     self.path + self.url_part
   end

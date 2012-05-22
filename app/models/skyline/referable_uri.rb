@@ -2,7 +2,7 @@
 class Skyline::ReferableUri < ActiveRecord::Base
   self.table_name = "skyline_referable_uris"
   
-  def url
+  def url(*args)
     self.uri
   end
   
