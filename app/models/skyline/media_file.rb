@@ -34,8 +34,16 @@ class Skyline::MediaFile < Skyline::MediaNode
   # ==== Returns
   # <Hash>:: hash of width and height attributes
   def dimension
-    return nil if self.file_type != "image"
+    return nil unless self.resizable?
     {"width" => self.width, "height" => self.height}
+  end
+  
+  # returns true if the file is resizable (ie, an image), false otherwise
+  #
+  # ==== Returns
+  # <Boolean>:: true if file is resizable, false otherwise
+  def resizable?
+    self.file_type == 'image'
   end
   
   # Calculate the proportional dimension of this media file
@@ -49,7 +57,7 @@ class Skyline::MediaFile < Skyline::MediaNode
   # @return Array<Integer,Integer> The new width and height
   def proportional_dimension(width,height,org_w = self.width, org_h = self.height)
     return nil if org_w.blank? && org_h.blank?
-
+    
     # Make sure we don't go beyond the actual size!
     if (width.to_i > org_w || height.to_i > org_h) 
       width = [width.to_i, org_w].min
@@ -114,7 +122,9 @@ class Skyline::MediaFile < Skyline::MediaNode
       :only_path => true
     }
     
-    url_options[:size] = size if size
+    if size && size = normalize_size(size)
+      url_options[:size] = size.join("x")
+    end
     
     case mode
     when :cms, :preview
@@ -124,7 +134,7 @@ class Skyline::MediaFile < Skyline::MediaNode
       })
       Skyline::Engine.routes.url_for(url_options)
     when :published
-      self.allow_size(size) if size
+      self.add_allowed_size(size[0], size[1]) if size
       url_options.update({
         :controller => "skyline/site/media_files_data",  
         :cache_key => self.cache_key 
@@ -155,13 +165,16 @@ class Skyline::MediaFile < Skyline::MediaNode
   # @param size [String] A string with the format "AAAxBBB" where AAA and BBB are numbers.
   # @return [nil,false,Array[width,height]] Nil if no sizing should be done, false if this is just wrong and an array with [w,h] if it's ok.
   def normalize_size(raw_size)
-    return nil unless raw_size.present?
+    return nil unless raw_size.present? && self.resizable?
     if valid_size?(raw_size)
       size = raw_size.to_s.split("x").map{|v| v.to_i }
-    
+      
       # Unless all the sizes are set we have to assume this is crap and return an :unprocessable_entity 
       if !size.all?{|s| s > 0 }
         return false
+      # No resizing if dimensions are larger than actual file
+      elsif size[0] > self.width || size[1] > self.height
+        return nil
       end
     else
       return false
@@ -183,9 +196,8 @@ class Skyline::MediaFile < Skyline::MediaNode
   end
   
   # Allow this file to be rendered in the given size
-  def allow_size(size)
-    width, height = self.normalize_size(size)
-    self.media_sizes.create(:width => width, :height => height) if width.present? && height.present? && !self.allowed_size?(width, height)
+  def add_allowed_size(width, height)
+    self.media_sizes.find_or_create_by_width_and_height(width, height)
   end
     
   
@@ -197,7 +209,7 @@ class Skyline::MediaFile < Skyline::MediaNode
   protected
   
   def set_dimensions
-    return if self.file_type != "image"
+    return unless self.resizable?
     begin
       img = case self.data
       when ActionDispatch::Http::UploadedFile,Tempfile
