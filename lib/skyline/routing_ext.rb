@@ -5,13 +5,21 @@ mappers << ActionDispatch::Routing::DeprecatedMapper if defined?(ActionDispatch:
 mappers.each do |mapper|
   mapper.class_eval do
     
-    def mount_skyline(options = {})
+    def mount_skyline(options = {}, &block)
       options.reverse_merge! :skyline_path => "/skyline", :media_path => "/media"
       
       Skyline::Engine.config.skyline.mounted_engine_path = options[:skyline_path]
       Skyline::Engine.config.skyline.mounted_media_path = options[:media_path]
             
       mount Skyline::Engine => options[:skyline_path], :as => "skyline"
+      
+      if block_given?
+        Skyline::Engine.routes.draw do
+          namespace :skyline, :path => "" do
+            yield self
+          end
+        end
+      end
       
       match "#{options[:media_path]}/:cache_key/:file_id/:size/:name", 
         :to => "skyline/site/media_files_data#show", 
