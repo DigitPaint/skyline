@@ -1,0 +1,40 @@
+<%= skyline_form_for current_user, :as => :user, :url => skyline_profile_path(current_user), :remote => true, :method => :put do |f|%>
+  <div class="messageArea"></div>
+  <div class="content">
+    <table class="fields">
+      <tbody>
+        <tr>
+          <th><%= f.label_with_text :current_password %></th>
+          <td>
+            <%= f.password_field :current_password, :class => "full" %>
+            <p class="info"><%= t(:current_password_info, :scope => [:user, :profile]) %></p>
+          </td>
+        </tr>
+
+        <tr>
+          <th><%= f.label :force_password, Skyline::User.human_attribute_name("password") %></th>
+          <td>
+            <%= f.password_field :force_password, :class => "full" %>
+          </td>
+        </tr>
+
+        <tr>
+          <th><%= f.label :force_password_confirmation, f.t(:password_confirmation) %></th>
+          <td>
+            <%= f.password_field :force_password_confirmation, :class => "full" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.close()", :class => "cancel"  %>
+        <%= submit_button :save, :class => "small green"  %>
+      </div>
+    </div>    
+  </div>
+  <%= render_messages(:area => "Skyline.Dialog.current.contentEl.getElement('.messageArea')") %>
+  
+<% end %>

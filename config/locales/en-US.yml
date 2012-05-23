@@ -412,6 +412,13 @@
       flashes:
         success: "User details where changed successfully."
         error: "The user details could not be saved, please check your input and try again."
+    profile:
+      link: "Profile"
+      dialog_title: "Your profile"
+      current_password_info: "Supply your current password to change your password"
+      flashes:
+        success: "Your profile was changed successfully"
+        error: "Your profile could not be saved, please check your input and try again."
 
   variant_current_editor:
     takeover:

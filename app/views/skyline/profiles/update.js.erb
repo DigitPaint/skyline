@@ -1,0 +1,8 @@
+<%= render_notifications_javascript %>;
+
+<% if @saved %>
+  Skyline.Dialog.current.close();
+<% else %>
+  Skyline.Dialog.current.setContent('<%= escape_javascript(render :partial => "edit") %>');
+  Skyline.Dialog.current.setup();
+<% end %>

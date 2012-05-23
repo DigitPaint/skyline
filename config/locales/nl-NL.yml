@@ -412,6 +412,13 @@
       flashes:
         success: "Gegevens van gebruiker successvol gewijzigd."
         error: "De gegevens van de gebruiker konden niet worden opgeslagen, controleer uw invoer en probeer het opnieuw."
+    profile:
+      link: "Profiel"
+      dialog_title: "Uw profiel"
+      current_password_info: "Voer uw huidige wachtwoord in om uw wachtwoord te kunnen wijzigen"
+      flashes:
+        success: "Uw profiel is succesvol gewijzigd"
+        error: "Uw profiel kon niet worden opgeslagen, controleer uw invoer en probeer het opnieuw."
 
   variant_current_editor:
     takeover:

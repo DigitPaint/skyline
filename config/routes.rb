@@ -24,6 +24,7 @@ Skyline::Engine.routes.draw do
       match "current_editor" => "variant_current_editor#poll"
     end
     
+    resource :profile
     resource :authentication
     resources :users
     resources :user_preferences
