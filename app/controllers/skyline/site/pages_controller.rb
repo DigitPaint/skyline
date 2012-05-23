@@ -25,6 +25,10 @@ class Skyline::Site::PagesController < ::ApplicationController
   
   protected
   
+  def _routes
+    Rails.application.routes
+  end
+  
   def handle_404
     render :text => "Error 404 :: Page with url \"#{params[:url]}\" doesn't exist.", :status => :not_found    
   end
