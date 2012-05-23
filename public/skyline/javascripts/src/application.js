@@ -278,7 +278,7 @@ Application.Layout = (function(){
       uPanel.retrieve("skyline.layout").parent.setup();
       
       // Get new File list.
-      var r = new Appliation.Request({
+      var r = new Application.Request({
         evalScripts: true, 
         url: $('libraryuploaderform').getProperty("action"),
         method: 'get'
