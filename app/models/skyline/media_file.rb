@@ -230,6 +230,7 @@ class Skyline::MediaFile < Skyline::MediaNode
   def store_data
     return unless self.data.present?
     
+    FileUtils.makedirs(File.dirname(self.file_path))
     tempfile = self.data.tempfile if self.data.respond_to?(:tempfile) && self.data.tempfile.present?
     if tempfile && !tempfile.respond_to?(:to_str) && tempfile.respond_to?(:each)
       File.open(self.file_path, "wb+"){|f| self.data.tempfile.each{|d| f.write(d) } }

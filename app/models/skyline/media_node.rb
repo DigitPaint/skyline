@@ -75,7 +75,8 @@ class Skyline::MediaNode < ActiveRecord::Base
   # ==== Retruns
   # <String>:: path 
   def file_path
-    File.join(self.class.assets_path,self.id.to_s)
+    file_key = self.id.to_s.reverse.ljust(4, "0")
+    File.join(self.class.assets_path, [file_key[0,2],file_key[2,2]].join('/'), self.id.to_s)
   end  
 
   def title
