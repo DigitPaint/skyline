@@ -7,7 +7,7 @@ class Skyline::Section < ActiveRecord::Base
   belongs_to :sectionable, :polymorphic => true, :dependent => :destroy
 
   accepts_nested_attributes_for :sectionable
-  attr_accessible :sectionable, :sectionable_attributes, :position
+  attr_accessible :sectionable, :sectionable_attributes, :position, :template
   
   validates_presence_of :sectionable
   
