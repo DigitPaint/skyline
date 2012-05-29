@@ -2,6 +2,7 @@
 
 <% if @saved %>
   Skyline.Dialog.current.close();
+  location.reload();
 <% else %>
   Skyline.Dialog.current.setContent('<%= escape_javascript(render :partial => "edit") %>');
   Skyline.Dialog.current.setup();
