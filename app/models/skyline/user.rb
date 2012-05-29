@@ -37,6 +37,8 @@ class Skyline::User < ActiveRecord::Base
   validates_uniqueness_of :email, :unless => :skip_email_validation
 
   validate :grants_didnt_change, :if => :editing_myself
+  
+  validates_presence_of :roles
 
   before_validation :reset_password_on_empty_current_password, :on => :update
   before_save :set_forced_password,:encrypt_password

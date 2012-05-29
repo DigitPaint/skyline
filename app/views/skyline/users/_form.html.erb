@@ -80,7 +80,12 @@
               <%= gf.hidden_field :id unless gf.object.new_record? %>
               <%= gf.label :role_id, Skyline::User.human_attribute_name("role") %>
             </th>
-            <td><%= gf.select :role_id, @roles.map{|s| [t(s.name, :scope => [:user,:roles], :default => s.name), s.id] } %></td>
+            <td>
+              <%= gf.select :role_id, @roles.map{|s| [t(s.name, :scope => [:user,:roles], :default => s.name), s.id] } %>
+              <% if @user.errors[:roles].any? %>
+                <div class="error"><%= @user.errors[:roles].first %></div>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       <% end %>
