@@ -2195,6 +2195,10 @@ span.drag{
 /* = Buttons = */
 /* =========== */
 
+button {
+  font-family: verdana, sans-serif;
+}
+
 #metaPanel div.button a.button,
 #metaPanel div.button button{
   width: 100%;
