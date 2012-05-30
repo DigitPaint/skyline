@@ -6,6 +6,8 @@ class Skyline::Sections::RedirectSection < ActiveRecord::Base
   belongs_to_referable :linked
   
   validates_numericality_of :delay
+  
+  attr_accessible :delay
 
   def url(request)
     if self.linked.external? || self.linked.url =~ /:\/\//
