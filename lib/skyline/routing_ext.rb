@@ -15,9 +15,7 @@ mappers.each do |mapper|
       
       if block_given?
         Skyline::Engine.routes.draw do
-          namespace :skyline, :path => "" do
-            yield self
-          end
+          instance_exec(&block)
         end
       end
       
