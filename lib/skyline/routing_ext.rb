@@ -10,7 +10,16 @@ mappers.each do |mapper|
       
       Skyline::Engine.config.skyline.mounted_engine_path = options[:skyline_path]
       Skyline::Engine.config.skyline.mounted_media_path = options[:media_path]
-            
+
+      # Create symlinks for media and assets
+      create_symlink(Skyline.root + "public/skyline", options[:skyline_path])
+      
+      unless Rails.env.development?
+        media_path = Pathname.new(options[:media_path])
+        media_path = media_path.relative_path_from(Pathname.new('/')) if media_path.absolute?
+        create_symlink(Skyline::MediaCache.cache_path + media_path, media_path)
+      end
+      
       mount Skyline::Engine => options[:skyline_path], :as => "skyline"
       
       if block_given?
@@ -37,5 +46,20 @@ mappers.each do |mapper|
         match "#{options[:media_path]}/dirs/:dir_id/data/:name", :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
         match "#{options[:media_path]}/dirs/:dir_id/data/:size/:name", :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/        
     end
+  end
+end
+
+def create_symlink(origin, destination)
+  origin_path = Pathname.new(origin)
+  destination_path = Pathname.new(destination)
+  destination_path = destination_path.relative_path_from(Pathname.new('/')) if destination_path.absolute?
+
+  full_path = Pathname.new(Rails.public_path) + destination_path
+
+  unless full_path.exist?
+    FileUtils.rm(full_path) if full_path.symlink?
+
+    puts "=> Skyline: Creating symlink to '#{full_path}' from #{origin_path}"
+    FileUtils.ln_s(origin_path.relative_path_from(Pathname.new(Rails.public_path)),full_path)
   end
 end

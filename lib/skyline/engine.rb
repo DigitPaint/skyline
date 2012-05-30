@@ -25,24 +25,7 @@ module Skyline
     vendor_path = (Skyline.root + "vendor").to_s    
     config.autoload_paths << vendor_path
     config.autoload_once_paths << vendor_path
-        
-    initializer "skyline.setup_public_paths" do |app|
-      puts "Setup public paths"
-      Rails.application.reload_routes!
-      
-      skyline_path = Pathname.new(Skyline::Engine.config.skyline.mounted_engine_path || "skyline")
-      skyline_path = skyline_path.relative_path_from(Pathname.new('/')) if skyline_path.absolute?
-      
-      public_path = Pathname.new(Rails.public_path) + skyline_path
-      
-      unless public_path.exist? 
-        FileUtils.rm(public_path) if public_path.symlink?
-        
-        puts "=> Skyline: Creating assets symlink to '#{public_path}'"
-        FileUtils.ln_s((Skyline.root + "public/skyline").relative_path_from(Pathname.new(Rails.public_path)),public_path)
-      end      
-    end
-       
+     
    #  Middleware
    
     initializer "skyline.setup_session" do |app|
