@@ -28,7 +28,15 @@ Skyline.Layout  = new Class({
     autoHeight: true,     // Set height automatically?
     hidden: false,        // Is this panel hidden?
     zIndex: null,         // The z-Index to apply to this panel
-    position : "absolute" // The positioning to use for this layout, only set this to relative on the outmost layout.
+    position : "absolute", // The positioning to use for this layout, only set this to relative on the outmost layout.
+    offset: {
+      width: null,
+      left: null,
+      right: null,
+      height: null,
+      top: null,
+      bottom: null
+    }
   },
   initialize : function(element){
     this.element = $(element);
@@ -254,7 +262,14 @@ Skyline.Layout  = new Class({
     }.bind(this))
     
     this.offsets.width = this.offsets.left + this.offsets.right;
-    this.offsets.height = this.offsets.top + this.offsets.bottom;    
+    this.offsets.height = this.offsets.top + this.offsets.bottom;
+    
+    if(this.options.offset.width != null) { this.offsets.width = this.options.offset.width; }
+    if(this.options.offset.left != null) { this.offsets.left = this.options.offset.left; }
+    if(this.options.offset.right != null) { this.offsets.width = this.options.offset.width; }
+    if(this.options.offset.height != null) { this.offsets.height = this.options.offset.height; }
+    if(this.options.offset.top != null) { this.offsets.top = this.options.offset.top; }
+    if(this.options.offset.bottom != null) { this.offsets.bottom = this.options.offset.bottom; }
   },
   /* 
     Function: restore
