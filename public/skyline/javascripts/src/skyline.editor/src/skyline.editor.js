@@ -42,8 +42,8 @@ Skyline.Editor = new Class({
   tinyMceDefaults : {
     language : false,
     // The default list with added our own sklyine specific attributes.
-    extended_valid_elements : "img[id|class|longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align|skyline-ref-id|skyline-referable-id|skyline-referable-type]," 
-      + "a[id|rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur|skyline-ref-id|skyline-referable-id|skyline-referable-type]",
+    extended_valid_elements : "img[id|class|longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align]," 
+      + "a[id|rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur]",
     theme : "-skyline",
     plugins : "-autoresize,-skylinewindows,-skylineimage,-skylinelink,-skylinecode,-paste,-skylinecontextmenu, -skylinetable",
     submit_patch : false,
