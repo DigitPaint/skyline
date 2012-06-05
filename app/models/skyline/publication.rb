@@ -21,7 +21,14 @@ class Skyline::Publication < Skyline::ArticleVersion
     variant.variant_id = nil
     variant.created_at = Time.now
     variant.updated_at = Time.now
-    variant.save
+    variant.save_with_skip_version
     variant
   end
+  
+  protected
+  
+  # Rails callbacks like before_update in ArticleVersion are invoked twice if inverse_of is used.
+  # Do not increase version to ensure versions match
+  def increase_version; end
+  
 end
