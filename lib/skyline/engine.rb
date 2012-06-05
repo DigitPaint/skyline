@@ -11,11 +11,12 @@ module Skyline
     self.isolated = true
     self.routes.default_scope = {}
     
+    Skyline::Engine::SESSION_OPTIONS = {}
+    
     config.skyline = ActiveSupport::OrderedOptions.new
     config.skyline.mounted_engine_path = ""
     config.skyline.mounted_media_path = ""
 
-    
     config.autoload_paths << (Skyline.root + "lib").to_s
     
     # Vendor paths
@@ -30,9 +31,9 @@ module Skyline
    
     initializer "skyline.setup_session" do |app|
       Skyline::Engine::SESSION_KEY = app.config.session_options[:key].to_s + "_skyline"
-      Skyline::Engine::SESSION_OPTIONS = app.config.session_options.dup
+      Skyline::Engine::SESSION_OPTIONS.reverse_merge!(app.config.session_options)
       Skyline::Engine::SESSION_OPTIONS[:key] = Skyline::Engine::SESSION_KEY
-     
+      
       middleware.use Skyline::SessionScrubberMiddleware
       middleware.use ActionDispatch::Session::CookieStore, Skyline::Engine::SESSION_OPTIONS
       # middleware.use Proc.new{|env| puts env["rack.session"] }

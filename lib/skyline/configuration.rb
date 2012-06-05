@@ -91,7 +91,10 @@ class Skyline::Configuration < Configure
       if (Rails.root + "config/initializers/skyline_configuration.rb").exist?
         load Rails.root + "config/initializers/skyline_configuration.rb"
       end    
-    end 
+    end
+    
+    # Use SSL, set a secure cookie only for SSL connections
+    config.use_ssl = false
     
     # Stub so the method below works
     config.url_prefix = nil   
@@ -109,8 +112,10 @@ class Skyline::Configuration < Configure
     end
     
     Skyline::Rendering::Renderer.register_renderables(:sections,self["sections"])
-    Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])      
-  end  
+    Skyline::Rendering::Renderer.register_renderables(:articles,self["articles"] + ["Skyline::Page"])
+    
+    Skyline::Engine::SESSION_OPTIONS[:secure] = Skyline::Configuration.use_ssl
+  end
   
   def url_prefix
     Skyline::Engine.config.skyline.mounted_engine_path
