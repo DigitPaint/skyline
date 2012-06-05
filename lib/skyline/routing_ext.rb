@@ -14,7 +14,7 @@ mappers.each do |mapper|
       # Create symlinks for media and assets
       create_symlink(Skyline.root + "public/skyline", options[:skyline_path])
       
-      unless Rails.env.development?
+      if Rails.env.production?
         media_path = Pathname.new(options[:media_path])
         media_path = media_path.relative_path_from(Pathname.new('/')) if media_path.absolute?
         create_symlink(Skyline::MediaCache.cache_path + media_path, media_path)
