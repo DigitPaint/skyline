@@ -32,9 +32,11 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
       if size === false
         # File has invalid sizes
         return render :nothing => true, :status => :unprocessable_entity
-      elsif size.nil?
+      elsif size.nil? && params[:size] == nil
+        # File is 'root' file, original without size option
         cache_file(self.cache_file_path, @file, File.open(@file.file_path, "rb"))
-      elsif !@file.allowed_size?(size[0],size[1])
+      elsif size.nil? || !@file.allowed_size?(size[0],size[1])
+        # File is in an unknown size, only valid sizes that are listed should be requested
         return render :nothing => true, :status => :not_found
       else
         # Send the resized data
@@ -67,7 +69,7 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
   end
   
   def cache_base_path
-    Skyline::MediaCache.cache_path    
+    Skyline::MediaCache.cache_path
   end
   
   def cache_file_path

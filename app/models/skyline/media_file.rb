@@ -172,8 +172,8 @@ class Skyline::MediaFile < Skyline::MediaNode
       # Unless all the sizes are set we have to assume this is crap and return an :unprocessable_entity 
       if !size.all?{|s| s > 0 }
         return false
-      # No resizing if dimensions are larger than actual file
-      elsif size[0] > self.width || size[1] > self.height
+      # No resizing if dimensions are larger than or equal to actual file
+      elsif size[0] >= self.width || size[1] >= self.height
         return nil
       end
     else
