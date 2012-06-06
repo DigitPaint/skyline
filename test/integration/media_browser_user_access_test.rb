@@ -13,8 +13,7 @@ class MediaBrowserUserAccessTest < ActionController::IntegrationTest
       # load File.dirname(__FILE__) + '/../../db/fixtures/roles_and_rights.rb' 
       build_complete_environment
       
-      @role = Skyline::Role.find_by_name("does-not-exist")      
-      @user.grants.create(:role => @role)
+      # Grant was already assigned on create
       assert_equal 1, @user.grants.size
       assert !@user.new_record?,@user.errors.inspect
             

@@ -12,10 +12,21 @@ FactoryGirl.define do
     f.path "test_dir"
     f.description "A test file"
   end
+  
+  factory :role, :class => Skyline::Role do
+    name "testrole"
+  end
+  
+  factory :grant, :class => Skyline::Grant do |g|
+    g.association(:role)
+  end
 
   factory :user, :class => Skyline::User do |u|
     u.name "Test User"
     u.email "test@test.com"
+    u.after_build do |user|
+      user.roles << Factory.build(:role)
+    end
   end
 
   factory :page, :class => Skyline::Page

@@ -13,9 +13,10 @@ class MediaBrowserSuperAccessTest < ActionController::IntegrationTest
       build_complete_environment            
                   
       @role = Skyline::Role.find_by_name("super")
-      
       @user.grants.create(:role => @role)
-      assert_equal 1, @user.grants.size
+      
+      # A dummy grant was assigned on create
+      assert_equal 2, @user.grants.size
       assert !@user.new_record?,@user.errors.inspect
             
       @u = login(@user,"qwedsa")
