@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency "thor"
   s.add_dependency "rails", "~> 3.2.2"
   s.add_dependency "polyglot", "0.3.2"
-  s.add_dependency "sprockets", "2.1.2"
+  s.add_dependency "sprockets", "2.1.3"
   s.add_dependency "mime-types", "1.16"
   s.add_dependency "rmagick", "2.13.1"
   s.add_dependency "hpricot", "0.8.6"
