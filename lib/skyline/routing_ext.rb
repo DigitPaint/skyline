@@ -22,7 +22,9 @@ mappers.each do |mapper|
       
       mount Skyline::Engine => options[:skyline_path], :as => "skyline"
       
-      if block_given?
+      # Allow implementation to add routes to Skyline
+      # Do not add these routes during test as they will cause routing errors in media browser tests
+      if block_given? && !Rails.env.test?
         Skyline::Engine.routes.draw do
           instance_exec(&block)
         end
