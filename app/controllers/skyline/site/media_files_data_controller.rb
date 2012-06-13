@@ -44,7 +44,7 @@ class Skyline::Site::MediaFilesDataController < ApplicationController
       end
     end
 
-    send_file cached_file_path, :filename => @file.name ,:type => @file.content_type, :disposition => 'inline'    
+    send_file cached_file_path, :filename => @file.name ,:type => @file.content_type, :disposition => 'attachment', :stream => false
   end
   
   protected

@@ -17,7 +17,7 @@ class Skyline::Media::DataController < Skyline::ApplicationController
       if request.etag_matches?(response.etag)
         head :not_modified
       else
-        send_file cached_file_path, :filename => @file.name, :type => @file.content_type, :disposition => 'inline', :stream => false, :cache => true
+        send_file cached_file_path, :filename => @file.name, :type => @file.content_type, :disposition => 'attachment', :stream => false, :cache => true
       end
     else
       if params[:size].present?
@@ -34,13 +34,13 @@ class Skyline::Media::DataController < Skyline::ApplicationController
         if request.etag_matches?(response.etag)
           head :not_modified
         else
-          send_file @file.file_path, :filename => @file.name, :type => @file.content_type, :disposition => 'inline', :cache => true
+          send_file @file.file_path, :filename => @file.name, :type => @file.content_type, :disposition => 'attachment', :cache => true
         end
       else
         if size.all?{|s| s > 0 }
           file = @file.thumbnail(size[0],size[1])
           cache_file(cached_file_path, @file, file)
-          send_data file, :filename => @file.name ,:type => @file.content_type, :disposition => 'inline'
+          send_data file, :filename => @file.name ,:type => @file.content_type, :disposition => 'attachment'
         else
           render :nothing => true, :status => :unprocessable_entity
         end
