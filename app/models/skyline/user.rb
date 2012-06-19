@@ -16,30 +16,29 @@ class Skyline::User < ActiveRecord::Base
   attr_reader :force_password
   attr_protected :force_password
   
-  # This can be set by the admin to force checking of the current password etc
-  attr_accessor :editing_myself
-  
   attr_accessor :skip_email_validation
+  
+  # This can be set to create initial users on the console or in test environments
+  attr_accessor :skip_current_user_validation
+  attr_protected :skip_current_user_validation
   
   attr_accessor :login_reset
   
-  # Validations
-  validate :valid_current_password, :if => :editing_myself, :on => :update
-
+  attr_accessor :editing_user
+  
   validates_presence_of :password, :if => :password_changed?
   validates_presence_of :password_confirmation, :message => :confirmation, :if => :password_changed?, :on => :update
   validates_confirmation_of :password, :message => :confirmation, :if => :password_changed?
-
+  
   validates_confirmation_of :force_password, :message => :confirmation, :if => lambda{|user| user.force_password.present?}
   
-  validates_presence_of :email
   validate :valid_email_address
   validates_uniqueness_of :email, :unless => :skip_email_validation
-
-  validate :grants_didnt_change, :if => :editing_myself
   
-  validates_presence_of :roles
-
+  validates_presence_of :grants
+  
+  validate :valid_values_for_editing_user, :unless => :skip_current_user_validation
+  
   before_validation :reset_password_on_empty_current_password, :on => :update
   before_save :set_forced_password,:encrypt_password
   
@@ -62,16 +61,16 @@ class Skyline::User < ActiveRecord::Base
     end
     
     def verify_password(password, verification, encryption_method)
-    	case encryption_method
-    	when "bcrypt"
-    		BCrypt::Password.new(password) == verification
-    	when "sha1"
-    		password == Digest::SHA1.hexdigest(verification)
-    	else
-    		raise 'Invalid encryption method'
-    	end
+      case encryption_method
+      when "bcrypt"
+        BCrypt::Password.new(password) == verification
+      when "sha1"
+        password == Digest::SHA1.hexdigest(verification)
+      else
+        raise 'Invalid encryption method'
+      end
     end
-    
+
     def find_by_identification(identification)
       self.find_by_id(identification)
     end
@@ -104,7 +103,7 @@ class Skyline::User < ActiveRecord::Base
   def identification
     self.id
   end
-
+  
   # Check if a user has a specific right
   #
   # ==== Parameters
@@ -127,12 +126,12 @@ class Skyline::User < ActiveRecord::Base
     @rights ||= self.rights.map{|r| r.name }.uniq
     @rights.include?(right)
   end
-
+  
   def current_password=(v)
     changed_attributes.delete("password") if v.blank?
     @current_password = v
   end
-
+  
   # Generate a new password, set it and return it.
   #
   # ==== Returns
@@ -142,7 +141,7 @@ class Skyline::User < ActiveRecord::Base
     pw = SimplePassword.new(8).to_s
     self.force_password!(pw)
   end
-
+  
   # Forcefully set a password without any validations
   # Directly saves the object.
   # --
@@ -184,10 +183,14 @@ class Skyline::User < ActiveRecord::Base
   def reactivate(attributes)
     temp_user = Skyline::User.new(attributes)
     temp_user.skip_email_validation = true
+    temp_user.editing_user = self.editing_user
     if temp_user.valid?
       self.attributes = attributes
       self.force_password! attributes[:password]
       self.is_destroyed = false
+      self
+    else
+      temp_user
     end
   end
   
@@ -220,22 +223,36 @@ class Skyline::User < ActiveRecord::Base
     self.password = BCrypt::Password.create(self.password.to_s)
     self.encryption_method = 'bcrypt'
   end
-
-  def valid_current_password
-    unless self.current_password && self.class.verify_password(self.password_was, self.current_password, self.encryption_method)
-      self.errors.add(:current_password, :mismatch)
-    end
-  end
-
+  
   def reset_password_on_empty_current_password
     changed_attributes.delete("password") if self.current_password.blank?
   end
-
+  
   def valid_email_address
     return self.errors.add(:email,:invalid) if !Skyline::User.extract_valid_email_address(self.email)
   end
   
-  def grants_didnt_change
-    self.errors.add :grants, :changed if self.grants.detect{|g| g.changed?}
+  def editing_myself
+    self.editing_user == self
   end
+  
+  def valid_values_for_editing_user
+    return self.errors.add :editing_user, :empty unless self.editing_user.present?
+    
+    # Only allow changed grants with roles allowed by the current user, never allow changes if editing own user
+    self.grants.each do |g|
+      if g.changed?
+        self.errors.add :grants, :not_allowed unless self.editing_user.viewable_roles.include?(g.role)
+        self.errors.add :grants, :changed if editing_myself
+      end
+    end
+    
+    # If editing own user, check password
+    if editing_myself
+      unless self.current_password && self.class.verify_password(self.password_was, self.current_password, self.encryption_method)
+        self.errors.add(:current_password, :mismatch)
+      end
+    end
+  end
+  
 end

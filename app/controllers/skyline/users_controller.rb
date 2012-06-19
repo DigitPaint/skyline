@@ -22,9 +22,11 @@ class Skyline::UsersController < Skyline::ApplicationController
   
   def create
     if (@user = Skyline::User.find_by_email(params[:user][:email])) && @user.is_destroyed
-      @user.reactivate(params[:user])
+      @user.editing_user = current_user
+      @user = @user.reactivate(params[:user])
     else
       @user = Skyline::User.new(params[:user])
+      @user.editing_user = current_user
     end
     
     if @user.save
@@ -48,7 +50,7 @@ class Skyline::UsersController < Skyline::ApplicationController
     login_reset = attributes.andand.delete(:login_reset)
     @user.force_password = attributes.andand.delete(:force_password)
     @user.attributes = attributes
-    @user.editing_myself = true if @user == current_user
+    @user.editing_user = current_user
     
     if @user.save
       @user.reset_login_attempts! if login_reset == '1'

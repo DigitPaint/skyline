@@ -168,6 +168,7 @@
         even: "has to be even"
         duplicate: "is already been taken"
         changed: "may not be changed"
+        not_allowed: "is not allowed"
 
         # Append your own errors here or at the model/attributes scope.
 

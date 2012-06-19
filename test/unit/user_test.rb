@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
     should "be allowed a right with his role" do 
       role = Skyline::Role.find_by_name("super")
       
-      @user.grants.create(:role => role)    
+      @user.grants.create(:role_id => role.id)
     
       assert @user.allow?(:media_dir_create)
     end
@@ -23,8 +23,8 @@ class UserTest < ActiveSupport::TestCase
       role_1 = Skyline::Role.find_by_name("editor")
       role_2 = Skyline::Role.find_by_name("admin")
       
-      @user.grants.create(:role => role_1)    
-      @user.grants.create(:role => role_2)    
+      @user.grants.create(:role_id => role_1.id)
+      @user.grants.create(:role_id => role_2.id)
       
       assert_equal 3, @user.grants.size # User already had one grant assigned on create
     end
@@ -33,8 +33,8 @@ class UserTest < ActiveSupport::TestCase
       role_1 = Skyline::Role.find_by_name("editor")
       role_2 = Skyline::Role.find_by_name("admin")
 
-      @user.grants.create(:role => role_1)
-      @user.grants.create(:role => role_2)
+      @user.grants.create(:role_id => role_1.id)
+      @user.grants.create(:role_id => role_2.id)
 
       assert @user.allow?(:article_create) # only as editor (or super)
       assert @user.allow?(:user_create) # only as admin (or super)

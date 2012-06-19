@@ -168,6 +168,7 @@
         even: "moet even zijn"
         duplicate: "is reeds in gebruik"
         changed: "mag niet aangepast worden"
+        not_allowed: "is niet toegestaan"
 
         # Append your own errors here or at the model/attributes scope.
   
