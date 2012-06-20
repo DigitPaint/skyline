@@ -108,7 +108,10 @@ log " - Role : #{super_role.name}"
 rights = Skyline::Right.all
 rights.each do |r|
   log "    - #{r.name}"
-  editor_rights << r if r.name.starts_with? 'article'
+  if r.name.starts_with?('article') || r.name.starts_with?('page')
+    editor_rights << r
+    admin_rights << r
+  end
   admin_rights << r if r.name.starts_with? 'user'
 end
 
