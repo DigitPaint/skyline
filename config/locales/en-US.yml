@@ -475,6 +475,7 @@
       currently_editing_since: "%{user} has started editing %{duration} ago (%{since})."
       currently_editing_by: "This article is currently being modified by %{user}."
       force_editing: "Would you like to edit this article regardless?"
+      not_allowed: "You are not allowed to edit this article, showing preview."
     update:
       flashes:
         success: "Article has been saved succesfully"

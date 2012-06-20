@@ -475,6 +475,7 @@
       currently_editing_since: "%{user} is %{duration} geleden (%{since}) begonnen met bewerken."
       currently_editing_by: "Dit artikel wordt momenteel door %{user} bewerkt."
       force_editing: "Wilt u dit artikel alsnog bewerken?"
+      not_allowed: "U heeft geen rechten dit artikel te bewerken, preview wordt getoond."
     update:
       flashes:
         success: "Artikel is succesvol opgeslagen"

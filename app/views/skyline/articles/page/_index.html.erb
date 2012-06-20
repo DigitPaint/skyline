@@ -1,6 +1,6 @@
 <dt id="leftPageHeaderPanel" class="<%= local_assigns[:active] ? "active" : "" %>">
   <span class="content">
-    <% if @article.andand.kind_of?(Skyline::Page) %>
+    <% if @article.andand.kind_of?(Skyline::Page) && current_user.allow?(:page_create) %>
       <%= menu_button t(:add_page, :scope => [:article, :edit]), :id => "add_page_button" do %>
         <ul>
           <% possible_positions = @article.root? ? %w{in} : %w{in below} %>
@@ -19,18 +19,20 @@
     <%= Skyline::Page.model_name.human(:count => 2) %>
   </span>
 </dt>
-<dd  id="leftPageContentPanel">
-  <div class="content scrollable">
-    <div id="pagetree" class="pages tree">
-      <% nodes = Skyline::Page.group_by_parent_id %>
-      <%= page_tree(nodes, nodes[nil], :selected => @article) %>
-      <% if @article.andand.kind_of?(Skyline::Page) %>
-        <script type="text/javascript" charset="utf-8">
-          window.addEvent("domready",function(){
-            var myFx = new Fx.Scroll("leftPageContentPanel",{duration: 0}).toElement('article_<%= @article.id %>');
-          });
-        </script>
-      <% end %>
+<% if current_user.allow?(:page_index) %>
+  <dd  id="leftPageContentPanel">
+    <div class="content scrollable">
+      <div id="pagetree" class="pages tree">
+        <% nodes = Skyline::Page.group_by_parent_id %>
+        <%= page_tree(nodes, nodes[nil], :selected => @article) %>
+        <% if @article.andand.kind_of?(Skyline::Page) %>
+          <script type="text/javascript" charset="utf-8">
+            window.addEvent("domready",function(){
+              var myFx = new Fx.Scroll("leftPageContentPanel",{duration: 0}).toElement('article_<%= @article.id %>');
+            });
+          </script>
+        <% end %>
+      </div>
     </div>
-  </div>
-</dd>
+  </dd>
+<% end %>

@@ -126,34 +126,36 @@
 
 <%= render :partial => "security" %>
 
-<dl class="advanced">
-  <dt><a href="#"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
-  <dd>
-    <div class="button">
-      <% delete_button_alt = t(:delete, :scope => [@article.class, :buttons]) %>
-      <% if @article.destroyable? && @variant.editable_by?(current_user) %>
-        <%= submit_button_to delete_button_alt, skyline_article_path(@article), :method => :delete, :class => "small red", :confirm => t(:confirm_delete, :scope => [@article.class, :edit]) %>
-      <% else %>
-        <%= submit_button_to delete_button_alt, skyline_article_path(@article), :method => :delete, :class => "small disabled", :disabled => true %>
-      <% end %>
-    </div>
-    
-    <% if Skyline::Configuration.enable_multiple_variants && @article.can_have_multiple_variants? %>
+<% if current_user.allow?(:page_update) %>
+  <dl class="advanced">
+    <dt><a href="#"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
+    <dd>
       <div class="button">
-        <% if @variant.destroyable? && @variant.editable_by?(current_user) %>
-          <%= submit_button_to :delete_variant, skyline_article_variant_path(@article, @variant), :method => :delete, :class => "small", :confirm => t(:confirm_delete_variant, :scope => [:article,:edit]) %>
+        <% delete_button_alt = t(:delete, :scope => [@article.class, :buttons]) %>
+        <% if @article.destroyable? && @variant.editable_by?(current_user) %>
+          <%= submit_button_to delete_button_alt, skyline_article_path(@article), :method => :delete, :class => "small red", :confirm => t(:confirm_delete, :scope => [@article.class, :edit]) %>
         <% else %>
-          <%= submit_button_to :delete_variant, skyline_article_variant_path(@article, @variant), :method => :delete, :class => "small disabled", :disabled => true %>          
+          <%= submit_button_to delete_button_alt, skyline_article_path(@article), :method => :delete, :class => "small disabled", :disabled => true %>
         <% end %>
-      </div>  
-      
-      <div class="button">
-        <%= submit_button_to :new_variant, skyline_article_variants_path(@article), :class => "small" %>
       </div>
+    
+      <% if Skyline::Configuration.enable_multiple_variants && @article.can_have_multiple_variants? %>
+        <div class="button">
+          <% if @variant.destroyable? && @variant.editable_by?(current_user) %>
+            <%= submit_button_to :delete_variant, skyline_article_variant_path(@article, @variant), :method => :delete, :class => "small", :confirm => t(:confirm_delete_variant, :scope => [:article,:edit]) %>
+          <% else %>
+            <%= submit_button_to :delete_variant, skyline_article_variant_path(@article, @variant), :method => :delete, :class => "small disabled", :disabled => true %>
+          <% end %>
+        </div>
       
-      <div class="button">
-        <%= submit_button_to :copy_variant, skyline_article_variants_path(@article, :variant_id => @variant.id), :class => "small" %>          
-      </div>
-    <% end %>
-  </dd>
-</dl>
+        <div class="button">
+          <%= submit_button_to :new_variant, skyline_article_variants_path(@article), :class => "small" %>
+        </div>
+      
+        <div class="button">
+          <%= submit_button_to :copy_variant, skyline_article_variants_path(@article, :variant_id => @variant.id), :class => "small" %>
+        </div>
+      <% end %>
+    </dd>
+  </dl>
+<% end %>

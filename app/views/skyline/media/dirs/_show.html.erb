@@ -1,6 +1,6 @@
 <dt id="contentHeaderPanel" class="panel">
   <span class="content">
-    <%= link_to button_text(:upload), "#", :id => "toggleUploadPanel", :class => "button small right" %>    
+    <%= link_to button_text(:upload), "#", :id => "toggleUploadPanel", :class => "button small right" if current_user.allow?(:media_file_create) %>
     <%= t(:files_in, :directory => @dir.name, :scope => [:media, :dirs, :show]) %>
   </span>
 </dt>

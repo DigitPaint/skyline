@@ -247,8 +247,8 @@ class Skyline::Article < ActiveRecord::Base
   # @param user [Skyline::User,Integer] The user or user id to check the access for.
   # @return [true,false] True if the user can edit this page, false otherwise
   def editable_by?(user)
-    user = user.kind_of?(Skyline::Configuration.user_class) ? user : Skyline::Configuration.user_class.find_by_identification(user)    
-    self.locked? && user.allow?(:page_lock) || !self.locked?
+    user = user.kind_of?(Skyline::Configuration.user_class) ? user : Skyline::Configuration.user_class.find_by_identification(user)
+    user.allow?(:page_update) && (self.locked? && user.allow?(:page_lock) || !self.locked?)
   end  
 
   

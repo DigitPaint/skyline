@@ -3,26 +3,28 @@
 <dl id="leftPanel" class="panel">
   <dt class="active">
     <span class="content">
-      <%= link_to(
-            button_text(:add),
-            skyline_media_dirs_path, 
-            :remote => true,
-            :method => :post,
-            :id => "add_directory",
-            :class => "button small right")
-      %>
-      <script type="text/javascript" charset="utf-8">
-        (function(){
-          $('add_directory').addEvent("click", function(e){
-            e.stop();
-            var d = {"data" : {"parent_id" : Application.getId($('dirtree').retrieve('skyline.tree').selectedNode.getParent('li').get('id'))}}
-            var r = new Request.Rails(this, d);            
-            r.send();
-          })
-        })();
-      </script>
+      <% if current_user.allow?(:media_dir_create) %>
+        <%= link_to(
+              button_text(:add),
+              skyline_media_dirs_path,
+              :remote => true,
+              :method => :post,
+              :id => "add_directory",
+              :class => "button small right")
+        %>
+        <script type="text/javascript" charset="utf-8">
+          (function(){
+            $('add_directory').addEvent("click", function(e){
+              e.stop();
+              var d = {"data" : {"parent_id" : Application.getId($('dirtree').retrieve('skyline.tree').selectedNode.getParent('li').get('id'))}}
+              var r = new Request.Rails(this, d);
+              r.send();
+            })
+          })();
+        </script>
 
-      <%= t(:directories, :scope => [:media, :dirs, :index]) %>
+        <%= t(:directories, :scope => [:media, :dirs, :index]) %>
+      <% end %>
     </span>
   </dt>
   <dd class="last">
@@ -40,7 +42,7 @@
   <% if @file %>
     <%= render :partial => "skyline/media/files/edit" %>
   <% end %>
-  <% if @dir %>
+  <% if @dir && current_user.allow?(:media_dir_update) %>
     <%= render :partial => "skyline/media/dirs/edit" %>
   <% end %>
 </div>

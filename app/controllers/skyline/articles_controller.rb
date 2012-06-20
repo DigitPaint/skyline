@@ -57,10 +57,11 @@ class Skyline::ArticlesController < Skyline::ApplicationController
       when Skyline::Page,Skyline::PageFragment then self.current_menu_item = :pages
     end
     
-    if @variant.editable_by?(current_user)
+    can_edit_article = @article.editable_by?(current_user)
+    if can_edit_article  && @variant.editable_by?(current_user)
       @variant.edit_by!(current_user)
     else
-      messages.now[:error] = render_to_string(:partial => "currently_editing")      
+      messages.now[:error] = can_edit_article ? render_to_string(:partial => "currently_editing") : t(:not_allowed, :scope => [:article, :edit])
       return render(:action => "edit_preview_only")
     end
     
