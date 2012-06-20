@@ -46,6 +46,7 @@ Application.Poller = new Class({
     } else {
       $('clone_variant').set("value","1");
       $('page_variants_attributes_1_name').set("value",newVariantName);
+      tinymce.triggerSave();
       $('page_form').submit();
     }
   }  
