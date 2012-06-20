@@ -93,7 +93,9 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     if params["clone_variant"] == "1"
       name = variant_attributes.andand[:name]
       name = @variant.name + "_copy" if name.blank?
-      new_variant = @article.variants.create(:name => name, :current_editor_id => current_user.id)
+      new_variant = @article.variants.build(:name => name)
+      new_variant.current_editor_id = current_user.id
+      new_variant.save
     end
 
     
@@ -101,11 +103,9 @@ class Skyline::ArticlesController < Skyline::ApplicationController
     begin
       Skyline::Article.transaction do
         if params["clone_variant"] == "1"
-          @variant = @variant.dup()
+          @variant = @variant.dup_variant_with(new_variant, variant_attributes)
           
           # Dirty hack so AR thinks this object isn't new.
-          @variant.attributes = new_variant.attributes.except("version")
-          @variant.id = new_variant.id          
           class << @variant; def new_record?; false; end; end
           @variant.save!
         else

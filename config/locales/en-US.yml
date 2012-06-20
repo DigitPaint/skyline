@@ -426,7 +426,7 @@
       dialog_title: "Editing has been taken over"
       message: "%{user} has forcefully taken over editing of this page."
       action_to_take: "What do you want to do with your changes?"
-      ignore_changes: "Discard my changed."
+      ignore_changes: "Discard my changes."
       save_as_new_variant: "Save my changes to a new variant."
       variant_name: "Name of new variant:"
       

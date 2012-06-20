@@ -52,6 +52,48 @@ class Skyline::ArticleVersion < ActiveRecord::Base
     dup
   end
   
+  # Clones this object with another object and additional attributes
+  #
+  # @param [ArticleVersion] new_variant The variant to clone this object with
+  # @param [Hash] attributes Additional attributes, they will be added as new objects. They can consist of:
+  # @param [Hash] attributes[:data_attributes] data attributes, will be merged with this object's data
+  # @param [Hash] attributes[:sections_attributes] Sections that need to be added. Note that both 'new' and 'updated' sections will be added as new objects
+  # 
+  # @return [ArticleVersion] A new variant that is a clone of this object
+  def dup_variant_with(new_variant, attributes)
+    dup_variant = self.dup
+    dup_variant.sections = []
+    
+    # Equivalent to @variant.attributes = new_variant.attributes.except("version") without mass-assignment
+    copy_attrs = %w{id type article_id variant_id name creator_id last_updated_by_id template created_at updated_at current_editor_id current_editor_timestamp current_editor_since data_id data_type}
+    copy_attrs.each do |copy_attr|
+      dup_variant.send("#{copy_attr}=", new_variant.send(copy_attr))
+    end
+    
+    # Data should be updated for dup_variant, so it shouldn't use the original id
+    dup_variant.data_attributes = attributes[:data_attributes].merge({:id => dup_variant.data_id})
+    
+    # Sections all need to be added as new, whether they are new or changed
+    sections_attributes = attributes[:sections_attributes]
+    new_sections_attributes = {}
+    sections_attributes.each do |k, v|
+      new_value = v
+      if new_value[:id].present?
+        orig_section_id = new_value.delete(:id)
+        orig_section = Skyline::Section.find_by_id(orig_section_id)
+        new_value[:sectionable_attributes].delete(:id)
+        new_value[:sectionable_attributes][:class] = orig_section.sectionable_type
+      end
+
+      new_sections_attributes[k] = new_value
+    end
+    dup_variant.sections_attributes = new_sections_attributes
+
+    dup_variant.id = new_variant.id
+    
+    dup_variant
+  end
+  
   # Custom data method that ensures that you always have 
   # a data object if this article needs one.
   def data_with_build
