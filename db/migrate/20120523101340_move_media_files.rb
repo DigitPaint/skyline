@@ -44,7 +44,7 @@ class MoveMediaFiles < ActiveRecord::Migration
         end
       end
       
-      FileUtils.remove_entry_secure(tmpdir)
+      FileUtils.remove_entry_secure(tmpdir) if File.exist?(tmpdir)
     end
     
   end
