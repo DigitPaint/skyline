@@ -88,8 +88,8 @@ class Skyline::Configuration < Configure
     
     # We need to reload the configuration if this file get's reloaded 
     unless ActiveSupport::Dependencies.load_once_path?(__FILE__)
-      if (Rails.root + "config/initializers/skyline_configuration.rb").exist?
-        load Rails.root + "config/initializers/skyline_configuration.rb"
+      if (Rails.root + "config/skyline.rb").exist?
+        load Rails.root + "config/skyline.rb"
       end    
     end
     
