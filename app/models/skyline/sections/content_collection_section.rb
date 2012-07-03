@@ -7,6 +7,8 @@ class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
   validates_presence_of :content_type
   validates_numericality_of :number, :greater_than => 0
   
+  attr_accessible :content_type, :number
+  
   def content_class
     @content_class ||= self.content_type.constantize    
   end

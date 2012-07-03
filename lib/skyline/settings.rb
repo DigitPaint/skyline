@@ -3,6 +3,7 @@ module Skyline::Settings
   def self.included(obj)
     obj.extend(ClassMethods)
     obj.send(:serialize, :data)
+    obj.send(:attr_accessible, :page, :data)
   end  
   
   module ClassMethods
