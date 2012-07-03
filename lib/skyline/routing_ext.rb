@@ -17,7 +17,7 @@ mappers.each do |mapper|
       if Rails.env.production?
         media_path = Pathname.new(options[:media_path])
         media_path = media_path.relative_path_from(Pathname.new('/')) if media_path.absolute?
-        create_symlink(Skyline::MediaCache.cache_path + media_path, media_path)
+        create_symlink(Pathname.new(Skyline::MediaCache.cache_path) + media_path, media_path)
       end
       
       mount Skyline::Engine => options[:skyline_path], :as => "skyline"
