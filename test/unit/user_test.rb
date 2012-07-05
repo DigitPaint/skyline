@@ -38,7 +38,7 @@ class UserTest < ActiveSupport::TestCase
 
       assert @user.allow?(:article_create) # only as editor (or super)
       assert @user.allow?(:user_create) # only as admin (or super)
-      assert !@user.allow?(:page_create) # ensure user is not super
+      assert !@user.allow?(:media_dir_create) # ensure user is not super
     end
     
     context "that has been destroyed" do
