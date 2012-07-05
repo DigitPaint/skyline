@@ -28,7 +28,7 @@ class Skyline::Sections::MediaSection < ActiveRecord::Base
   def dimension
     width = self[:width].to_i
     height = self[:height].to_i
-    if self.media.present? && self.media.kind_of?(Skyline::MediaNode)
+    if self.media.present? && (self.media.kind_of?(Skyline::MediaNode) || (self.media.kind_of?(Skyline::ObjectRef) && self.media.file?))
       width = media.width if self[:width].blank?
       height = media.height if self[:height].blank?
       proportional = self.media.proportional_dimension(width,height)
