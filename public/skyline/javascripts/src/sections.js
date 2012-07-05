@@ -92,7 +92,7 @@ Application.Sections = new Class({
     
     setTimeout(function(){
       if(section.retrieve("skyline.editor")){
-        section.retrieve("skyline.editor").addEvent("focus", activate);
+        section.retrieve("skyline.editor").each(function(el){el.addEvent("focus", activate)});
       }
     },0);
   },

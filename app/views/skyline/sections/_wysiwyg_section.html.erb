@@ -10,7 +10,7 @@
     
     var li = e.element.getParent("li");    
     if(li){
-      li.store("skyline.editor",e);
+      li.store("skyline.editor",[e]);
     }
     
     <% if controller.controller_name == "sections" && controller.action_name == "new" %>
