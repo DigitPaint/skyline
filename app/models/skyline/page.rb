@@ -140,7 +140,7 @@ class Skyline::Page < Skyline::Article
       root ||= self.root
       return nil unless root
       return [root, []] if url_parts.empty?
-      if child = root.children.find_by_url_part(url_parts.first)
+      if child = root.children.published.find_by_url_part(url_parts.first)
         return self.find_by_url(url_parts[1..-1], child)
       end
       return [root, url_parts]
