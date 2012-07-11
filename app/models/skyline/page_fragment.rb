@@ -2,6 +2,8 @@ class Skyline::PageFragment < Skyline::Article
   class Data < Skyline::Article::Data
     after_initialize :set_defaults
     
+    attr_accessible :title
+    
     protected
     
     def set_defaults
