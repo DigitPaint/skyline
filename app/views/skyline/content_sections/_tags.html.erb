@@ -1,4 +1,4 @@
-<%= skyline_fields_for sectionable, :as => "article[variants_attributes][1][sections_attributes][#{guid}][sectionable_attributes]" do |s| %>
+<%= skyline_fields_for "article[variants_attributes][1][sections_attributes][#{guid}][sectionable_attributes]", sectionable do |s| %>
   <table class="fields" id="section-<%=guid%>-tags">
     <tbody>
       <tr>
@@ -6,7 +6,7 @@
         <td>
           <dl class="tagselector">
             <dt></dt>
-            <dd><%=s.text_area :raw_tags, :rows => nil %></dd>
+            <dd><%= s.text_area :raw_tags, :rows => nil %></dd>
             <dt class="tags"><%=t(:available_tags, :scope => [:tags, :index])%></dt>
             <dd class="tags">
               <%= render :partial => "/skyline/tags/available_tags"%>

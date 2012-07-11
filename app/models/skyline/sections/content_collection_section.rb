@@ -7,7 +7,7 @@ class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
   validates_presence_of :content_type
   validates_numericality_of :number, :greater_than => 0
   
-  attr_accessible :content_type, :number
+  attr_accessible :content_type, :number, :raw_tags
   
   def content_class
     @content_class ||= self.content_type.constantize    
@@ -30,7 +30,7 @@ class Skyline::Sections::ContentCollectionSection < ActiveRecord::Base
   end
   
   def full_collection
-    self.content_class.published.with_tags(self.tags).scoped(:limit => self.number)
+    self.content_class.published.with_tags(self.tags)
   end
   
   def dup
