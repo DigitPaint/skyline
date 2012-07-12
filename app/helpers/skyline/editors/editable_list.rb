@@ -79,7 +79,7 @@ class Skyline::Editors::EditableList < Skyline::Editors::Editor
   end  
 
   def delete_button(row_id)
-    link_to_function image_tag("/skyline/images/buttons/section-delete.gif", :alt => "remove"), 
+    link_to_function image_tag("#{Skyline::Configuration.url_prefix}/images/buttons/section-delete.gif", :alt => "remove"), 
                    "$('#{row_id(row_id)}').dispose();"
   end
 

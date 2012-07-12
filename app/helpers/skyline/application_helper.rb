@@ -6,7 +6,7 @@ module Skyline::ApplicationHelper
   # @param [Hash] options ({}) Options will be passed to the image_tag method
   def tick_image(bool,options={})
     name = bool ? "true" : "false"
-    src = "/skyline/images/icons/#{name}.gif"
+    src = "#{Skyline::Configuration.url_prefix}/images/icons/#{name}.gif"
     
     options.reverse_merge! :alt => t(name, :scope => [:icons]) 
     

@@ -3,8 +3,8 @@
 
 <title>Skyline 3.0</title>
 
-<%= stylesheet_link_tag "/skyline/stylesheets/undohtml.css", "/skyline/stylesheets/general.css" %>
-<!--[if lte IE 7]><%= stylesheet_link_tag "/skyline/stylesheets/ie.css" %><![endif]-->
+<%= stylesheet_link_tag "#{Skyline::Configuration.url_prefix}/stylesheets/undohtml.css", "#{Skyline::Configuration.url_prefix}/stylesheets/general.css" %>
+<!--[if lte IE 7]><%= stylesheet_link_tag "#{Skyline::Configuration.url_prefix}/stylesheets/ie.css" %><![endif]-->
 
 <% if Skyline::Configuration.custom_stylesheets.any? %>
   <% Skyline::Configuration.custom_stylesheets.each do |stylesheet| %>
@@ -16,10 +16,10 @@
   <% end %>
 <% end %>
 
-<%= javascript_include_tag "#{Skyline::Configuration.url_prefix}/skyline/javascripts/skyline.js" %>
-<%= javascript_include_tag "#{Skyline::Configuration.url_prefix}/skyline/javascripts/skyline.editor.js" %>  
-<%= javascript_include_tag "#{Skyline::Configuration.url_prefix}/skyline/javascripts/application.js" %>  	
-<%= javascript_include_tag skyline_locale_path(I18n.locale) %>  	
+<%= javascript_include_tag "#{Skyline::Configuration.url_prefix}/javascripts/skyline.js" %>
+<%= javascript_include_tag "#{Skyline::Configuration.url_prefix}/javascripts/skyline.editor.js" %>
+<%= javascript_include_tag "#{Skyline::Configuration.url_prefix}/javascripts/application.js" %>
+<%= javascript_include_tag skyline_locale_path(I18n.locale) %>
 
 <script type="text/javascript" charset="utf-8">
   Application.formAuthenticityToken = "<%=form_authenticity_token%>";  

@@ -19,7 +19,7 @@
     
       <ul class="tools">
         <li><span class="drag dragLink">&nbsp;</span></li>
-        <li><%= link_to_function(image_tag("/skyline/images/buttons/section-delete.gif", :alt => t(:delete, :scope => [:section, :form])), "PageHelper.destroy('link_section_#{link_guid}')", :class => "delete") %></li>
+        <li><%= link_to_function(image_tag("#{Skyline::Configuration.url_prefix}/images/buttons/section-delete.gif", :alt => t(:delete, :scope => [:section, :form])), "PageHelper.destroy('link_section_#{link_guid}')", :class => "delete") %></li>
       </ul>
     <% end %>
   </div>

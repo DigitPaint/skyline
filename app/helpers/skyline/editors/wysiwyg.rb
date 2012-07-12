@@ -17,7 +17,7 @@ class Skyline::Editors::Wysiwyg < Skyline::Editors::Editor
   
   def tinymce_js
     javascript_tag "new Skyline.Editor('#{self.tag_id}',{
-      contentCss : '/skyline/stylesheets/wysiwyg.css',
+      contentCss : '#{Skyline::Configuration.url_prefix}/stylesheets/wysiwyg.css',
       #{"enableEditHtml : true," if current_user.allow?("tinymce_edit_html")}
       language : Application.locale    
     })"

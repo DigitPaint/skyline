@@ -12,7 +12,7 @@
   <div id="mainnavigation">
     
   	<% if Skyline::Configuration.custom_logo %>
-  	  <img src="/skyline/images/logo.png" alt="powered by Skyline"  style="position: absolute; right: 10px; top: 5px"/>
+  	  <img src="<%= Skyline::Configuration.url_prefix %>/images/logo.png" alt="powered by Skyline"  style="position: absolute; right: 10px; top: 5px"/>
   	<% end %>
     <ul>
       <% if Skyline::Configuration.enable_pages %>

@@ -98,7 +98,7 @@ class Skyline::Presenters::Presenter
       case field.editor
         # :publish editor is temporary editor created by the presenter itself.
         when :publish
-          [content ? image_tag("/skyline/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("/skyline/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
+          [content ? image_tag("#{Skyline::Configuration.url_prefix}/images/icons/true.gif", :alt => t(:true, :scope => [:icons])) : image_tag("#{Skyline::Configuration.url_prefix}/images/icons/false.gif", :alt => t(:true, :scope => [:icons])),{:class => "center"}]
         else normalize_content(content,field)          
       end
     end        
@@ -113,7 +113,7 @@ class Skyline::Presenters::Presenter
           truncate(simple_format(strip_tags(content.gsub("<br />", "<br />\n").gsub("</p>", "</p>\n"))), :length => 150)
         end
       when String then truncate(content,:length => 150)
-      when TrueClass,FalseClass then [(content ? image_tag("/skyline/images/icons/true.gif") : image_tag("/skyline/images/icons/false.gif")),{:class => "center"}]
+      when TrueClass,FalseClass then [(content ? image_tag("#{Skyline::Configuration.url_prefix}/images/icons/true.gif") : image_tag("#{Skyline::Configuration.url_prefix}/images/icons/false.gif")),{:class => "center"}]
       when Date,Time then l(content, :format => :long)
       else content.to_s
     end 

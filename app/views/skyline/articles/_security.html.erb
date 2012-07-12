@@ -7,7 +7,7 @@
           <tr>
             <th><%= t(:locked_state, :scope => [:article, :edit]) %></th>
             <td class="center">
-              <%= image_tag "/skyline/images/icons/lock#{"-open" unless @article.locked? }.gif" %>
+              <%= image_tag "#{Skyline::Configuration.url_prefix}/images/icons/lock#{"-open" unless @article.locked? }.gif" %>
             </td>
           </tr>
         </tbody>

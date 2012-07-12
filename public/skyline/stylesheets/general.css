@@ -2220,7 +2220,7 @@ button.small{
   font-weight: bold;
 	position: relative;
 	cursor: pointer;              
-  background: url(/skyline/images/buttons/buttons-medium.gif) #c5c5c5 0 0 repeat-x;
+  background: url(../images/buttons/buttons-medium.gif) #c5c5c5 0 0 repeat-x;
 	-moz-border-radius: 3px; 
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -2242,7 +2242,7 @@ button.small{
   font-size: 10px;
   line-height: 12px;
   font-weight: normal;
-  background-image: url(/skyline/images/buttons/buttons-small.gif);
+  background-image: url(../images/buttons/buttons-small.gif);
 }
 
 a.button.green,
