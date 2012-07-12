@@ -89,10 +89,17 @@ Application.Sections = new Class({
     var activate = (function(){this.activate(section)}).bind(this)
     section.addEvent("click", activate);
     section.getElements("input, select, textarea").addEvent("focus", activate);   
-    
     setTimeout(function(){
-      if(section.retrieve("skyline.editor")){
-        section.retrieve("skyline.editor").each(function(el){el.addEvent("focus", activate)});
+      var ed;
+      if(ed = section.retrieve("skyline.editor")){
+        var fn = function(ed) {
+          ed.addEvent("focus", activate);
+        }
+        if($type(ed) == "array"){ 
+          $A(ed).each(fn);
+        } else {
+          fn(ed);
+        }
       }
     },0);
   },
