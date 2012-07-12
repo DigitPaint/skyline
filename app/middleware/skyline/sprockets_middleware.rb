@@ -46,8 +46,8 @@ class Skyline::SprocketsMiddleware
       end
       
       if @options[:cache]
-        env["rack.errors"].puts "[Sprockets] Caching #{@root + url}"
-        (@root + url).open("w") do |f|
+        env["rack.errors"].puts "[Sprockets] Caching #{@root + 'skyline' + url}"
+        (@root + 'skyline' + url).open("w") do |f|
           f.write content
         end
         # File.open(path ,"w")
