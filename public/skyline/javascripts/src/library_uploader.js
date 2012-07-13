@@ -21,12 +21,15 @@
 Application.LibraryUploader = new Class({
   Implements: [Events, Options],
   
-  options : {
-    // URL where the flash uploader can be found.
-    flashSwfUrl: Application.urlPrefix + "javascripts/src/skyline/vendor/plupload/js/plupload.flash.swf"
-  },  
+  options : {},  
   
   initialize : function(formId, options){
+    // We have to set the URL here, because the Application.urlPrefix is not available at
+    // load time.
+    
+    // URL where the flash uploader can be found.
+    options.flashSwfUrl = Application.urlPrefix + "/javascripts/src/skyline.editor/dialogs/skyline_code.html",
+    
     this.setOptions(options);
     
     this.formEl = $(formId);
