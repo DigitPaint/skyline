@@ -23,7 +23,7 @@ Application.LibraryUploader = new Class({
   
   options : {
     // URL where the flash uploader can be found.
-    flashSwfUrl: "skyline/vendor/plupload/js/plupload.flash.swf"
+    flashSwfUrl: Application.urlPrefix + "javascripts/src/skyline/vendor/plupload/js/plupload.flash.swf"
   },  
   
   initialize : function(formId, options){

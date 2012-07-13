@@ -1,6 +1,6 @@
 Skyline.Editor.plugins.SkylineCode.Dialog = new Class({
   Extends: Skyline.RemoteDialog,
-  url: "/skyline/javascripts/src/skyline.editor/dialogs/skyline_code.html",
+  url: Application.urlPrefix + "javascripts/src/skyline.editor/dialogs/skyline_code.html",
   initialize : function(ed){
     this.editor = ed;
     
