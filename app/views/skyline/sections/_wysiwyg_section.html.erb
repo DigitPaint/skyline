@@ -1,5 +1,4 @@
 <%= sectionable_form.text_area :body, :rows => 3, :class => "wysiwyg", :style => "width: 100%; height: 5px", :value => sectionable_form.object.body(true) %>
-<%= "this section" %>
 <script type="text/javascript" charset="utf-8">
   setTimeout(function(){
     var e = new Skyline.Editor('<%= sectionable_form.dom_id :body %>',{
