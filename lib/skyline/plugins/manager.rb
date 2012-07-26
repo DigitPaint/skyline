@@ -10,31 +10,48 @@
 # * Load paths (PLUGIN/app/controllers, PLUGIN/app/models, PLUGIN/app/helpers)
 # * Locales (PLUGIN/config/locales/*.{yml,rb})
 # 
-# The pluginmanager will also load: `PLUGIN/skyline/init.rb` on intialization (after it sets up the above paths)
+# The pluginmanager will also load: `PLUGIN/skyline/plugin.rb` on intialization (after it sets up the above paths)
 # And the pluginmanager will run `PLUGIN/skyline/load.rb` on every request (in development mode)
 # 
+#
+# A plugin MUST subclass Skyline::Plugins::Plugin to register itself. Example content of plugin.rb:
+#
+#  module SkylineForms
+#    class Plugin < Skyline::Plugins::Plugin
+#    end
+#  end
+#
 # @private
 class Skyline::Plugins::Manager
   
-  attr_reader :app, :engine
+  attr_reader :app, :engine, :plugins
   
   def initialize(engine, app)
     @app = app
     @engine = engine
-    init_all!
   end
-  
     
   # Initialize all plugins
   def init_all!
     FileUtils.mkdir(self.public_path) unless self.public_path.exist?
 
-    self.plugins.each{|path, plugin| plugin.init! }
+    @plugins ||= []
+    Dir[self.plugin_path + "*"].each do |path|
+      if self.valid_plugin?(path) && !@plugins.detect{|p| p.path == path}
+        before_size = self.plugins.size
+        load(path + "/skyline/plugin.rb")
+        if self.plugins.size > before_size
+          loaded_plugin = self.plugins.last
+          loaded_plugin.path = path  
+          loaded_plugin.init!
+        end
+      end
+    end
   end
 
   # Load all plugins
   def load_all!
-    self.plugins.each{|path, plugin| plugin.load! }  
+    self.plugins.each(&:load!)
   end
   
   # The path where all skyline plugins reside
@@ -51,18 +68,9 @@ class Skyline::Plugins::Manager
     Pathname.new(self.app.paths['public'].to_a.first) + "skyline_plugins"
   end
 
-  # All known plugins
-  #
-  # @param [Boolean] force_reload (false) Forcefully reload the plugin directories
-  # 
-  # @return [Array[PluginsManager]] An array of plugins
-  def plugins(force_reload = false)
-    return @plugins if @plugins && !force_reload
-    @plugins ||= {}
-    Dir[self.plugin_path + "*"].each do |path|
-      @plugins[path] = Skyline::Plugins::Plugin.new(path, self) if self.valid_plugin?(path) && !@plugins.has_key?(path)
-    end
-    @plugins
+  # Register a plugin. This is called from Skyline::Plugins::Plugin when a plugin subclasses that class.  
+  def register_plugin(plugin)
+    self.plugins << plugin
   end
   
   # Does the path contain a valid plugin?

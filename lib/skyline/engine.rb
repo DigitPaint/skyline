@@ -56,7 +56,7 @@ module Skyline
         env.map "javascripts/skyline.editor.js", "skyline/javascripts/src/skyline.editor.js"
       end
       
-      if !Rails.configuration.cache_classes && Rails.configuration.reload_plugins
+      if !Rails.configuration.cache_classes
         middleware.use(Skyline::PluginsLoaderMiddleware)
       end
       
@@ -67,7 +67,8 @@ module Skyline
     
     initializer "skyline.setup_plugins_manager" do |app|
       app.config.skyline_plugins_manager = Skyline::Plugins::Manager.new(self, app)
-      if app.config.cache_classes || !app.config.reload_plugins
+      app.config.skyline_plugins_manager.init_all!
+      if app.config.cache_classes
         app.config.skyline_plugins_manager.load_all!
       end      
     end

@@ -8,7 +8,7 @@ namespace :skyline do
       ActiveRecord::Migrator.migrate(Skyline.root + "db/migrate/", ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
       
       # Also seed plugins
-      Rails.application.config.skyline_plugins_manager.plugins.each do |path, plugin|
+      Rails.application.config.skyline_plugins_manager.plugins.each do |plugin|
         next unless plugin.migration_path
         
         puts "\n\n[PLUGIN] [#{plugin.name}] ============================="
@@ -65,7 +65,7 @@ namespace :skyline do
       end
       
       # Also seed plugins
-      Rails.application.config.skyline_plugins_manager.plugins.each do |path, plugin|
+      Rails.application.config.skyline_plugins_manager.plugins.each do |plugin|
         puts "\n\n[PLUGIN] [#{plugin.name}] ============================="
         Dir[plugin.seed_path + "*.rb"].each do |f|
           load f
