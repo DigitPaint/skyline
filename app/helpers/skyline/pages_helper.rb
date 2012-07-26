@@ -17,8 +17,8 @@ module Skyline::PagesHelper
   # --
   def renderable_templates_select(object, form, options = {})
     raise "@renderable_scope not available" unless @renderable_scope
-    
-    return nil if @renderable_scope.templates_for(object).size <= 1 && @renderable_scope.templates_for(object) == ["default"]
+
+    return nil if @renderable_scope.templates_for(object).size == 0 || @renderable_scope.templates_for(object) == ["default"]
     
     options.reverse_merge! :label => Skyline::Section.human_attribute_name("template")
     
