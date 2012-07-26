@@ -43,10 +43,10 @@ mappers.each do |mapper|
         :name => /[^\/]+/, 
         :cache_key => /\d{2}\/\d{2}\/\d+/,
         :as => "skyline_media_file"
-        
-        # Old style URL's to not break old links
-        match "#{options[:media_path]}/dirs/:dir_id/data/:name", :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
-        match "#{options[:media_path]}/dirs/:dir_id/data/:size/:name", :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/        
+      
+      # Old style URL's to not break old links
+      match "#{options[:media_path]}/dirs/:dir_id/data/:name", :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/
+      match "#{options[:media_path]}/dirs/:dir_id/data/:size/:name", :to => "skyline/site/media_files_data#show", :via => :get, :name => /[^\/]+/        
     end
   end
 end
