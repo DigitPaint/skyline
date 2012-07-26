@@ -40,7 +40,6 @@ log "\n== Creating roles"
 stfu do
   Skyline::Role.seed(:name,
     {:name => "super", :system => true},
-    {:name => "editor", :system => false},
     {:name => "admin", :system => false}
   )
 end
@@ -99,25 +98,8 @@ end
 log "\n== Mapping Rights to Roles"
 
 super_role = Skyline::Role.find_by_name("super")
-admin_role = Skyline::Role.find_by_name("admin")
-editor_role = Skyline::Role.find_by_name("editor")
-admin_rights = []
-editor_rights = []
 
-log " - Role : #{super_role.name}"
 rights = Skyline::Right.all
-rights.each do |r|
-  log "    - #{r.name}"
-  if r.name.starts_with?('article') || r.name.starts_with?('page')
-    editor_rights << r
-    admin_rights << r
-  end
-  admin_rights << r if r.name.starts_with? 'user'
-end
 
 super_role.rights = rights
 super_role.save!
-editor_role.rights = editor_rights
-editor_role.save!
-admin_role.rights = admin_rights
-admin_role.save!
