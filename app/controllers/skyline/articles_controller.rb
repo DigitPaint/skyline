@@ -110,6 +110,11 @@ class Skyline::ArticlesController < Skyline::ApplicationController
           class << @variant; def new_record?; false; end; end
           @variant.save!
         else
+          should_lock = article_params.delete(:locked)
+          if should_lock
+            return handle_unauthorized_user unless current_user.allow?(:page_lock)
+            @article.locked = should_lock
+          end
           @article.attributes = article_params          
           @article.save!
           
