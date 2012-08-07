@@ -20,8 +20,8 @@ class UserTest < ActiveSupport::TestCase
     end
   
     should "be able to have multiple roles" do
-      role_1 = Skyline::Role.find_by_name("editor")
-      role_2 = Skyline::Role.find_by_name("admin")
+      role_1 = FactoryGirl.create(:role, :name => 'editor')
+      role_2 = FactoryGirl.create(:role, :name => 'admin')
       
       @user.grants.create(:role_id => role_1.id)
       @user.grants.create(:role_id => role_2.id)
@@ -30,9 +30,12 @@ class UserTest < ActiveSupport::TestCase
     end
     
     should "be allowed a right if it's in one of his multiple roles" do
-      role_1 = Skyline::Role.find_by_name("editor")
-      role_2 = Skyline::Role.find_by_name("admin")
-
+      role_1 = FactoryGirl.create(:role, :name => 'editor')
+      role_2 = FactoryGirl.create(:role, :name => 'admin')
+      
+      role_1.rights << Skyline::Right.find_by_name('article_create')
+      role_2.rights << Skyline::Right.find_by_name('user_create')
+      
       @user.grants.create(:role_id => role_1.id)
       @user.grants.create(:role_id => role_2.id)
 
