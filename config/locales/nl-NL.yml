@@ -274,6 +274,7 @@
         link: "Link (optioneel)"
         alignment: "Uitlijning"
         caption: "Onderschrift"
+        dimension: "Afmetingen"
         alignments:
           left: "Links"
           right: "Rechts"
