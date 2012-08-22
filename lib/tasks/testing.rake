@@ -1,3 +1,5 @@
+require 'rake/testtask'
+
 namespace :skyline do
 
   desc 'Run all unit, functional and integration tests'
