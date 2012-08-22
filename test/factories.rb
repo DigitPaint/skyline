@@ -26,7 +26,7 @@ FactoryGirl.define do
     u.email "test@test.com"
     u.skip_current_user_validation true
     u.after_build do |user|
-      user.grants << Factory.build(:grant)
+      user.grants << FactoryGirl.build(:grant)
     end
   end
 
