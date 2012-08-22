@@ -5,6 +5,9 @@
 # 
 # @see Skyline::BelongsToReferable If you want to use a reference to a MediaFile/Page/URL directly as an association.
 #
+# @see Skyline::Sanitizer Automotically included and configured with default settings for all fields with referables.
+# Refer to documentation for options and default configuration
+#
 # @example Usage: 
 #   class Model < ActiveRecord::Base
 #     include Skyline::HasManyReferablesIn
@@ -21,6 +24,7 @@
 module Skyline::HasManyReferablesIn 
  
   def self.included(base)
+    base.send(:include, Skyline::Sanitizer)
     base.extend(ClassMethods)
     base.send(:before_save, :parse_referable_fields)
     
@@ -52,6 +56,7 @@ module Skyline::HasManyReferablesIn
       
       fields.each do |f|
         self.referable_fields << f
+        self.send("has_sanitizable_fields", f.to_sym, :referable => true)
         
         self.class_eval <<-END
           def #{f}=(body)
