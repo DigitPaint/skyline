@@ -25,9 +25,7 @@ FactoryGirl.define do
     u.name "Test User"
     u.email "test@test.com"
     u.skip_current_user_validation true
-    u.after_build do |user|
-      user.grants << FactoryGirl.build(:grant)
-    end
+    after(:build) {|user| user.grants << FactoryGirl.build(:grant)}
   end
 
   factory :page, :class => Skyline::Page
