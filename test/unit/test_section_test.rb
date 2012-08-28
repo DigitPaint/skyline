@@ -5,18 +5,18 @@ require 'mocks/test_section.rb'
 class TestSectionTest < ActiveSupport::TestCase
   context "test section" do
     setup do
-      @small_image_html = "<img src='henk.jpg' skyline-ref-id='' skyline-referable-id='10'  skyline-referable-type='Skyline::MediaFile' width='200' height='200'/>"
+      @small_image_html = "<img src='henk.jpg' data-skyline-ref-id='' data-skyline-referable-id='10'  data-skyline-referable-type='Skyline::MediaFile' width='200' height='200'/>"
       @small_image_no_refs = "<img src=\"broken.jpg\" width=\"200\" height=\"200\" />"
       
-      @small_link_html = "<a href=\"henk.html\" skyline-ref-id=\"\" skyline-referable-id=\"10\"  skyline-referable-type=\"Skyline::MediaFile\" class=\"myLink\">my link</a>"
+      @small_link_html = "<a href=\"henk.html\" skyline-ref-id=\"\" data-skyline-referable-id=\"10\"  data-skyline-referable-type=\"Skyline::MediaFile\" class=\"myLink\">my link</a>"
       @small_link_no_refs = "<a href=\"broken\" class=\"myLink\" >my link</a>"
       
       @big_html = "<div>
-                  <a href='henk' skyline-ref-id='' skyline-referable-id='10'  skyline-referable-type='Skyline::MediaFile' class='myLink'>
-                   <img src='henk.jpg' skyline-ref-id='' skyline-referable-id='10'  skyline-referable-type='Skyline::MediaFile' width='200' height='200'/>
+                  <a href='henk' data-skyline-ref-id='' data-skyline-referable-id='10'  data-skyline-referable-type='Skyline::MediaFile' class='myLink'>
+                   <img src='henk.jpg' data-skyline-ref-id='' data-skyline-referable-id='10'  data-skyline-referable-type='Skyline::MediaFile' width='200' height='200'/>
                    bla <span>henk</span>
                  </a>
-                 <img src='peter.jpg' skyline-ref-id='' skyline-referable-id='12'  skyline-referable-type='Skyline::MediaFile' width='200' height='200'/>
+                 <img src='peter.jpg' data-skyline-ref-id='' data-skyline-referable-id='12'  data-skyline-referable-type='Skyline::MediaFile' width='200' height='200'/>
                </div>"      
     end
     
@@ -54,9 +54,9 @@ class TestSectionTest < ActiveSupport::TestCase
       @test_section = Skyline::TestSection.new(:body_a => @small_image_html, :body_b => @small_link_html)
       @test_section.save
       
-      assert_match(/skyline-ref-id/, @test_section.body_a(true))
-      assert_match(/skyline-referable-id/, @test_section.body_a(true))
-      assert_match(/skyline-referable-type/, @test_section.body_a(true))
+      assert_match(/data-skyline-ref-id/, @test_section.body_a(true))
+      assert_match(/data-skyline-referable-id/, @test_section.body_a(true))
+      assert_match(/data-skyline-referable-type/, @test_section.body_a(true))
     end
     
      should "remove inline_ref when body_a is changed" do
@@ -148,7 +148,7 @@ class TestSectionTest < ActiveSupport::TestCase
   
   context "A test section" do
     setup do 
-      @html = "bla bla bla <a href='' skyline-referable-id='1' skyline-referable-type='Skyline::MediaFile' >continuïteit</a> bla bla"
+      @html = "bla bla bla <a href='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::MediaFile' >continuïteit</a> bla bla"
       @section = Skyline::TestSection.new(:body_a => @html)
       assert @section.save
       assert_equal 1, @section.link_refs.size
@@ -189,7 +189,7 @@ class TestSectionTest < ActiveSupport::TestCase
   
     context "being saved without the sklyine attributes" do
       setup do
-        @html = "bla bla bla <a href='' skyline-referable-id='1' skyline-referable-type='Skyline::MediaFile' >continuïteit</a> bla bla"
+        @html = "bla bla bla <a href='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::MediaFile' >continuïteit</a> bla bla"
         @section = Skyline::TestSection.new(:body_a => @html)
         assert @section.save
         assert_equal 1, @section.link_refs.size
@@ -209,7 +209,7 @@ class TestSectionTest < ActiveSupport::TestCase
     
     context "being cloned" do
       setup do
-        @html = "bla bla bla <a href='' skyline-referable-id='1' skyline-referable-type='Skyline::MediaFile' >continuïteit</a> bla bla"
+        @html = "bla bla bla <a href='' data-skyline-referable-id='1' data-skyline-referable-type='Skyline::MediaFile' >continuïteit</a> bla bla"
         @section = Skyline::TestSection.new(:body_a => @html)
         assert @section.save
         @section_refs = Skyline::InlineRef.hash_refs_for_object(@section,:body_a)        

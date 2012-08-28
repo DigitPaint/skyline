@@ -51,7 +51,7 @@ module Skyline::Sanitizer
     if self.sanitizable_fields_with_options.present?
       self.sanitizable_fields_with_options.each do |field, options|
         unless options == false
-          if options[:referable] == true 
+          if options[:referable] == true
             self.send("#{field}=", Sanitize.clean(self.send("#{field}", true), default_config))
           else
             options = {:sanitize => default_config} if options.blank? || options[:sanitize].blank? || options[:sanitize] == :default
@@ -95,8 +95,7 @@ module Skyline::Sanitizer
       ],
 
       :attributes => {
-        :all         => ['dir', 'lang', 'title', 'skyline-ref-id', 'skyline-referable-id', 'skyline-referable-type',
-          'data-skyline-referable-type', 'data-skyline-referable-id', 'data-skyline-ref-id', 'class', 'id'],
+        :all         => ['dir', 'lang', 'title', 'data-skyline-referable-type', 'data-skyline-referable-id', 'data-skyline-ref-id', 'class', 'id'],
         'a'          => ['href', 'target'],
         'col'        => ['span', 'width'],
         'colgroup'   => ['span', 'width'],
