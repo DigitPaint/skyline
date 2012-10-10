@@ -276,7 +276,7 @@ Application.ContentBrowser = new Class({
   initialize : function(params){
     // We have to set the URL here, because the Application.urlPrefix is not available at
     // load time.
-    this.url = "/" + Application.urlPrefix + "/browser/content";
+    this.url = Application.urlPrefix + "/browser/content";
     this.parent(params);
   }
 });
