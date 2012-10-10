@@ -1,6 +1,6 @@
 <% if @tags.present? %>
   $("section-<%= params[:guid] %>-tags").replace('<%= escape_javascript render(:partial => "tags", :locals => {:guid => params[:guid], :sectionable => @taggable.new})%>');
 <% else %>
-  $("section-<%= params[:guid] %>-tags").replace("");
+  $("section-<%= params[:guid] %>-tags").replaceHTML("");
   (new Fx.Scroll("contentEditPanel")).toBottom();
 <% end %>

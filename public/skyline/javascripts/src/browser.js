@@ -105,6 +105,9 @@ $extend(Application.Browser,{
   browseLinkFor : function(section){
     this.browseFor(section,Application.LinkBrowser,arguments[1]);    
   },
+  browseContentFor : function(section){
+    this.browseFor(section,Application.ContentBrowser,arguments[1]);
+  },
   browseImageFor : function(section){
     this.browseFor(section,Application.ImageBrowser,arguments[1]);
   },
@@ -154,6 +157,12 @@ $extend(Application.Browser,{
   browseFor : function(element,browser){
     if(!browser){ var browser = Application.LinkBrowser; }
     var options = arguments[2] || {};
+    var dialogParams = {};
+    
+    if ('dialogParams' in options) {
+      dialogParams = options['dialogParams'];
+      delete options['dialogParams'];
+    }
     
     var liClass, element = $(element);
     var relatesTo = element.getElement("div.relatesTo");
@@ -164,10 +173,8 @@ $extend(Application.Browser,{
     var lcuEl = element.getElement("input.link_custom_url");
     var rDelete = element.getElement("input.referable_delete") || element.getElement("input.delete");
     
-    var dialogParams = {
-      "referable_type" : rTEl.get("value"), 
-      "referable_id" : rIEl.get("value")
-    };
+    dialogParams.referable_type = rTEl.get("value"),
+    dialogParams.referable_id = rIEl.get("value")
     
     if(lcuEl){
       dialogParams.url = lcuEl.get("value");
@@ -259,6 +266,17 @@ Application.LinkBrowser = new Class({
         values.url = Application.sanitizeUrl(values.url);
       }
     });
+    this.parent(params);
+  }
+});
+
+Application.ContentBrowser = new Class({
+  Extends : Application.Browser,
+  url : "",
+  initialize : function(params){
+    // We have to set the URL here, because the Application.urlPrefix is not available at
+    // load time.
+    this.url = "/" + Application.urlPrefix + "/browser/content";
     this.parent(params);
   }
 });

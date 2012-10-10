@@ -1,0 +1,24 @@
+<div class="dialog">
+  <div class="tabPanel">
+    <div class="tabs">
+      <div class="chrome">
+        <ul class="toptabs">
+          <% tabs = ["Skyline::Content"] %>
+          <% tabs.each do |tab| %>
+            <li class="<%= "active" if @active_tab == tab %>"><a href="#"><%= t(tab, :scope => [:browser,:tabs]) %></a></li>          
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>  
+  <div id="browserContent" class="window">
+    <p><%= t('error', :scope => [:browser, :content])%></p>
+  </div>
+  <div class="footerPanel">
+    <div class="content">
+      <div class="submit">
+        <%= link_to_function t(:cancel, :scope => [:buttons]), "Skyline.Dialog.current.cancel()", :class => "cancel" %>
+      </div>
+    </div>
+  </div>
+</div>

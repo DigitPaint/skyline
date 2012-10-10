@@ -29,6 +29,13 @@ module Skyline::RefObjectHelper
     referable_field_browser(form_builder, field, :link, options)
   end
   
+  def content_browser(form_builder, field, options = {})
+    content_selection = options.delete(:article_classes)
+    content_selection = content_selection.join(',') if content_selection.kind_of? Array
+    
+    referable_field_browser(form_builder, field, :content, options.merge(:content_selection => content_selection))
+  end
+  
   def referable_field_browser(form_builder, field, browser, options = {})
     options.reverse_merge! :object => form_builder.object.send(field) || form_builder.object.send("build_#{field}"), 
                            :container => nil,
@@ -59,7 +66,11 @@ module Skyline::RefObjectHelper
 
       
       deselect_button = link_to_function(button_text(:delete), "Application.Browser.unlink('#{options[:container]}');", :class => "button small red delete").html_safe
-      browse_button = link_to_function(button_text(:browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}');", :class => "button small").html_safe
+      if options[:content_selection].present?
+        browse_button = link_to_function(button_text(:browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}', {dialogParams: {content_selection: '#{options[:content_selection]}'}});", :class => "button small").html_safe
+      else
+        browse_button = link_to_function(button_text(:browse), "Application.Browser.browse#{browser.to_s.camelcase}For('#{options[:container]}');", :class => "button small").html_safe
+      end
     
       c << content_tag("div", {:class => "not-linked"}) do
         nl = []

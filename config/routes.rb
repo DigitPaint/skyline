@@ -50,6 +50,7 @@ Skyline::Engine.routes.draw do
     namespace :browser do
       resources :images
       resources :links
+      resources :content
       resources :pages
       resources :files
       namespace :tabs do
@@ -58,7 +59,8 @@ Skyline::Engine.routes.draw do
             resources :media_files
           end
         end
-        resources :linkables        
+        resources :linkables
+        resources :content_items
       end         
     end
      

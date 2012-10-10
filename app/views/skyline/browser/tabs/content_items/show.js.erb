@@ -1,0 +1,4 @@
+document.id("browserContentContentItems").getElements("li a").removeClass("active");
+document.id("browserContentContentItems<%= @content_type %>").getElement("a").addClass("active");      
+
+$("browserContentContentPanel").replaceHTML('<%=escape_javascript render(:partial => "show") %>');
