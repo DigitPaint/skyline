@@ -34,7 +34,7 @@
 module Skyline::BelongsToReferable 
   def self.included(base)
     base.extend(ClassMethods)
-
+    
     # Callbacks
     base.send(:before_save, :set_refering_type_and_id)
     base.send(:after_create, :set_refering_id)
@@ -42,11 +42,13 @@ module Skyline::BelongsToReferable
     base.send(:after_destroy, :possibly_destroy_referables)
     
     base.send(:cattr_accessor, :referable_contents)
+    base.send(:cattr_accessor, :referable_protocols)
     base.send(:attr_accessor, :previous_referables)
     base.send(:alias_method_chain, :dup, :referable_content)
     
     
     base.send("referable_contents=", [])
+    base.send("referable_protocols=", {})
   end  
   
   module ClassMethods   
@@ -63,9 +65,12 @@ module Skyline::BelongsToReferable
     # @return [void]
     def belongs_to_referable(*fields)
       options = fields.extract_options!.reverse_merge(:allow_nil => true)
+      options.reverse_merge!(:allow_protocols => ['http', 'https', 'mailto', :relative])
+      
       fields.each do |f|
         self.referable_contents << f
-                
+        self.referable_protocols[f.to_sym] = options[:allow_protocols]
+        
         belongs_to f, :class_name => "Skyline::ObjectRef", :foreign_key => "#{f}_id", :dependent => :destroy
         accepts_nested_attributes_for f, :reject_if => proc {|attributes| attributes['referable_type'].blank?}, :allow_destroy => true
         
@@ -105,6 +110,8 @@ module Skyline::BelongsToReferable
                   self.#{f}.send(k.to_s + "=", v) if self.#{f}.respond_to?(k.to_s + "=")
                 end
               end
+              
+              self.#{f}.referable.allow_protocols = self.class.referable_protocols[:#{f}]
             end
           end          
         END

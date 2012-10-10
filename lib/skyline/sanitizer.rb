@@ -51,7 +51,7 @@ module Skyline::Sanitizer
     if self.sanitizable_fields_with_options.present?
       self.sanitizable_fields_with_options.each do |field, options|
         unless options == false
-          if options[:referable] == true
+          if options.present? && options[:referable] == true
             self.send("#{field}=", Sanitize.clean(self.send("#{field}", true), default_config))
           else
             options = {:sanitize => default_config} if options.blank? || options[:sanitize].blank? || options[:sanitize] == :default
