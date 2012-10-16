@@ -5,6 +5,7 @@ class Skyline::Sections::ContentItemSection < ActiveRecord::Base
   belongs_to :content_item, :polymorphic => true
   
   validates_presence_of :content_item_type, :content_item_id
+  attr_accessible :content_item_type, :content_item_id
 
   cattr_accessor :selectable_models  
   
