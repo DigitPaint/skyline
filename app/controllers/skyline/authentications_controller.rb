@@ -6,7 +6,9 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
   
   def create
     if user = Skyline::Configuration.user_class.find_by_identification(request.env["omniauth.auth"]["uid"])
+      access_to_newsletter_ids = session[:access_to_newsletter_ids]
       reset_session
+      session[:access_to_newsletter_ids] = access_to_newsletter_ids if access_to_newsletter_ids.present?
       session[:skyline_user_identification] = user.identification
       redirect_to skyline_root_path
     else
