@@ -30,16 +30,14 @@ module Skyline::Taggable
     
     base.send :alias_method_chain, :dup, :associated_tags
     
-    base.class_eval do
-      scope :with_tags, lambda {|tags|
-        if tags.any?
-          {:conditions => ["(SELECT tag_id FROM skyline_associated_tags WHERE taggable_id=#{self.table_name}.id AND taggable_type=? AND tag_id IN (?) LIMIT 1)", self.name, tags],
-           :include => :associated_tags}
-        else
-          {}
-        end
-      }
-    end          
+    base.send :scope, :with_tags, lambda {|tags|
+      if tags.any?
+        {:conditions => ["(SELECT tag_id FROM skyline_associated_tags WHERE taggable_id=#{base.table_name}.id AND taggable_type=? AND tag_id IN (?) LIMIT 1)", base.name, tags],
+         :include => :associated_tags}
+      else
+        {}
+      end
+    }       
   end
   
   def raw_tags

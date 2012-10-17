@@ -9,7 +9,7 @@
   </tr>
 </table>
 
-<% if sectionable_form.object.content_type.present? %>
+<% if sectionable_form.object.content_type.present? && sectionable_form.object.content_type.constantize.available_tags.any? %>
   <% @tags = sectionable_form.object.content_type.constantize.available_tags %>
   <%= render :partial => "/skyline/content_sections/tags", :locals => {:guid => guid, :sectionable => sectionable_form.object} %>  
 <% else %>
