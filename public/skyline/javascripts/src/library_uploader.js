@@ -28,7 +28,7 @@ Application.LibraryUploader = new Class({
     // load time.
     
     // URL where the flash uploader can be found.
-    options.flashSwfUrl = Application.urlPrefix + "/javascripts/src/skyline.editor/dialogs/skyline_code.html",
+    options.flashSwfUrl = Application.urlPrefix + "/javascripts/src/skyline/vendor/plupload/js/plupload.flash.swf";
     
     this.setOptions(options);
     
