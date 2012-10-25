@@ -48,7 +48,7 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
     if @saved
       notifications.now[:success] = t(:success, :scope => [:media, :dirs,:update,:flashes])
     else
-      notifications.now[:failed] = t(:failed, :scope => [:media, :dirs,:update,:flashes])
+      notifications.now[:error] = t(:failed, :scope => [:media, :dirs,:update,:flashes])
     end    
     
     render :action => "index"
