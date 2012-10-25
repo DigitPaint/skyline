@@ -36,9 +36,9 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
   def update    
     @dir = Skyline::MediaDir.find(params[:id])
     
-    if params[:media_dir]
-      @dir.name = params[:media_dir][:name] if !params[:media_dir][:name].blank?
-      @dir.parent_id = (params[:media_dir][:parent_id] == "0") ? nil : params[:media_dir][:parent_id]
+    if params[:skyline_media_dir]
+      @dir.name = params[:skyline_media_dir][:name] if !params[:skyline_media_dir][:name].blank?
+      @dir.parent_id = (params[:skyline_media_dir][:parent_id] == "0") ? nil : params[:skyline_media_dir][:parent_id]
     
       @saved = @dir.save
     end
