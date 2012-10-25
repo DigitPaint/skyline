@@ -173,7 +173,7 @@ class Skyline::MediaFile < Skyline::MediaNode
       if !size.all?{|s| s > 0 }
         return false
       # No resizing if dimensions are larger than or equal to actual file
-      elsif size[0] >= self.width || size[1] >= self.height
+      elsif size[0] >= self.width && size[1] >= self.height
         return nil
       end
     else
