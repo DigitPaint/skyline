@@ -252,9 +252,8 @@ Application.Layout = (function(){
   
   Layout.Media.initializeUploadPanel = function(){
     var uPanel = $('contentInfoPanel');
-    var upl;
-    window.upl = upl = new Application.LibraryUploader("libraryuploaderform",Object.merge({}, I18n.LibraryUploader, {containerId : "contentInfoPanel"}));
     
+    var upl = new Application.LibraryUploader("libraryuploaderform",Object.merge({}, I18n.LibraryUploader, {containerId : "contentInfoPanel"}));
     var uploaderInit = function(){
       if(upl.supportDragdrop){
         
