@@ -152,4 +152,3 @@ Skyline.Editor = new Class({
     o.content = h;
   }
 });
-

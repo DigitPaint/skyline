@@ -154,12 +154,12 @@ $extend(Application.Browser,{
     browser - The browser Class to use (default = Application.LinkBrowser)
   
   */
-  browseFor : function(element,browser){
+  browseFor : function(element, browser){
     if(!browser){ var browser = Application.LinkBrowser; }
     var options = arguments[2] || {};
     var dialogParams = {};
     
-    if ('dialogParams' in options) {
+    if (options['dialogParams']) {
       dialogParams = options['dialogParams'];
       delete options['dialogParams'];
     }
@@ -173,8 +173,8 @@ $extend(Application.Browser,{
     var lcuEl = element.getElement("input.link_custom_url");
     var rDelete = element.getElement("input.referable_delete") || element.getElement("input.delete");
     
-    dialogParams.referable_type = rTEl.get("value"),
-    dialogParams.referable_id = rIEl.get("value")
+    dialogParams.referable_type = rTEl.get("value");
+    dialogParams.referable_id = rIEl.get("value");
     
     if(lcuEl){
       dialogParams.url = lcuEl.get("value");
