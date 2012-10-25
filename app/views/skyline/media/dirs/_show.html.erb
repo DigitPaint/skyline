@@ -21,14 +21,20 @@
     if(tree && tree.selectedNode && tree.selectedNode.getParent().get("id") != "dirItem_<%= @dir.id %>"){
       tree.selectNode(null, $('dirItem_<%= @dir.id %>').getChildren("a")[0]);
     } 
-    
-   	$("toggleUploadPanel").addEvent("click",function(){ 
-   	  var l = $('contentInfoPanel').retrieve('skyline.layout');
-   	  if(l.hidden){
-     	  l.show();
-     	} else {
-     	  l.hide();
-     	}
+        
+    $("toggleUploadPanel").addEvent("click",function(){ 
+      var panel = $('contentInfoPanel');
+      var l = panel.retrieve('skyline.layout');
+      var u = panel.retrieve('application.uploader');
+      
+      if(l.hidden){
+        l.show();    
+        if(u){
+          u.uploader.refresh();
+        }
+      } else {
+        l.hide();
+      }
     }.bind(this));
   })();
 </script>

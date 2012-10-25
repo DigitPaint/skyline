@@ -254,6 +254,8 @@ Application.Layout = (function(){
     var uPanel = $('contentInfoPanel');
     
     var upl = new Application.LibraryUploader("libraryuploaderform",Object.merge({}, I18n.LibraryUploader, {containerId : "contentInfoPanel"}));
+    uPanel.store("application.uploader", upl);
+        
     var uploaderInit = function(){
       if(upl.supportDragdrop){
         
