@@ -48,6 +48,8 @@ log "\n== Creating rights"
 
 stfu do 
   Skyline::Right.seed(:name,
+    {:name => "authentication_create"},
+  
     {:name => "media_dir_create"},
     {:name => "media_dir_update"},
     {:name => "media_dir_delete"},
