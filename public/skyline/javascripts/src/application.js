@@ -231,7 +231,7 @@ Application.Layout = (function(){
       new Application.Request({ 
         evalScripts:true, 
         url: this.skylineMediaDirsPath + "/"+ id,
-        data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&skyline_media_dir[parent_id]=' + newParentId,
+        data: 'authenticity_token='+encodeURIComponent(Application.formAuthenticityToken)+'&media_dir[parent_id]=' + newParentId,
         method: 'put'
       }).send();
       return false;
