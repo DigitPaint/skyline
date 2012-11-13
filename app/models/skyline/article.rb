@@ -72,6 +72,7 @@ class Skyline::Article < ActiveRecord::Base
 
   accepts_nested_attributes_for :variants
 
+  attr_accessible :parent_id, :move_behind
   attr_protected :locked unless Skyline::Configuration.enable_locking
   
   # Stores a variant that will become the default variant AFTER save
