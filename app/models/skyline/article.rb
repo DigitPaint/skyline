@@ -249,9 +249,15 @@ class Skyline::Article < ActiveRecord::Base
   # @return [true,false] True if the user can edit this page, false otherwise
   def editable_by?(user)
     user = user.kind_of?(Skyline::Configuration.user_class) ? user : Skyline::Configuration.user_class.find_by_identification(user)
-    user.allow?(:page_update) && (self.locked? && user.allow?(:page_lock) || !self.locked?)
-  end  
-
+    
+    if update_right = Skyline::Right.find_by_name("#{self.class.right_prefix}_update") &&
+          lock_right = Skyline::Right.find_by_name("#{self.class.right_prefix}_lock")
+      user.allow?(self.class, "update") && (self.locked? && user.allow?(self.class, "lock") || !self.locked?)
+    else
+      user.allow?(:article_update) && (self.locked? && user.allow?(:article_lock) || !self.locked?)
+    end
+  end
+  
   
   def set_default_variant!(variant)
     if set_default_variant(variant)
