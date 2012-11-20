@@ -13,8 +13,13 @@ FactoryGirl.define do
     f.description "A test file"
   end
   
-  factory :role, :class => Skyline::Role do
+  factory :right, :class => Skyline::Right do
+    name "authentication_create"
+  end
+  
+  factory :role, :class => Skyline::Role do |r|
     name "testrole"
+    r.rights {|a| [a.association(:right)]}
   end
   
   factory :grant, :class => Skyline::Grant do |g|
