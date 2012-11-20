@@ -73,5 +73,21 @@ class UserTest < ActiveSupport::TestCase
       end
     end
     
+    context "without authentication_create right" do
+      setup do
+        @user = FactoryGirl.create(:user_without_authentication, :name => "no_rights", :email => "not_allowed@test.com")
+        assert !@user.new_record?
+        @user.force_password!("qwedsa")
+        
+        # Grant was added on create, without authentication right
+        assert_equal 1, @user.grants.size
+        assert !@user.allow?(:authentication_create)
+      end
+      
+      should "not be able to authenticate" do
+        assert !Skyline::User.authenticate("destroy@test.com","qwedsa")
+      end
+    end
+    
   end
 end

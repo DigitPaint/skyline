@@ -32,7 +32,22 @@ FactoryGirl.define do
     u.skip_current_user_validation true
     after(:build) {|user| user.grants << FactoryGirl.build(:grant)}
   end
-
+  
+  factory :role_without_authentication, :class => Skyline::Role do |r|
+    name "testrole"
+  end
+  
+  factory :grant_without_authentication, :class => Skyline::Grant do |g|
+    g.role {|a| a.association(:role_without_authentication)}
+  end
+  
+  factory :user_without_authentication, :class => Skyline::User do |u|
+    u.name "User "
+    u.email "no_authentication@test.com"
+    u.skip_current_user_validation true
+    after(:build) {|user| user.grants << FactoryGirl.build(:grant_without_authentication)}
+  end
+  
   factory :page, :class => Skyline::Page
   factory :wysiwyg_section, :class => Skyline::Sections::WysiwygSection
   factory :rss_section, :class => Skyline::Sections::RssSection
