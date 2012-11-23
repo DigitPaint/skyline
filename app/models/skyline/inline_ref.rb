@@ -143,7 +143,7 @@ class Skyline::InlineRef < Skyline::RefObject
       new_ref = skyline_class.find_by_id_and_refering_type_and_refering_id_and_refering_column_name(id,refering_object.class.name,refering_object.id,refering_column_name.to_s) if id
       new_ref ||= skyline_class.new
 
-      new_ref.previous_referable = new_ref.referable.dup if new_ref.referable
+      new_ref.previous_referable = new_ref.referable if new_ref.referable
         
       new_ref.attributes = {
         :options => options, 
@@ -169,7 +169,7 @@ class Skyline::InlineRef < Skyline::RefObject
           end
         end
       end
-
+      
       new_ref.save!
       
       new_ref.id
@@ -190,13 +190,14 @@ class Skyline::InlineRef < Skyline::RefObject
         end
       end
     end
-  end    
+  end
   
   protected
+    
   def possibly_destroy_previous_referable
     return unless self.previous_referable
-    if previous_referable != self.referable
-      previous_referable.destroy if previous_referable.kind_of?(Skyline::ReferableUri)
+    if self.previous_referable != self.referable && self.previous_referable.kind_of?(Skyline::ReferableUri)
+      self.previous_referable.destroy
     end
   end
 
