@@ -155,8 +155,13 @@ class Skyline::InlineRef < Skyline::RefObject
       new_ref.refering_type = refering_object.class.name
       
       new_ref.referable.reload if new_ref.referable
+      
       if ref_type == "Skyline::ReferableUri"
-        new_ref.referable ||= ref_type.constantize.new
+        if new_ref.new_record?
+          new_ref.referable = ref_type.constantize.new
+        else
+          new_ref.referable ||= ref_type.constantize.new
+        end
 
         if referable_params.kind_of?(Hash)
           referable_params.each do |k, v|
