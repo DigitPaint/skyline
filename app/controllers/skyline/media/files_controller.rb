@@ -21,7 +21,7 @@ class Skyline::Media::FilesController < Skyline::ApplicationController
   # 
   def update
     @file = @dir.files.find(params[:id])
-    @file.attributes = params[:skyline_media_file]
+    @file.attributes = params[:media_file]
     
     # We use an instance variable because we want to use it in the render(:update) block.
     @saved = @file.save
