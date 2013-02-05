@@ -35,8 +35,7 @@ module Skyline
       Skyline::Engine::SESSION_OPTIONS[:key] = Skyline::Engine::SESSION_KEY
       
       middleware.use Skyline::SessionScrubberMiddleware
-      middleware.use ActionDispatch::Session::CookieStore, Skyline::Engine::SESSION_OPTIONS
-      # middleware.use Proc.new{|env| puts env["rack.session"] }
+      middleware.use Skyline::SessionStore, Skyline::Engine::SESSION_OPTIONS
     end
    
     initializer "skyline.setup_middleware" do

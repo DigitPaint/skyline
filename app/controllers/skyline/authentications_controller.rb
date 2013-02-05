@@ -39,7 +39,7 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
   end
   
   def destroy
-    session[:skyline_user_identification] = nil
+    reset_session
     redirect_to new_skyline_authentication_path
   end
   
