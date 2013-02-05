@@ -38,8 +38,12 @@ class Skyline::Media::DirsController < Skyline::ApplicationController
     
     if params[:media_dir]
       @dir.name = params[:media_dir][:name] if !params[:media_dir][:name].blank?
-      @dir.parent_id = (params[:media_dir][:parent_id] == "0") ? nil : params[:media_dir][:parent_id]
-    
+      if params[:media_dir][:parent_id] == "0" || Skyline::MediaDir.find_by_id(params[:media_dir][:parent_id]).nil?
+        @dir.parent_id = nil
+      else
+        @dir.parent_id = params[:media_dir][:parent_id]
+      end
+      
       @saved = @dir.save
     end
     
