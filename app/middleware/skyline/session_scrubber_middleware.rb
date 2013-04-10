@@ -10,9 +10,9 @@ class Skyline::SessionScrubberMiddleware
   end
     
   def call(env)
-    store_keys = %w{rack.session rack.session.options rack.session.unpacked_cookie_data action_dispatch.request.unsigned_session_cookie}
+    store_keys = %w{rack.session rack.session.options rack.session.record rack.session.unpacked_cookie_data action_dispatch.request.unsigned_session_cookie}
     # Store & remove these keys from ENV
-    store = store_keys.inject({}){|mem, v| mem[v] = env[v]; env[v] = nil; mem}    
+    store = store_keys.inject({}){|mem, v| mem[v] = env[v]; env[v] = nil; mem}
     @app.call(env)
   ensure
     store.each do |k,v| 
