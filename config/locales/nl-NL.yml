@@ -383,6 +383,7 @@
       flashes: 
         error: "Inloggen mislukt, controleer uw e-mailadres en wachtwoord en probeer het opnieuw."
         error_with_lockout: "Inloggen mislukt, controleer uw e-mailadres en wachtwoord en probeer het opnieuw. Als u deze melding herhaaldelijk krijgt kan uw account om veiligheidsredenen geblokkeerd zijn, neem dan contact op met uw systeembeheerder."
+        error_with_invalid_credentials: "Uw wachtwoord is verlopen. <a href=\"%{url}\">Verander uw wachtwoord meteen.</a>"
   user:
     roles:
       super: "Superbeheerder"

@@ -2,6 +2,7 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
   layout false
 
   def new
+    messages.now[:success] = t(:password_changed_successfully, :scope => [:authentication, :new, :flashes]) if params[:message]
   end
   
   # You can pass in the following from your authentication strategy:
@@ -47,7 +48,11 @@ class Skyline::AuthenticationsController < Skyline::ApplicationController
     if Skyline::Configuration.login_attempts_allowed > 0
       messages.now[:error] = t(:error_with_lockout, :scope => [:authentication,:create,:flashes])
     else
-      messages.now[:error] = t(:error, :scope => [:authentication,:create,:flashes])
+      if params[:message] == "password_expired"
+        messages.now[:error] = t(:error_with_invalid_credentials, :scope => [:authentication,:create,:flashes], :url => "#{ENTOPICMAIL_ADMIN_URL}/admin/renew_passwords/new?reason=password_expired&r=#{CGI.escape(new_skyline_authentication_path(:only_path => false, :message => 'password_changed_successfully'))}")
+      else
+        messages.now[:error] = t(:error, :scope => [:authentication,:create,:flashes])
+      end
     end
     render :action => :new
   end

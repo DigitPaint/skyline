@@ -382,6 +382,7 @@
       flashes: 
         error: "Could not login, please check your e-mail address and password and try again."
         error_with_lockout: "Could not login, please check your e-mail address and password and try again. If you continue to get this message, your account may be disabled for security reasons. Please contact your administrator."
+        error_with_invalid_credentials: "Your password has expired. <a href=\"%{url}\">Change your password now.</a>"
   user:
     roles:
       super: "Super admin"
