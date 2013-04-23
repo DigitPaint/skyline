@@ -74,20 +74,3 @@ module Skyline
     
   end
 end
-
-module ActionDispatch
-  module Routing
-    class RouteSet
-      def clear!
-        if Rails::VERSION::MAJOR != 3 || Rails::VERSION::MINOR != 2 || Rails::VERSION::TINY > 11
-          raise "Bugfix for version 3.2.9 - 3.2.11 only!"
-        end
-        @finalized = false
-        named_routes.clear
-        set.clear
-        formatter.clear
-        @prepend.each { |blk| eval_block(blk) }
-      end
-    end
-  end
-end
