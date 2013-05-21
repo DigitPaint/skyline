@@ -57,8 +57,9 @@ class Skyline::User < ActiveRecord::Base
     # --
     def authenticate(username,password)
       user = self.authenticable.find_by_email(username.to_s.downcase)
-      user && verify_password(user.password, password.to_s, user.encryption_method) ? user : false
-      user && user.allow?(:authentication_create) ? user : false
+      return false unless user.allow?(:authentication_create)
+      return false unless verify_password(user.password, password.to_s, user.encryption_method)
+      user
     end
     
     def verify_password(password, verification, encryption_method)
