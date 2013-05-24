@@ -50,6 +50,36 @@ class Skyline::Configuration < Configure
     # ie: [{:path => "/stylesheets/skyline.css", :if => "lte IE 7"}]
     config.custom_stylesheets = []
     
+    # Default configuration for Sanitizer
+    # Only allow these tags => :elements
+    # Only allow these attributes for selected tags => :attributes
+    # Only allow these protocols in a href attributes => :protocols
+    config.default_sanitizer_options = {
+      :elements => %w[
+        a b br caption col colgroup div em i li
+        ol p span strong sub sup table tbody td
+        tfoot th thead tr ul img
+      ],
+      :attributes => {
+        :all         => ['dir', 'lang', 'title', 'data-skyline-referable-type',
+                          'data-skyline-referable-id', 'data-skyline-ref-id', 'class', 'id'],
+        'a'          => ['href', 'target'],
+        'col'        => ['span', 'width'],
+        'colgroup'   => ['span', 'width'],
+        'div'        => ['style'],
+        'ol'         => ['start', 'reversed', 'type'],
+        'span'       => ['style'],
+        'table'      => ['summary', 'width'],
+        'td'         => ['abbr', 'axis', 'colspan', 'rowspan', 'width'],
+        'th'         => ['abbr', 'axis', 'colspan', 'rowspan', 'scope', 'width'],
+        'ul'         => ['type'],
+        'img'        => ['src', 'width', 'height', 'alt']
+      },
+      :protocols => {
+        'a'          => {'href' => ['ftp', 'http', 'https', 'mailto', :relative]},
+      }
+    }
+    
     # Path configuration
     if Rails.env == "production"
       config.assets_path = nil

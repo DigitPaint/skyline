@@ -66,53 +66,8 @@ module Skyline::Sanitizer
     end
   end
   
-  # Default configuration for Sanitizer
-  #
-  # Only allow these tags:
-  # a, b, br, caption, col, colgroup, div, em, i, li, ol, p, span, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, ul
-  #
-  # Only allow these protocols in a href attributes:
-  # ftp, http, https, mailto, and relative URLs without a protocol
-  #
-  # Only allow these attributes for selected tags:
-  #   all tags: dir, lang, title
-  #   a: href, target
-  #   col: span, width
-  #   colgroup: span, width
-  #   div: style
-  #   ol: start, reversed, type
-  #   span: style
-  #   table: summary, width
-  #   td: abbr, axis, colspan, rowspan, width
-  #   th: abbr, axis, colspan, rowspan, scope, width
-  #   ul: type
   def default_config
-    {
-      :elements => %w[
-        a b br caption col colgroup div em i li
-        ol p span strong sub sup table tbody td
-        tfoot th thead tr ul img
-      ],
-
-      :attributes => {
-        :all         => ['dir', 'lang', 'title', 'data-skyline-referable-type', 'data-skyline-referable-id', 'data-skyline-ref-id', 'class', 'id'],
-        'a'          => ['href', 'target'],
-        'col'        => ['span', 'width'],
-        'colgroup'   => ['span', 'width'],
-        'div'        => ['style'],
-        'ol'         => ['start', 'reversed', 'type'],
-        'span'       => ['style'],
-        'table'      => ['summary', 'width'],
-        'td'         => ['abbr', 'axis', 'colspan', 'rowspan', 'width'],
-        'th'         => ['abbr', 'axis', 'colspan', 'rowspan', 'scope', 'width'],
-        'ul'         => ['type'],
-        'img'        => ['src', 'width', 'height', 'alt']
-      },
-
-      :protocols => {
-        'a'          => {'href' => ['ftp', 'http', 'https', 'mailto', :relative]},
-      }      
-    }
+    Skyline::Configuration.default_sanitizer_options
   end
   
   module_function :default_config
