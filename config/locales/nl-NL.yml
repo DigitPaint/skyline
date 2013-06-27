@@ -379,6 +379,8 @@
       log_in: "Inloggen"
       email: "E-mailadres"
       password: "Wachtwoord"
+      flashes:
+        password_changed_successfully: "Uw wachtwoord is gewijzigd, u kunt nu inloggen met uw nieuwe wachtwoord."
     create: 
       flashes: 
         error: "Inloggen mislukt, controleer uw e-mailadres en wachtwoord en probeer het opnieuw."
