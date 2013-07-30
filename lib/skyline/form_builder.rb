@@ -54,7 +54,7 @@ class Skyline::FormBuilder < ActionView::Helpers::FormBuilder
   # 
   # @return [String]
   def label_with_text(method, options = {})
-    self.label(method, self.t(method), options)
+    self.label(method, self.t(method).html_safe, options)
   end
   
   # Special field to handle automated reordering of elements (
