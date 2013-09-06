@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    skylinecms (3.3.0.d57cc3e)
+    skylinecms (3.3.0.ab816bd)
       bcrypt-ruby (~> 3.0.1)
       guid (= 0.1.1)
       hpricot (= 0.8.6)
