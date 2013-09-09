@@ -1150,6 +1150,7 @@ ul.files li.selected a{
 .audio div.relatesTo span.referable_title,      ul.files .audio      .file, table.files .file.audio { background-image: url(../images/icons/audio.gif); }
 .video div.relatesTo span.referable_title,      ul.files .video      .file, table.files .file.video { background-image: url(../images/icons/video.gif); }
 .flash div.relatesTo span.referable_title,      ul.files .flash      .file, table.files .file.flash { background-image: url(../images/icons/flash.gif); }
+.folder div.relatesTo span.referable_title,     ul.files .folder     .file, table.files .file.folder { background-image: url(../images/icons/folder.gif); }
 
 /* ==================== */
 /* = Definition lists = */

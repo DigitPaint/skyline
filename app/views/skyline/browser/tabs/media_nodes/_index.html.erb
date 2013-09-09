@@ -1,0 +1,50 @@
+<div id="browserMediaLibrary" class="mediaLibraryTabPanel window">
+  <div class="leftPanel">
+    <div class="content scrollable">
+      <div id="browserMediaTree" class="tree">
+        <%= media_dir_tree(@media_dirs, @media_dirs[nil], 
+              :id_prefix => "browser_dir_node",
+              :node_url => Proc.new{|node| skyline_browser_tabs_media_nodes_media_dir_media_files_path(node) },
+              :selected => @media_dir)%>
+      </div>
+    </div>
+  </div>
+  <div id="browserMediaContentPanel" class="contentPanel ">
+    <%= render :partial => "skyline/browser/tabs/media_nodes/media_files/index" %>
+  </div>
+  <div id="browserMediaPreviewPanel" class="previewPanel scrollable">
+    <%= render :partial => "skyline/browser/tabs/media_library/media_files/show" %>      
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+  
+  (function(){
+    var mtp = new Skyline.HorizontalLayout("browserMediaLibrary", { height: 200, hidden: true});
+    var lp = mtp.addPanel(mtp.element.getElement(".leftPanel"),{width: 200});
+    mtp.addSplitter();
+    mtp.addPanel(mtp.element.getElement(".contentPanel"));  
+    mtp.addSplitter();
+    mtp.addPanel(mtp.element.getElement(".previewPanel"), {width: 150});
+    
+    
+    this.tree = new Skyline.Tree(mtp.element.getElement(".tree"),{
+      draggable: false,
+      orderable: false,
+      dragMarker: false,
+      offsetParent: lp.element,
+      fixedRootNodes: true
+    });
+  
+    this.tree.addEvent("select", function(event,target){
+      if(event){
+        event.stop(); 
+        event.preventDefault();
+      }
+      new Application.Request({ 
+        evalScripts: true, 
+        url: target.get("href")
+      }).get();    
+      return false;
+    });  
+  })();
+</script>

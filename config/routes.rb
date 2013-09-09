@@ -53,12 +53,18 @@ Skyline::Engine.routes.draw do
       resources :content
       resources :pages
       resources :files
+      resources :media_nodes
       namespace :tabs do
         namespace :media_library do
           resources :media_dirs do
             resources :media_files
           end
         end
+        namespace :media_nodes do
+          resources :media_dirs do
+            resources :media_files
+          end
+        end        
         resources :linkables
         resources :content_items
       end         
