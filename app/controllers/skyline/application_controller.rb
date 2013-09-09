@@ -5,6 +5,7 @@ class Skyline::ApplicationController < ApplicationController
   before_filter :authenticate_user, :identifier => :authentication
   before_filter :handle_user_preferences, :identifier => :preferences
   before_filter :authorize_user_for_action, :identifier => :authorization
+  before_filter :set_env_current_user_id
   
   around_filter Skyline::ArticleVersionObserver.instance
   
@@ -294,4 +295,37 @@ class Skyline::ApplicationController < ApplicationController
     render :js => "window.location = '#{url.to_s.html_safe}';"
   end 
   
+  helper_method :root_page
+  def root_page
+    if current_user.franchise_id.present?
+      franchise = Franchise.find_by_id(current_user.franchise_id)
+      return handle_unauthorized_user unless franchise
+      
+      page = franchise.root_page.andand.referable
+      return handle_unauthorized_user unless page
+      
+      page
+    else
+      Skyline::Page.root
+    end
+  end  
+  
+  helper_method :root_media_node
+  def root_media_node
+    if current_user.franchise_id.present?
+      franchise = Franchise.find_by_id(current_user.franchise_id)
+      return handle_unauthorized_user unless franchise
+      
+      media_node = franchise.root_media_node.andand.referable
+      return handle_unauthorized_user unless media_node
+      
+      media_node
+    else
+      Skyline::MediaDir.root
+    end
+  end    
+
+  def set_env_current_user_id
+    ENV['current_user_id'] = current_user.id.to_s if current_user
+  end
 end
