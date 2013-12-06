@@ -31,9 +31,9 @@ either be featured as lists or shown individually
 Installation and usage
 ----------------------
 
-Start with our {file:doc/INSTALL.md installation instructions} to get Skyline up and running.
+Start with our [installation instructions](doc/INSTALL.md) to get Skyline up and running.
 
-It might be a good idea to read about {file:doc/concepts.md the basic Skyline concepts}.
+It might be a good idea to read about [the basic Skyline concepts](doc/concepts.md).
 
 For further information, see our documentation and guides on
 [www.skylinecms.nl/documentation](http://www.skylinecms.nl/documentation) (currently outdated).
@@ -43,11 +43,11 @@ If you're running into problems, don't hesitate to contact us!
 Updating
 --------
 
-See our {file:doc/MIGRATION.md migration instructions} to update from one Skyline version to another. 
+See our [migration instructions](doc/MIGRATION.md) to update from one Skyline version to another. 
 
 
 Copyright
 ---------
 
 Skyline CMS &copy; 2011 by [DigitPaint](mailto:info@digitpaint.nl). Licensed under the LGPL
-license. Please see the {file:COPYING} and {file:COPYING.LESSER} for more information.
+license. Please see the [COPYING](COPYING) and [COPYING](COPYING.LESSER) for more information.
