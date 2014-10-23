@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency "polyglot", "0.3.3"
   s.add_dependency "sprockets", "~> 2.2.1"
   s.add_dependency "mime-types", "1.19"
-  s.add_dependency "rmagick", "2.13.1"
+  s.add_dependency "rmagick", "~> 2.13.1"
   s.add_dependency "hpricot", "0.8.6"
   s.add_dependency 'nokogiri', "1.6.0"
   s.add_dependency "guid", "0.1.1"
