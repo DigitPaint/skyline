@@ -27,7 +27,7 @@ module Skyline::Taggable
     base.send :has_many, :associated_tags, :class_name => "Skyline::AssociatedTag", :as => "taggable"
     base.send :has_many, :tags, :through => :associated_tags, :class_name => "Skyline::Tag"    
     base.send :cattr_accessor, :taggable_type
-    
+    base.send :attr_accessible, :raw_tags
     base.send :alias_method_chain, :dup, :associated_tags
     
     base.send :scope, :with_tags, lambda {|tags|

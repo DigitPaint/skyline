@@ -378,6 +378,8 @@
       log_in: "Log in"
       email: "E-mailadres"
       password: "Wachtwoord"
+      flashes:
+        password_changed_successfully: "Your password is changed. You can now log in with your new password."
     create: 
       flashes: 
         error: "Could not login, please check your e-mail address and password and try again."

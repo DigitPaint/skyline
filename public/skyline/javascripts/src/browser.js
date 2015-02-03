@@ -114,6 +114,9 @@ $extend(Application.Browser,{
   browseFileFor : function(section){
     this.browseFor(section,Application.FileBrowser,arguments[1]);
   },
+  browseMediaNodeFor : function(section){
+    this.browseFor(section,Application.MediaNodeBrowser,arguments[1]);
+  },
   browsePageFor : function(section){
     this.browseFor(section,Application.PageBrowser,arguments[1]);
   },
@@ -299,6 +302,17 @@ Application.FileBrowser = new Class({
     // We have to set the URL here, because the Application.urlPrefix is not available at
     // load time.
     this.url = Application.urlPrefix + "/browser/files";    
+    this.parent(params);
+  }
+});
+
+Application.MediaNodeBrowser = new Class({
+  Extends : Application.Browser,
+  url : "",
+  initialize : function(params){
+    // We have to set the URL here, because the Application.urlPrefix is not available at
+    // load time.
+    this.url = Application.urlPrefix + "/browser/media_nodes";    
     this.parent(params);
   }
 });
