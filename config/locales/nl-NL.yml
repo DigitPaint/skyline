@@ -5,16 +5,16 @@
       long: "%e %B %Y"
       short: "%e %B"
       short_with_day_of_week: "%a %e %b"
-  
+
     day_names: [zondag, maandag, dinsdag, woensdag, donderdag, vrijdag, zaterdag]
     abbr_day_names: [zo, ma, di, wo, do, vr, za]
     month_names: [~, januari, februari, maart, april, mei, juni, juli, augustus, september, oktober, november, december]
     abbr_month_names: [~, jan, feb, mrt, apr, mei, jun, jul, aug, sep, okt, nov, dec]
-    order: 
+    order:
       - :day
       - :month
       - :year
-    days: 
+    days:
       sunday: zondag
       monday: maandag
       tuesday: dinsdag
@@ -22,17 +22,17 @@
       thursday: donderdag
       friday: vrijdag
       saturday: zaterdag
-  
+
   time:
     formats:
       default: "%a %b %d %H:%M:%S %Z %Y"
       short: "%d %b %H:%M"
       long: "%d %B %Y %H:%M"
       time: "%H:%M"
-  
+
     am: "'s ochtends"
-    pm: "'s middags"    
-  
+    pm: "'s middags"
+
   # Used in array.to_sentence.
   support:
     array:
@@ -42,7 +42,7 @@
       or:
         two_words_connector: " of "
         last_word_connector: " of "
-  
+
   number:
     format:
       precision: 2
@@ -50,18 +50,18 @@
       delimiter: .
     currency:
       format:
-        unit: 
+        unit:
         precision: 2
         format: '%u %n'
-  
+
     # Used in number_to_percentage()
     percentage:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
-        # precision: 
-        
+        # precision:
+
     # Used in number_to_precision()
     precision:
       format:
@@ -69,12 +69,12 @@
         # separator:
         delimiter: ""
         # precision:
-        
+
     # Used in number_to_human_size()
     human:
       format:
         # These three are to override number.format and are optional
-        # separator: 
+        # separator:
         delimiter: ""
         precision: 1
       storage_units:
@@ -89,7 +89,7 @@
           mb: "MB"
           gb: "GB"
           tb: "TB"
-  
+
   # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
@@ -132,8 +132,8 @@
       hour:   "Uur"
       minute: "Minuut"
       second: "Seconden"
-  
-  
+
+
   activerecord:
     errors:
       template:
@@ -142,7 +142,7 @@
           other:  "Door %{count} fouten in het invulformulier kon %{model} niet opgeslagen worden."
         # The variable :count is also available
         body: "De volgende problemen traden op:"
-        
+
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
@@ -171,17 +171,17 @@
         not_allowed: "is niet toegestaan"
 
         # Append your own errors here or at the model/attributes scope.
-  
+
       models:
         skyline/variant:
           attributes:
             version:
-              outdated: "Een andere gebruiker heeft deze pagina opgeslagen terwijl u deze aan het bewerken was. U kunt deze pagina niet meer opslaan."      
+              outdated: "Een andere gebruiker heeft deze pagina opgeslagen terwijl u deze aan het bewerken was. U kunt deze pagina niet meer opslaan."
         skyline/sections/link_section:
           attributes:
             links:
               no_links: "Er zijn nog geen links aan de linklijst toegevoegd."
-        
+
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
       #
@@ -192,16 +192,16 @@
       #       attributes:
       #         login:
       #           blank: "This is a custom blank message for User login"
-      # Will define custom blank validation message for User model and 
+      # Will define custom blank validation message for User model and
       # custom blank validation message for login attribute of User model.
       #models:
-        
+
       # Translate model names. Used in Model.model_name.human().
       #models:
         # For example,
         #   user: "Dude"
         # will translate User model name to "Dude"
-      
+
       # Translate model attribute names. Used in Model.human_attribute_name(attribute).
       #attributes:
         # For example,
@@ -209,10 +209,10 @@
         #     login: "Handle"
         # will translate User attribute "login" as "Handle"
     models:
-      skyline/article: 
+      skyline/article:
         one: "Artikel"
         other: "Artikelen"
-      skyline/page: 
+      skyline/page:
         one: "Pagina"
         other: "Pagina's"
       skyline/page_fragment:
@@ -230,10 +230,10 @@
       skyline/sections/splitter_section: "Splitter"
       skyline/sections/link_section: "Linklijst"
       skyline/sections/raw_section: "HTML sectie"
-      skyline/sections/media_section: "Media sectie"  
+      skyline/sections/media_section: "Media sectie"
       skyline/sections/redirect_section: "Redirect"
       skyline/sections/page_fragment_section: "Fragment"
-      
+
     attributes:
       skyline/page:
         title: "Titel"
@@ -252,14 +252,14 @@
         title: "Titel"
       skyline/section:
         template: "Weergave"
-      skyline/sections/rss_section:        
+      skyline/sections/rss_section:
         url: "RSS feed"
         show_count: "Toon"
-      skyline/sections/heading_section:        
+      skyline/sections/heading_section:
         heading: "Kop"
       skyline/sections/iframe_section:
         url: "URL"
-        size: "Afmeting"    
+        size: "Afmeting"
       skyline/sections/content_collection_section:
         content_type: "Type"
         number: "Aantal"
@@ -287,7 +287,7 @@
       skyline/sections/page_fragment_section:
         page_fragment_id: "Fragment"
       skyline/media_dir:
-        name: "Mapnaam"        
+        name: "Mapnaam"
       skyline/media_file:
         name: "Bestandsnaam"
         title: "Titel (gebruikt in links)"
@@ -295,7 +295,7 @@
         date: "Datum"
         file_tags: "Tags"
       skyline/user:
-        email: "E-mailadres"        
+        email: "E-mailadres"
         name: "Naam"
         current_password: "Huidige wachtwoord"
         password: "Wachtwoord"
@@ -336,7 +336,7 @@
   icons:
     "true" : "ja"
     "false" : "nee"
-    
+
   templates:
     page:
       default: "Standaard"
@@ -361,7 +361,7 @@
       rss_section:
         default: "Standaard"
       wysiwyg_section:
-        default: "Standaard"        
+        default: "Standaard"
 
   loading: "Laden..."
   navigation:
@@ -381,8 +381,8 @@
       password: "Wachtwoord"
       flashes:
         password_changed_successfully: "Uw wachtwoord is gewijzigd, u kunt nu inloggen met uw nieuwe wachtwoord."
-    create: 
-      flashes: 
+    create:
+      flashes:
         error: "Inloggen mislukt, controleer uw e-mailadres en wachtwoord en probeer het opnieuw."
         error_with_lockout: "Inloggen mislukt, controleer uw e-mailadres en wachtwoord en probeer het opnieuw. Als u deze melding herhaaldelijk krijgt kan uw account om veiligheidsredenen geblokkeerd zijn, neem dan contact op met uw systeembeheerder."
         error_with_invalid_credentials: "Uw wachtwoord is verlopen. <a href=\"%{url}\">Verander uw wachtwoord meteen.</a>"
@@ -433,7 +433,7 @@
       ignore_changes: "Mijn wijzigingen verwerpen."
       save_as_new_variant: "Mijn wijzigingen opslaan in een nieuwe variant."
       variant_name: "Naam van nieuwe variant:"
-      
+
   article:
     headers:
       options: "Opties"
@@ -450,7 +450,7 @@
       editor: "editor"
       preview: "preview"
     buttons:
-      delete: "Verwijder artikel"      
+      delete: "Verwijder artikel"
     new:
       new_page: "Nieuw"
       below: "Onder"
@@ -498,10 +498,10 @@
     create:
       flashes:
         error: "Fout bij aanmaken van het nieuwe artikel %{errors}"
-  page:    
+  page:
     buttons:
       delete_image: "delete_page"
-      delete_alt: "Verwijder pagina"    
+      delete_alt: "Verwijder pagina"
     edit:
       add_page_in: "Onder pagina"
       number_of_publications: "Deze pagina is <strong>%{count} keer</strong> gepubliceerd."
@@ -525,7 +525,7 @@
         error_page_has_children: "De pagina kan niet verwijderd worden, omdat de pagina nog pagina's onder zich bevat."
     create:
       flashes:
-        error: "Fout bij aanmaken van de nieuwe pagina %{errors}"    
+        error: "Fout bij aanmaken van de nieuwe pagina %{errors}"
   section:
     form:
       will_be_destroyed: "%{section} wordt verwijderd bij opslaan."
@@ -544,7 +544,7 @@
       dialog_title: "Oudere publicaties"
       publications: "Publicaties"
       preview: "Preview"
-      
+
     rollback:
       flashes:
         success: "Publicatie succesvol gerollbacked!"
@@ -585,26 +585,26 @@
       flashes:
         article:
           success_variant_and_page: "De variant en het gehele artikel zijn succesvol verwijderd."
-        page: 
-          success_variant_and_page: "De variant en de gehele pagina zijn succesvol verwijderd."        
+        page:
+          success_variant_and_page: "De variant en de gehele pagina zijn succesvol verwijderd."
         success_variant: "De variant is succesvol verwijderd."
         error: "De variant kon niet verwijderd worden."
         error_variant_published: "De variant kan niet verwijderd worden omdat deze nog gepubliceerd is."
   settings:
     title: "%{class} instellingen"
-    group_title: Instellingen 
+    group_title: Instellingen
     index:
       blank:
         title: "Geen instellingen"
         content: "In deze implementatie zijn geen instellingen gedefiniëeerd."
-    update:      
+    update:
       flashes:
         success: De instellingen zijn opgeslagen.
         error: De instellingen konden niet worden opgeslagen.
   browser:
     tabs:
       "Skyline::Page" : "Pagina's"
-      "Skyline::Linkable" : "Content"      
+      "Skyline::Linkable" : "Content"
       "Skyline::MediaFile" : "Media library"
       "Skyline::ReferableUri" : "Extern"
       "Skyline::Content" : "Content"
@@ -623,7 +623,7 @@
     link:
       dialog_title: "Kies link"
       links_to: "Linkt naar: %{referable_title}"
-      nothing_selected: "Nog geen link gekozen"      
+      nothing_selected: "Nog geen link gekozen"
       title: "Tooltip"
       target: "Openen in"
       targets:
@@ -637,7 +637,7 @@
     image:
       dialog_title: "Kies afbeelding"
       links_to: "Linkt naar: %{referable_title}"
-      nothing_selected: "Nog geen afbeelding gekozen"      
+      nothing_selected: "Nog geen afbeelding gekozen"
       alt: "Alt"
       dimensions: "Afmetingen (BxH)"
       align: "Uitlijning"
@@ -646,7 +646,7 @@
         "left" : "Links"
         "right" : "Rechts"
         "block" : "Blok"
-    
+
   content:
     headers:
       actions: "Acties"
@@ -687,18 +687,18 @@
       import_failed: "Import is niet succesvol verlopen, controleer het invoer XML bestand op: %{errors}"
     index:
       title: "%{value} &mdash; Content"
-      intro: Aan de linkerkant vindt u alle mogelijke content-types. Kies een van de content-types om deze te bekijken, te bewerken of te verwijderen. 
+      intro: Aan de linkerkant vindt u alle mogelijke content-types. Kies een van de content-types om deze te bekijken, te bewerken of te verwijderen.
     list:
       info: "Gegevens"
       confirm_deletion: Weet u zeker dat u deze %{class} wilt verwijderen?
-      up_one_level: ".. één niveau omhoog"    
-      blank_slate: "Er zijn op het moment nog geen %{class}"    
+      up_one_level: ".. één niveau omhoog"
+      blank_slate: "Er zijn op het moment nog geen %{class}"
       export: "Export &raquo;"
       import: "Import &raquo;"
       title: Content lijst &mdash; %{class}
       title_sublisting: Content lijst &mdash; %{group} voor %{title}
       filter: Filter
-      filter_none: "-- geen filter --"    
+      filter_none: "-- geen filter --"
       filter_apply: Filter toepassen
     import:
       dialog_title: "Importeren"
@@ -715,7 +715,7 @@
       publish: Publiceren
       published: Gepubliceerd
       publish_automatically_at: "Automatisch publiceren op:"
-      add_a_to_b: "%{a} toevoegen aan %{b}"    
+      add_a_to_b: "%{a} toevoegen aan %{b}"
       add_multiple: Meerdere toevoegen (voorkomt sluiten van dit venster)
       version_conflict: <strong>Attentie</strong> Opslaan overschrijft de wijzigingen gemaakt door %{current_author}
       see_changes_by: Klik hier om de wijzigingen van %{current_author} te bekijken.
@@ -727,15 +727,15 @@
         door <em>%{current_author}</em>.
     error:
       title: Dit content-type bestaat niet.
-      intro:       
+      intro:
     global:
       logged_in_on: Ingelogd op
       logged_in_on_as: als <strong>%s</strong>
       logged_in_as: Ingelogd als <strong>%s</strong>
       logout: Uitloggen
       cancel: Afbreken,
-      close_window: Venster sluiten  
-      loading: Een ogenblik geduld aub...        
+      close_window: Venster sluiten
+      loading: Een ogenblik geduld aub...
   media:
     dirs:
       update:
@@ -762,8 +762,8 @@
         files: "bestanden"
         no_files: "Geen bestand(en) geselecteerd"
         file_progress:  "Bezig met uploaden bestand <span class=\"current-file\">1</span> van <span class=\"total-files\">2</span>"
-        percentage_progress: "<span class=\"current-percentage\">20%</span> gereed (<span class=\"current-size\">20 kB</span> van in totaal <span class=\"total-size\">100 kB</span>)"      
-        all_uploaded_message: "De volgende bestanden zijn geupload:"   
+        percentage_progress: "<span class=\"current-percentage\">20%</span> gereed (<span class=\"current-size\">20 kB</span> van in totaal <span class=\"total-size\">100 kB</span>)"
+        all_uploaded_message: "De volgende bestanden zijn geupload:"
         some_uploaded_message: "Niet alle bestanden konden worden geupload:"
         cancel: "Annuleren"
       edit:
@@ -783,12 +783,12 @@
           failed: "Bestand kon niet gewijzigd worden, proveer het opnieuw"
       destroy:
         flashes:
-          success: "Bestand succesvol verwijderd"        
-    
+          success: "Bestand succesvol verwijderd"
+
   tags:
     index:
       available_tags: "Beschikbare tags:"
-       
+
   will_paginate:
     previous_label: "&#8592; Vorige"
     next_label: "Volgende &#8594;"
@@ -805,8 +805,8 @@
         other: "<b>all&nbsp;%{count}</b> %{model}"
 
       multi_page: "%{model} %{from} - %{to} van %{count}"
-      multi_page_html: "%{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b>"        
-           
+      multi_page_html: "%{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> van <b>%{count}</b>"
+
   tinymce:
     skyline_table: {
       desc: "Nieuwe tabel invoegen",

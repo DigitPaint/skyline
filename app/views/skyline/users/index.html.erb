@@ -15,18 +15,18 @@
       <% if current_user.allow?(:user_create) %>
         <%= link_to(
               button_text(:add),
-              new_skyline_user_path, 
+              new_skyline_user_path,
               :remote => true,
-              :method => :get, 
-              :class => "button small right", 
+              :method => :get,
+              :class => "button small right",
               :style => "margin-top: 3px; visibility:visible;") %>
       <% end %>
-      
+
       <%= t(:header, :scope => [:user, :index], :count => @users.total_entries) %>
     </span>
   </dt>
   <dd id="contentBodyPanel">
-    <div id="contentEditPanel" class="panel">        
+    <div id="contentEditPanel" class="panel">
         <table class="listing" id="userListing">
           <thead>
             <tr>
@@ -34,7 +34,7 @@
               <th style="width: 25%"><%= Skyline::User.human_attribute_name("name") %></th>
               <th style="width: 15%"><%= Skyline::User.human_attribute_name("role") %></th>
               <th style="width: 15%"><%= Skyline::User.human_attribute_name("created_at") %></th>
-              <th style="width: 20%">&nbsp;</th>              
+              <th style="width: 20%">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -43,21 +43,22 @@
                 <td><%= u.email %></td>
                 <td><%= u.name %></td>
                 <td><%= u.roles.map{|s| t(s.name, :scope => [:user,:roles], :default => s.name) }.to_sentence %></td>
-                <td><%= u.created_at.present? ? l(u.created_at, :format => :long) : "" %></td> 
+                <td><%= u.created_at.present? ? l(u.created_at, :format => :long) : "" %></td>
                 <td class="right">
                   <% if current_user.allow?(:user_update) %>
                     <%= link_to button_text(:edit), edit_skyline_user_path(u), :class => "button small edit" %>
                   <% end %>
+
                   <% if current_user.allow?(:user_delete) %>
                     <%= link_to(
-                          button_text(:delete), 
-                          skyline_user_path(u,:page => params[:page]), 
+                          button_text(:delete),
+                          skyline_user_path(u,:page => params[:page]),
                           :remote => true,
-                          :method => :delete, 
-                          :confirm => t(:confirm_destroy, :scope => [:user,:index], :display_name => u.display_name), 
+                          :method => :delete,
+                          :confirm => t(:confirm_destroy, :scope => [:user,:index], :display_name => u.display_name),
                           :class => "button #{@current_user == u ? "disabled" : "red"} small") %>
                   <% end %>
-                  
+
                 </td>
               </tr>
             <% end %>
@@ -70,7 +71,7 @@
             $('contentEditPanel').addComponentEvent("skyline.layout","resize",function(panel,w,h){
               $('userListing').retrieve("skyline.table").resize(w, "100%");
             });
-            
+
             t.addEvent("selectRow",function(row,event){
               if($(event.target).match("a:not(.edit),button,input[type=submit]") || $(event.target).getParent("a:not(.edit),button,input[type=submit]")){
                 return;
@@ -85,7 +86,7 @@
 
             t.addEvent("deselectRow",function(row){
               row.removeClass("selected");
-            });                        
+            });
           })();
         </script>
     </div>

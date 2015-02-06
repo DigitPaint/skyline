@@ -10,7 +10,7 @@
   </div>
 
   <div id="mainnavigation">
-    
+
   	<% if Skyline::Configuration.custom_logo %>
   	  <img src="<%= Skyline::Configuration.url_prefix %>/images/logo.png" alt="powered by Skyline"  style="position: absolute; right: 10px; top: 5px"/>
   	<% end %>
@@ -23,7 +23,7 @@
       <% if (Skyline::Configuration.articles + Skyline::Configuration.content_classes).any? %>
         <li>
           <%= link_to t(:content_library, :scope => [:navigation,:mainnavigation]), {:controller => "/skyline/content", :action => "index"}, :class => (current_menu_item == :content_library ? "active" : nil) %>
-        </li>      
+        </li>
       <% end %>
       <li>
         <%= link_to t(:media_library, :scope => [:navigation,:mainnavigation]), skyline_media_dirs_path, :class => (current_menu_item == :media_library ? "active" : nil) %>
@@ -42,7 +42,7 @@
           </ul>
         </li>
       <% end %>
-    </ul>    
+    </ul>
   </div>
   <script type="text/javascript" charset="utf-8">
     var m = new Skyline.Menu($('mainnavigation').getElement("ul"));
