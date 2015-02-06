@@ -3,7 +3,7 @@
   <dl class="panel">
     <dt>
       <span class="content">
-        <%= t :edit, :scope => [:media, :dirs, :edit] %>        
+        <%= t :edit, :scope => [:media, :dirs, :edit] %>
       </span>
     </dt>
     <dd>
@@ -16,7 +16,7 @@
       <%= submit_button :save, :class => "small green" %>
     </dd>
   </dl>
-  
+
   <dl class="panel">
     <dt>
       <span class="content">
@@ -30,7 +30,7 @@
         <% else %>
           <%= link_to(
                 button_text(:delete_media_dir),
-                skyline_media_dir_url(@dir), 
+                skyline_media_dir_url(@dir),
                 :remote => true,
                 :method => :delete,
                 :confirm => t(:message, :scope => [:media, :dirs, :destroy]),
