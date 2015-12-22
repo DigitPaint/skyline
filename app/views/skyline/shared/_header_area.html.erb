@@ -15,7 +15,7 @@
   	  <img src="<%= Skyline::Configuration.url_prefix %>/images/logo.png" alt="powered by Skyline"  style="position: absolute; right: 10px; top: 5px"/>
   	<% end %>
     <ul>
-      <% if Skyline::Configuration.enable_pages %>
+      <% if Skyline::Configuration.enable_pages && current_user.allow?("page_index") %>
         <li>
           <%= link_to t(:pages, :scope => [:navigation,:mainnavigation]), skyline_articles_path(:type => Skyline::Page), :class => (current_menu_item == :pages ? "active" : nil) %>
         </li>
@@ -25,9 +25,11 @@
           <%= link_to t(:content_library, :scope => [:navigation,:mainnavigation]), {:controller => "/skyline/content", :action => "index"}, :class => (current_menu_item == :content_library ? "active" : nil) %>
         </li>
       <% end %>
-      <li>
-        <%= link_to t(:media_library, :scope => [:navigation,:mainnavigation]), skyline_media_dirs_path, :class => (current_menu_item == :media_library ? "active" : nil) %>
-      </li>
+      <% if current_user.allow?("media_file_show") %>
+        <li>
+          <%= link_to t(:media_library, :scope => [:navigation,:mainnavigation]), skyline_media_dirs_path, :class => (current_menu_item == :media_library ? "active" : nil) %>
+        </li>
+      <% end %>
       <% if (current_user.allow?(:settings_update) && Skyline::Content::Implementation.instance.has_settings?) || (current_user.allow?(:user_show) && Skyline::Configuration.user_class == Skyline::User) %>
         <li class="has-children">
           <span <%= 'class="active"'.html_safe if current_menu_item == :admin %>><%= t(:admin, :scope => [:navigation,:mainnavigation]) %></span>
