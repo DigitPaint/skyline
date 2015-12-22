@@ -71,6 +71,14 @@ module Skyline
         app.config.skyline_plugins_manager.load_all!
       end      
     end
-    
+
+    # Enable decoration of Skyline objects
+    # http://guides.rubyonrails.org/engines.html#overriding-models-and-controllers
+    config.to_prepare do
+      Dir.glob(Rails.root + "app/decorators/**/*_decorator.rb").each do |c|
+        require_dependency(c)
+      end
+    end
+
   end
 end
