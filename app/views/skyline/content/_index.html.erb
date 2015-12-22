@@ -8,8 +8,10 @@
     <% if klasses.any? %>
   		<ul class="selectlist">
   			<% klasses.each do |klass| %>
-  			  <% 
-  			    if klass.ancestors.include?(Skyline::Article)
+  			  <%
+            if klass.ancestors.include?(Skyline::Article)
+              # Guard statement for inaccessible items
+              next if(!current_user.allow?(klass, :index))
   			      link = skyline_articles_path(:type => klass)
               active = klass.to_s.underscore == params[:type]
   			    else
