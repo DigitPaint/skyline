@@ -7,7 +7,7 @@ class Skyline::ContentController < Skyline::Skyline2Controller
   self.default_menu = :content_library   
     
   def index
-    if first_element = (Skyline::Configuration.articles + Skyline::Configuration.content_classes).first
+    if first_element = (Skyline::Configuration.articles.select {|article| current_user.allow?(article, :index) } + Skyline::Configuration.content_classes).first
 	    if first_element.ancestors.include?(Skyline::Article)
 	      redirect_to skyline_articles_path(:type => first_element)
 	    else
