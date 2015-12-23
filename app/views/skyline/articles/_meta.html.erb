@@ -126,7 +126,7 @@
 
 <%= render :partial => "security" %>
 
-<% if current_user.allow?(:page_update) %>
+<% if current_user.allow?(controller.article || controller.class_from_type, :update) %>
   <dl class="advanced">
     <dt><a href="#"><span><%= t(:advanced, :scope => [:article, :headers]) %></span></a></dt>
     <dd>
