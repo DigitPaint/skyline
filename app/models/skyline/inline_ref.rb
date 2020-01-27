@@ -69,12 +69,12 @@ class Skyline::InlineRef < Skyline::RefObject
       refs = self.hash_refs_for_object(refering_object, refering_column_name)
       v = ref_html.gsub(/\[REF:(\d+)\]/) do |match|
         i = match[5..-2]
-        refs[i.to_i].to_start_html(include_ref_data, options)
+        refs[i.to_i].to_start_html(include_ref_data, options) rescue ""
       end
     
       outp = v.gsub(/\[\/REF:(\d+)\]/) do |match|
         i = match[6..-2]
-        refs[i.to_i].to_end_html
+        refs[i.to_i].to_end_html rescue ""
       end      
     end
     
